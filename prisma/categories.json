@@ -1,0 +1,15 @@
+{
+  "pemasukan": [
+    "Sumbangan",
+    "Lain-lain"
+  ],
+  "pengeluaran": [
+    "Kebersihan",
+    "Keamanan",
+    "Listrik & Air",
+    "Lain-lain",
+    "Perbaikan",
+    "Bahan Makanan",
+    "Peralatan"
+  ]
+}

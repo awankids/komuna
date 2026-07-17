@@ -1,0 +1,85 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+model User {
+  id           String @id @default(uuid())
+  nama         String
+  email        String @unique
+  passwordHash String
+  role         String @default("ADMIN") // ADMIN, PETUGAS, WARGA
+  createdAt    DateTime @default(now())
+}
+
+model Anggota {
+  id                String   @id @default(uuid())
+  nama              String
+  noRumah           String
+  noHp              String?
+  statusAktif       Boolean  @default(true)
+  rombonganId       String?
+  rombongan         Rombongan? @relation("RombonganAnggota", fields: [rombonganId], references: [id], onDelete: SetNull)
+  memimpinRombongan Rombongan? @relation("RombonganKetua")
+  createdAt         DateTime @default(now())
+  
+  jadwal            JadwalPetugas[]
+}
+
+model Rombongan {
+  id        String   @id @default(uuid())
+  nama      String   @unique
+  ketuaId   String?  @unique
+  ketua     Anggota? @relation("RombonganKetua", fields: [ketuaId], references: [id], onDelete: SetNull)
+  hariPiket Int?
+  
+  anggota   Anggota[] @relation("RombonganAnggota")
+}
+
+model JadwalPetugas {
+  id         String    @id @default(uuid())
+  anggotaId  String
+  anggota    Anggota   @relation(fields: [anggotaId], references: [id], onDelete: Cascade)
+  tanggal    DateTime
+  keterangan String?
+  
+  jimpitan   Jimpitan[]
+}
+
+model Jimpitan {
+  id             String         @id @default(uuid())
+  tanggal        DateTime
+  jadwalId       String?
+  jadwal         JadwalPetugas? @relation(fields: [jadwalId], references: [id], onDelete: SetNull)
+  nominal        Int
+  diisiOleh      String         // e.g. "Admin RT"
+  diisiPada      DateTime       @default(now())
+  catatan        String?
+  
+  // Offline sync fields
+  localId        String?        @unique
+  syncStatus     String?        @default("synced") // synced, pending, conflict
+  createdAtLocal DateTime?
+  syncedAt       DateTime?
+}
+
+model TransaksiKeuangan {
+  id             String    @id @default(uuid())
+  tanggal        DateTime
+  jenis          String    // pemasukan, pengeluaran
+  sumber         String    // jimpitan, lain-lain, manual
+  kategori       String?
+  keterangan     String
+  nominal        Int
+  buktiUrl       String?
+  
+  // Offline sync fields
+  localId        String?   @unique
+  syncStatus     String?   @default("synced") // synced, pending, conflict
+  createdAtLocal DateTime?
+  syncedAt       DateTime?
+}

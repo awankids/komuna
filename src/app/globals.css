@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  
+  --brand-primary: #f95713;
+  --brand-hover: #ea4e0a;
+  --brand-hover-dark: #d84206;
+  --brand-light: #fff7ed;
+  --brand-ring: rgba(249, 87, 19, 0.15);
+  --brand-ring-strong: rgba(249, 87, 19, 0.3);
+  
+  --font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-size: 14px;
+}
+
+/* Theme: Emerald */
+html.theme-emerald {
+  --brand-primary: #10b981;
+  --brand-hover: #059669;
+  --brand-hover-dark: #047857;
+  --brand-light: #ecfdf5;
+  --brand-ring: rgba(16, 185, 129, 0.15);
+  --brand-ring-strong: rgba(16, 185, 129, 0.3);
+}
+
+/* Theme: Blue */
+html.theme-blue {
+  --brand-primary: #3b82f6;
+  --brand-hover: #2563eb;
+  --brand-hover-dark: #1d4ed8;
+  --brand-light: #eff6ff;
+  --brand-ring: rgba(59, 130, 246, 0.15);
+  --brand-ring-strong: rgba(59, 130, 246, 0.3);
+}
+
+/* Theme: Violet */
+html.theme-violet {
+  --brand-primary: #8b5cf6;
+  --brand-hover: #7c3aed;
+  --brand-hover-dark: #6d28d9;
+  --brand-light: #f5f3ff;
+  --brand-ring: rgba(139, 92, 246, 0.15);
+  --brand-ring-strong: rgba(139, 92, 246, 0.3);
+}
+
+/* Dark Mode Overrides */
+html.dark {
+  --background: #0b0f19;
+  --foreground: #f8fafc;
+}
+
+html.dark body {
+  background-color: #0b0f19 !important;
+  color: #f8fafc !important;
+}
+
+html.dark .bg-white {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-800 {
+  color: #f9fafb !important;
+}
+
+html.dark .text-slate-750 {
+  color: #f9fafb !important;
+}
+
+html.dark .text-slate-700 {
+  color: #e5e7eb !important;
+}
+
+html.dark .text-slate-650 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #9ca3af !important;
+}
+
+html.dark .text-slate-450 {
+  color: #9ca3af !important;
+}
+
+html.dark .text-slate-400 {
+  color: #9ca3af !important;
+}
+
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-200\/50,
+html.dark .border-slate-250,
+html.dark .border-orange-100,
+html.dark .border-blue-100,
+html.dark .border-emerald-100,
+html.dark .border-pink-100,
+html.dark .border-red-250,
+html.dark .border-emerald-250,
+html.dark .border-violet-100,
+html.dark .border-\[\#f95713\],
+html.dark .border-\[\#10b981\],
+html.dark .border-\[\#3b82f6\],
+html.dark .border-\[\#8b5cf6\],
+html.dark .border-\[\#dbeafe\],
+html.dark .border-slate-100\/80 {
+  border-color: #1f2937 !important; /* Cohesive dark gray border */
+}
+
+/* Table Lines and Divides in Dark Mode */
+html.dark .divide-y > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-slate-150 > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+html.dark tr,
+html.dark th,
+html.dark td,
+html.dark table {
+  border-color: #1f2937 !important;
+}
+
+/* Hover States in Dark Mode */
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-slate-50\/50:hover,
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-slate-100\/50:hover,
+html.dark .hover\:bg-blue-50:hover,
+html.dark .hover\:bg-orange-50:hover,
+html.dark .hover\:bg-emerald-50:hover,
+html.dark .hover\:bg-pink-50:hover,
+html.dark .hover\:bg-red-50:hover,
+html.dark .hover\:bg-red-650:hover,
+html.dark .hover\:bg-orange-660:hover,
+html.dark .hover\:bg-purple-50:hover,
+html.dark .hover\:bg-violet-50:hover {
+  background-color: #1f2937 !important; /* Cohesive dark hover slate-800 */
+}
+
+html.dark .bg-slate-50 {
+  background-color: #1f2937 !important;
+}
+
+html.dark .bg-slate-50\/50 {
+  background-color: #1f2937 !important;
+}
+
+html.dark .bg-\[\#f8fafc\] {
+  background-color: #0b0f19 !important;
+}
+
+/* Dynamic Translucent Background Boxes / Icons in Dark Mode */
+html.dark .bg-orange-50,
+html.dark .bg-orange-100,
+html.dark .bg-orange-200,
+html.dark .bg-amber-50,
+html.dark .bg-orange-50\/10 {
+  background-color: rgba(249, 87, 19, 0.15) !important;
+  color: var(--brand-primary) !important;
+}
+
+html.dark .bg-emerald-50,
+html.dark .bg-emerald-100 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+}
+
+html.dark .bg-red-50,
+html.dark .bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+}
+
+html.dark .bg-blue-50,
+html.dark .bg-blue-100,
+html.dark .bg-\[\#eff6ff\],
+html.dark .bg-\[\#eff6ff\]\/50,
+html.dark .bg-sky-50 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  color: #3b82f6 !important;
+}
+
+html.dark .bg-purple-50,
+html.dark .bg-violet-50,
+html.dark .bg-pink-50 {
+  background-color: rgba(139, 92, 246, 0.15) !important;
+  color: #a78bfa !important;
+}
+
+/* Override daily jimpitan banner and quick actions in dark mode */
+html.dark .bg-gradient-to-r {
+  background-image: none !important;
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+html.dark input, html.dark select, html.dark textarea {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+html.dark input::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Shadows and borders adjustments for dark mode */
+html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-2xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4.5px -1px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .shadow-orange-100, html.dark .shadow-emerald-100, html.dark .shadow-red-100, html.dark .shadow-blue-100, html.dark .shadow-orange-200 {
+  box-shadow: none !important;
+}
+
+/* Fonts families */
+html.font-outfit {
+  --font-family: 'Outfit', sans-serif;
+}
+html.font-inter {
+  --font-family: 'Inter', sans-serif;
+}
+html.font-lora {
+  --font-family: 'Lora', serif;
+}
+html.font-jetbrains {
+  --font-family: 'JetBrains Mono', monospace;
+}
+
+/* Fonts sizes */
+html.size-kecil {
+  --font-size: 13px;
+}
+html.size-normal {
+  --font-size: 14px;
+}
+html.size-besar {
+  --font-size: 15.5px;
+}
+
+/* Professional Font Adjustments */
+html.font-outfit body {
+  letter-spacing: -0.0125em;
+}
+
+html.font-inter body {
+  letter-spacing: -0.022em;
+}
+
+html.font-lora body {
+  line-height: 1.625;
+}
+
+html.font-jetbrains body {
+  letter-spacing: -0.035em;
+  font-size: calc(var(--font-size) - 0.5px) !important;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-orange-50: var(--brand-light);
+  --color-orange-100: var(--brand-ring);
+  --color-orange-200: var(--brand-ring-strong);
+  --color-orange-500: var(--brand-primary);
+  --color-orange-600: var(--brand-hover);
+  --color-orange-650: var(--brand-hover-dark);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size) !important;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Dynamic Brand Colors Class Overrides */
+.bg-\[\#f95713\] {
+  background-color: var(--brand-primary) !important;
+}
+.text-\[\#f95713\] {
+  color: var(--brand-primary) !important;
+}
+.border-\[\#f95713\] {
+  border-color: var(--brand-primary) !important;
+}
+.hover\:bg-orange-650:hover {
+  background-color: var(--brand-hover) !important;
+}
+.hover\:text-orange-600:hover {
+  color: var(--brand-hover) !important;
+}
+.focus\:ring-orange-500\/20:focus {
+  --tw-ring-color: var(--brand-ring) !important;
+}
+.shadow-orange-100 {
+  --tw-shadow-color: var(--brand-ring) !important;
+}
+.text-orange-600 {
+  color: var(--brand-primary) !important;
+}
+.bg-orange-50 {
+  background-color: var(--brand-light) !important;
+}
+.text-orange-500 {
+  color: var(--brand-primary) !important;
+}
