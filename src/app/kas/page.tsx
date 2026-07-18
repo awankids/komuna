@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import MobileNavBar from '@/components/MobileNavBar';
 import {
   Wallet,
   ArrowDown,
@@ -41,6 +42,7 @@ interface Transaction {
 }
 
 export default function KasRTPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('07');
   const [selectedYear, setSelectedYear] = useState('2026');
   const [selectedType, setSelectedType] = useState('all'); // all, pemasukan, pengeluaran
@@ -516,12 +518,12 @@ export default function KasRTPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
-      <Sidebar activeMenu="Kas RT" />
+      <Sidebar activeMenu="Kas RT" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-h-screen">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="flex-1 p-8 space-y-8 max-w-7xl w-full mx-auto pb-16 font-sans">
+        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
 
           {/* Toast Notification */}
           {showToast && (
@@ -540,7 +542,7 @@ export default function KasRTPage() {
           </div>
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             
             {/* Saldo Awal */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
@@ -585,14 +587,14 @@ export default function KasRTPage() {
             </div>
 
             {/* Saldo Akhir */}
-            <div className="bg-white rounded-3xl p-5 border border-[#fed7aa] bg-gradient-to-tr from-amber-50/20 to-white shadow-sm flex flex-col justify-between text-left h-28">
+            <div className="bg-white rounded-3xl p-5 border border-[var(--brand-primary)]/20 bg-[var(--brand-light)] shadow-sm flex flex-col justify-between text-left h-28">
               <div className="space-y-0.5">
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Saldo Akhir</span>
                 <span className="text-[9px] font-bold text-slate-400 block">31 {getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
               <div className="flex justify-between items-end">
-                <h3 className="text-xl font-black text-[#f95713] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
-                <div className="w-8 h-8 rounded-xl bg-orange-50 text-[#f95713] flex items-center justify-center">
+                <h3 className="text-xl font-black text-[var(--brand-primary)] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
+                <div className="w-8 h-8 rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center">
                   <PiggyBank className="w-4 h-4" />
                 </div>
               </div>
@@ -602,7 +604,7 @@ export default function KasRTPage() {
 
           {/* Jimpitan Integration Banner */}
           {jimpitanInfo.total > 0 && (
-            <div className="bg-[#eff6ff] border border-[#dbeafe] rounded-2xl p-4 flex items-center justify-between text-left">
+            <div className="bg-[#eff6ff] border border-[#dbeafe] rounded-2xl p-4 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                   <Coins className="w-5 h-5" />
@@ -625,7 +627,7 @@ export default function KasRTPage() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
                 <Link
                   href="/jimpitan"
                   className="px-4 py-2 border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 font-bold rounded-xl transition-all text-xs cursor-pointer"
@@ -656,10 +658,10 @@ export default function KasRTPage() {
           )}
 
           {/* Control Bar: Filter, Month selector, TAMBAH Button */}
-          <div className="flex items-center justify-between bg-white rounded-3xl p-5 border border-slate-100 shadow-sm gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm gap-4">
             
             {/* Left Controls: Select Month & Type */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3">
               
               {/* Select Month */}
               <div className="relative">
@@ -724,7 +726,7 @@ export default function KasRTPage() {
             </div>
 
             {/* Right Controls: Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
               <button
                 onClick={handleExportExcel}
                 className="px-5 py-2.5 border border-slate-250 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-2xl transition-all text-xs flex items-center gap-1.5 cursor-pointer"
@@ -735,7 +737,7 @@ export default function KasRTPage() {
 
               <button
                 onClick={handleOpenAdd}
-                className="px-5 py-2.5 bg-[#f95713] text-white font-bold rounded-2xl shadow-lg shadow-orange-100 hover:bg-orange-650 transition-all flex items-center gap-1.5 cursor-pointer text-xs"
+                className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer text-xs"
               >
                 <Plus className="w-4.5 h-4.5" />
                 <span>Tambah Transaksi</span>
@@ -745,7 +747,7 @@ export default function KasRTPage() {
           </div>
 
           {/* Table: Mutasi Kas */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6 text-left">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6 text-left">
             <h3 className="text-base font-black text-slate-800 tracking-tight mb-4">Mutasi Kas</h3>
 
             {isLoading ? (
@@ -753,7 +755,8 @@ export default function KasRTPage() {
             ) : filteredTransactions.length === 0 ? (
               <div className="py-24 text-center text-slate-400 font-bold text-sm">Tidak ada transaksi pada filter terpilih.</div>
             ) : (
-              <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <table className="w-full text-left border-collapse min-w-[850px]">
                 <thead>
                   <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-wider select-none">
                     
@@ -935,6 +938,7 @@ export default function KasRTPage() {
                   })}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
 
@@ -1395,6 +1399,8 @@ export default function KasRTPage() {
 
 
         </main>
+        {/* Mobile Navigation Bar */}
+        <MobileNavBar />
       </div>
     </div>
   );

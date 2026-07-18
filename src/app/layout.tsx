@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import PWARegister from "@/components/PWARegister";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,6 +11,19 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Komuna - Aplikasi Pencatatan Jimpitan RT",
   description: "Aplikasi pencatatan jimpitan gotong-royong warga RT",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Komuna",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#f95713",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -52,8 +66,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex bg-[#f8fafc] text-slate-800">
+        <PWARegister />
         {children}
       </body>
     </html>
   );
 }
+

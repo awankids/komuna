@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import MobileNavBar from '@/components/MobileNavBar';
 import { 
   Plus, 
   Edit2, 
@@ -47,6 +48,7 @@ interface Anggota {
 }
 
 export default function AnggotaPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [anggotaList, setAnggotaList] = useState<Anggota[]>([]);
   const [rombonganList, setRombonganList] = useState<Rombongan[]>([]);
   
@@ -550,12 +552,12 @@ export default function AnggotaPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
-      <Sidebar activeMenu="Anggota" />
+      <Sidebar activeMenu="Anggota" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-h-screen">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="flex-1 p-8 space-y-8 max-w-7xl w-full mx-auto pb-16 font-sans">
+        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
           
           {/* Toast Alert */}
           {showToast && (
@@ -613,7 +615,7 @@ export default function AnggotaPage() {
           </div>
 
           {/* Stats Cards Row */}
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             
             {/* Stat Card 1: Total Anggota */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between text-left">
@@ -622,7 +624,7 @@ export default function AnggotaPage() {
                 <h3 className="text-2xl font-black text-slate-800 tracking-tight">{totalAnggota}</h3>
                 <span className="text-[11px] text-slate-400 font-medium">orang</span>
               </div>
-              <div className="w-11 h-11 rounded-2xl bg-orange-50 text-[#f95713] flex items-center justify-center">
+              <div className="w-11 h-11 rounded-2xl bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center">
                 <Users className="w-5 h-5" />
               </div>
             </div>
@@ -666,7 +668,7 @@ export default function AnggotaPage() {
           </div>
 
           {/* Search, Filter dropdowns & Add Anggota Row */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between gap-4">
+          <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
             
             {/* Search Input */}
             <div className="relative max-w-md w-full">
@@ -681,7 +683,7 @@ export default function AnggotaPage() {
             </div>
             
             {/* Filters and Add Button */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full md:w-auto">
               
               {/* Rombongan dynamic dropdown filter */}
               <select
@@ -710,7 +712,7 @@ export default function AnggotaPage() {
               {/* Tambah Anggota Button */}
               <button
                 onClick={handleOpenAdd}
-                className="px-5 py-2.5 bg-[#f95713] text-white font-bold rounded-2xl shadow-lg shadow-orange-100 hover:bg-orange-600 transition-all flex items-center gap-2 cursor-pointer text-xs"
+                className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center gap-2 cursor-pointer text-xs"
               >
                 <Plus className="w-4.5 h-4.5" />
                 <span>Tambah Anggota</span>
@@ -723,7 +725,7 @@ export default function AnggotaPage() {
           {selectedIds.size > 0 && (
             <div className="flex items-center justify-between bg-slate-800 text-white rounded-2xl px-5 py-3 shadow-xl animate-in fade-in slide-in-from-bottom-2 duration-200">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-md bg-[#f95713] flex items-center justify-center">
+                <div className="w-6 h-6 rounded-md bg-[var(--brand-primary)] flex items-center justify-center">
                   <span className="text-xs font-black">{selectedIds.size}</span>
                 </div>
                 <span className="text-sm font-bold">{selectedIds.size} anggota dipilih</span>
@@ -771,7 +773,7 @@ export default function AnggotaPage() {
           </div>
 
           {/* Main Table Card */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col justify-between">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6 flex flex-col justify-between">
             {isLoading ? (
               <div className="py-20 text-center text-slate-400 font-medium">
                 Memuat data anggota...
@@ -781,7 +783,8 @@ export default function AnggotaPage() {
                 Tidak ada data anggota ditemukan.
               </div>
             ) : (
-              <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="bg-slate-50/70 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
                     {/* Checkbox Select All */}
@@ -910,6 +913,7 @@ export default function AnggotaPage() {
                   })}
                 </tbody>
               </table>
+              </div>
             )}
 
             {/* Load More Button */}
@@ -933,14 +937,14 @@ export default function AnggotaPage() {
               
               <button
                 onClick={handleOpenAddRombongan}
-                className="px-4 py-2 border border-[#f95713] text-[#f95713] font-bold rounded-2xl hover:bg-orange-50 transition-all flex items-center gap-1.5 cursor-pointer text-xs"
+                className="px-4 py-2 border border-[var(--brand-primary)] text-[var(--brand-primary)] font-bold rounded-2xl hover:bg-[var(--brand-light)] transition-all flex items-center gap-1.5 cursor-pointer text-xs"
               >
                 <Plus className="w-4 h-4" />
                 <span>Tambah Rombongan</span>
               </button>
             </div>
             
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {rombonganList.map((rom, index) => {
                 const isFiltered = selectedRombonganFilter === rom.id;
 
@@ -949,7 +953,7 @@ export default function AnggotaPage() {
                     key={rom.id} 
                     className={`bg-white rounded-3xl p-5 border transition-all flex flex-col justify-between min-h-48 relative group/card ${
                       isFiltered 
-                        ? 'border-[#f95713] ring-2 ring-orange-500/10 shadow-md' 
+                        ? 'border-[var(--brand-primary)] ring-2 ring-[var(--brand-primary)]/10 shadow-md' 
                         : 'border-slate-100/80 shadow-sm'
                     }`}
                   >
@@ -971,7 +975,7 @@ export default function AnggotaPage() {
                         <h4 className="text-2xl font-black text-slate-800 tracking-tight mt-2">{rom.activeMemberCount}</h4>
                         <span className="text-[10px] text-slate-400 font-semibold block leading-none">anggota aktif</span>
                         {rom.hariPiket && (
-                          <span className="text-[9px] bg-orange-50 border border-orange-100 text-[#f95713] font-black px-1.5 py-0.5 rounded mt-2 inline-block">
+                          <span className="text-[9px] bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] font-black px-1.5 py-0.5 rounded mt-2 inline-block">
                             📅 Piket: {getHariPiketLabel(rom.hariPiket)}
                           </span>
                         )}
@@ -1126,7 +1130,7 @@ export default function AnggotaPage() {
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2.5 bg-[#f95713] text-white font-bold rounded-xl shadow-lg shadow-orange-100 hover:bg-orange-600 transition-all text-xs cursor-pointer"
+                      className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-xl shadow-sm transition-all text-xs cursor-pointer"
                     >
                       {modalMode === 'add' ? 'Simpan Anggota' : 'Perbarui Data'}
                     </button>
@@ -1268,6 +1272,8 @@ export default function AnggotaPage() {
           )}
 
         </main>
+        {/* Mobile Navigation Bar */}
+        <MobileNavBar />
       </div>
     </div>
   );

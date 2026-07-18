@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import MobileNavBar from '@/components/MobileNavBar';
 import { 
   Plus, 
   Calendar, 
@@ -49,6 +50,7 @@ interface Schedule {
 }
 
 export default function JadwalPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [rombonganList, setRombonganList] = useState<Rombongan[]>([]);
   const [jimpitanList, setJimpitanList] = useState<any[]>([]);
@@ -317,12 +319,12 @@ export default function JadwalPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
-      <Sidebar activeMenu="Jadwal" />
+      <Sidebar activeMenu="Jadwal" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-h-screen">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="flex-1 p-8 space-y-8 max-w-7xl w-full mx-auto pb-16 font-sans">
+        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
           
           {/* Toast Notification */}
           {showToast && (
@@ -341,10 +343,10 @@ export default function JadwalPage() {
           </div>
 
           {/* Month Navigator Control bar */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+          <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-4 justify-between">
             
             {/* Prev/Next Month Trigger */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-between sm:justify-start">
               <button
                 onClick={handlePrevMonth}
                 className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-500 cursor-pointer"
@@ -365,7 +367,7 @@ export default function JadwalPage() {
             </div>
 
             {/* Middle Filters / Triggers */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
               
               {/* Filter Rombongan */}
               <select
@@ -391,7 +393,7 @@ export default function JadwalPage() {
               {/* Print Button */}
               <button
                 onClick={() => window.print()}
-                className="px-5 py-2.5 bg-[#f95713] text-white font-bold rounded-2xl shadow-lg shadow-orange-100 hover:bg-orange-600 transition-all flex items-center gap-1.5 text-xs cursor-pointer"
+                className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center gap-1.5 text-xs cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 <span>Print Jadwal</span>
@@ -409,7 +411,9 @@ export default function JadwalPage() {
           </div>
 
           {/* Calendar Grid Container */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6 text-left">
+            <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+              <div className="min-w-[750px]">
             
             {/* Days of week header dropdown selections */}
             <div className="grid grid-cols-7 gap-4 mb-6 text-center border-b border-slate-100 pb-4">
@@ -466,7 +470,7 @@ export default function JadwalPage() {
                         : hasJimpitan
                           ? 'bg-emerald-50/60 border-emerald-500/25 hover:bg-emerald-50/80 shadow-xs'
                           : isToday
-                            ? 'bg-orange-50/30 border-[#f95713]/40 shadow-inner'
+                            ? 'bg-[var(--brand-light)]/40 border-[var(--brand-primary)]/40 shadow-inner'
                             : 'bg-white hover:bg-slate-50/40 border-slate-100 hover:border-slate-200'
                     } ${isFilteredOut ? 'opacity-30' : ''}`}
                   >
@@ -477,7 +481,7 @@ export default function JadwalPage() {
                         !cell.isCurrentMonth 
                           ? 'text-slate-350' 
                           : isToday 
-                            ? 'text-[#f95713]' 
+                            ? 'text-[var(--brand-primary)]' 
                             : 'text-slate-550'
                       }`}>
                         {cell.dayNum}
@@ -490,7 +494,7 @@ export default function JadwalPage() {
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                           )}
                           {isToday && (
-                            <span className="text-[7px] font-black uppercase tracking-wider bg-[#f95713] text-white px-1.5 py-0.5 rounded">
+                            <span className="text-[7px] font-black uppercase tracking-wider bg-[var(--brand-primary)] text-white px-1.5 py-0.5 rounded">
                               Hari Ini
                             </span>
                           )}
@@ -526,6 +530,8 @@ export default function JadwalPage() {
             </div>
 
           </div>
+          </div>
+          </div>
 
           {/* Section: Daftar Rombongan (Rombongan details list) */}
           <div className="space-y-4 text-left">
@@ -534,14 +540,14 @@ export default function JadwalPage() {
               
               <Link 
                 href="/anggota"
-                className="px-4 py-2 border border-[#f95713] text-[#f95713] font-bold rounded-2xl hover:bg-orange-50 transition-all flex items-center gap-1.5 text-xs"
+                className="px-4 py-2 border border-[var(--brand-primary)] text-[var(--brand-primary)] font-bold rounded-2xl hover:bg-[var(--brand-light)] transition-all flex items-center gap-1.5 text-xs"
               >
                 <Plus className="w-4 h-4" />
                 <span>Tambah Rombongan</span>
               </Link>
             </div>
             
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {rombonganList.map((rom, index) => {
                 return (
                   <div key={rom.id} className="bg-white rounded-3xl p-5 border border-slate-100/80 shadow-sm flex flex-col justify-between min-h-[300px]">
@@ -564,7 +570,7 @@ export default function JadwalPage() {
                         </div>
                         <div className="text-right">
                           <span className="text-[9px] text-slate-400 font-medium block">Hari Piket</span>
-                          <span className="text-xs font-extrabold text-[#f95713]">{getHariPiketLabel(rom.hariPiket)}</span>
+                          <span className="text-xs font-extrabold text-[var(--brand-primary)]">{getHariPiketLabel(rom.hariPiket)}</span>
                         </div>
                       </div>
                     </div>
@@ -619,7 +625,7 @@ export default function JadwalPage() {
             <button
               onClick={handleGenerateSchedule}
               disabled={isGenerating}
-              className="px-5 py-3 border border-orange-500 text-[#f95713] hover:bg-orange-50 font-bold rounded-2xl transition-all text-xs cursor-pointer flex items-center gap-2 shrink-0 disabled:opacity-50"
+              className="px-5 py-3 border border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--brand-light)] font-bold rounded-2xl transition-all text-xs cursor-pointer flex items-center gap-2 shrink-0 disabled:opacity-50"
             >
               <RotateCw className={`w-4 h-4 ${isGenerating ? 'animate-spin' : ''}`} />
               <span>{isGenerating ? 'Men-generate...' : 'Generate Ulang Jadwal'}</span>
@@ -632,6 +638,8 @@ export default function JadwalPage() {
           </div>
 
         </main>
+        {/* Mobile Navigation Bar */}
+        <MobileNavBar />
       </div>
     </div>
   );

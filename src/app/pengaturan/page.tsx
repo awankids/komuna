@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import MobileNavBar from '@/components/MobileNavBar';
 import {
   Download,
   Upload,
@@ -32,6 +33,7 @@ interface DBStats {
 }
 
 export default function PengaturanPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [stats, setStats] = useState<DBStats | null>(null);
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [isBackupLoading, setIsBackupLoading] = useState(false);
@@ -237,12 +239,12 @@ export default function PengaturanPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
-      <Sidebar activeMenu="Pengaturan" />
+      <Sidebar activeMenu="Pengaturan" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-h-screen">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="flex-1 p-8 space-y-8 max-w-7xl w-full mx-auto pb-16 font-sans">
+        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
           
           {/* Toast Notification */}
           {showToast && (
@@ -255,7 +257,7 @@ export default function PengaturanPage() {
           )}
 
           {/* Title and Subtitle */}
-          <div className="flex items-center justify-between text-left">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-left gap-4">
             <div className="space-y-1">
               <h2 className="text-2xl font-black text-slate-800 tracking-tight">Pengaturan</h2>
               <p className="text-sm text-slate-400 font-medium">Backup, restore, dan kelola data aplikasi komuna.id.</p>
@@ -277,7 +279,7 @@ export default function PengaturanPage() {
               {/* Backup Card */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#f95713] flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shrink-0">
                     <Download className="w-6 h-6" />
                   </div>
                   <div>
@@ -295,7 +297,7 @@ export default function PengaturanPage() {
                   <button
                     onClick={handleBackup}
                     disabled={isBackupLoading}
-                    className="px-6 py-3 bg-[#f95713] text-white font-bold rounded-2xl shadow-lg shadow-orange-100 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 cursor-pointer text-xs"
+                    className="px-6 py-3 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 cursor-pointer text-xs"
                   >
                     {isBackupLoading ? (
                       <RefreshCw className="w-4 h-4 animate-spin" />
@@ -506,7 +508,7 @@ export default function PengaturanPage() {
                       <select
                         value={font}
                         onChange={(e) => updateSetting('font', e.target.value)}
-                        className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-750 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] cursor-pointer bg-white"
+                        className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-750 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/10 focus:border-[var(--brand-primary)] cursor-pointer bg-white"
                       >
                         <option value="outfit">Outfit (Rounded Premium)</option>
                         <option value="inter">Inter (Clean Sans)</option>
@@ -582,7 +584,7 @@ export default function PengaturanPage() {
               {/* Regional & System Settings Card */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#f95713] flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shrink-0">
                     <CalendarDays className="w-6 h-6" />
                   </div>
                   <div>
@@ -602,7 +604,7 @@ export default function PengaturanPage() {
                     <select
                       value={timezone}
                       onChange={(e) => handleTimezoneChange(e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-750 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] cursor-pointer bg-white"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-750 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/10 focus:border-[var(--brand-primary)] cursor-pointer bg-white"
                     >
                       <option value="Asia/Jakarta">WIB - Waktu Indonesia Barat (UTC+07:00)</option>
                       <option value="Asia/Makassar">WITA - Waktu Indonesia Tengah (UTC+08:00)</option>
@@ -768,6 +770,8 @@ export default function PengaturanPage() {
           )}
 
         </main>
+        {/* Mobile Navigation Bar */}
+        <MobileNavBar />
       </div>
     </div>
   );

@@ -4,17 +4,18 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import DonutChart from '@/components/DonutChart';
+import MobileNavBar from '@/components/MobileNavBar';
 import { 
   Wallet, 
   Coins, 
-  ArrowDownLeft, 
-  ArrowUpRight, 
+  ArrowDown, 
+  ArrowUp, 
   Calendar,
   Save,
   ArrowRight,
   Plus,
   Minus,
-  UserPlus,
+  Users,
   CheckCircle2
 } from 'lucide-react';
 import Link from 'next/link';
@@ -31,6 +32,8 @@ interface Transaction {
 }
 
 export default function DashboardPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   // Base states loading dynamically from the API
   const [saldoKas, setSaldoKas] = useState<number>(0);
   const [jimpitanBulanIni, setJimpitanBulanIni] = useState<number>(0);
@@ -196,19 +199,19 @@ export default function DashboardPage() {
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
       {/* Sidebar Navigation */}
-      <Sidebar activeMenu="Dashboard" />
+      <Sidebar activeMenu="Dashboard" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Panel Content */}
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Top Header */}
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
         {/* Dashboard Content Container */}
-        <main className="flex-1 p-8 space-y-8 max-w-7xl w-full mx-auto pb-16 font-sans">
+        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
           
           {/* Success Toast Notification */}
           {showToast && (
-            <div className="fixed bottom-6 right-6 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-emerald-100 flex items-center gap-3 animate-bounce z-50">
+            <div className="fixed bottom-20 right-6 md:bottom-6 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-emerald-100 flex items-center gap-3 animate-bounce z-50">
               <CheckCircle2 className="w-5 h-5 text-emerald-100" />
               <div className="flex flex-col text-left">
                 <span className="text-xs font-medium text-emerald-100 leading-none">Berhasil disimpan!</span>
@@ -228,90 +231,90 @@ export default function DashboardPage() {
           </div>
 
           {/* Statistics Grid */}
-          <div className="grid grid-cols-4 gap-6 text-center">
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x no-scrollbar md:grid md:grid-cols-4 md:gap-6 md:pb-0 md:mx-0 md:px-0">
             
             {/* Card 1: Saldo Kas */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-44 text-center">
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider">Saldo Kas</span>
-              <h3 className="text-lg font-black text-slate-800 tracking-tight">{formatRp(saldoKas)}</h3>
-              <div className="w-11 h-11 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner mt-2">
+              <h3 className="text-md md:text-lg font-black text-slate-850 tracking-tight">{formatRp(saldoKas)}</h3>
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner mt-1">
                 <Wallet className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold text-slate-400 mt-2">Saldo saat ini</span>
+              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">Saldo saat ini</span>
             </div>
 
             {/* Card 2: Jimpitan Bulan Ini */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-44 text-center">
-              <span className="text-[10px] font-black text-orange-600 uppercase tracking-wider">Jimpitan Bulan Ini</span>
-              <h3 className="text-lg font-black text-orange-600 tracking-tight">{formatRp(jimpitanBulanIni)}</h3>
-              <div className="w-11 h-11 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shadow-inner mt-2">
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
+              <span className="text-[10px] font-black text-[var(--brand-primary)] uppercase tracking-wider">Jimpitan Bulan Ini</span>
+              <h3 className="text-md md:text-lg font-black text-[var(--brand-primary)] tracking-tight">{formatRp(jimpitanBulanIni)}</h3>
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shadow-inner mt-1">
                 <Coins className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold text-slate-400 mt-2">
+              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">
                 Total {new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()} hari
               </span>
             </div>
 
             {/* Card 3: Pemasukan Bulan Ini */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-44 text-center">
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
               <span className="text-[10px] font-black text-sky-600 uppercase tracking-wider">Pemasukan Bulan Ini</span>
-              <h3 className="text-lg font-black text-sky-600 tracking-tight">{formatRp(pemasukanBulanIni)}</h3>
-              <div className="w-11 h-11 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center shadow-inner mt-2">
-                <ArrowDownLeft className="w-5 h-5" />
+              <h3 className="text-md md:text-lg font-black text-sky-600 tracking-tight">{formatRp(pemasukanBulanIni)}</h3>
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center shadow-inner mt-1">
+                <ArrowDown className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold text-slate-400 mt-2">Total pemasukan</span>
+              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">Total pemasukan</span>
             </div>
 
             {/* Card 4: Pengeluaran Bulan Ini */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-44 text-center">
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
               <span className="text-[10px] font-black text-red-500 uppercase tracking-wider">Pengeluaran Bulan Ini</span>
-              <h3 className="text-lg font-black text-red-500 tracking-tight">{formatRp(pengeluaranBulanIni)}</h3>
-              <div className="w-11 h-11 rounded-full bg-red-50 text-red-500 flex items-center justify-center shadow-inner mt-2">
-                <ArrowUpRight className="w-5 h-5" />
+              <h3 className="text-md md:text-lg font-black text-red-500 tracking-tight">{formatRp(pengeluaranBulanIni)}</h3>
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-red-50 text-red-500 flex items-center justify-center shadow-inner mt-1">
+                <ArrowUp className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold text-slate-400 mt-2">Total pengeluaran</span>
+              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">Total pengeluaran</span>
             </div>
 
           </div>
 
           {/* Today's Schedule and Jimpitan Input panel */}
-          <div className="bg-gradient-to-r from-orange-50/50 to-orange-100/20 border border-orange-100 rounded-3xl p-6 shadow-sm flex items-center justify-between gap-8">
+          <div className="bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 rounded-3xl p-5 md:p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-8">
             
             {/* Left side: Calendar details */}
-            <div className="flex items-center gap-5">
-              <div className="w-16 h-16 rounded-2xl bg-orange-100 flex flex-col items-center justify-center text-orange-600 shadow-sm shadow-orange-200">
-                <Calendar className="w-8 h-8" />
+            <div className="flex items-center gap-4 md:gap-5">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-[var(--brand-primary)]/10 flex flex-col items-center justify-center text-[var(--brand-primary)] shrink-0">
+                <Calendar className="w-7 h-7 md:w-8 md:h-8" />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 text-left">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-extrabold uppercase text-[#f95713] tracking-widest leading-none">Hari Ini</span>
+                  <span className="text-[10px] md:text-xs font-extrabold uppercase text-[var(--brand-primary)] tracking-widest leading-none">Hari Ini</span>
                 </div>
-                <h4 className="text-lg font-black text-slate-800 tracking-tight">{currentDateFormatted}</h4>
-                <div className="text-xs text-slate-500 font-semibold flex items-center gap-1.5 mt-0.5">
-                  <span className="text-slate-450 font-medium">Petugas Jimpitan:</span>
+                <h4 className="text-md md:text-lg font-black text-slate-800 tracking-tight">{currentDateFormatted}</h4>
+                <div className="text-xs text-slate-500 font-semibold flex flex-wrap items-center gap-1 mt-0.5">
+                  <span className="text-slate-400 font-medium">Petugas Jimpitan:</span>
                   <span className="text-slate-700 font-bold">{petugasName}</span>
                 </div>
               </div>
             </div>
 
             {/* Right side: Input nominal */}
-            <div className="flex items-center gap-4 max-w-md w-full justify-end">
-              <div className="flex flex-col w-64">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-md w-full lg:justify-end">
+              <div className="flex flex-col w-full sm:w-60">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1.5 self-start">Nominal Jimpitan Hari Ini</span>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-slate-700">Rp</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-slate-500">Rp</span>
                   <input
                     type="text"
                     value={jimpitanInput === '' ? '' : parseInt(jimpitanInput, 10).toLocaleString('id-ID')}
                     onChange={handleInputChange}
                     placeholder="0"
-                    className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-black text-slate-850 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
+                    className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-black text-slate-850 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 focus:border-[var(--brand-primary)] transition-all"
                   />
                 </div>
               </div>
               <button
                 onClick={handleSaveNominal}
-                className="mt-5 px-6 py-3.5 bg-[#f95713] text-white font-bold rounded-2xl shadow-lg shadow-orange-200 hover:shadow-xl hover:bg-orange-600 transition-all flex items-center gap-2 cursor-pointer"
+                className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25"
               >
                 <Save className="w-5 h-5" />
                 <span>Simpan Nominal</span>
@@ -321,61 +324,61 @@ export default function DashboardPage() {
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-extrabold text-slate-800 tracking-wide uppercase">Aksi Cepat</h3>
-            <div className="grid grid-cols-5 gap-4">
+          <div className="space-y-4" id="quick-actions-section">
+            <h3 className="text-xs font-extrabold text-slate-450 tracking-wider uppercase text-left">Aksi Cepat</h3>
+            <div className="grid grid-cols-5 gap-2 md:gap-4">
               
               {/* Action 1: Input Jimpitan */}
-              <Link href="/jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2.5 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer">
-                <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-inner">
+              <Link href="/jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-emerald-500/20">
                   <Coins className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold text-slate-700">Input Jimpitan</span>
+                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Input Jimpitan</span>
               </Link>
 
               {/* Action 2: Tambah Pemasukan */}
-              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2.5 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer">
-                <div className="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-inner">
-                  <Plus className="w-5 h-5" />
+              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
+                  <Plus className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <span className="text-xs font-bold text-slate-700">Tambah Pemasukan</span>
+                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Tambah Pemasukan</span>
               </Link>
 
               {/* Action 3: Tambah Pengeluaran */}
-              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2.5 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer">
-                <div className="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-inner">
-                  <Minus className="w-5 h-5" />
+              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-red-500/20">
+                  <Minus className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <span className="text-xs font-bold text-slate-700">Tambah Pengeluaran</span>
+                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Tambah Pengeluaran</span>
               </Link>
 
               {/* Action 4: Tambah Anggota */}
-              <Link href="/anggota" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2.5 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer">
-                <div className="w-12 h-12 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-inner">
-                  <UserPlus className="w-5 h-5" />
+              <Link href="/anggota" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-blue-500/20">
+                  <Users className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold text-slate-700">Tambah Anggota</span>
+                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Tambah Anggota</span>
               </Link>
 
               {/* Action 5: Lihat Jadwal */}
-              <Link href="/jadwal" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2.5 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer">
-                <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-inner">
+              <Link href="/jadwal" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-purple-500/20">
                   <Calendar className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold text-slate-700">Lihat Jadwal</span>
+                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Lihat Jadwal</span>
               </Link>
 
             </div>
           </div>
 
           {/* Bottom Sections: Transactions & Monthly Recap */}
-          <div className="grid grid-cols-3 gap-6">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
             
-            {/* Left Part: Last Transactions list (spans 2 columns) */}
-            <div className="col-span-2 bg-white rounded-3xl p-6 border border-slate-100/80 shadow-sm space-y-6">
+            {/* Left Part: Last Transactions list (spans 2 columns on desktop) */}
+            <div className="lg:col-span-2 bg-white rounded-3xl p-5 md:p-6 border border-slate-100/80 shadow-sm space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-md font-extrabold text-slate-850 tracking-tight">Transaksi Terakhir</h3>
-                <Link href="/kas" className="text-xs font-bold text-[#f95713] hover:underline flex items-center gap-1 transition-all">
+                <Link href="/kas" className="text-xs font-bold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
                   <span>Lihat semua</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -388,31 +391,31 @@ export default function DashboardPage() {
                     Tidak ada transaksi saat ini.
                   </div>
                 ) : (
-                  transactions.map((tx) => {
+                  transactions.slice(0, 4).map((tx) => {
                     const isPemasukan = tx.type === 'pemasukan';
                     
                     return (
-                      <div key={tx.id} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between transition-colors hover:bg-slate-50/50 rounded-xl px-2">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-inner ${
+                      <div key={tx.id} className="py-3 md:py-4 first:pt-0 last:pb-0 flex items-center justify-between transition-colors hover:bg-slate-50/50 rounded-xl px-2">
+                        <div className="flex items-center gap-3 md:gap-4">
+                          <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
                             isPemasukan 
-                              ? 'bg-orange-50 text-orange-500' 
+                              ? 'bg-[var(--brand-light)] text-[var(--brand-primary)]' 
                               : 'bg-red-50 text-red-500'
                           }`}>
-                            {isPemasukan ? <ArrowDownLeft className="w-5 h-5" /> : <ArrowUpRight className="w-5 h-5" />}
+                            {isPemasukan ? <ArrowDown className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUp className="w-4 h-4 md:w-5 md:h-5" />}
                           </div>
                           <div className="flex flex-col text-left">
-                            <span className="text-sm font-extrabold text-slate-800 leading-tight">
+                            <span className="text-xs md:text-sm font-extrabold text-slate-800 leading-tight">
                               {tx.title}
                             </span>
-                            <span className="text-xs text-slate-400 font-semibold mt-0.5">
+                            <span className="text-[10px] md:text-xs text-slate-400 font-semibold mt-0.5">
                               {tx.subtitle}
                             </span>
                           </div>
                         </div>
                         
-                        <div className="flex items-center gap-6">
-                          <span className={`text-[10px] font-black uppercase px-2 py-1 rounded-lg ${
+                        <div className="flex items-center gap-2 md:gap-6">
+                          <span className={`text-[9px] md:text-[10px] font-black uppercase px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg ${
                             isPemasukan 
                               ? 'bg-emerald-50 text-emerald-600' 
                               : 'bg-red-50 text-red-500'
@@ -420,11 +423,11 @@ export default function DashboardPage() {
                             {isPemasukan ? 'Pemasukan' : 'Pengeluaran'}
                           </span>
                           
-                          <span className="text-xs text-slate-400 font-semibold">
+                          <span className="hidden sm:inline text-xs text-slate-400 font-semibold">
                             {tx.date}
                           </span>
 
-                          <span className={`text-sm font-extrabold text-right min-w-[80px] ${
+                          <span className={`text-xs md:text-sm font-extrabold text-right min-w-[70px] md:min-w-[80px] ${
                             isPemasukan ? 'text-emerald-600' : 'text-red-500'
                           }`}>
                             {isPemasukan ? `+${tx.formattedAmount}` : tx.formattedAmount}
@@ -439,38 +442,38 @@ export default function DashboardPage() {
             </div>
 
             {/* Right Part: Monthly Recap (Donut chart & side-by-side legends) */}
-            <div className="bg-white rounded-3xl p-6 border border-slate-100/80 shadow-sm flex flex-col justify-between text-left">
+            <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-100/80 shadow-sm flex flex-col justify-between text-left gap-4">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
                   <h3 className="text-md font-extrabold text-slate-850 tracking-tight leading-none">Ringkasan Bulan</h3>
-                  <span className="text-xs text-[#f95713] font-bold mt-1.5">{getMonthName(String(new Date().getMonth() + 1).padStart(2, '0'))} {new Date().getFullYear()}</span>
+                  <span className="text-xs text-[var(--brand-primary)] font-bold mt-1.5">{getMonthName(String(new Date().getMonth() + 1).padStart(2, '0'))} {new Date().getFullYear()}</span>
                 </div>
-                <Link href="/kas" className="text-xs font-bold text-[#f95713] hover:underline flex items-center gap-1 transition-all">
-                  <span>Lihat Laporan</span>
+                <Link href="/kas" className="text-xs font-bold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
+                  <span>Lihat laporan</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
 
               {/* Side-by-side layout: vertical data, donut, legend */}
-              <div className="flex items-center justify-between py-6 gap-3">
+              <div className="flex flex-col sm:flex-row items-center justify-between py-2 sm:py-6 gap-6 sm:gap-2">
                 {/* Left Values List */}
-                <div className="flex flex-col gap-3 text-[10px] font-semibold text-slate-500 shrink-0">
-                  <div className="space-y-0.5">
+                <div className="flex flex-row sm:flex-col justify-between w-full sm:w-auto gap-3 text-[10px] font-semibold text-slate-500 shrink-0">
+                  <div className="space-y-0.5 text-left">
                     <span className="text-slate-400 uppercase tracking-wide block">Total Pemasukan</span>
                     <span className="text-xs font-extrabold text-slate-800 block">{formatRp(pemasukanBulanIni)}</span>
                   </div>
-                  <div className="space-y-0.5">
+                  <div className="space-y-0.5 text-left">
                     <span className="text-slate-400 uppercase tracking-wide block">Total Pengeluaran</span>
                     <span className="text-xs font-extrabold text-slate-800 block">{formatRp(pengeluaranBulanIni)}</span>
                   </div>
-                  <div className="space-y-0.5">
+                  <div className="space-y-0.5 text-left">
                     <span className="text-slate-400 uppercase tracking-wide block">Saldo Akhir</span>
-                    <span className="text-xs font-black text-[#f95713] block">{formatRp(saldoKas)}</span>
+                    <span className="text-xs font-black text-[var(--brand-primary)] block">{formatRp(saldoKas)}</span>
                   </div>
                 </div>
 
                 {/* Donut Chart SVG */}
-                <div className="relative w-28 h-28 shrink-0">
+                <div className="relative w-24 h-24 md:w-28 md:h-28 shrink-0">
                   <svg viewBox="0 0 120 120" className="w-full h-full transform -rotate-90">
                     <circle cx="60" cy="60" r="50" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
                     
@@ -500,7 +503,7 @@ export default function DashboardPage() {
                       className="transition-all duration-500"
                     />
 
-                    {/* Saldo Awal segment (Grey) */}
+                    {/* Next segment (Grey) */}
                     <circle
                       cx="60"
                       cy="60"
@@ -522,12 +525,12 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Right Legend Percentages */}
-                <div className="flex flex-col gap-3 text-[10px] font-semibold text-slate-500 shrink-0">
+                <div className="flex flex-row sm:flex-col justify-between w-full sm:w-auto gap-3 text-[10px] font-semibold text-slate-500 shrink-0">
                   <div className="flex items-center gap-1.5 justify-end">
                     <span className="w-2 h-2 rounded-full bg-emerald-500" />
                     <span>Pemasukan</span>
                     <span className="font-extrabold text-slate-800">
-                      {Math.round(pemasukanBulanIni + pengeluaranBulanIni + saldoAwal > 0 ? (pemasukanBulanIni / (pemasukanBulanIni + pengeluaranBulanIni + saldoAwal)) * 100 : 60)}%
+                      {Math.round(pemasukanBulanIni + pengeluaranBulanIni + saldoAwal > 0 ? (pemasukanBulanIni / (pemasukanBulanIni + pengeluaranBulanIni + saldoAwal)) * 105 : 60)}%
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 justify-end">
@@ -552,6 +555,13 @@ export default function DashboardPage() {
           </div>
 
         </main>
+        {/* Mobile Navigation Bar */}
+        <MobileNavBar onQuickActionClick={() => {
+          const section = document.getElementById('quick-actions-section');
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+          }
+        }} />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import MobileNavBar from '@/components/MobileNavBar';
 import { 
   Calendar, 
   CheckCircle2, 
@@ -42,6 +43,7 @@ interface DayRecord {
 }
 
 export default function JimpitanBulananPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('07'); // Default July
   const [selectedYear, setSelectedYear] = useState('2026'); // Default 2026
   
@@ -418,16 +420,16 @@ export default function JimpitanBulananPage() {
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
-      <Sidebar activeMenu="Jimpitan" />
+      <Sidebar activeMenu="Jimpitan" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <div className="flex-1 flex flex-col min-h-screen">
-        <Header />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="flex-1 p-8 space-y-8 max-w-7xl w-full mx-auto pb-16 font-sans">
+        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
           
           {/* Toast Notification */}
           {showToast && (
-            <div className={`fixed bottom-6 right-6 px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce z-50 text-white ${
+            <div className={`fixed bottom-20 right-6 md:bottom-6 px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce z-50 text-white ${
               toastType === 'success' ? 'bg-emerald-600 shadow-emerald-100' : 'bg-red-600 shadow-red-100'
             }`}>
               {toastType === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
@@ -442,10 +444,10 @@ export default function JimpitanBulananPage() {
           </div>
 
           {/* Filters and navigation bar */}
-          <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+          <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-4 justify-between">
             
             {/* Period selector */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-between sm:justify-start">
               <button
                 onClick={handlePrevMonth}
                 className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-500 cursor-pointer"
@@ -466,7 +468,7 @@ export default function JimpitanBulananPage() {
             </div>
 
             {/* Dropdown Filters */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               
               {/* Rombongan Filter */}
               <select
@@ -494,7 +496,7 @@ export default function JimpitanBulananPage() {
               {/* Link button to Jadwal */}
               <Link 
                 href="/jadwal"
-                className="px-5 py-2.5 border border-orange-500 text-[#f95713] hover:bg-orange-50 font-bold rounded-2xl transition-all text-xs flex items-center gap-1.5"
+                className="px-5 py-2.5 border border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--brand-light)] font-bold rounded-2xl transition-all text-xs flex items-center justify-center gap-1.5"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Jadwal</span>
@@ -504,13 +506,13 @@ export default function JimpitanBulananPage() {
           </div>
 
           {/* Color Indicators Legend */}
-          <div className="flex items-center gap-5 px-1 justify-start">
+          <div className="flex flex-wrap items-center gap-4 md:gap-5 px-1 justify-start">
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
               <span className="text-[10px] font-bold text-slate-400">Sudah Diisi</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand-primary)]" />
               <span className="text-[10px] font-bold text-slate-400">Hari Ini</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -524,159 +526,159 @@ export default function JimpitanBulananPage() {
           </div>
 
           {/* Main Jimpitan Table Card */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6">
             {isLoading ? (
               <div className="py-24 text-center text-slate-400 font-bold text-sm">Memuat data jimpitan...</div>
             ) : filteredRecords.length === 0 ? (
               <div className="py-24 text-center text-slate-400 font-bold text-sm">Tidak ada data setoran jimpitan.</div>
             ) : (
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-wider">
-                    <th className="py-4 px-6 text-center w-16">Tgl</th>
-                    <th className="py-4 px-6 text-center w-20">Hari</th>
-                    <th className="py-4 px-6 w-[280px]">Petugas Jimpitan</th>
-                    <th className="py-4 px-6 text-center w-[280px]">Rombongan</th>
-                    <th className="py-4 px-6 text-center w-52">Nominal (Rp)</th>
-                    <th className="py-4 px-6 text-center w-24">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {filteredRecords.map((item) => {
-                    const localVal = modifiedNominals[item.dateKey];
-                    const activeVal = localVal !== undefined ? localVal : item.nominal;
-                    
-                    const isFut = item.isFuture;
-                    const isTod = item.isToday;
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <table className="w-full text-left border-collapse min-w-[650px]">
+                  <thead>
+                    <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-wider">
+                      <th className="py-4 px-4 text-center w-14">Tgl</th>
+                      <th className="py-4 px-4 text-center w-16">Hari</th>
+                      <th className="py-4 px-4 w-[240px]">Petugas Jimpitan</th>
+                      <th className="py-4 px-4 text-center w-[160px]">Rombongan</th>
+                      <th className="py-4 px-4 text-center w-[180px]">Nominal (Rp)</th>
+                      <th className="py-4 px-4 text-center w-20">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {filteredRecords.map((item) => {
+                      const localVal = modifiedNominals[item.dateKey];
+                      const activeVal = localVal !== undefined ? localVal : item.nominal;
+                      
+                      const isFut = item.isFuture;
+                      const isTod = item.isToday;
 
-                    return (
-                      <tr 
-                        key={item.dateKey} 
-                        className={`transition-colors ${
-                          isTod 
-                            ? 'bg-orange-50/20 font-semibold' 
-                            : isFut 
-                              ? 'bg-slate-50/20 opacity-60' 
-                              : 'hover:bg-slate-50/40'
-                        }`}
-                      >
-                        {/* Day number */}
-                        <td className="py-4 px-6 text-center font-extrabold text-slate-700 text-xs">
-                          {String(item.dayNum).padStart(2, '0')}
-                        </td>
-                        
-                        {/* Short weekday + Javanese Pasaran */}
-                        <td className={`py-4 px-6 text-center ${isTod ? 'text-[#f95713]' : 'text-slate-400'}`}>
-                          <div className="flex flex-col items-center gap-0.5">
-                            <span className={`font-extrabold text-xs ${isTod ? 'text-[#f95713]' : 'text-slate-700'}`}>
-                              {item.dayLabel}
-                            </span>
-                            <span className={`text-[9px] font-bold ${isTod ? 'text-orange-400' : 'text-slate-350'}`}>
-                              {getPasaran(item.dateKey)}
-                            </span>
-                          </div>
-                        </td>
+                      return (
+                        <tr 
+                          key={item.dateKey} 
+                          className={`transition-colors ${
+                            isTod 
+                              ? 'bg-orange-50/20 font-semibold' 
+                              : isFut 
+                                ? 'bg-slate-50/20 opacity-60' 
+                                : 'hover:bg-slate-50/40'
+                          }`}
+                        >
+                          {/* Day number */}
+                          <td className="py-4 px-4 text-center font-extrabold text-slate-700 text-xs">
+                            {String(item.dayNum).padStart(2, '0')}
+                          </td>
+                          
+                          {/* Short weekday + Javanese Pasaran */}
+                          <td className={`py-4 px-4 text-center ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-400'}`}>
+                            <div className="flex flex-col items-center gap-0.5">
+                              <span className={`font-extrabold text-xs ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-700'}`}>
+                                {item.dayLabel}
+                              </span>
+                              <span className={`text-[9px] font-bold ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-350'}`}>
+                                {getPasaran(item.dateKey)}
+                              </span>
+                            </div>
+                          </td>
 
-                        {/* Officer with subtext House No. */}
-                        <td className="py-4 px-6 text-xs">
-                          <div className="flex flex-col text-left">
-                            {item.petugasName !== 'Tanpa Petugas' ? (
-                              <>
-                                <span className="text-[10px] text-slate-400 font-semibold">Ketua Rombongan</span>
-                                <span className="font-extrabold text-slate-800 mt-0.5">{item.petugasName}</span>
-                                {item.petugasNoRumah && (
-                                  <span className="text-[10px] text-slate-400 font-medium mt-0.5">{item.petugasNoRumah}</span>
-                                )}
-                              </>
+                          {/* Officer with subtext House No. */}
+                          <td className="py-4 px-4 text-xs">
+                            <div className="flex flex-col text-left">
+                              {item.petugasName !== 'Tanpa Petugas' ? (
+                                <>
+                                  <span className="text-[9px] text-slate-400 font-semibold">Ketua Rombongan</span>
+                                  <span className="font-extrabold text-slate-800 mt-0.5">{item.petugasName}</span>
+                                  {item.petugasNoRumah && (
+                                    <span className="text-[9px] text-slate-400 font-medium mt-0.5">{item.petugasNoRumah}</span>
+                                  )}
+                                </>
+                              ) : (
+                                <span className="text-[10px] text-slate-400 font-semibold italic">Belum ada petugas</span>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Group Rombongan Badge */}
+                          <td className="py-4 px-4 text-center">
+                            {item.rombonganNama ? (
+                              <span className={`text-[8px] font-black uppercase px-2.5 py-1 rounded-md border whitespace-nowrap ${getRombonganColorClass(item.rombonganId)}`}>
+                                {item.rombonganNama}
+                              </span>
                             ) : (
-                              <span className="text-[10px] text-slate-400 font-semibold italic">Belum ada petugas</span>
+                              <span className="text-slate-300">-</span>
                             )}
-                          </div>
-                        </td>
+                          </td>
 
-                        {/* Group Rombongan Badge */}
-                        <td className="py-4 px-6 text-center">
-                          {item.rombonganNama ? (
-                            <span className={`text-[8px] font-black uppercase px-2.5 py-1 rounded-md border whitespace-nowrap ${getRombonganColorClass(item.rombonganId)}`}>
-                              {item.rombonganNama}
+                          {/* Nominal Input Field */}
+                          <td className="py-3 px-4">
+                            <div className="flex items-center justify-center">
+                              {isFut ? (
+                                <span className="text-slate-300 font-bold text-xs">-</span>
+                              ) : (
+                                <div className="relative w-full max-w-[140px]">
+                                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rp</span>
+                                  <input
+                                    type="text"
+                                    disabled={isSaving}
+                                    value={inputsText[item.dateKey] !== undefined ? inputsText[item.dateKey] : (activeVal > 0 ? activeVal.toLocaleString('id-ID') : '')}
+                                    onChange={(e) => handleInputChange(item.dateKey, e.target.value)}
+                                    onBlur={() => {
+                                      const localVal = modifiedNominals[item.dateKey];
+                                      const activeVal = localVal !== undefined ? localVal : item.nominal;
+                                      if (activeVal !== item.nominal) {
+                                        handleAutoSave(item.dateKey, activeVal);
+                                      } else {
+                                        setInputsText(prev => {
+                                          const next = { ...prev };
+                                          delete next[item.dateKey];
+                                          return next;
+                                        });
+                                      }
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') {
+                                        (e.target as HTMLInputElement).blur();
+                                      }
+                                    }}
+                                    placeholder="0"
+                                    className={`w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-extrabold text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:bg-white transition-all text-left ${
+                                      localVal !== undefined && localVal !== item.nominal ? 'border-amber-400 ring-2 ring-amber-400/10' : ''
+                                    }`}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Status Badge */}
+                          <td className="py-4 px-4 text-center">
+                            <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-lg whitespace-nowrap ${
+                              item.status === 'sudah_isi' 
+                                ? 'bg-emerald-50 text-emerald-600' 
+                                : item.status === 'belum_isi'
+                                  ? 'bg-red-50 text-red-500'
+                                  : 'bg-slate-50 text-slate-400'
+                            }`}>
+                              {item.status === 'sudah_isi' ? 'Diisi' : item.status === 'belum_isi' ? 'Kosong' : 'Belum'}
                             </span>
-                          ) : (
-                            <span className="text-[8px] font-black uppercase px-2.5 py-1 rounded-md border bg-slate-50 border-slate-150 text-slate-400">
-                              -
-                            </span>
-                          )}
-                        </td>
-
-                        {/* Inline Nominal Input Box */}
-                        <td className="py-4 px-6">
-                          <div className="flex justify-center">
-                            <input
-                              type="text"
-                              disabled={isFut}
-                              value={inputsText[item.dateKey] !== undefined 
-                                ? inputsText[item.dateKey] 
-                                : (item.nominal > 0 ? item.nominal.toLocaleString('id-ID') : '')}
-                              onChange={(e) => handleInputChange(item.dateKey, e.target.value)}
-                              onBlur={() => {
-                                const localVal = modifiedNominals[item.dateKey];
-                                const activeVal = localVal !== undefined ? localVal : item.nominal;
-                                if (activeVal !== item.nominal) {
-                                  handleAutoSave(item.dateKey, activeVal);
-                                } else {
-                                  setInputsText(prev => {
-                                    const next = { ...prev };
-                                    delete next[item.dateKey];
-                                    return next;
-                                  });
-                                }
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                  (e.target as HTMLInputElement).blur();
-                                }
-                              }}
-                              placeholder={isFut ? '-' : 'Masukkan nominal'}
-                              className={`w-full max-w-[180px] px-3.5 py-2 border rounded-xl font-bold text-xs text-center transition-all ${
-                                isFut
-                                  ? 'bg-slate-50 border-slate-150 text-slate-350 cursor-not-allowed'
-                                  : isTod
-                                    ? 'bg-white border-orange-300 text-slate-800 focus:border-[#f95713] focus:ring-2 focus:ring-orange-500/10'
-                                    : 'bg-white border-slate-200 text-slate-800 focus:border-[#f95713] focus:ring-2 focus:ring-orange-500/10 hover:border-slate-300'
-                              }`}
-                            />
-                          </div>
-                        </td>
-
-                        {/* Status Icon Indicator */}
-                        <td className="py-4 px-6 text-center">
-                          <div className="flex justify-center items-center">
-                            {activeVal > 0 ? (
-                              <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                            ) : isTod ? (
-                              <div className="w-3.5 h-3.5 rounded-full bg-orange-500 animate-pulse" />
-                            ) : (
-                              <span className="text-slate-300 font-bold text-xs">-</span>
-                            )}
-                          </div>
-                        </td>
-
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
 
           {/* Rangkuman Footer Bulanan Cards */}
-          <div className="bg-[#f8fafc] border border-slate-200/50 rounded-3xl p-6 space-y-6">
-            <div className="grid grid-cols-4 gap-6">
+          <div className="bg-[#f8fafc] border border-slate-200/50 rounded-3xl p-4 md:p-6 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               
               {/* Total Jimpitan */}
               <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Total Jimpitan {getMonthName(selectedMonth)} {selectedYear}</span>
                 <div>
-                  <h3 className="text-xl font-black text-[#f95713] tracking-tight">{formatRp(totalTerkumpul)}</h3>
+                  <h3 className="text-xl font-black text-[var(--brand-primary)] tracking-tight">{formatRp(totalTerkumpul)}</h3>
                   <span className="text-[9px] text-slate-400 font-bold block mt-0.5">
                     Dana terkumpul {getMonthName(selectedMonth)} {selectedYear}
                   </span>
@@ -754,8 +756,8 @@ export default function JimpitanBulananPage() {
               <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Sisa Target</span>
                 <div>
-                  <h3 className="text-xl font-black text-[#f95713] tracking-tight">{formatRp(sisaTarget)}</h3>
-                  <span className="text-[9px] text-slate-450 font-bold block mt-0.5">
+                  <h3 className="text-xl font-black text-[var(--brand-primary)] tracking-tight">{formatRp(sisaTarget)}</h3>
+                  <span className="text-[9px] text-slate-455 font-bold block mt-0.5">
                     {remainingDays > 0 ? `${remainingDays} hari lagi di ${getMonthName(selectedMonth)} ${selectedYear}` : `Bulan ${getMonthName(selectedMonth)} ${selectedYear} sudah selesai`}
                   </span>
                 </div>
@@ -790,6 +792,8 @@ export default function JimpitanBulananPage() {
           </div>
 
         </main>
+        {/* Mobile Navigation Bar */}
+        <MobileNavBar />
       </div>
 
       {/* Custom Confirmation Modal */}
@@ -822,7 +826,7 @@ export default function JimpitanBulananPage() {
                   setShowConfirmModal(false);
                   setConfirmData(null);
                 }}
-                className="flex-1 py-2.5 bg-[#f95713] hover:bg-orange-650 text-white font-bold rounded-xl transition-all text-xs cursor-pointer shadow-md shadow-orange-100"
+                className="flex-1 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-xl transition-all text-xs cursor-pointer shadow-sm"
               >
                 Ya, Simpan
               </button>
