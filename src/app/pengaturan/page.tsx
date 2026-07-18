@@ -42,6 +42,7 @@ export default function PengaturanPage() {
   const [isDark, setIsDark] = useState(false);
   const [font, setFont] = useState('outfit');
   const [size, setSize] = useState('normal');
+  const [style, setStyle] = useState('classic');
   const [timezone, setTimezone] = useState('Asia/Jakarta');
 
   // Toast notifications
@@ -61,11 +62,13 @@ export default function PengaturanPage() {
       const savedDark = localStorage.getItem('komuna-dark') === 'yes';
       const savedFont = localStorage.getItem('komuna-font') || 'outfit';
       const savedSize = localStorage.getItem('komuna-size') || 'normal';
+      const savedStyle = localStorage.getItem('komuna-style') || 'classic';
       const savedTimezone = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
       setTheme(savedTheme);
       setIsDark(savedDark);
       setFont(savedFont);
       setSize(savedSize);
+      setStyle(savedStyle);
       setTimezone(savedTimezone);
     }
   }, []);
@@ -111,6 +114,17 @@ export default function PengaturanPage() {
     }
 
     triggerToast('Pengaturan tampilan berhasil diperbarui!', 'success');
+  };
+
+  const updateStyleSetting = (value: string) => {
+    localStorage.setItem('komuna-style', value);
+    setStyle(value);
+    if (typeof document !== 'undefined') {
+      const cl = document.documentElement.classList;
+      cl.remove('style-classic', 'style-glassmorphism');
+      cl.add(`style-${value}`);
+    }
+    triggerToast('Gaya desain tampilan berhasil diperbarui!', 'success');
   };
 
   const handleTimezoneChange = (val: string) => {
@@ -531,6 +545,32 @@ export default function PengaturanPage() {
                           }`}
                         >
                           Besar
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Gaya Desain (Classic vs Glassmorphism) */}
+                    <div className="space-y-2.5">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                        <Palette className="w-4.5 h-4.5 text-slate-400" />
+                        <span>Gaya Desain</span>
+                      </div>
+                      <div className="flex border border-slate-200 rounded-xl overflow-hidden text-[10px] font-bold w-full">
+                        <button
+                          onClick={() => updateStyleSetting('classic')}
+                          className={`flex-1 py-2 cursor-pointer transition-all ${
+                            style === 'classic' ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
+                          }`}
+                        >
+                          Klasik Premium
+                        </button>
+                        <button
+                          onClick={() => updateStyleSetting('glassmorphism')}
+                          className={`flex-1 py-2 cursor-pointer border-l border-slate-200 transition-all ${
+                            style === 'glassmorphism' ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
+                          }`}
+                        >
+                          Glassmorphism
                         </button>
                       </div>
                     </div>

@@ -314,3 +314,102 @@ body {
 .text-orange-500 {
   color: var(--brand-primary) !important;
 }
+
+/* ==========================================
+   GLASSMORPHISM STYLE OVERRIDES
+   ========================================== */
+
+/* 1. Background Mesh Gradient / Aurora Blobs */
+html.style-glassmorphism body {
+  background-color: #F5F7FB !important;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+
+html.style-glassmorphism.dark body {
+  background-color: #0F172A !important;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.10) 0px, transparent 50%) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+
+/* 2. Glassmorphism Card Style overrides */
+html.style-glassmorphism .bg-white {
+  background-color: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+html.style-glassmorphism.dark .bg-white {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+
+/* 3. Input & Select Glass style overrides */
+html.style-glassmorphism input, 
+html.style-glassmorphism select, 
+html.style-glassmorphism textarea,
+html.style-glassmorphism .bg-\[\#f8fafc\] {
+  background-color: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(10px) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+html.style-glassmorphism.dark input, 
+html.style-glassmorphism.dark select, 
+html.style-glassmorphism.dark textarea,
+html.style-glassmorphism.dark .bg-\[\#f8fafc\],
+html.style-glassmorphism.dark .bg-slate-50\/50,
+html.style-glassmorphism.dark .bg-\[\#f8fafc\]\/50 {
+  background-color: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(10px) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* 4. Table dividy in Glassmorphism */
+html.style-glassmorphism .divide-y > * + * {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+html.style-glassmorphism.dark .divide-y > * + * {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* 5. Sidebar special glass treatment */
+html.style-glassmorphism aside {
+  border-right: 1px solid rgba(255, 255, 255, 0.35) !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+html.style-glassmorphism.dark aside {
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background-color: rgba(15, 23, 42, 0.55) !important;
+}
+
+/* 6. Buttons in Glassmorphism */
+html.style-glassmorphism .hover\:bg-slate-50:hover,
+html.style-glassmorphism .hover\:bg-slate-100:hover {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+}
+html.style-glassmorphism.dark .hover\:bg-slate-50:hover,
+html.style-glassmorphism.dark .hover\:bg-slate-100:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Glow accent glow shadow for primary branding */
+html.style-glassmorphism .shadow-orange-100 {
+  box-shadow: 0 10px 25px -5px var(--brand-ring-strong) !important;
+}
+

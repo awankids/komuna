@@ -29,17 +29,19 @@ export default function RootLayout({
                   const isDark = localStorage.getItem('komuna-dark') === 'yes';
                   const font = localStorage.getItem('komuna-font') || 'outfit';
                   const size = localStorage.getItem('komuna-size') || 'normal';
+                  const style = localStorage.getItem('komuna-style') || 'classic';
                   
                   const cl = document.documentElement.classList;
-                  // Remove only theme/font/size/dark classes to preserve Next.js/Tailwind font variables
+                  // Remove only theme/font/size/dark/style classes to preserve Next.js/Tailwind font variables
                   Array.from(cl).forEach(c => {
-                    if (c.startsWith('theme-') || c.startsWith('font-') || c.startsWith('size-') || c === 'dark') {
+                    if (c.startsWith('theme-') || c.startsWith('font-') || c.startsWith('size-') || c.startsWith('style-') || c === 'dark') {
                       cl.remove(c);
                     }
                   });
                   cl.add('theme-' + theme);
                   cl.add('font-' + font);
                   cl.add('size-' + size);
+                  cl.add('style-' + style);
                   if (isDark) {
                     cl.add('dark');
                   }
