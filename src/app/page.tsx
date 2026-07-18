@@ -39,7 +39,7 @@ export default function DashboardPage() {
   const [saldoAwal, setSaldoAwal] = useState<number>(0);
 
   // Jimpitan input state
-  const [jimpitanInput, setJimpitanInput] = useState<string>('85000');
+  const [jimpitanInput, setJimpitanInput] = useState<string>('');
   const [savedNominal, setSavedNominal] = useState<number | null>(null);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [petugasName, setPetugasName] = useState<string>('Memuat...');
