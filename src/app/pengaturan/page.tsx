@@ -241,7 +241,7 @@ export default function PengaturanPage() {
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
       <Sidebar activeMenu="Pengaturan" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
         <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">

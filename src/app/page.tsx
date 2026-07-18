@@ -202,7 +202,7 @@ export default function DashboardPage() {
       <Sidebar activeMenu="Dashboard" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* Main Panel Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         {/* Top Header */}
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
@@ -326,10 +326,10 @@ export default function DashboardPage() {
           {/* Quick Action Buttons */}
           <div className="space-y-4" id="quick-actions-section">
             <h3 className="text-xs font-bold text-slate-450 tracking-wider uppercase text-left">Aksi Cepat</h3>
-            <div className="grid grid-cols-5 gap-2 md:gap-4">
+            <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x no-scrollbar md:grid md:grid-cols-5 md:gap-4 md:pb-0 md:mx-0 md:px-0">
               
               {/* Action 1: Input Jimpitan */}
-              <Link href="/jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+              <Link href="/jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-emerald-500/20">
                   <Coins className="w-5 h-5" />
                 </div>
@@ -337,7 +337,7 @@ export default function DashboardPage() {
               </Link>
 
               {/* Action 2: Tambah Pemasukan */}
-              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
                   <Plus className="w-5 h-5 stroke-[2.5]" />
                 </div>
@@ -345,7 +345,7 @@ export default function DashboardPage() {
               </Link>
 
               {/* Action 3: Tambah Pengeluaran */}
-              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-red-500/20">
                   <Minus className="w-5 h-5 stroke-[2.5]" />
                 </div>
@@ -353,7 +353,7 @@ export default function DashboardPage() {
               </Link>
 
               {/* Action 4: Tambah Anggota */}
-              <Link href="/anggota" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+              <Link href="/anggota" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-blue-500/20">
                   <Users className="w-5 h-5" />
                 </div>
@@ -361,7 +361,7 @@ export default function DashboardPage() {
               </Link>
 
               {/* Action 5: Lihat Jadwal */}
-              <Link href="/jadwal" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none">
+              <Link href="/jadwal" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-purple-500/20">
                   <Calendar className="w-5 h-5" />
                 </div>
