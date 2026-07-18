@@ -39,39 +39,39 @@ export default function DonutChart({
     <div className="relative flex flex-col items-center justify-center">
       <div className="relative w-48 h-48">
         <svg viewBox="0 0 120 120" className="w-full h-full transform -rotate-90">
-          {/* Pemasukan (Green) */}
+          {/* Pemasukan */}
           <circle
             cx="60"
             cy="60"
             r={radius}
             fill="transparent"
-            stroke="#22c55e" // green-500
+            stroke="var(--chart-pemasukan)"
             strokeWidth={strokeWidth}
             strokeDasharray={`${pLength} ${circumference}`}
             strokeDashoffset={pOffset}
             strokeLinecap="butt"
             className="transition-all duration-500 ease-out"
           />
-          {/* Pengeluaran (Red/Orange) */}
+          {/* Pengeluaran */}
           <circle
             cx="60"
             cy="60"
             r={radius}
             fill="transparent"
-            stroke="#ef4444" // red-500
+            stroke="var(--chart-pengeluaran)"
             strokeWidth={strokeWidth}
             strokeDasharray={`${eLength} ${circumference}`}
             strokeDashoffset={eOffset}
             strokeLinecap="butt"
             className="transition-all duration-500 ease-out"
           />
-          {/* Saldo Awal (Gray) */}
+          {/* Saldo Awal */}
           <circle
             cx="60"
             cy="60"
             r={radius}
             fill="transparent"
-            stroke="#cbd5e1" // slate-300
+            stroke="var(--chart-saldo-awal)"
             strokeWidth={strokeWidth}
             strokeDasharray={`${sLength} ${circumference}`}
             strokeDashoffset={sOffset}
@@ -91,21 +91,21 @@ export default function DonutChart({
       <div className="flex flex-col gap-1.5 mt-4 w-full px-2 text-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-full bg-green-500"></span>
+            <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: 'var(--chart-pemasukan)' }}></span>
             <span className="text-slate-500">Pemasukan</span>
           </div>
           <span className="font-semibold text-slate-700">{Math.round(pPct)}%</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-full bg-red-500"></span>
+            <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: 'var(--chart-pengeluaran)' }}></span>
             <span className="text-slate-500">Pengeluaran</span>
           </div>
           <span className="font-semibold text-slate-700">{Math.round(ePct)}%</span>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-full bg-slate-300"></span>
+            <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: 'var(--chart-saldo-awal)' }}></span>
             <span className="text-slate-500">Saldo Awal</span>
           </div>
           <span className="font-semibold text-slate-700">{Math.round(sPct)}%</span>

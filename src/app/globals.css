@@ -12,6 +12,10 @@
   --brand-ring: rgba(249, 87, 19, 0.15);
   --brand-ring-strong: rgba(249, 87, 19, 0.3);
   
+  --chart-pemasukan: #22c55e;
+  --chart-pengeluaran: #ef4444;
+  --chart-saldo-awal: #cbd5e1;
+  
   --font-family: 'Outfit', 'Inter', system-ui, sans-serif;
   --font-size: 14px;
 }
@@ -481,5 +485,70 @@ html.style-glassmorphism.dark .hover\:bg-slate-100:hover {
 html.style-glassmorphism .shadow-orange-100 {
   box-shadow: 0 10px 25px -5px var(--brand-ring-strong) !important;
 }
+
+/* ==========================================
+   GLASSMORPHISM CHART COLORS & TYPOGRAPHY
+   ========================================== */
+
+/* Dynamic chart variables for glassmorphism layout */
+html.style-glassmorphism {
+  --chart-pemasukan: #3b82f6 !important;    /* Premium Sky Blue */
+  --chart-pengeluaran: #f97316 !important;  /* Elegant Coral Orange */
+  --chart-saldo-awal: #10b981 !important;   /* Fresh Mint Green */
+}
+
+/* Card & Table Typography Enhancements */
+html.style-glassmorphism .bg-white,
+html.style-glassmorphism table,
+html.style-glassmorphism aside {
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+}
+
+/* Category labels and headers */
+html.style-glassmorphism .text-slate-400,
+html.style-glassmorphism .text-slate-500,
+html.style-glassmorphism table th {
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  color: #64748b !important; /* Extremely clean slate gray */
+}
+html.style-glassmorphism.dark .text-slate-400,
+html.style-glassmorphism.dark .text-slate-500,
+html.style-glassmorphism.dark table th {
+  color: #94a3b8 !important;
+}
+
+/* Numbers (amounts) and body content */
+html.style-glassmorphism .text-slate-800,
+html.style-glassmorphism .text-slate-750,
+html.style-glassmorphism .text-slate-700,
+html.style-glassmorphism table td {
+  color: #0f172a !important; /* Luxury deep dark slate */
+}
+html.style-glassmorphism.dark .text-slate-800,
+html.style-glassmorphism.dark .text-slate-750,
+html.style-glassmorphism.dark .text-slate-700,
+html.style-glassmorphism.dark table td {
+  color: #f8fafc !important;
+}
+
+/* Make values and currencies stand out beautifully */
+html.style-glassmorphism .font-bold,
+html.style-glassmorphism .font-semibold {
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Comfort & Hover row transitions in tables */
+html.style-glassmorphism table tr {
+  transition: background-color 0.2s ease !important;
+}
+html.style-glassmorphism table tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.03) !important;
+}
+html.style-glassmorphism.dark table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
 
 
