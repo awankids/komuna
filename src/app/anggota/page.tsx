@@ -584,7 +584,7 @@ export default function AnggotaPage() {
                   <Trash2 className="w-7 h-7 text-red-500" />
                 </div>
                 {/* Title */}
-                <h3 className="text-lg font-black text-slate-800 text-center mb-2">{confirmDialog.title}</h3>
+                <h3 className="text-lg font-bold text-slate-800 text-center mb-2">{confirmDialog.title}</h3>
                 {/* Message */}
                 <p className="text-sm text-slate-500 text-center leading-relaxed font-medium mb-8">
                   {confirmDialog.message}
@@ -610,18 +610,18 @@ export default function AnggotaPage() {
 
           {/* Title and Subtitle */}
           <div className="space-y-1 text-left">
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Anggota</h2>
-            <p className="text-sm text-slate-400 font-medium">Kelola data anggota warga RT 04.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Anggota</h2>
+            <p className="text-xs md:text-sm text-slate-400 font-medium">Kelola data anggota warga RT 04.</p>
           </div>
 
           {/* Stats Cards Row */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             
             {/* Stat Card 1: Total Anggota */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between text-left">
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Anggota</span>
-                <h3 className="text-2xl font-black text-slate-800 tracking-tight">{totalAnggota}</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{totalAnggota}</h3>
                 <span className="text-[11px] text-slate-400 font-medium">orang</span>
               </div>
               <div className="w-11 h-11 rounded-2xl bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center">
@@ -629,11 +629,11 @@ export default function AnggotaPage() {
               </div>
             </div>
 
-            {/* Stat Card 2: Anggota Piket Aktif */}
+            {/* Stat Card 2: Anggota Piket Hack Aktif */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between text-left">
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Anggota Aktif</span>
-                <h3 className="text-2xl font-black text-slate-800 tracking-tight">{anggotaAktifCount}</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{anggotaAktifCount}</h3>
                 <span className="text-[11px] text-slate-400 font-medium">orang</span>
               </div>
               <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -645,7 +645,7 @@ export default function AnggotaPage() {
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between text-left">
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nonaktif</span>
-                <h3 className="text-2xl font-black text-slate-800 tracking-tight">{nonaktifCount}</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{nonaktifCount}</h3>
                 <span className="text-[11px] text-slate-400 font-medium">orang</span>
               </div>
               <div className="w-11 h-11 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
@@ -657,7 +657,7 @@ export default function AnggotaPage() {
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between text-left">
               <div className="space-y-1">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Rombongan</span>
-                <h3 className="text-2xl font-black text-slate-800 tracking-tight">{totalRombonganCount}</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{totalRombonganCount}</h3>
                 <span className="text-[11px] text-slate-400 font-medium">rombongan</span>
               </div>
               <div className="w-11 h-11 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center">
@@ -726,7 +726,7 @@ export default function AnggotaPage() {
             <div className="flex items-center justify-between bg-slate-800 text-white rounded-2xl px-5 py-3 shadow-xl animate-in fade-in slide-in-from-bottom-2 duration-200">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-md bg-[var(--brand-primary)] flex items-center justify-center">
-                  <span className="text-xs font-black">{selectedIds.size}</span>
+                  <span className="text-xs font-bold">{selectedIds.size}</span>
                 </div>
                 <span className="text-sm font-bold">{selectedIds.size} anggota dipilih</span>
               </div>
@@ -868,7 +868,7 @@ export default function AnggotaPage() {
 
                       {/* Rombongan badge */}
                       <td className="py-4 px-6 text-sm">
-                        <span className={`text-[10px] font-black uppercase px-2.5 py-1.5 rounded-lg border ${getRombonganColorClass(item.rombonganId)}`}>
+                        <span className={`text-[10px] font-bold uppercase px-2.5 py-1.5 rounded-lg border ${getRombonganColorClass(item.rombonganId)}`}>
                           {item.rombongan?.nama || 'Tanpa Rombongan'}
                         </span>
                       </td>
@@ -880,7 +880,7 @@ export default function AnggotaPage() {
 
                       {/* Status */}
                       <td className="py-4 px-6 text-sm">
-                        <span className={`text-[10px] font-black uppercase px-2.5 py-1.5 rounded-lg border ${
+                        <span className={`text-[10px] font-bold uppercase px-2.5 py-1.5 rounded-lg border ${
                           item.statusAktif 
                             ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
                             : 'bg-slate-100 text-slate-400 border-slate-200'
@@ -969,13 +969,13 @@ export default function AnggotaPage() {
                     {/* Group Header Info */}
                     <div className="relative z-10 flex items-start justify-between">
                       <div className="space-y-1">
-                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md border ${getRombonganColor(index)}`}>
+                        <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-md border ${getRombonganColor(index)}`}>
                           {rom.nama}
                         </span>
-                        <h4 className="text-2xl font-black text-slate-800 tracking-tight mt-2">{rom.activeMemberCount}</h4>
+                        <h4 className="text-2xl font-bold text-slate-800 tracking-tight mt-2">{rom.activeMemberCount}</h4>
                         <span className="text-[10px] text-slate-400 font-semibold block leading-none">anggota aktif</span>
                         {rom.hariPiket && (
-                          <span className="text-[9px] bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] font-black px-1.5 py-0.5 rounded mt-2 inline-block">
+                          <span className="text-[9px] bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] font-bold px-1.5 py-0.5 rounded mt-2 inline-block">
                             📅 Piket: {getHariPiketLabel(rom.hariPiket)}
                           </span>
                         )}
@@ -1040,7 +1040,7 @@ export default function AnggotaPage() {
               <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
                 
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                  <h3 className="text-lg font-black text-slate-800 tracking-tight">
+                  <h3 className="text-lg font-bold text-slate-800 tracking-tight">
                     {modalMode === 'add' ? 'Tambah Anggota Baru' : 'Edit Data Anggota'}
                   </h3>
                   <button
@@ -1147,7 +1147,7 @@ export default function AnggotaPage() {
               <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
                 
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                  <h3 className="text-lg font-black text-slate-800 tracking-tight">
+                  <h3 className="text-lg font-bold text-slate-800 tracking-tight">
                     {romModalMode === 'add' ? 'Tambah Rombongan Baru' : 'Kelola Rombongan'}
                   </h3>
                   <button

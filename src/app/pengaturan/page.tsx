@@ -259,8 +259,8 @@ export default function PengaturanPage() {
           {/* Title and Subtitle */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-left gap-4">
             <div className="space-y-1">
-              <h2 className="text-2xl font-black text-slate-800 tracking-tight">Pengaturan</h2>
-              <p className="text-sm text-slate-400 font-medium">Backup, restore, dan kelola data aplikasi komuna.id.</p>
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Pengaturan</h2>
+              <p className="text-xs md:text-sm text-slate-400 font-medium">Backup, restore, dan kelola data aplikasi komuna.id.</p>
             </div>
             <button
               onClick={fetchStats}
@@ -394,8 +394,8 @@ export default function PengaturanPage() {
                               : 'border-slate-200 bg-white hover:bg-slate-50'
                           }`}
                         >
-                          <div className="space-y-0.5">
-                            <span className="text-[10px] font-black text-slate-800 block">Sunset Orange</span>
+                           <div className="space-y-0.5">
+                            <span className="text-[10px] font-bold text-slate-800 block">Sunset Orange</span>
                             <span className="text-[8px] text-slate-400 font-bold block">Hangat & Dinamis</span>
                           </div>
                           <div className="flex gap-0.5 shrink-0 ml-1">
@@ -416,7 +416,7 @@ export default function PengaturanPage() {
                           }`}
                         >
                           <div className="space-y-0.5">
-                            <span className="text-[10px] font-black text-slate-800 block">Emerald Garden</span>
+                            <span className="text-[10px] font-bold text-slate-800 block">Emerald Garden</span>
                             <span className="text-[8px] text-slate-400 font-bold block">Segar & Tenang</span>
                           </div>
                           <div className="flex gap-0.5 shrink-0 ml-1">
@@ -437,7 +437,7 @@ export default function PengaturanPage() {
                           }`}
                         >
                           <div className="space-y-0.5">
-                            <span className="text-[10px] font-black text-slate-800 block">Ocean Blue</span>
+                            <span className="text-[10px] font-bold text-slate-800 block">Ocean Blue</span>
                             <span className="text-[8px] text-slate-400 font-bold block">Bersih & Modern</span>
                           </div>
                           <div className="flex gap-0.5 shrink-0 ml-1">
@@ -458,7 +458,7 @@ export default function PengaturanPage() {
                           }`}
                         >
                           <div className="space-y-0.5">
-                            <span className="text-[10px] font-black text-slate-800 block">Royal Violet</span>
+                            <span className="text-[10px] font-bold text-slate-800 block">Royal Violet</span>
                             <span className="text-[8px] text-slate-400 font-bold block">Premium & Anggun</span>
                           </div>
                           <div className="flex gap-0.5 shrink-0 ml-1">
@@ -644,45 +644,45 @@ export default function PengaturanPage() {
                     <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
                       <div className="flex items-center gap-2.5 text-slate-600">
                         <Users className="w-4 h-4 text-slate-400" />
-                        <span className="text-xs font-bold">Warga / Anggota</span>
+                        <span className="text-xs font-semibold">Warga / Anggota</span>
                       </div>
-                      <span className="text-xs font-black text-slate-800">{stats.anggota}</span>
+                      <span className="text-xs font-bold text-slate-800">{stats.anggota}</span>
                     </div>
 
                     {/* Stat Item: Rombongan */}
                     <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
                       <div className="flex items-center gap-2.5 text-slate-600">
                         <FolderHeart className="w-4 h-4 text-slate-400" />
-                        <span className="text-xs font-bold">Rombongan</span>
+                        <span className="text-xs font-semibold">Rombongan</span>
                       </div>
-                      <span className="text-xs font-black text-slate-800">{stats.rombongan}</span>
+                      <span className="text-xs font-bold text-slate-800">{stats.rombongan}</span>
                     </div>
 
                     {/* Stat Item: Jadwal */}
                     <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
                       <div className="flex items-center gap-2.5 text-slate-600">
                         <CalendarDays className="w-4 h-4 text-slate-400" />
-                        <span className="text-xs font-bold">Jadwal Piket</span>
+                        <span className="text-xs font-semibold">Jadwal Piket</span>
                       </div>
-                      <span className="text-xs font-black text-slate-800">{stats.jadwal}</span>
+                      <span className="text-xs font-bold text-slate-800">{stats.jadwal}</span>
                     </div>
 
                     {/* Stat Item: Jimpitan */}
                     <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
                       <div className="flex items-center gap-2.5 text-slate-600">
                         <Coins className="w-4 h-4 text-slate-400" />
-                        <span className="text-xs font-bold">Input Jimpitan</span>
+                        <span className="text-xs font-semibold">Input Jimpitan</span>
                       </div>
-                      <span className="text-xs font-black text-slate-800">{stats.jimpitan}</span>
+                      <span className="text-xs font-bold text-slate-800">{stats.jimpitan}</span>
                     </div>
 
                     {/* Stat Item: Transaksi Keuangan */}
                     <div className="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100/50">
                       <div className="flex items-center gap-2.5 text-slate-600">
                         <Wallet className="w-4 h-4 text-slate-400" />
-                        <span className="text-xs font-bold">Transaksi Keuangan</span>
+                        <span className="text-xs font-semibold">Transaksi Keuangan</span>
                       </div>
-                      <span className="text-xs font-black text-slate-800">{stats.transaksi}</span>
+                      <span className="text-xs font-bold text-slate-800">{stats.transaksi}</span>
                     </div>
 
                   </div>
@@ -715,7 +715,7 @@ export default function PengaturanPage() {
                   <ShieldAlert className="w-8 h-8" />
                 </div>
                 {/* Title */}
-                <h3 className="text-lg font-black text-slate-800 text-center mb-2">Konfirmasi Restore Data</h3>
+                <h3 className="text-lg font-bold text-slate-800 text-center mb-2">Konfirmasi Restore Data</h3>
                 {/* Message */}
                 <p className="text-sm text-slate-500 text-center leading-relaxed font-medium mb-6">
                   Apakah Anda yakin ingin memulihkan data dari file backup? Tindakan ini akan menghapus dan mengganti seluruh data yang saat ini ada di database secara permanen.

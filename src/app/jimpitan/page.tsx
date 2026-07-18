@@ -439,8 +439,8 @@ export default function JimpitanBulananPage() {
 
           {/* Title Area */}
           <div className="space-y-1 text-left">
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Jimpitan</h2>
-            <p className="text-sm text-slate-400 font-medium">Catat nominal jimpitan harian sesuai jadwal petugas.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Jimpitan</h2>
+            <p className="text-xs md:text-sm text-slate-400 font-medium">Catat nominal jimpitan harian sesuai jadwal petugas.</p>
           </div>
 
           {/* Filters and navigation bar */}
@@ -455,7 +455,7 @@ export default function JimpitanBulananPage() {
                 <ChevronLeft className="w-4 h-4" />
               </button>
               
-              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-700 min-w-[120px] text-center">
+              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[120px] text-center">
                 📅 {getMonthName(selectedMonth)} {selectedYear}
               </div>
 
@@ -535,7 +535,7 @@ export default function JimpitanBulananPage() {
               <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
                 <table className="w-full text-left border-collapse min-w-[650px]">
                   <thead>
-                    <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-wider">
+                    <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                       <th className="py-4 px-4 text-center w-14">Tgl</th>
                       <th className="py-4 px-4 text-center w-16">Hari</th>
                       <th className="py-4 px-4 w-[240px]">Petugas Jimpitan</th>
@@ -676,10 +676,10 @@ export default function JimpitanBulananPage() {
               
               {/* Total Jimpitan */}
               <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Total Jimpitan {getMonthName(selectedMonth)} {selectedYear}</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Jimpitan {getMonthName(selectedMonth)} {selectedYear}</span>
                 <div>
-                  <h3 className="text-xl font-black text-[var(--brand-primary)] tracking-tight">{formatRp(totalTerkumpul)}</h3>
-                  <span className="text-[9px] text-slate-400 font-bold block mt-0.5">
+                  <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(totalTerkumpul)}</h3>
+                  <span className="text-[9px] text-slate-400 font-semibold block mt-0.5">
                     Dana terkumpul {getMonthName(selectedMonth)} {selectedYear}
                   </span>
                 </div>
@@ -688,7 +688,7 @@ export default function JimpitanBulananPage() {
               {/* Target Bulan Ini - Editable */}
               <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Target Bulan Ini</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target Bulan Ini</span>
                   {!isEditingTarget ? (
                     <button
                       onClick={() => { setTargetInputText(String(targetBulanIni)); setIsEditingTarget(true); }}
@@ -730,12 +730,12 @@ export default function JimpitanBulananPage() {
                         }
                         if (e.key === 'Escape') setIsEditingTarget(false);
                       }}
-                      className="w-full text-lg font-black text-slate-800 tracking-tight border-b-2 border-orange-400 outline-none bg-transparent py-0.5"
+                      className="w-full text-base font-semibold text-slate-800 tracking-tight border-b-2 border-orange-400 outline-none bg-transparent py-0.5"
                     />
                   ) : (
-                    <h3 className="text-xl font-black text-slate-800 tracking-tight">{formatRp(targetBulanIni)}</h3>
+                    <h3 className="text-xl font-bold text-slate-800 tracking-tight">{formatRp(targetBulanIni)}</h3>
                   )}
-                  <span className="text-[9px] text-slate-450 font-bold block mt-0.5">
+                  <span className="text-[9px] text-slate-450 font-semibold block mt-0.5">
                     Rata-rata/hari: {formatRp(totalDays > 0 ? Math.round(targetBulanIni / totalDays) : 0)}
                   </span>
                 </div>
@@ -743,21 +743,21 @@ export default function JimpitanBulananPage() {
 
               {/* Hari Terisi */}
               <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Hari Terisi</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Hari Terisi</span>
                 <div>
-                  <h3 className="text-xl font-black text-slate-800 tracking-tight">
-                    {filledCount} <span className="text-xs text-slate-400 font-bold">/ {totalDays} hari</span>
+                  <h3 className="text-xl font-bold text-slate-800 tracking-tight">
+                    {filledCount} <span className="text-xs text-slate-400 font-semibold">/ {totalDays} hari</span>
                   </h3>
-                  <span className="text-[9px] text-slate-450 font-bold block mt-0.5">{rasioPengisian}%</span>
+                  <span className="text-[9px] text-slate-455 font-semibold block mt-0.5">{rasioPengisian}%</span>
                 </div>
               </div>
 
               {/* Sisa Target */}
               <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Sisa Target</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Sisa Target</span>
                 <div>
-                  <h3 className="text-xl font-black text-[var(--brand-primary)] tracking-tight">{formatRp(sisaTarget)}</h3>
-                  <span className="text-[9px] text-slate-455 font-bold block mt-0.5">
+                  <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(sisaTarget)}</h3>
+                  <span className="text-[9px] text-slate-455 font-semibold block mt-0.5">
                     {remainingDays > 0 ? `${remainingDays} hari lagi di ${getMonthName(selectedMonth)} ${selectedYear}` : `Bulan ${getMonthName(selectedMonth)} ${selectedYear} sudah selesai`}
                   </span>
                 </div>

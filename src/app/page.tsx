@@ -222,10 +222,10 @@ export default function DashboardPage() {
 
           {/* Greeting Area */}
           <div className="space-y-1 text-left">
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight flex items-center gap-2">
               {greeting}, Admin! <span className="animate-pulse">👋</span>
             </h2>
-            <p className="text-sm text-slate-400 font-medium">
+            <p className="text-xs md:text-sm text-slate-400 font-medium">
               Berikut ringkasan keuangan dan aktivitas RT 04
             </p>
           </div>
@@ -234,45 +234,45 @@ export default function DashboardPage() {
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x no-scrollbar md:grid md:grid-cols-4 md:gap-6 md:pb-0 md:mx-0 md:px-0">
             
             {/* Card 1: Saldo Kas */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-black text-emerald-600 uppercase tracking-wider">Saldo Kas</span>
-              <h3 className="text-md md:text-lg font-black text-slate-850 tracking-tight">{formatRp(saldoKas)}</h3>
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
+              <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Saldo Kas</span>
+              <h3 className="text-sm md:text-base font-bold text-slate-800 tracking-tight">{formatRp(saldoKas)}</h3>
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner mt-1">
                 <Wallet className="w-5 h-5" />
               </div>
-              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">Saldo saat ini</span>
+              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">Saldo saat ini</span>
             </div>
 
             {/* Card 2: Jimpitan Bulan Ini */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-black text-[var(--brand-primary)] uppercase tracking-wider">Jimpitan Bulan Ini</span>
-              <h3 className="text-md md:text-lg font-black text-[var(--brand-primary)] tracking-tight">{formatRp(jimpitanBulanIni)}</h3>
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
+              <span className="text-[10px] font-bold text-[var(--brand-primary)] uppercase tracking-wider">Jimpitan Bulan Ini</span>
+              <h3 className="text-sm md:text-base font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(jimpitanBulanIni)}</h3>
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shadow-inner mt-1">
                 <Coins className="w-5 h-5" />
               </div>
-              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">
+              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">
                 Total {new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()} hari
               </span>
             </div>
 
             {/* Card 3: Pemasukan Bulan Ini */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-black text-sky-600 uppercase tracking-wider">Pemasukan Bulan Ini</span>
-              <h3 className="text-md md:text-lg font-black text-sky-600 tracking-tight">{formatRp(pemasukanBulanIni)}</h3>
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
+              <span className="text-[10px] font-bold text-sky-600 uppercase tracking-wider">Pemasukan Bulan Ini</span>
+              <h3 className="text-sm md:text-base font-bold text-sky-600 tracking-tight">{formatRp(pemasukanBulanIni)}</h3>
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center shadow-inner mt-1">
                 <ArrowDown className="w-5 h-5" />
               </div>
-              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">Total pemasukan</span>
+              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">Total pemasukan</span>
             </div>
 
             {/* Card 4: Pengeluaran Bulan Ini */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[145px] sm:w-[170px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-black text-red-500 uppercase tracking-wider">Pengeluaran Bulan Ini</span>
-              <h3 className="text-md md:text-lg font-black text-red-500 tracking-tight">{formatRp(pengeluaranBulanIni)}</h3>
+            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
+              <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">Pengeluaran Bulan Ini</span>
+              <h3 className="text-sm md:text-base font-bold text-red-500 tracking-tight">{formatRp(pengeluaranBulanIni)}</h3>
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-red-50 text-red-500 flex items-center justify-center shadow-inner mt-1">
                 <ArrowUp className="w-5 h-5" />
               </div>
-              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1">Total pengeluaran</span>
+              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">Total pengeluaran</span>
             </div>
 
           </div>
@@ -287,9 +287,9 @@ export default function DashboardPage() {
               </div>
               <div className="space-y-1 text-left">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] md:text-xs font-extrabold uppercase text-[var(--brand-primary)] tracking-widest leading-none">Hari Ini</span>
+                  <span className="text-[10px] md:text-xs font-bold uppercase text-[var(--brand-primary)] tracking-widest leading-none">Hari Ini</span>
                 </div>
-                <h4 className="text-md md:text-lg font-black text-slate-800 tracking-tight">{currentDateFormatted}</h4>
+                <h4 className="text-md md:text-lg font-bold text-slate-800 tracking-tight">{currentDateFormatted}</h4>
                 <div className="text-xs text-slate-500 font-semibold flex flex-wrap items-center gap-1 mt-0.5">
                   <span className="text-slate-400 font-medium">Petugas Jimpitan:</span>
                   <span className="text-slate-700 font-bold">{petugasName}</span>
@@ -300,21 +300,21 @@ export default function DashboardPage() {
             {/* Right side: Input nominal */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-md w-full lg:justify-end">
               <div className="flex flex-col w-full sm:w-60">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1.5 self-start">Nominal Jimpitan Hari Ini</span>
+                <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1.5 self-start">Nominal Jimpitan Hari Ini</span>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-slate-500">Rp</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-500">Rp</span>
                   <input
                     type="text"
                     value={jimpitanInput === '' ? '' : parseInt(jimpitanInput, 10).toLocaleString('id-ID')}
                     onChange={handleInputChange}
                     placeholder="0"
-                    className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-black text-slate-850 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 focus:border-[var(--brand-primary)] transition-all"
+                    className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-semibold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 focus:border-[var(--brand-primary)] transition-all"
                   />
                 </div>
               </div>
               <button
                 onClick={handleSaveNominal}
-                className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25"
+                className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-semibold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25"
               >
                 <Save className="w-5 h-5" />
                 <span>Simpan Nominal</span>
@@ -325,7 +325,7 @@ export default function DashboardPage() {
 
           {/* Quick Action Buttons */}
           <div className="space-y-4" id="quick-actions-section">
-            <h3 className="text-xs font-extrabold text-slate-450 tracking-wider uppercase text-left">Aksi Cepat</h3>
+            <h3 className="text-xs font-bold text-slate-450 tracking-wider uppercase text-left">Aksi Cepat</h3>
             <div className="grid grid-cols-5 gap-2 md:gap-4">
               
               {/* Action 1: Input Jimpitan */}
@@ -333,7 +333,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-emerald-500/20">
                   <Coins className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Input Jimpitan</span>
+                <span className="text-[10px] md:text-xs font-semibold text-slate-750 leading-tight">Input Jimpitan</span>
               </Link>
 
               {/* Action 2: Tambah Pemasukan */}
@@ -341,7 +341,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
                   <Plus className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Tambah Pemasukan</span>
+                <span className="text-[10px] md:text-xs font-semibold text-slate-755 leading-tight">Tambah Pemasukan</span>
               </Link>
 
               {/* Action 3: Tambah Pengeluaran */}
@@ -349,7 +349,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-red-500/20">
                   <Minus className="w-5 h-5 stroke-[2.5]" />
                 </div>
-                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Tambah Pengeluaran</span>
+                <span className="text-[10px] md:text-xs font-semibold text-slate-700 leading-tight">Tambah Pengeluaran</span>
               </Link>
 
               {/* Action 4: Tambah Anggota */}
@@ -357,7 +357,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-blue-500/20">
                   <Users className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Tambah Anggota</span>
+                <span className="text-[10px] md:text-xs font-semibold text-slate-700 leading-tight">Tambah Anggota</span>
               </Link>
 
               {/* Action 5: Lihat Jadwal */}
@@ -365,7 +365,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-purple-500/20">
                   <Calendar className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] md:text-xs font-bold text-slate-700 leading-tight">Lihat Jadwal</span>
+                <span className="text-[10px] md:text-xs font-semibold text-slate-700 leading-tight">Lihat Jadwal</span>
               </Link>
 
             </div>
@@ -377,8 +377,8 @@ export default function DashboardPage() {
             {/* Left Part: Last Transactions list (spans 2 columns on desktop) */}
             <div className="lg:col-span-2 bg-white rounded-3xl p-5 md:p-6 border border-slate-100/80 shadow-sm space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-md font-extrabold text-slate-850 tracking-tight">Transaksi Terakhir</h3>
-                <Link href="/kas" className="text-xs font-bold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
+                <h3 className="text-sm font-semibold text-slate-700 tracking-tight">Transaksi Terakhir</h3>
+                <Link href="/kas" className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
                   <span>Lihat semua</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -405,7 +405,7 @@ export default function DashboardPage() {
                             {isPemasukan ? <ArrowDown className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUp className="w-4 h-4 md:w-5 md:h-5" />}
                           </div>
                           <div className="flex flex-col text-left">
-                            <span className="text-xs md:text-sm font-extrabold text-slate-800 leading-tight">
+                            <span className="text-xs md:text-sm font-semibold text-slate-800 leading-tight">
                               {tx.title}
                             </span>
                             <span className="text-[10px] md:text-xs text-slate-400 font-semibold mt-0.5">

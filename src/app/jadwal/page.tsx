@@ -338,8 +338,8 @@ export default function JadwalPage() {
 
           {/* Page Title */}
           <div className="space-y-1 text-left">
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Jadwal Jimpitan</h2>
-            <p className="text-sm text-slate-400 font-medium">Kelola jadwal petugas jimpitan per rombongan.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Jadwal Jimpitan</h2>
+            <p className="text-xs md:text-sm text-slate-400 font-medium">Kelola jadwal petugas jimpitan per rombongan.</p>
           </div>
 
           {/* Month Navigator Control bar */}
@@ -354,7 +354,7 @@ export default function JadwalPage() {
                 <ChevronLeft className="w-4 h-4" />
               </button>
               
-              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-700 min-w-[120px] text-center">
+              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[120px] text-center">
                 📅 {getMonthName(selectedMonth)} {selectedYear}
               </div>
 
@@ -429,11 +429,11 @@ export default function JadwalPage() {
                 const assigned = rombonganList.find(r => r.hariPiket === day.val);
                 return (
                   <div key={day.val} className="flex flex-col items-center gap-1.5 py-1">
-                    <span className="text-xs font-black text-slate-450 uppercase tracking-wider">{day.label}</span>
+                    <span className="text-xs font-bold text-slate-450 uppercase tracking-wider">{day.label}</span>
                     <select
                       value={assigned?.id || 'none'}
                       onChange={(e) => handleAssignGroupToDay(day.val, e.target.value)}
-                      className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-[10px] font-black text-slate-700 px-2 py-1.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer w-full text-center transition-all"
+                      className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-[10px] font-bold text-slate-700 px-2 py-1.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer w-full text-center transition-all"
                     >
                       <option value="none">Kosong</option>
                       {rombonganList.map((rom) => (
@@ -477,7 +477,7 @@ export default function JadwalPage() {
                     
                     {/* Top row of cell */}
                     <div className="flex items-center justify-between">
-                      <span className={`text-xs font-extrabold ${
+                      <span className={`text-xs font-bold ${
                         !cell.isCurrentMonth 
                           ? 'text-slate-350' 
                           : isToday 
@@ -494,7 +494,7 @@ export default function JadwalPage() {
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                           )}
                           {isToday && (
-                            <span className="text-[7px] font-black uppercase tracking-wider bg-[var(--brand-primary)] text-white px-1.5 py-0.5 rounded">
+                            <span className="text-[7px] font-bold uppercase tracking-wider bg-[var(--brand-primary)] text-white px-1.5 py-0.5 rounded">
                               Hari Ini
                             </span>
                           )}
@@ -510,14 +510,14 @@ export default function JadwalPage() {
                       return (
                         <div className="space-y-1.5 mt-3 flex-1 flex flex-col justify-end">
                           <div className="flex">
-                            <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-md border ${getRombonganColorClass(sched.anggota?.rombonganId)}`}>
+                            <span className={`text-[8px] font-bold uppercase px-2 py-0.5 rounded-md border ${getRombonganColorClass(sched.anggota?.rombonganId)}`}>
                               {sched.anggota?.rombongan?.nama || 'Rombongan'}
                             </span>
                           </div>
-                          <div className="text-[11px] font-extrabold text-slate-800 line-clamp-1">
+                          <div className="text-[11px] font-bold text-slate-700 line-clamp-1">
                             {sched.anggota?.nama}
                           </div>
-                          <div className="text-[9px] text-slate-400 font-bold leading-none">
+                          <div className="text-[9px] text-slate-400 font-semibold leading-none">
                             Ketua: {ketuaNama}
                           </div>
                         </div>
@@ -536,7 +536,7 @@ export default function JadwalPage() {
           {/* Section: Daftar Rombongan (Rombongan details list) */}
           <div className="space-y-4 text-left">
             <div className="flex items-center justify-between">
-              <h3 className="text-md font-extrabold text-slate-850 tracking-tight">Daftar Rombongan</h3>
+              <h3 className="text-md font-bold text-slate-850 tracking-tight">Daftar Rombongan</h3>
               
               <Link 
                 href="/anggota"
@@ -555,10 +555,10 @@ export default function JadwalPage() {
                     {/* Header */}
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md border ${getRombonganColor(index)}`}>
+                        <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-md border ${getRombonganColor(index)}`}>
                           {rom.nama}
                         </span>
-                        <span className="text-[10px] bg-slate-50 border border-slate-150 text-slate-500 font-bold px-2 py-0.5 rounded-md">
+                        <span className="text-[10px] bg-slate-50 border border-slate-150 text-slate-500 font-semibold px-2 py-0.5 rounded-md">
                           {rom.activeMemberCount} Anggota
                         </span>
                       </div>
@@ -570,7 +570,7 @@ export default function JadwalPage() {
                         </div>
                         <div className="text-right">
                           <span className="text-[9px] text-slate-400 font-medium block">Hari Piket</span>
-                          <span className="text-xs font-extrabold text-[var(--brand-primary)]">{getHariPiketLabel(rom.hariPiket)}</span>
+                          <span className="text-xs font-bold text-[var(--brand-primary)]">{getHariPiketLabel(rom.hariPiket)}</span>
                         </div>
                       </div>
                     </div>
@@ -615,8 +615,8 @@ export default function JadwalPage() {
                 <HelpCircle className="w-5 h-5" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-xs font-black text-amber-800 uppercase tracking-wider">Tips</h4>
-                <p className="text-xs font-bold text-amber-700 leading-relaxed">
+                <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wider">Tips</h4>
+                <p className="text-xs font-medium text-amber-750 leading-relaxed">
                   Untuk mengubah jadwal, ubah dulu data anggota di setiap rombongan. Kemudian gunakan fitur &quot;Generate Ulang Jadwal&quot; jika ingin merotasi ulang.
                 </p>
               </div>

@@ -537,21 +537,21 @@ export default function KasRTPage() {
 
           {/* Title and Subtitle */}
           <div className="space-y-1 text-left">
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">Kas RT</h2>
-            <p className="text-sm text-slate-400 font-medium">Kelola pemasukan dan pengeluaran kas RT.</p>
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Kas RT</h2>
+            <p className="text-xs md:text-sm text-slate-400 font-medium">Kelola pemasukan dan pengeluaran kas RT.</p>
           </div>
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             
             {/* Saldo Awal */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Saldo Awal</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Saldo Awal</span>
                 <span className="text-[9px] font-bold text-slate-400 block">1 {getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
               <div className="flex justify-between items-end">
-                <h3 className="text-xl font-black text-slate-850 tracking-tight">{formatRp(summary.saldoAwal)}</h3>
+                <h3 className="text-xl font-bold text-slate-700 tracking-tight">{formatRp(summary.saldoAwal)}</h3>
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                   <Wallet className="w-4 h-4" />
                 </div>
@@ -561,11 +561,11 @@ export default function KasRTPage() {
             {/* Total Pemasukan */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Total Pemasukan</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pemasukan</span>
                 <span className="text-[9px] font-bold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
               <div className="flex justify-between items-end">
-                <h3 className="text-xl font-black text-emerald-600 tracking-tight">{formatRp(summary.totalPemasukan)}</h3>
+                <h3 className="text-xl font-bold text-emerald-600 tracking-tight">{formatRp(summary.totalPemasukan)}</h3>
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                   <ArrowDown className="w-4 h-4" />
                 </div>
@@ -575,11 +575,11 @@ export default function KasRTPage() {
             {/* Total Pengeluaran */}
             <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Total Pengeluaran</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pengeluaran</span>
                 <span className="text-[9px] font-bold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
               <div className="flex justify-between items-end">
-                <h3 className="text-xl font-black text-red-650 tracking-tight">{formatRp(summary.totalPengeluaran)}</h3>
+                <h3 className="text-xl font-bold text-red-650 tracking-tight">{formatRp(summary.totalPengeluaran)}</h3>
                 <div className="w-8 h-8 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
                   <ArrowUp className="w-4 h-4" />
                 </div>
@@ -589,11 +589,11 @@ export default function KasRTPage() {
             {/* Saldo Akhir */}
             <div className="bg-white rounded-3xl p-5 border border-[var(--brand-primary)]/20 bg-[var(--brand-light)] shadow-sm flex flex-col justify-between text-left h-28">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Saldo Akhir</span>
+                <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">Saldo Akhir</span>
                 <span className="text-[9px] font-bold text-slate-400 block">31 {getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
               <div className="flex justify-between items-end">
-                <h3 className="text-xl font-black text-[var(--brand-primary)] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
+                <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
                 <div className="w-8 h-8 rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center">
                   <PiggyBank className="w-4 h-4" />
                 </div>
@@ -748,7 +748,7 @@ export default function KasRTPage() {
 
           {/* Table: Mutasi Kas */}
           <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6 text-left">
-            <h3 className="text-base font-black text-slate-800 tracking-tight mb-4">Mutasi Kas</h3>
+            <h3 className="text-sm font-semibold text-slate-700 tracking-tight mb-4">Mutasi Kas</h3>
 
             {isLoading ? (
               <div className="py-24 text-center text-slate-400 font-bold text-sm">Memuat mutasi kas...</div>
@@ -758,7 +758,7 @@ export default function KasRTPage() {
               <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
                 <table className="w-full text-left border-collapse min-w-[850px]">
                 <thead>
-                  <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-wider select-none">
+                  <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider select-none">
                     
                     {/* Tanggal header */}
                     <th 
