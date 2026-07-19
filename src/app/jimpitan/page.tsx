@@ -71,20 +71,19 @@ export default function JimpitanBulananPage() {
   const [showToast, setShowToast] = useState(false);
 
   // Dynamic today date relative to chosen timezone
-  const [todayStr, setTodayStr] = useState('2026-07-17');
-
-  useEffect(() => {
+  const getTodayStr = () => {
+    let tz = 'Asia/Jakarta';
     if (typeof window !== 'undefined') {
-      const tz = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
-      const formatter = new Intl.DateTimeFormat('en-CA', {
-        timeZone: tz,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      });
-      setTodayStr(formatter.format(new Date()));
+      tz = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
     }
-  }, []);
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    return formatter.format(new Date());
+  };
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToastMessage(message);
@@ -118,6 +117,7 @@ export default function JimpitanBulananPage() {
       const m = parseInt(selectedMonth, 10) - 1;
       const numDays = new Date(y, m + 1, 0).getDate();
       
+      const todayStr = getTodayStr();
       const records: DayRecord[] = [];
       
       for (let d = 1; d <= numDays; d++) {
