@@ -61,6 +61,23 @@ export default function RootLayout({
                   }
                 } catch (e) {}
               })();
+
+              // Global unhandled error listener for client-side diagnostic logging
+              if (typeof window !== 'undefined') {
+                window.addEventListener('error', function(event) {
+                  try {
+                    var logs = JSON.parse(localStorage.getItem('komuna-error-logs') || '[]');
+                    logs.unshift({
+                      timestamp: new Date().toISOString(),
+                      type: 'error',
+                      message: event.message || 'Unknown client-side runtime error',
+                      source: event.filename ? (event.filename.split('/').pop() + ':' + event.lineno) : 'Unknown script source',
+                      url: window.location.href
+                    });
+                    localStorage.setItem('komuna-error-logs', JSON.stringify(logs.slice(0, 50)));
+                  } catch (err) {}
+                });
+              }
             `
           }}
         />

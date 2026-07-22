@@ -21,6 +21,8 @@ import {
   Palette,
   Type,
   Sliders,
+  Terminal,
+  Trash2
 } from 'lucide-react';
 
 interface DBStats {
@@ -47,6 +49,9 @@ export default function PengaturanPage() {
   const [style, setStyle] = useState('classic');
   const [timezone, setTimezone] = useState('Asia/Jakarta');
 
+  // Error Log State
+  const [errorLogs, setErrorLogs] = useState<any[]>([]);
+
   // Toast notifications
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
@@ -66,12 +71,14 @@ export default function PengaturanPage() {
       const savedSize = localStorage.getItem('komuna-size') || 'normal';
       const savedStyle = localStorage.getItem('komuna-style') || 'classic';
       const savedTimezone = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
+      const savedLogs = JSON.parse(localStorage.getItem('komuna-error-logs') || '[]');
       setTheme(savedTheme);
       setIsDark(savedDark);
       setFont(savedFont);
       setSize(savedSize);
       setStyle(savedStyle);
       setTimezone(savedTimezone);
+      setErrorLogs(savedLogs);
     }
   }, []);
 
@@ -133,6 +140,47 @@ export default function PengaturanPage() {
     localStorage.setItem('komuna-timezone', val);
     setTimezone(val);
     triggerToast('Zona waktu sistem berhasil diperbarui!', 'success');
+  };
+
+  const handleClearLogs = () => {
+    localStorage.removeItem('komuna-error-logs');
+    setErrorLogs([]);
+    triggerToast('Log error berhasil dibersihkan!', 'success');
+  };
+
+  const handleDownloadLogs = () => {
+    if (errorLogs.length === 0) {
+      triggerToast('Tidak ada log error untuk diunduh.', 'error');
+      return;
+    }
+    const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(errorLogs, null, 2)
+    )}`;
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', jsonString);
+    downloadAnchor.setAttribute('download', `komuna_error_logs_${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    triggerToast('Berkas log error berhasil diunduh!', 'success');
+  };
+
+  const handleSimulateError = () => {
+    try {
+      throw new Error('SIMULATION_ERROR: Pengujian logging sistem diagnostik komuna.id');
+    } catch (err: any) {
+      const newLog = {
+        timestamp: new Date().toISOString(),
+        type: 'error',
+        message: err.message,
+        source: 'pengaturan/page.tsx:162',
+        url: typeof window !== 'undefined' ? window.location.href : '',
+      };
+      const updatedLogs = [newLog, ...errorLogs];
+      setErrorLogs(updatedLogs);
+      localStorage.setItem('komuna-error-logs', JSON.stringify(updatedLogs.slice(0, 50)));
+      triggerToast('Berhasil mensimulasikan error log baru!', 'success');
+    }
   };
 
   const fetchStats = async () => {
@@ -611,6 +659,77 @@ export default function PengaturanPage() {
                       <option value="Asia/Jayapura">WIT - Waktu Indonesia Timur (UTC+09:00)</option>
                       <option value="UTC">UTC - Coordinated Universal Time (UTC+00:00)</option>
                     </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Error Log & Diagnostics Card */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                    <ShieldAlert className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-base font-bold text-slate-800">Log Error & Diagnostik Sistem</h3>
+                    <p className="text-xs text-slate-400 font-medium mt-1 leading-relaxed">
+                      Daftar error dan aktivitas sistem untuk penemuan dan perbaikan bug secara real-time.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-50 space-y-4">
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap gap-2.5">
+                    <button
+                      onClick={handleSimulateError}
+                      className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-[10px] flex items-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <Terminal className="w-3.5 h-3.5 text-slate-500" />
+                      Simulasikan Error
+                    </button>
+                    <button
+                      onClick={handleDownloadLogs}
+                      disabled={errorLogs.length === 0}
+                      className="px-3.5 py-2 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold rounded-xl text-[10px] flex items-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Unduh Log (.json)
+                    </button>
+                    <button
+                      onClick={handleClearLogs}
+                      disabled={errorLogs.length === 0}
+                      className="px-3.5 py-2 bg-red-50 hover:bg-red-100 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed text-red-650 font-bold rounded-xl text-[10px] flex items-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                      Bersihkan Log
+                    </button>
+                  </div>
+
+                  {/* Log Console Viewer */}
+                  <div className="border border-slate-200 rounded-2xl overflow-hidden bg-slate-900 text-slate-200 p-4 font-mono text-[10px] leading-relaxed max-h-60 overflow-y-auto shadow-inner">
+                    {errorLogs.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-6 text-slate-500 gap-1 text-center font-sans">
+                        <CheckCircle2 className="w-8 h-8 text-emerald-500 shrink-0" />
+                        <span className="font-bold text-slate-300 mt-1">Konsol Log Bersih</span>
+                        <span className="text-[10px]">Sistem berjalan dengan normal tanpa gangguan.</span>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {errorLogs.map((log, idx) => (
+                          <div key={idx} className="border-b border-slate-800/60 pb-2 last:border-0 last:pb-0">
+                            <div className="flex items-center justify-between text-slate-500 mb-0.5">
+                              <span>[{new Date(log.timestamp).toLocaleString('id-ID')}]</span>
+                              <span className="text-red-400 uppercase font-bold tracking-wider">{log.type}</span>
+                            </div>
+                            <div className="text-red-200 font-semibold break-all">{log.message}</div>
+                            <div className="text-[9px] text-slate-400 mt-0.5 flex flex-col gap-0.5">
+                              <span>📍 Sumber: {log.source}</span>
+                              <span className="break-all">🔗 URL: {log.url}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
