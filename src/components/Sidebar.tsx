@@ -6,7 +6,8 @@ import {
   Coins, 
   Wallet, 
   Users, 
-  CalendarDays, 
+  CalendarDays,
+  Calendar,
   FileText, 
   Settings, 
   CloudLightning,
@@ -28,6 +29,7 @@ export default function Sidebar({ activeMenu = 'Dashboard', isOpen = false, onCl
     { name: 'Kas RT', icon: Wallet, href: '/kas' },
     { name: 'Anggota', icon: Users, href: '/anggota' },
     { name: 'Jadwal', icon: CalendarDays, href: '/jadwal' },
+    { name: 'Agenda', icon: Calendar, href: '/agenda' },
     { name: 'Laporan', icon: FileText, href: '#' },
     { name: 'Pengaturan', icon: Settings, href: '/pengaturan' },
   ];

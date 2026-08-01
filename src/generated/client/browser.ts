@@ -47,3 +47,8 @@ export type Jimpitan = Prisma.JimpitanModel
  * 
  */
 export type TransaksiKeuangan = Prisma.TransaksiKeuanganModel
+/**
+ * Model Agenda
+ * 
+ */
+export type Agenda = Prisma.AgendaModel

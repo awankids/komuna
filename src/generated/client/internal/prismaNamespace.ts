@@ -389,7 +389,8 @@ export const ModelName = {
   Rombongan: 'Rombongan',
   JadwalPetugas: 'JadwalPetugas',
   Jimpitan: 'Jimpitan',
-  TransaksiKeuangan: 'TransaksiKeuangan'
+  TransaksiKeuangan: 'TransaksiKeuangan',
+  Agenda: 'Agenda'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -853,6 +854,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Agenda: {
+      payload: Prisma.$AgendaPayload<ExtArgs>
+      fields: Prisma.AgendaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AgendaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AgendaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>
+        }
+        findFirst: {
+          args: Prisma.AgendaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AgendaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>
+        }
+        findMany: {
+          args: Prisma.AgendaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>[]
+        }
+        create: {
+          args: Prisma.AgendaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>
+        }
+        createMany: {
+          args: Prisma.AgendaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AgendaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>[]
+        }
+        delete: {
+          args: Prisma.AgendaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>
+        }
+        update: {
+          args: Prisma.AgendaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>
+        }
+        deleteMany: {
+          args: Prisma.AgendaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AgendaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AgendaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>[]
+        }
+        upsert: {
+          args: Prisma.AgendaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AgendaPayload>
+        }
+        aggregate: {
+          args: Prisma.AgendaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAgenda>
+        }
+        groupBy: {
+          args: Prisma.AgendaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AgendaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AgendaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AgendaCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -970,6 +1045,22 @@ export const TransaksiKeuanganScalarFieldEnum = {
 } as const
 
 export type TransaksiKeuanganScalarFieldEnum = (typeof TransaksiKeuanganScalarFieldEnum)[keyof typeof TransaksiKeuanganScalarFieldEnum]
+
+
+export const AgendaScalarFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  kategori: 'kategori',
+  tanggal: 'tanggal',
+  waktuMulai: 'waktuMulai',
+  waktuSelesai: 'waktuSelesai',
+  lokasi: 'lokasi',
+  keterangan: 'keterangan',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type AgendaScalarFieldEnum = (typeof AgendaScalarFieldEnum)[keyof typeof AgendaScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1180,6 +1271,7 @@ export type GlobalOmitConfig = {
   jadwalPetugas?: Prisma.JadwalPetugasOmit
   jimpitan?: Prisma.JimpitanOmit
   transaksiKeuangan?: Prisma.TransaksiKeuanganOmit
+  agenda?: Prisma.AgendaOmit
 }
 
 /* Types for Logging */

@@ -83,3 +83,17 @@ model TransaksiKeuangan {
   createdAtLocal DateTime?
   syncedAt       DateTime?
 }
+
+model Agenda {
+  id           String   @id @default(uuid())
+  judul        String
+  kategori     String   @default("umum") // kerjabakti, rapat, sosial, posyandu, umum
+  tanggal      DateTime
+  waktuMulai   String?  // e.g. "08:00"
+  waktuSelesai String?  // e.g. "11:00"
+  lokasi       String?  // e.g. "Balai RT 04"
+  keterangan   String?
+  status       String   @default("terjadwal") // terjadwal, selesai, dibatalkan
+  createdAt    DateTime @default(now())
+}
+
