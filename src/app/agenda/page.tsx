@@ -558,21 +558,31 @@ export default function AgendaPage() {
 
                         {/* Agendas Preview List */}
                         {cell.isCurrentMonth && (
-                          <div className="space-y-1 mt-2 flex-1 flex flex-col justify-start">
-                            {cellAgendas.slice(0, 2).map((item) => (
+                          <div className="space-y-1.5 mt-2 flex-1 flex flex-col justify-start overflow-hidden">
+                            {cellAgendas.slice(0, 3).map((item) => (
                               <div 
                                 key={item.id}
-                                className={`text-[9px] font-bold px-2 py-1 rounded-lg border truncate transition-transform group-hover:scale-[1.02] ${getCategoryBadgeClass(item.kategori)} ${
+                                className={`text-[9.5px] font-bold p-1.5 rounded-xl border text-left leading-tight transition-transform group-hover:scale-[1.01] ${getCategoryBadgeClass(item.kategori)} ${
                                   item.status === 'selesai' ? 'line-through opacity-60' : ''
                                 }`}
                               >
-                                {item.waktuMulai ? `${item.waktuMulai} ` : ''}{item.judul}
+                                <div className="flex items-center justify-between gap-1">
+                                  <span className="truncate">{item.judul}</span>
+                                  {item.waktuMulai && (
+                                    <span className="text-[8.5px] opacity-80 shrink-0">{item.waktuMulai}</span>
+                                  )}
+                                </div>
+                                {item.lokasi && (
+                                  <div className="text-[8px] opacity-75 truncate flex items-center gap-0.5 mt-0.5 font-medium">
+                                    <span>📍 {item.lokasi}</span>
+                                  </div>
+                                )}
                               </div>
                             ))}
 
-                            {cellAgendas.length > 2 && (
+                            {cellAgendas.length > 3 && (
                               <span className="text-[8px] font-bold text-slate-400 pl-1 block">
-                                +{cellAgendas.length - 2} agenda lagi
+                                +{cellAgendas.length - 3} agenda lagi
                               </span>
                             )}
                           </div>
@@ -840,13 +850,23 @@ export default function AgendaPage() {
                             </span>
 
                             <div className="flex items-center gap-1.5">
+                              {item.status !== 'terjadwal' && (
+                                <button
+                                  onClick={() => handleToggleStatus(item, 'terjadwal')}
+                                  className="px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 text-[10px] font-bold rounded-lg transition-colors cursor-pointer flex items-center gap-1"
+                                >
+                                  <Clock className="w-3 h-3" />
+                                  <span>Terjadwal</span>
+                                </button>
+                              )}
+
                               {item.status !== 'selesai' && (
                                 <button
                                   onClick={() => handleToggleStatus(item, 'selesai')}
                                   className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded-lg transition-colors cursor-pointer flex items-center gap-1"
                                 >
                                   <Check className="w-3 h-3" />
-                                  <span>Tandai Selesai</span>
+                                  <span>Selesai</span>
                                 </button>
                               )}
 
