@@ -20,8 +20,10 @@ import {
   FileText,
   Filter,
   Check,
-  Ban
+  Ban,
+  Flag
 } from 'lucide-react';
+import { getIndonesianHoliday } from '@/lib/holidays';
 
 interface AgendaItem {
   id: string;
@@ -493,6 +495,8 @@ export default function AgendaPage() {
                     const cellAgendas = getAgendasForDate(cell.dateKey);
                     const todayStr = getTodayStr();
                     const isToday = cell.dateKey === todayStr;
+                    const holidayInfo = cell.isCurrentMonth ? getIndonesianHoliday(cell.dateKey) : null;
+                    const isRedDate = holidayInfo?.isRedDate;
 
                     return (
                       <div
@@ -503,28 +507,32 @@ export default function AgendaPage() {
                         className={`min-h-[115px] border rounded-2xl p-2.5 flex flex-col justify-between transition-all text-left relative cursor-pointer group ${
                           !cell.isCurrentMonth 
                             ? 'bg-slate-50/40 text-slate-300 border-slate-100 pointer-events-none' 
-                            : isToday
-                              ? 'bg-[var(--brand-light)]/30 border-[var(--brand-primary)]/40 hover:bg-[var(--brand-light)]/50 shadow-xs'
-                              : cellAgendas.length > 0
-                                ? 'bg-white hover:bg-slate-50 border-slate-200/80 shadow-2xs'
-                                : 'bg-white hover:bg-slate-50/60 border-slate-100'
+                            : isRedDate
+                              ? 'bg-red-50/35 hover:bg-red-50/60 border-red-200/60 shadow-2xs'
+                              : isToday
+                                ? 'bg-[var(--brand-light)]/30 border-[var(--brand-primary)]/40 hover:bg-[var(--brand-light)]/50 shadow-xs'
+                                : cellAgendas.length > 0
+                                  ? 'bg-white hover:bg-slate-50 border-slate-200/80 shadow-2xs'
+                                  : 'bg-white hover:bg-slate-50/60 border-slate-100'
                         }`}
                       >
                         {/* Day Header */}
                         <div className="flex items-start justify-between gap-1">
                           <div className="flex items-baseline gap-1.5 text-left">
-                            <span className={`text-xs font-bold leading-none ${
+                            <span className={`text-xs font-extrabold leading-none ${
                               !cell.isCurrentMonth 
                                 ? 'text-slate-350' 
-                                : isToday 
-                                  ? 'text-[var(--brand-primary)]' 
-                                  : 'text-slate-700'
+                                : isRedDate
+                                  ? 'text-red-600'
+                                  : isToday 
+                                    ? 'text-[var(--brand-primary)]' 
+                                    : 'text-slate-700'
                             }`}>
                               {cell.dayNum}
                             </span>
                             {cell.isCurrentMonth && cell.dateKey && (
                               <span className={`text-[9px] font-semibold ${
-                                isToday ? 'text-[var(--brand-primary)]' : 'text-slate-400'
+                                isRedDate ? 'text-red-500 font-bold' : isToday ? 'text-[var(--brand-primary)]' : 'text-slate-400'
                               }`}>
                                 {getPasaran(cell.dateKey)}
                               </span>
@@ -555,6 +563,19 @@ export default function AgendaPage() {
                             )}
                           </div>
                         </div>
+
+                        {/* National Holiday / Observance Badge if present */}
+                        {holidayInfo && holidayInfo.name !== 'Hari Minggu' && (
+                          <div className="mt-1">
+                            <span className={`text-[8.5px] font-extrabold px-1.5 py-0.5 rounded-md border block truncate leading-tight ${
+                              holidayInfo.type === 'national' 
+                                ? 'bg-red-100 text-red-700 border-red-200' 
+                                : 'bg-amber-100 text-amber-800 border-amber-200'
+                            }`} title={holidayInfo.name}>
+                              🇮🇩 {holidayInfo.name}
+                            </span>
+                          </div>
+                        )}
 
                         {/* Agendas Preview List */}
                         {cell.isCurrentMonth && (
@@ -624,6 +645,22 @@ export default function AgendaPage() {
 
             {/* Modal Body */}
             <div className="p-5 space-y-5 overflow-y-auto flex-1 text-left">
+              
+              {/* National Holiday Banner in Modal */}
+              {(() => {
+                const hInfo = getIndonesianHoliday(selectedDateKey);
+                if (!hInfo || hInfo.name === 'Hari Minggu') return null;
+                return (
+                  <div className={`p-3 rounded-2xl border flex items-center gap-2.5 text-xs font-bold ${
+                    hInfo.type === 'national' 
+                      ? 'bg-red-50 text-red-700 border-red-200' 
+                      : 'bg-amber-50 text-amber-800 border-amber-200'
+                  }`}>
+                    <Flag className="w-4 h-4 shrink-0 text-red-600" />
+                    <span>🇮🇩 {hInfo.type === 'national' ? 'Hari Libur Nasional: ' : 'Hari Besar: '}{hInfo.name}</span>
+                  </div>
+                );
+              })()}
               
               {/* Form Mode (Add / Edit) */}
               {isFormOpen ? (

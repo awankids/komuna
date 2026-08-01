@@ -20,6 +20,7 @@ import {
   Edit
 } from 'lucide-react';
 import Link from 'next/link';
+import { getIndonesianHoliday } from '@/lib/holidays';
 
 interface Rombongan {
   id: string;
@@ -534,6 +535,8 @@ export default function JadwalPage() {
                 // Jimpitan status check
                 const jimp = jimpitanList.find(j => j.tanggal.split('T')[0] === cell.dateKey);
                 const hasJimpitan = jimp && jimp.nominal > 0;
+                const holidayInfo = cell.isCurrentMonth ? getIndonesianHoliday(cell.dateKey) : null;
+                const isRedDate = holidayInfo?.isRedDate;
 
                 return (
                   <div
@@ -541,29 +544,33 @@ export default function JadwalPage() {
                     className={`min-h-[110px] border rounded-3xl p-3 flex flex-col justify-between transition-all text-left relative group ${
                       !cell.isCurrentMonth 
                         ? 'bg-slate-50/40 text-slate-300 border-slate-100 pointer-events-none' 
-                        : hasJimpitan
-                          ? 'bg-emerald-50/60 border-emerald-500/25 hover:bg-emerald-50/80 shadow-xs'
-                          : isToday
-                            ? 'bg-[var(--brand-light)]/40 border-[var(--brand-primary)]/40 shadow-inner'
-                            : 'bg-white hover:bg-slate-50/40 border-slate-100 hover:border-slate-200'
+                        : isRedDate
+                          ? 'bg-red-50/35 hover:bg-red-50/60 border-red-200/60 shadow-2xs'
+                          : hasJimpitan
+                            ? 'bg-emerald-50/60 border-emerald-500/25 hover:bg-emerald-50/80 shadow-xs'
+                            : isToday
+                              ? 'bg-[var(--brand-light)]/40 border-[var(--brand-primary)]/40 shadow-inner'
+                              : 'bg-white hover:bg-slate-50/40 border-slate-100 hover:border-slate-200'
                     } ${isFilteredOut ? 'opacity-30' : ''}`}
                   >
                     
                     {/* Top row of cell */}
                     <div className="flex items-start justify-between gap-1">
                       <div className="flex items-baseline gap-1.5 text-left">
-                        <span className={`text-xs font-bold leading-none ${
+                        <span className={`text-xs font-extrabold leading-none ${
                           !cell.isCurrentMonth 
                             ? 'text-slate-350' 
-                            : isToday 
-                              ? 'text-[var(--brand-primary)]' 
-                              : 'text-slate-700'
+                            : isRedDate
+                              ? 'text-red-600'
+                              : isToday 
+                                ? 'text-[var(--brand-primary)]' 
+                                : 'text-slate-700'
                         }`}>
                           {cell.dayNum}
                         </span>
                         {cell.isCurrentMonth && cell.dateKey && (
                           <span className={`text-[9px] font-semibold ${
-                            isToday ? 'text-[var(--brand-primary)]' : 'text-slate-400'
+                            isRedDate ? 'text-red-500 font-bold' : isToday ? 'text-[var(--brand-primary)]' : 'text-slate-400'
                           }`}>
                             {getPasaran(cell.dateKey)}
                           </span>
@@ -591,6 +598,19 @@ export default function JadwalPage() {
                         </div>
                       )}
                     </div>
+
+                    {/* National Holiday Badge if present */}
+                    {holidayInfo && holidayInfo.name !== 'Hari Minggu' && (
+                      <div className="mt-1">
+                        <span className={`text-[8.5px] font-extrabold px-1.5 py-0.5 rounded-md border block truncate leading-tight ${
+                          holidayInfo.type === 'national' 
+                            ? 'bg-red-100 text-red-700 border-red-200' 
+                            : 'bg-amber-100 text-amber-800 border-amber-200'
+                        }`} title={holidayInfo.name}>
+                          🇮🇩 {holidayInfo.name}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Middle scheduler contents */}
                     {cell.isCurrentMonth ? (
