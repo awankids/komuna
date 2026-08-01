@@ -72,8 +72,20 @@ export default function JadwalPage() {
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
 
-  // Simulated Today's Date: 16 Juli 2026
-  const SIMULATED_TODAY_STR = '2026-07-16';
+  // Dynamic today date relative to chosen timezone
+  const getTodayStr = () => {
+    let tz = 'Asia/Jakarta';
+    if (typeof window !== 'undefined') {
+      tz = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
+    }
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    return formatter.format(new Date());
+  };
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToastMessage(message);
@@ -88,17 +100,42 @@ export default function JadwalPage() {
       // 1. Fetch monthly schedules & jimpitan
       const resBulanan = await fetch(`/api/jimpitan/bulanan?month=${selectedMonth}&year=${selectedYear}`);
       const dataBulanan = await resBulanan.json();
+      let currentSchedules = dataBulanan.error ? [] : (dataBulanan.schedules || []);
       if (!dataBulanan.error) {
-        setSchedules(dataBulanan.schedules || []);
         setJimpitanList(dataBulanan.jimpitan || []);
       }
 
       // 2. Fetch rombongan
       const resRom = await fetch('/api/rombongan');
       const dataRom = await resRom.json();
-      if (!dataRom.error) {
-        setRombonganList(dataRom);
+      const loadedRombongan: Rombongan[] = dataRom.error ? [] : dataRom;
+      setRombonganList(loadedRombongan);
+
+      // Check if any rombongan has hariPiket assigned
+      const hasAssignedGroups = loadedRombongan.some(r => r.hariPiket && r.hariPiket > 0);
+
+      // If no schedules exist for this month yet, but rombongan hariPiket are set, auto-generate!
+      if (currentSchedules.length === 0 && hasAssignedGroups) {
+        const resGen = await fetch('/api/jadwal', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'generate',
+            startYear: selectedYear,
+            startMonth: selectedMonth
+          })
+        });
+        const dataGen = await resGen.json();
+        if (dataGen.schedules && dataGen.schedules.length > 0) {
+          const resBulanan2 = await fetch(`/api/jimpitan/bulanan?month=${selectedMonth}&year=${selectedYear}`);
+          const dataBulanan2 = await resBulanan2.json();
+          if (!dataBulanan2.error) {
+            currentSchedules = dataBulanan2.schedules || [];
+          }
+        }
       }
+
+      setSchedules(currentSchedules);
     } catch (e) {
       console.error(e);
       triggerToast('Gagal memuat data jadwal', 'error');
@@ -114,6 +151,7 @@ export default function JadwalPage() {
   // Handle assigning Rombongan to weekday
   const handleAssignGroupToDay = async (dayVal: number, groupId: string) => {
     try {
+      let successMsg = '';
       if (groupId === 'none') {
         const group = rombonganList.find(r => r.hariPiket === dayVal);
         if (!group) return;
@@ -127,11 +165,11 @@ export default function JadwalPage() {
           })
         });
         const data = await res.json();
-        if (data.error) triggerToast(data.error, 'error');
-        else {
-          triggerToast(`Berhasil mengosongkan jadwal hari piket`, 'success');
-          fetchData();
+        if (data.error) {
+          triggerToast(data.error, 'error');
+          return;
         }
+        successMsg = `Berhasil mengosongkan jadwal hari piket`;
       } else {
         const group = rombonganList.find(r => r.id === groupId);
         if (!group) return;
@@ -145,12 +183,26 @@ export default function JadwalPage() {
           })
         });
         const data = await res.json();
-        if (data.error) triggerToast(data.error, 'error');
-        else {
-          triggerToast(`Berhasil menetapkan ${group.nama} untuk piket hari tersebut`, 'success');
-          fetchData();
+        if (data.error) {
+          triggerToast(data.error, 'error');
+          return;
         }
+        successMsg = `Berhasil menetapkan ${group.nama} untuk piket hari tersebut`;
       }
+
+      // Auto-generate/update schedule for selected month immediately
+      await fetch('/api/jadwal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generate',
+          startYear: selectedYear,
+          startMonth: selectedMonth
+        })
+      });
+
+      triggerToast(successMsg, 'success');
+      await fetchData();
     } catch (err) {
       console.error(err);
       triggerToast('Gagal menetapkan hari piket', 'error');
@@ -449,13 +501,24 @@ export default function JadwalPage() {
             <div className="grid grid-cols-7 gap-4">
               {calendarDays.map((cell, idx) => {
                 const sched = getScheduleForDate(cell.dateKey) || null;
-                const isToday = cell.dateKey === SIMULATED_TODAY_STR;
+                const todayStr = getTodayStr();
+                const isToday = cell.dateKey === todayStr;
                 
+                // Fallback group assignment for this day of week if sched DB record is null
+                let fallbackGroup: Rombongan | undefined;
+                if (cell.isCurrentMonth && cell.dateKey) {
+                  const dParts = cell.dateKey.split('-').map(Number);
+                  const dObj = new Date(Date.UTC(dParts[0], dParts[1] - 1, dParts[2]));
+                  const dayOfWeek = dObj.getUTCDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+                  const weekdayNum = dayOfWeek === 0 ? 7 : dayOfWeek;
+                  fallbackGroup = rombonganList.find(r => r.hariPiket === weekdayNum);
+                }
+
                 // Group filtering
+                const effectiveGroup = sched ? sched.anggota?.rombonganId : (fallbackGroup?.id || null);
                 const isFilteredOut = 
                   selectedRombonganFilter !== 'all' && 
-                  sched && 
-                  sched.anggota?.rombonganId !== selectedRombonganFilter;
+                  effectiveGroup !== selectedRombonganFilter;
 
                 // Jimpitan status check
                 const jimp = jimpitanList.find(j => j.tanggal.split('T')[0] === cell.dateKey);
@@ -503,26 +566,42 @@ export default function JadwalPage() {
                     </div>
 
                     {/* Middle scheduler contents */}
-                    {cell.isCurrentMonth && sched ? (() => {
-                      const groupOfMember = rombonganList.find(r => r.id === sched.anggota?.rombonganId);
-                      const ketuaNama = groupOfMember?.ketuaNama || 'Belum Ditentukan';
-                      
-                      return (
+                    {cell.isCurrentMonth ? (
+                      sched ? (() => {
+                        const groupOfMember = rombonganList.find(r => r.id === sched.anggota?.rombonganId);
+                        const ketuaNama = groupOfMember?.ketuaNama || 'Belum Ditentukan';
+                        
+                        return (
+                          <div className="space-y-1.5 mt-3 flex-1 flex flex-col justify-end">
+                            <div className="flex">
+                              <span className={`text-[8px] font-bold uppercase px-2 py-0.5 rounded-md border ${getRombonganColorClass(sched.anggota?.rombonganId)}`}>
+                                {sched.anggota?.rombongan?.nama || 'Rombongan'}
+                              </span>
+                            </div>
+                            <div className="text-[11px] font-bold text-slate-700 line-clamp-1">
+                              {sched.anggota?.nama}
+                            </div>
+                            <div className="text-[9px] text-slate-400 font-semibold leading-none">
+                              Ketua: {ketuaNama}
+                            </div>
+                          </div>
+                        );
+                      })() : fallbackGroup ? (
                         <div className="space-y-1.5 mt-3 flex-1 flex flex-col justify-end">
                           <div className="flex">
-                            <span className={`text-[8px] font-bold uppercase px-2 py-0.5 rounded-md border ${getRombonganColorClass(sched.anggota?.rombonganId)}`}>
-                              {sched.anggota?.rombongan?.nama || 'Rombongan'}
+                            <span className={`text-[8px] font-bold uppercase px-2 py-0.5 rounded-md border ${getRombonganColorClass(fallbackGroup.id)}`}>
+                              {fallbackGroup.nama}
                             </span>
                           </div>
                           <div className="text-[11px] font-bold text-slate-700 line-clamp-1">
-                            {sched.anggota?.nama}
+                            {fallbackGroup.ketuaNama || 'Petugas Rombongan'}
                           </div>
                           <div className="text-[9px] text-slate-400 font-semibold leading-none">
-                            Ketua: {ketuaNama}
+                            Ketua: {fallbackGroup.ketuaNama || 'Belum Ditentukan'}
                           </div>
                         </div>
-                      );
-                    })() : null}
+                      ) : null
+                    ) : null}
 
                   </div>
                 );
