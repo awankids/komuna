@@ -1,6 +1,17 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
+// Helper to parse "YYYY-MM-DD" or ISO string into a safe UTC Date
+const parseUtcDate = (dateStr: string) => {
+  if (!dateStr) return new Date();
+  const cleanDateStr = dateStr.split('T')[0];
+  const parts = cleanDateStr.split('-').map(Number);
+  if (parts.length === 3) {
+    return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], 12, 0, 0, 0));
+  }
+  return new Date(dateStr);
+};
+
 // GET all agenda for a month & year (or all if omitted)
 export async function GET(request: Request) {
   try {
@@ -57,7 +68,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Judul dan tanggal wajib diisi' }, { status: 400 });
     }
 
-    const dateVal = new Date(tanggal);
+    const dateVal = parseUtcDate(tanggal);
 
     const newAgenda = await db.agenda.create({
       data: {
@@ -75,7 +86,7 @@ export async function POST(request: Request) {
     return NextResponse.json(newAgenda, { status: 201 });
   } catch (error: any) {
     console.error('Error creating agenda:', error);
-    return NextResponse.json({ error: 'Gagal menambahkan agenda baru' }, { status: 500 });
+    return NextResponse.json({ error: 'Gagal menambahkan agenda baru: ' + (error.message || error) }, { status: 500 });
   }
 }
 
@@ -92,7 +103,7 @@ export async function PUT(request: Request) {
     const updateData: any = {};
     if (judul !== undefined) updateData.judul = judul;
     if (kategori !== undefined) updateData.kategori = kategori;
-    if (tanggal !== undefined) updateData.tanggal = new Date(tanggal);
+    if (tanggal !== undefined) updateData.tanggal = parseUtcDate(tanggal);
     if (waktuMulai !== undefined) updateData.waktuMulai = waktuMulai;
     if (waktuSelesai !== undefined) updateData.waktuSelesai = waktuSelesai;
     if (lokasi !== undefined) updateData.lokasi = lokasi;
@@ -107,7 +118,7 @@ export async function PUT(request: Request) {
     return NextResponse.json(updatedAgenda);
   } catch (error: any) {
     console.error('Error updating agenda:', error);
-    return NextResponse.json({ error: 'Gagal memperbarui agenda' }, { status: 500 });
+    return NextResponse.json({ error: 'Gagal memperbarui agenda: ' + (error.message || error) }, { status: 500 });
   }
 }
 
@@ -128,6 +139,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ success: true, message: 'Agenda berhasil dihapus' });
   } catch (error: any) {
     console.error('Error deleting agenda:', error);
-    return NextResponse.json({ error: 'Gagal menghapus agenda' }, { status: 500 });
+    return NextResponse.json({ error: 'Gagal menghapus agenda: ' + (error.message || error) }, { status: 500 });
   }
 }
