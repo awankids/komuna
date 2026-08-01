@@ -281,6 +281,17 @@ export default function JadwalPage() {
     return names[monthStr] || 'Juli';
   };
 
+  // Javanese pasaran (5-day cycle): Reference Aug 17, 1945 = Legi
+  const getPasaran = (dateStr: string): string => {
+    if (!dateStr) return '';
+    const pasaranNames = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
+    const reference = new Date(Date.UTC(1945, 7, 17)); // Aug 17, 1945 = Legi
+    const date = new Date(`${dateStr}T00:00:00Z`);
+    const diffDays = Math.floor((date.getTime() - reference.getTime()) / (1000 * 60 * 60 * 24));
+    const index = ((diffDays % 5) + 5) % 5;
+    return pasaranNames[index];
+  };
+
   // Color matching index for Rombongan badges
   const getRombonganColor = (index: number) => {
     const colorStyles = [
@@ -539,18 +550,27 @@ export default function JadwalPage() {
                   >
                     
                     {/* Top row of cell */}
-                    <div className="flex items-center justify-between">
-                      <span className={`text-xs font-bold ${
-                        !cell.isCurrentMonth 
-                          ? 'text-slate-350' 
-                          : isToday 
-                            ? 'text-[var(--brand-primary)]' 
-                            : 'text-slate-550'
-                      }`}>
-                        {cell.dayNum}
-                      </span>
+                    <div className="flex items-start justify-between gap-1">
+                      <div className="flex items-baseline gap-1.5 text-left">
+                        <span className={`text-xs font-bold leading-none ${
+                          !cell.isCurrentMonth 
+                            ? 'text-slate-350' 
+                            : isToday 
+                              ? 'text-[var(--brand-primary)]' 
+                              : 'text-slate-700'
+                        }`}>
+                          {cell.dayNum}
+                        </span>
+                        {cell.isCurrentMonth && cell.dateKey && (
+                          <span className={`text-[9px] font-semibold ${
+                            isToday ? 'text-[var(--brand-primary)]' : 'text-slate-400'
+                          }`}>
+                            {getPasaran(cell.dateKey)}
+                          </span>
+                        )}
+                      </div>
 
-                      {/* Status Check / Today Badge */}
+                      {/* Status Check / Today Badge & Add Button */}
                       {cell.isCurrentMonth && (
                         <div className="flex items-center gap-1">
                           {hasJimpitan && (
@@ -561,6 +581,13 @@ export default function JadwalPage() {
                               Hari Ini
                             </span>
                           )}
+                          <Link
+                            href="/agenda"
+                            className="w-5 h-5 rounded-md bg-slate-100/80 hover:bg-[var(--brand-primary)] hover:text-white text-slate-500 flex items-center justify-center transition-all opacity-70 group-hover:opacity-100"
+                            title="Tambah Agenda pada tanggal ini"
+                          >
+                            <Plus className="w-3 h-3 stroke-[2.5]" />
+                          </Link>
                         </div>
                       )}
                     </div>
