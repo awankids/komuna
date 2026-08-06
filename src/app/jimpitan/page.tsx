@@ -268,7 +268,23 @@ export default function JimpitanBulananPage() {
         triggerToast(data.error, 'error');
       } else {
         triggerToast(`Nominal Rp ${nominal.toLocaleString('id-ID')} disimpan`, 'success');
-        fetchMonthlyData(true); // Silent refresh to keep focus and prevent flashing
+        setDayRecords(prev => prev.map(r => {
+          if (r.dateKey === dateKey) {
+            const newStatus = nominal > 0 ? 'sudah_isi' : (r.isFuture ? 'belum_lewat' : 'belum_isi');
+            return { ...r, nominal, status: newStatus };
+          }
+          return r;
+        }));
+        setModifiedNominals(prev => {
+          const next = { ...prev };
+          delete next[dateKey];
+          return next;
+        });
+        setInputsText(prev => {
+          const next = { ...prev };
+          delete next[dateKey];
+          return next;
+        });
       }
     } catch (err) {
       console.error(err);
@@ -450,17 +466,48 @@ export default function JimpitanBulananPage() {
             <div className="flex items-center gap-2 justify-between sm:justify-start">
               <button
                 onClick={handlePrevMonth}
+                aria-label="Bulan sebelumnya"
                 className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-500 cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               
-              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[120px] text-center">
-                📅 {getMonthName(selectedMonth)} {selectedYear}
+              <div className="flex items-center gap-1 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700">
+                <span className="text-xs mr-1">📅</span>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  aria-label="Pilih Bulan"
+                  className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer hover:text-[var(--brand-primary)] transition-colors"
+                >
+                  <option value="01">Januari</option>
+                  <option value="02">Februari</option>
+                  <option value="03">Maret</option>
+                  <option value="04">April</option>
+                  <option value="05">Mei</option>
+                  <option value="06">Juni</option>
+                  <option value="07">Juli</option>
+                  <option value="08">Agustus</option>
+                  <option value="09">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Desember</option>
+                </select>
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  aria-label="Pilih Tahun"
+                  className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer hover:text-[var(--brand-primary)] transition-colors"
+                >
+                  {['2024', '2025', '2026', '2027', '2028'].map(yr => (
+                    <option key={yr} value={yr}>{yr}</option>
+                  ))}
+                </select>
               </div>
 
               <button
                 onClick={handleNextMonth}
+                aria-label="Bulan berikutnya"
                 className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-500 cursor-pointer"
               >
                 <ChevronRight className="w-4 h-4" />
@@ -474,7 +521,8 @@ export default function JimpitanBulananPage() {
               <select
                 value={selectedRombonganFilter}
                 onChange={(e) => setSelectedRombonganFilter(e.target.value)}
-                className="bg-[#f8fafc] border border-slate-200 text-xs font-bold text-slate-650 px-3 py-2.5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/25 cursor-pointer"
+                aria-label="Filter Rombongan"
+                className="bg-[#f8fafc] border border-slate-200 text-xs font-semibold text-slate-700 px-3 py-2.5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/25 cursor-pointer"
               >
                 <option value="all">Semua Rombongan</option>
                 {rombonganList.map((rom) => (
@@ -486,7 +534,8 @@ export default function JimpitanBulananPage() {
               <select
                 value={selectedStatusFilter}
                 onChange={(e) => setSelectedStatusFilter(e.target.value)}
-                className="bg-[#f8fafc] border border-slate-200 text-xs font-bold text-slate-650 px-3 py-2.5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/25 cursor-pointer"
+                aria-label="Filter Status"
+                className="bg-[#f8fafc] border border-slate-200 text-xs font-semibold text-slate-700 px-3 py-2.5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/25 cursor-pointer"
               >
                 <option value="all">Semua Status</option>
                 <option value="sudah_isi">Sudah Diisi</option>
@@ -509,33 +558,33 @@ export default function JimpitanBulananPage() {
           <div className="flex flex-wrap items-center gap-4 md:gap-5 px-1 justify-start">
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-              <span className="text-[10px] font-bold text-slate-400">Sudah Diisi</span>
+              <span className="text-[10px] font-semibold text-slate-500">Sudah Diisi</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand-primary)]" />
-              <span className="text-[10px] font-bold text-slate-400">Hari Ini</span>
+              <span className="text-[10px] font-semibold text-slate-500">Hari Ini</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-              <span className="text-[10px] font-bold text-slate-400">Belum Diisi</span>
+              <span className="text-[10px] font-semibold text-slate-500">Belum Diisi</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-              <span className="text-[10px] font-bold text-slate-400">Belum Tiba</span>
+              <span className="text-[10px] font-semibold text-slate-500">Belum Tiba</span>
             </div>
           </div>
 
           {/* Main Jimpitan Table Card */}
           <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6">
             {isLoading ? (
-              <div className="py-24 text-center text-slate-400 font-bold text-sm">Memuat data jimpitan...</div>
+              <div className="py-24 text-center text-slate-400 font-semibold text-sm">Memuat data jimpitan...</div>
             ) : filteredRecords.length === 0 ? (
-              <div className="py-24 text-center text-slate-400 font-bold text-sm">Tidak ada data setoran jimpitan.</div>
+              <div className="py-24 text-center text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</div>
             ) : (
               <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
                 <table className="w-full text-left border-collapse min-w-[650px]">
                   <thead>
-                    <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                       <th className="py-4 px-4 text-center w-14">Tgl</th>
                       <th className="py-4 px-4 text-center w-16">Hari</th>
                       <th className="py-4 px-4 w-[240px]">Petugas Jimpitan</th>
@@ -564,17 +613,17 @@ export default function JimpitanBulananPage() {
                           }`}
                         >
                           {/* Day number */}
-                          <td className="py-4 px-4 text-center font-extrabold text-slate-700 text-xs">
+                          <td className="py-4 px-4 text-center font-bold text-slate-700 text-xs">
                             {String(item.dayNum).padStart(2, '0')}
                           </td>
                           
                           {/* Short weekday + Javanese Pasaran */}
-                          <td className={`py-4 px-4 text-center ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-400'}`}>
+                          <td className={`py-4 px-4 text-center ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-500'}`}>
                             <div className="flex flex-col items-center gap-0.5">
-                              <span className={`font-extrabold text-xs ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-700'}`}>
+                              <span className={`font-bold text-xs ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-700'}`}>
                                 {item.dayLabel}
                               </span>
-                              <span className={`text-[9px] font-bold ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-350'}`}>
+                              <span className={`text-[9px] font-semibold ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-500'}`}>
                                 {getPasaran(item.dateKey)}
                               </span>
                             </div>
@@ -586,7 +635,7 @@ export default function JimpitanBulananPage() {
                               {item.petugasName !== 'Tanpa Petugas' ? (
                                 <>
                                   <span className="text-[9px] text-slate-400 font-semibold">Ketua Rombongan</span>
-                                  <span className="font-extrabold text-slate-800 mt-0.5">{item.petugasName}</span>
+                                  <span className="font-bold text-slate-800 mt-0.5">{item.petugasName}</span>
                                   {item.petugasNoRumah && (
                                     <span className="text-[9px] text-slate-400 font-medium mt-0.5">{item.petugasNoRumah}</span>
                                   )}
@@ -600,7 +649,7 @@ export default function JimpitanBulananPage() {
                           {/* Group Rombongan Badge */}
                           <td className="py-4 px-4 text-center">
                             {item.rombonganNama ? (
-                              <span className={`text-[8px] font-black uppercase px-2.5 py-1 rounded-md border whitespace-nowrap ${getRombonganColorClass(item.rombonganId)}`}>
+                              <span className={`text-[8px] font-bold uppercase px-2.5 py-1 rounded-md border whitespace-nowrap ${getRombonganColorClass(item.rombonganId)}`}>
                                 {item.rombonganNama}
                               </span>
                             ) : (
@@ -619,6 +668,7 @@ export default function JimpitanBulananPage() {
                                   <input
                                     type="text"
                                     disabled={isSaving}
+                                    aria-label={`Nominal jimpitan tanggal ${item.dateStr}`}
                                     value={inputsText[item.dateKey] !== undefined ? inputsText[item.dateKey] : (activeVal > 0 ? activeVal.toLocaleString('id-ID') : '')}
                                     onChange={(e) => handleInputChange(item.dateKey, e.target.value)}
                                     onBlur={() => {
@@ -640,7 +690,7 @@ export default function JimpitanBulananPage() {
                                       }
                                     }}
                                     placeholder="0"
-                                    className={`w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-extrabold text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:bg-white transition-all text-left ${
+                                    className={`w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-bold text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:bg-white transition-all text-left ${
                                       localVal !== undefined && localVal !== item.nominal ? 'border-amber-400 ring-2 ring-amber-400/10' : ''
                                     }`}
                                   />
@@ -651,7 +701,7 @@ export default function JimpitanBulananPage() {
 
                           {/* Status Badge */}
                           <td className="py-4 px-4 text-center">
-                            <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-lg whitespace-nowrap ${
+                            <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-lg whitespace-nowrap ${
                               item.status === 'sudah_isi' 
                                 ? 'bg-emerald-50 text-emerald-600' 
                                 : item.status === 'belum_isi'
@@ -692,6 +742,7 @@ export default function JimpitanBulananPage() {
                   {!isEditingTarget ? (
                     <button
                       onClick={() => { setTargetInputText(String(targetBulanIni)); setIsEditingTarget(true); }}
+                      aria-label="Edit target bulan ini"
                       className="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600 cursor-pointer"
                     >
                       <Pencil className="w-3 h-3" />
@@ -706,6 +757,7 @@ export default function JimpitanBulananPage() {
                         }
                         setIsEditingTarget(false);
                       }}
+                      aria-label="Simpan target bulan ini"
                       className="p-1 rounded-lg hover:bg-emerald-50 transition-colors text-emerald-500 cursor-pointer"
                     >
                       <Check className="w-3 h-3" />

@@ -132,29 +132,26 @@ export async function POST(request: Request) {
     if (monthlyKasSent) {
       const diff = nominal - oldNominal;
       if (diff !== 0) {
-        const formattedJimpitanDate = dateVal.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-        
-        // Find if a Jimpitan Susulan transaction already exists for this specific day
-        const existingTx = await db.transaksiKeuangan.findFirst({
+        // 1. Check if a specific transaction for this exact date already exists
+        const existingTxForDay = await db.transaksiKeuangan.findFirst({
           where: {
             sumber: 'jimpitan',
-            keterangan: {
-              contains: `(${formattedJimpitanDate})`
+            tanggal: {
+              gte: startOfDay,
+              lte: endOfDay
             }
           }
         });
 
-        if (existingTx) {
-          const newNominalTx = existingTx.nominal + diff;
+        if (existingTxForDay) {
+          const newNominalTx = existingTxForDay.nominal + diff;
           if (newNominalTx <= 0) {
-            // Delete the transaction completely instead of making it a pengeluaran (expense)
             await db.transaksiKeuangan.delete({
-              where: { id: existingTx.id }
+              where: { id: existingTxForDay.id }
             });
           } else {
-            // Update the existing transaction's nominal
             await db.transaksiKeuangan.update({
-              where: { id: existingTx.id },
+              where: { id: existingTxForDay.id },
               data: {
                 nominal: newNominalTx,
                 jenis: 'pemasukan'
@@ -162,11 +159,30 @@ export async function POST(request: Request) {
             });
           }
         } else {
-          // No existing transaction, create a new one if it is a positive addition (pemasukan)
-          if (diff > 0) {
+          // 2. If no specific daily transaction, update the monthly bulk transaction if available
+          const bulkTx = await db.transaksiKeuangan.findFirst({
+            where: {
+              sumber: 'jimpitan',
+              tanggal: {
+                gte: startOfMonth,
+                lte: endOfMonth
+              }
+            }
+          });
+
+          if (bulkTx) {
+            const updatedNominal = Math.max(0, bulkTx.nominal + diff);
+            await db.transaksiKeuangan.update({
+              where: { id: bulkTx.id },
+              data: {
+                nominal: updatedNominal
+              }
+            });
+          } else if (diff > 0) {
+            const formattedJimpitanDate = `${startOfDay.getUTCDate()} ${startOfDay.toLocaleString('id-ID', { month: 'long', timeZone: 'UTC' })} ${startOfDay.getUTCFullYear()}`;
             await db.transaksiKeuangan.create({
               data: {
-                tanggal: startOfDay, // Enters Kas RT in the month of the jimpitan (reconciled)
+                tanggal: startOfDay,
                 jenis: 'pemasukan',
                 sumber: 'jimpitan',
                 kategori: 'Jimpitan',
