@@ -517,54 +517,61 @@ export default function DashboardPage() {
               </div>
 
               {/* Transactions List */}
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 {transactions.length === 0 ? (
                   <div className="py-8 text-center text-sm text-slate-400 font-medium">
                     Tidak ada transaksi saat ini.
                   </div>
                 ) : (
-                  transactions.slice(0, 4).map((tx) => {
+                  transactions.slice(0, 4).map((tx, idx, arr) => {
                     const isPemasukan = tx.type === 'pemasukan';
                     
                     return (
-                      <div key={tx.id} className="py-3.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/50 rounded-2xl border-b border-slate-100/80 dark:border-slate-800/40 last:border-b-0">
-                        <div className="flex items-center gap-3 md:gap-4">
-                          <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
-                            isPemasukan 
-                              ? 'bg-[var(--brand-light)] text-[var(--brand-primary)]' 
-                              : 'bg-red-50 text-red-500'
-                          }`}>
-                            {isPemasukan ? <ArrowDown className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUp className="w-4 h-4 md:w-5 md:h-5" />}
+                      <div key={tx.id} className="group">
+                        <div className="py-3 md:py-3.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/50 rounded-2xl">
+                          <div className="flex items-center gap-3 md:gap-4">
+                            <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
+                              isPemasukan 
+                                ? 'bg-[var(--brand-light)] text-[var(--brand-primary)]' 
+                                : 'bg-red-50 text-red-500'
+                            }`}>
+                              {isPemasukan ? <ArrowDown className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUp className="w-4 h-4 md:w-5 md:h-5" />}
+                            </div>
+                            <div className="flex flex-col text-left">
+                              <span className="text-xs md:text-sm font-semibold text-slate-800 leading-tight">
+                                {tx.title}
+                              </span>
+                              <span className="text-[10px] md:text-xs text-slate-400 font-semibold mt-0.5">
+                                {tx.subtitle}
+                              </span>
+                            </div>
                           </div>
-                          <div className="flex flex-col text-left">
-                            <span className="text-xs md:text-sm font-semibold text-slate-800 leading-tight">
-                              {tx.title}
-                            </span>
-                            <span className="text-[10px] md:text-xs text-slate-400 font-semibold mt-0.5">
-                              {tx.subtitle}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 md:gap-6">
-                          <span className={`text-[9px] md:text-[10px] font-black uppercase px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg ${
-                            isPemasukan 
-                              ? 'bg-emerald-50 text-emerald-600' 
-                              : 'bg-red-50 text-red-500'
-                          }`}>
-                            {isPemasukan ? 'Pemasukan' : 'Pengeluaran'}
-                          </span>
                           
-                          <span className="hidden sm:inline text-xs text-slate-400 font-semibold">
-                            {tx.date}
-                          </span>
+                          <div className="flex items-center gap-2 md:gap-6">
+                            <span className={`text-[9px] md:text-[10px] font-black uppercase px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg ${
+                              isPemasukan 
+                                ? 'bg-emerald-50 text-emerald-600' 
+                                : 'bg-red-50 text-red-500'
+                            }`}>
+                              {isPemasukan ? 'Pemasukan' : 'Pengeluaran'}
+                            </span>
+                            
+                            <span className="hidden sm:inline text-xs text-slate-400 font-semibold">
+                              {tx.date}
+                            </span>
 
-                          <span className={`text-xs md:text-sm font-extrabold text-right min-w-[70px] md:min-w-[80px] ${
-                            isPemasukan ? 'text-emerald-600' : 'text-red-500'
-                          }`}>
-                            {isPemasukan ? `+${tx.formattedAmount}` : tx.formattedAmount}
-                          </span>
+                            <span className={`text-xs md:text-sm font-bold ${
+                              isPemasukan ? 'text-emerald-600' : 'text-red-500'
+                            }`}>
+                              {isPemasukan ? `+${formatRp(tx.amount)}` : formatRp(tx.amount)}
+                            </span>
+                          </div>
                         </div>
+
+                        {/* Explicit Straight Horizontal Hairline Divider */}
+                        {idx < arr.length - 1 && (
+                          <div className="h-px bg-slate-100 dark:bg-slate-800/40 my-0.5 mx-2" />
+                        )}
                       </div>
                     );
                   })

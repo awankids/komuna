@@ -640,7 +640,7 @@ export default function KasRTPage() {
             </div>
 
             {/* Saldo Akhir */}
-            <div className="bg-white dark:bg-[#111827] rounded-3xl p-5 border border-[var(--brand-primary)]/40 shadow-sm flex flex-col justify-between text-left h-32 hover:border-[var(--brand-primary)]/60 transition-all">
+            <div className="bg-gradient-to-br from-[var(--brand-light)]/40 to-white rounded-3xl p-5 border border-[var(--brand-primary)]/30 shadow-sm flex flex-col justify-between text-left h-32 hover:border-[var(--brand-primary)]/50 transition-all">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <span className="text-[10px] font-bold text-[var(--brand-primary)] uppercase tracking-wider block">Saldo Akhir</span>
@@ -659,24 +659,24 @@ export default function KasRTPage() {
 
           {/* Jimpitan Integration Banner */}
           {jimpitanInfo.total > 0 && (
-            <div className="bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left">
+            <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
                   <Coins className="w-5 h-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
+                  <p className="text-xs font-semibold text-blue-900">
                     {!checkIfMonthEnded() ? (
                       <>
-                        Pengumpulan jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sedang berlangsung. Total terkumpul sementara: <span className="font-extrabold text-blue-600 dark:text-blue-400">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif).
+                        Pengumpulan jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sedang berlangsung. Total terkumpul sementara: <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif).
                       </>
                     ) : jimpitanInfo.isSent ? (
                       <>
-                        Jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-600 dark:text-blue-400">{formatRp(jimpitanInfo.total)}</span> telah berhasil dikirim ke Kas RT.
+                        Jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> telah berhasil dikirim ke Kas RT.
                       </>
                     ) : (
                       <>
-                        Terdapat dana jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-600 dark:text-blue-400">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif) yang belum dikirim ke Kas RT.
+                        Terdapat dana jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif) yang belum dikirim ke Kas RT.
                       </>
                     )}
                   </p>
@@ -685,18 +685,18 @@ export default function KasRTPage() {
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
                 <Link
                   href="/jimpitan"
-                  className="px-4 py-2 border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 font-bold rounded-xl transition-all text-xs cursor-pointer"
+                  className="px-4 py-2 border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 font-bold rounded-xl transition-all text-xs cursor-pointer shadow-xs"
                 >
                   Lihat Rekap Jimpitan
                 </Link>
                 {!checkIfMonthEnded() ? (
-                  <div className="px-4 py-2 bg-blue-50 text-blue-650 border border-blue-250 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  <div className="px-4 py-2 bg-blue-100/70 text-blue-700 border border-blue-200 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-600" />
                     Sedang Berjalan
                   </div>
                 ) : jimpitanInfo.isSent ? (
-                  <div className="px-4 py-2 bg-emerald-50 text-emerald-600 border border-emerald-250 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  <div className="px-4 py-2 bg-emerald-100/70 text-emerald-700 border border-emerald-200 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                     Telah Dikirim
                   </div>
                 ) : (
