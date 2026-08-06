@@ -248,8 +248,38 @@ export default function KasRTPage() {
   };
 
   useEffect(() => {
-    fetchTransactions();
-    fetchCategories();
+    let isMounted = true;
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        const [txRes, catRes] = await Promise.all([
+          fetch(`/api/transaksi?month=${selectedMonth}&year=${selectedYear}`),
+          fetch('/api/kategori')
+        ]);
+        const data = await txRes.json();
+        const catData = await catRes.json();
+        if (isMounted) {
+          if (!data.error) {
+            setTransactions(data.transactions);
+            setSummary(data.summary);
+            if (data.jimpitan) {
+              setJimpitanInfo(data.jimpitan);
+            }
+          }
+          if (!catData.error) {
+            setCategories(catData);
+          }
+        }
+      } catch (e) {
+        console.error('Error loading kas data:', e);
+        if (isMounted) triggerToast('Gagal memuat data kas', 'error');
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    loadData();
+    return () => { isMounted = false; };
   }, [selectedMonth, selectedYear]);
 
   // Set default category when formJenis changes or categories load
@@ -480,8 +510,8 @@ export default function KasRTPage() {
   // Sort transactions based on user selection
   const sortedTransactions = useMemo(() => {
     return [...filteredTransactions].sort((a, b) => {
-      let valA: any = a[sortField];
-      let valB: any = b[sortField];
+      let valA: number | string = '';
+      let valB: number | string = '';
 
       if (sortField === 'tanggal') {
         valA = new Date(a.tanggal).getTime();
