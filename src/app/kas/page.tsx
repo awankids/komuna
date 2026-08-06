@@ -640,18 +640,18 @@ export default function KasRTPage() {
             </div>
 
             {/* Saldo Akhir */}
-            <div className="bg-white rounded-3xl p-5 border border-[#f95713]/30 bg-gradient-to-br from-orange-50/30 to-white shadow-sm flex flex-col justify-between text-left h-32 hover:border-[#f95713]/50 transition-all">
+            <div className="bg-white dark:bg-[#111827] rounded-3xl p-5 border border-[var(--brand-primary)]/40 shadow-sm flex flex-col justify-between text-left h-32 hover:border-[var(--brand-primary)]/60 transition-all">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-[#f95713] uppercase tracking-wider block">Saldo Akhir</span>
+                  <span className="text-[10px] font-bold text-[var(--brand-primary)] uppercase tracking-wider block">Saldo Akhir</span>
                   <span className="text-[10px] font-semibold text-slate-400 block">Akhir {getMonthName(selectedMonth)} {selectedYear}</span>
                 </div>
-                <div className="w-9 h-9 rounded-2xl bg-[#f95713]/10 text-[#f95713] border border-[#f95713]/20 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-2xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20 flex items-center justify-center shrink-0">
                   <PiggyBank className="w-4 h-4" />
                 </div>
               </div>
               <div className="pt-2">
-                <h3 className="text-xl font-bold text-[#f95713] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
+                <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
               </div>
             </div>
 
@@ -659,24 +659,24 @@ export default function KasRTPage() {
 
           {/* Jimpitan Integration Banner */}
           {jimpitanInfo.total > 0 && (
-            <div className="bg-[#eff6ff] border border-[#dbeafe] rounded-2xl p-4 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left">
+            <div className="bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
                   <Coins className="w-5 h-5" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs font-semibold text-[#1e40af]">
+                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
                     {!checkIfMonthEnded() ? (
                       <>
-                        Pengumpulan jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sedang berlangsung. Total terkumpul sementara: <span className="font-extrabold text-[#1d4ed8]">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif).
+                        Pengumpulan jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sedang berlangsung. Total terkumpul sementara: <span className="font-extrabold text-blue-600 dark:text-blue-400">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif).
                       </>
                     ) : jimpitanInfo.isSent ? (
                       <>
-                        Jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-[#1d4ed8]">{formatRp(jimpitanInfo.total)}</span> telah berhasil dikirim ke Kas RT.
+                        Jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-600 dark:text-blue-400">{formatRp(jimpitanInfo.total)}</span> telah berhasil dikirim ke Kas RT.
                       </>
                     ) : (
                       <>
-                        Terdapat dana jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-[#1d4ed8]">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif) yang belum dikirim ke Kas RT.
+                        Terdapat dana jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-600 dark:text-blue-400">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif) yang belum dikirim ke Kas RT.
                       </>
                     )}
                   </p>

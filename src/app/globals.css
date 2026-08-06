@@ -161,12 +161,47 @@ html.dark table {
   border-color: #1f2937 !important;
 }
 
-/* Calendar non-current month and empty day cell cards in Dark Mode */
-html.dark .bg-slate-50\/40,
-html.dark .bg-slate-50\/30,
-html.dark .bg-slate-50\/50,
-html.dark .bg-slate-100\/80 {
-  background-color: rgba(31, 41, 55, 0.5) !important;
+/* Table Header Rows in Dark Mode */
+html.dark thead,
+html.dark thead tr,
+html.dark tr.bg-slate-50\/70,
+html.dark tr.bg-slate-50\/50,
+html.dark tr.bg-slate-50 {
+  background-color: #1f2937 !important;
+  color: #9ca3af !important;
+}
+
+/* Calendar Day Cards & Red Date / Holiday Fixes in Dark Mode */
+html.dark div.bg-slate-50\/40,
+html.dark div.bg-slate-50\/30,
+html.dark div.bg-slate-50\/50,
+html.dark div.bg-slate-100\/80 {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  border-color: #1e293b !important;
+}
+
+html.dark div.bg-red-50\/35,
+html.dark div.bg-red-50\/60 {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+html.dark div.bg-emerald-50\/60,
+html.dark div.bg-emerald-50\/80 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+html.dark span.bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+html.dark span.bg-amber-100 {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  color: #fde047 !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
 }
 
 /* Hover States in Dark Mode */
@@ -193,6 +228,11 @@ html.dark .bg-slate-50\/50 {
 
 html.dark .bg-\[\#f8fafc\] {
   background-color: #0b0f19 !important;
+}
+
+/* Active Tab Underline & Brand Primary Border in Dark Mode */
+html.dark .border-\[\#f95713\] {
+  border-color: var(--brand-primary) !important;
 }
 
 /* Dynamic Translucent Background Boxes / Icons in Dark Mode matching Accent Color */
