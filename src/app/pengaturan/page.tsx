@@ -34,6 +34,14 @@ interface DBStats {
   transaksi: number;
 }
 
+interface ErrorLogItem {
+  timestamp: string;
+  type: string;
+  message: string;
+  source: string;
+  url: string;
+}
+
 export default function PengaturanPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [stats, setStats] = useState<DBStats | null>(null);
@@ -50,12 +58,13 @@ export default function PengaturanPage() {
   const [timezone, setTimezone] = useState('Asia/Jakarta');
 
   // Error Log State
-  const [errorLogs, setErrorLogs] = useState<any[]>([]);
+  const [errorLogs, setErrorLogs] = useState<ErrorLogItem[]>([]);
 
   // Toast notifications
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Restore file content & confirm dialog state
   const [pendingRestoreData, setPendingRestoreData] = useState<any>(null);
@@ -65,43 +74,47 @@ export default function PengaturanPage() {
   // Load theme settings from localStorage on client-side
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('komuna-theme') || 'orange';
-      const savedDark = localStorage.getItem('komuna-dark') === 'yes';
-      const savedFont = localStorage.getItem('komuna-font') || 'outfit';
-      const savedSize = localStorage.getItem('komuna-size') || 'normal';
-      const savedStyle = localStorage.getItem('komuna-style') || 'classic';
-      const savedTimezone = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
-      const savedLogs = JSON.parse(localStorage.getItem('komuna-error-logs') || '[]');
-      setTheme(savedTheme);
-      setIsDark(savedDark);
-      setFont(savedFont);
-      setSize(savedSize);
-      setStyle(savedStyle);
-      setTimezone(savedTimezone);
-      setErrorLogs(savedLogs);
+      try {
+        const savedTheme = localStorage.getItem('komuna-theme') || 'orange';
+        const savedDark = localStorage.getItem('komuna-dark') === 'yes';
+        const savedFont = localStorage.getItem('komuna-font') || 'outfit';
+        const savedSize = localStorage.getItem('komuna-size') || 'normal';
+        const savedStyle = localStorage.getItem('komuna-style') || 'classic';
+        const savedTimezone = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
+        const savedLogs = JSON.parse(localStorage.getItem('komuna-error-logs') || '[]');
+        setTheme(savedTheme);
+        setIsDark(savedDark);
+        setFont(savedFont);
+        setSize(savedSize);
+        setStyle(savedStyle);
+        setTimezone(savedTimezone);
+        setErrorLogs(Array.isArray(savedLogs) ? savedLogs : []);
+      } catch (err) {
+        console.error('Error loading settings from localStorage:', err);
+      }
     }
   }, []);
 
   // Update a setting and apply classes to documentElement
-  const updateSetting = (key: 'theme' | 'dark' | 'font' | 'size', value: any) => {
+  const updateSetting = (key: 'theme' | 'dark' | 'font' | 'size', value: string | boolean) => {
     let currentTheme = theme;
     let currentDark = isDark;
     let currentFont = font;
     let currentSize = size;
 
-    if (key === 'theme') {
+    if (key === 'theme' && typeof value === 'string') {
       localStorage.setItem('komuna-theme', value);
       setTheme(value);
       currentTheme = value;
-    } else if (key === 'dark') {
+    } else if (key === 'dark' && typeof value === 'boolean') {
       localStorage.setItem('komuna-dark', value ? 'yes' : 'no');
       setIsDark(value);
       currentDark = value;
-    } else if (key === 'font') {
+    } else if (key === 'font' && typeof value === 'string') {
       localStorage.setItem('komuna-font', value);
       setFont(value);
       currentFont = value;
-    } else if (key === 'size') {
+    } else if (key === 'size' && typeof value === 'string') {
       localStorage.setItem('komuna-size', value);
       setSize(value);
       currentSize = value;
@@ -183,30 +196,37 @@ export default function PengaturanPage() {
     }
   };
 
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    fetchStats();
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   const fetchStats = async () => {
     setIsLoadingStats(true);
     try {
       const res = await fetch('/api/backup/stats');
       const data = await res.json();
-      if (!data.error) {
+      if (isMountedRef.current && !data.error) {
         setStats(data);
       }
     } catch (e) {
       console.error('Error loading db stats:', e);
     } finally {
-      setIsLoadingStats(false);
+      if (isMountedRef.current) setIsLoadingStats(false);
     }
   };
-
-  useEffect(() => {
-    fetchStats();
-  }, []);
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 4000);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setShowToast(false), 4000);
   };
 
   const handleBackup = async () => {
@@ -436,6 +456,7 @@ export default function PengaturanPage() {
                         <button
                           type="button"
                           onClick={() => updateSetting('theme', 'orange')}
+                          aria-label="Pilih Warna Aksen Sunset Orange"
                           className={`flex items-center justify-between p-3 rounded-xl border-2 text-left cursor-pointer transition-all ${
                             theme === 'orange'
                               ? 'border-[#f95713] bg-orange-50/10 shadow-sm'
@@ -457,6 +478,7 @@ export default function PengaturanPage() {
                         <button
                           type="button"
                           onClick={() => updateSetting('theme', 'emerald')}
+                          aria-label="Pilih Warna Aksen Emerald Garden"
                           className={`flex items-center justify-between p-3 rounded-xl border-2 text-left cursor-pointer transition-all ${
                             theme === 'emerald'
                               ? 'border-[#10b981] bg-emerald-50/10 shadow-sm'
@@ -478,6 +500,7 @@ export default function PengaturanPage() {
                         <button
                           type="button"
                           onClick={() => updateSetting('theme', 'blue')}
+                          aria-label="Pilih Warna Aksen Ocean Blue"
                           className={`flex items-center justify-between p-3 rounded-xl border-2 text-left cursor-pointer transition-all ${
                             theme === 'blue'
                               ? 'border-[#3b82f6] bg-blue-50/10 shadow-sm'
@@ -499,6 +522,7 @@ export default function PengaturanPage() {
                         <button
                           type="button"
                           onClick={() => updateSetting('theme', 'violet')}
+                          aria-label="Pilih Warna Aksen Royal Violet"
                           className={`flex items-center justify-between p-3 rounded-xl border-2 text-left cursor-pointer transition-all ${
                             theme === 'violet'
                               ? 'border-[#8b5cf6] bg-violet-50/10 shadow-sm'
@@ -527,6 +551,7 @@ export default function PengaturanPage() {
                       <div className="flex border border-slate-200 rounded-xl overflow-hidden text-[10px] font-bold w-48">
                         <button
                           onClick={() => updateSetting('dark', false)}
+                          aria-label="Aktifkan Mode Terang"
                           className={`flex-1 py-2 cursor-pointer transition-all ${
                             !isDark ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
                           }`}
@@ -535,6 +560,7 @@ export default function PengaturanPage() {
                         </button>
                         <button
                           onClick={() => updateSetting('dark', true)}
+                          aria-label="Aktifkan Mode Gelap"
                           className={`flex-1 py-2 cursor-pointer transition-all ${
                             isDark ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
                           }`}
@@ -556,6 +582,7 @@ export default function PengaturanPage() {
                       <select
                         value={font}
                         onChange={(e) => updateSetting('font', e.target.value)}
+                        aria-label="Pilih Gaya Font Aplikasi"
                         className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-750 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/10 focus:border-[var(--brand-primary)] cursor-pointer bg-white"
                       >
                         <option value="outfit">Outfit (Rounded Premium)</option>
@@ -574,6 +601,7 @@ export default function PengaturanPage() {
                       <div className="flex border border-slate-200 rounded-xl overflow-hidden text-[10px] font-bold w-full">
                         <button
                           onClick={() => updateSetting('size', 'kecil')}
+                          aria-label="Ukuran Teks Kecil"
                           className={`flex-1 py-2 cursor-pointer transition-all ${
                             size === 'kecil' ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
                           }`}
@@ -582,6 +610,7 @@ export default function PengaturanPage() {
                         </button>
                         <button
                           onClick={() => updateSetting('size', 'normal')}
+                          aria-label="Ukuran Teks Normal"
                           className={`flex-1 py-2 cursor-pointer border-x border-slate-200 transition-all ${
                             size === 'normal' ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
                           }`}
@@ -590,6 +619,7 @@ export default function PengaturanPage() {
                         </button>
                         <button
                           onClick={() => updateSetting('size', 'besar')}
+                          aria-label="Ukuran Teks Besar"
                           className={`flex-1 py-2 cursor-pointer transition-all ${
                             size === 'besar' ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
                           }`}
@@ -608,6 +638,7 @@ export default function PengaturanPage() {
                       <div className="flex border border-slate-200 rounded-xl overflow-hidden text-[10px] font-bold w-full">
                         <button
                           onClick={() => updateStyleSetting('classic')}
+                          aria-label="Gaya Desain Klasik Premium"
                           className={`flex-1 py-2 cursor-pointer transition-all ${
                             style === 'classic' ? 'bg-[#f95713] text-white font-extrabold' : 'bg-white text-slate-650 hover:bg-slate-50'
                           }`}
