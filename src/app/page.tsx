@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import DonutChart from '@/components/DonutChart';
@@ -58,6 +58,7 @@ export default function DashboardPage() {
 
   const [showToast, setShowToast] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string>('Nominal jimpitan berhasil disimpan!');
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Time based greeting
   const [greeting, setGreeting] = useState('Selamat pagi');
@@ -78,6 +79,8 @@ export default function DashboardPage() {
     return num < 0 ? `-${formatted}` : formatted;
   };
 
+  const isMountedRef = useRef(true);
+
   // Fetch all dashboard stats and transactions from the DB
   const fetchData = async () => {
     try {
@@ -97,12 +100,14 @@ export default function DashboardPage() {
       yesterday.setDate(yesterday.getDate() - 1);
 
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-      setTodayDateFormatted(today.toLocaleDateString('id-ID', options));
-      setYesterdayDateFormatted(yesterday.toLocaleDateString('id-ID', options));
+      if (isMountedRef.current) {
+        setTodayDateFormatted(today.toLocaleDateString('id-ID', options));
+        setYesterdayDateFormatted(yesterday.toLocaleDateString('id-ID', options));
+      }
 
       const res = await fetch(`/api/jimpitan?month=${monthStr}&year=${yearStr}`);
       const data = await res.json();
-      if (data.error) return;
+      if (data.error || !isMountedRef.current) return;
 
       setSaldoKas(data.saldoKas);
       setJimpitanBulanIni(data.totalJimpitan);
@@ -144,7 +149,17 @@ export default function DashboardPage() {
         setYesterdayJadwalId(null);
       }
 
-      const mapped = data.recentTx.map((tx: any) => ({
+      interface RawTx {
+        id: string;
+        sumber: string;
+        keterangan: string;
+        kategori?: string;
+        jenis: 'pemasukan' | 'pengeluaran';
+        tanggal: string;
+        nominal: number;
+      }
+
+      const mapped = (data.recentTx || []).map((tx: RawTx) => ({
         id: tx.id,
         title: tx.sumber === 'jimpitan' ? tx.keterangan.split(' (')[0] : tx.keterangan,
         subtitle: tx.sumber === 'jimpitan' ? tx.keterangan.match(/\(Oleh: (.*?)\)/)?.[1] || 'Jimpitan' : tx.kategori || 'Lain-lain',
@@ -161,7 +176,9 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     fetchData();
+    return () => { isMountedRef.current = false; };
   }, []);
 
   // Handle saving of today's or yesterday's jimpitan nominal
@@ -202,7 +219,8 @@ export default function DashboardPage() {
 
         setToastMessage(`Nominal jimpitan (${isTodayTab ? 'Hari Ini' : 'Kemarin'}) berhasil disimpan!`);
         setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
+        if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+        toastTimerRef.current = setTimeout(() => setShowToast(false), 3000);
 
         // Refresh dashboard data dynamically
         fetchData();
@@ -231,18 +249,24 @@ export default function DashboardPage() {
     return names[monthStr] || 'Juli';
   };
 
-  const totalRecap = pemasukanBulanIni + pengeluaranBulanIni + saldoAwal;
-  const pPct = totalRecap > 0 ? (pemasukanBulanIni / totalRecap) * 100 : 60;
-  const ePct = totalRecap > 0 ? (pengeluaranBulanIni / totalRecap) * 100 : 30;
-  const sPct = totalRecap > 0 ? (saldoAwal / totalRecap) * 100 : 10;
+  const donutStats = useMemo(() => {
+    const totalRecap = pemasukanBulanIni + pengeluaranBulanIni + saldoAwal;
+    const pPct = totalRecap > 0 ? (pemasukanBulanIni / totalRecap) * 100 : 60;
+    const ePct = totalRecap > 0 ? (pengeluaranBulanIni / totalRecap) * 100 : 30;
+    const sPct = totalRecap > 0 ? (saldoAwal / totalRecap) * 100 : 10;
 
-  const pLength = (pPct / 100) * 314.16;
-  const eLength = (ePct / 100) * 314.16;
-  const sLength = (sPct / 100) * 314.16;
+    const pLength = (pPct / 100) * 314.16;
+    const eLength = (ePct / 100) * 314.16;
+    const sLength = (sPct / 100) * 314.16;
 
-  const pOffset = 0;
-  const eOffset = -pLength;
-  const sOffset = -(pLength + eLength);
+    const pOffset = 0;
+    const eOffset = -pLength;
+    const sOffset = -(pLength + eLength);
+
+    return { totalRecap, pPct, ePct, sPct, pLength, eLength, sLength, pOffset, eOffset, sOffset };
+  }, [pemasukanBulanIni, pengeluaranBulanIni, saldoAwal]);
+
+  const { pLength, eLength, sLength, pOffset, eOffset, sOffset } = donutStats;
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">

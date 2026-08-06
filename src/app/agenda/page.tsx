@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -71,6 +71,8 @@ export default function AgendaPage() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
 
   const getTodayStr = () => {
     let tz = 'Asia/Jakarta';
@@ -101,7 +103,8 @@ export default function AgendaPage() {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setShowToast(false), 3000);
   };
 
   // Fetch Agendas for the selected month
@@ -110,6 +113,8 @@ export default function AgendaPage() {
     try {
       const res = await fetch(`/api/agenda?month=${selectedMonth}&year=${selectedYear}`);
       const data = await res.json();
+      if (!isMountedRef.current) return;
+
       if (data.error) {
         triggerToast(data.error, 'error');
       } else {
@@ -117,14 +122,16 @@ export default function AgendaPage() {
       }
     } catch (e) {
       console.error(e);
-      triggerToast('Gagal memuat data agenda', 'error');
+      if (isMountedRef.current) triggerToast('Gagal memuat data agenda', 'error');
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     fetchAgendaData();
+    return () => { isMountedRef.current = false; };
   }, [selectedMonth, selectedYear]);
 
   // Month navigation helpers

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -58,9 +58,15 @@ export default function JadwalPage() {
   
   const [isLoading, setIsLoading] = useState(true);
 
-  // Month and year filters
-  const [selectedMonth, setSelectedMonth] = useState('07'); // Default July
-  const [selectedYear, setSelectedYear] = useState('2026'); // Default 2026
+  // Dynamic month and year filters
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const today = new Date();
+    return String(today.getMonth() + 1).padStart(2, '0');
+  });
+  const [selectedYear, setSelectedYear] = useState(() => {
+    const today = new Date();
+    return String(today.getFullYear());
+  });
   
   // Rombongan filtering inside the calendar view
   const [selectedRombonganFilter, setSelectedRombonganFilter] = useState('all');
@@ -72,6 +78,8 @@ export default function JadwalPage() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
 
   // Dynamic today date relative to chosen timezone
   const getTodayStr = () => {
@@ -92,7 +100,8 @@ export default function JadwalPage() {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setShowToast(false), 3000);
   };
 
   const fetchData = async () => {
@@ -101,6 +110,8 @@ export default function JadwalPage() {
       // 1. Fetch monthly schedules & jimpitan
       const resBulanan = await fetch(`/api/jimpitan/bulanan?month=${selectedMonth}&year=${selectedYear}`);
       const dataBulanan = await resBulanan.json();
+      if (!isMountedRef.current) return;
+
       let currentSchedules = dataBulanan.error ? [] : (dataBulanan.schedules || []);
       if (!dataBulanan.error) {
         setJimpitanList(dataBulanan.jimpitan || []);
@@ -109,6 +120,8 @@ export default function JadwalPage() {
       // 2. Fetch rombongan
       const resRom = await fetch('/api/rombongan');
       const dataRom = await resRom.json();
+      if (!isMountedRef.current) return;
+
       const loadedRombongan: Rombongan[] = dataRom.error ? [] : dataRom;
       setRombonganList(loadedRombongan);
 
@@ -127,26 +140,30 @@ export default function JadwalPage() {
           })
         });
         const dataGen = await resGen.json();
-        if (dataGen.schedules && dataGen.schedules.length > 0) {
+        if (isMountedRef.current && dataGen.schedules && dataGen.schedules.length > 0) {
           const resBulanan2 = await fetch(`/api/jimpitan/bulanan?month=${selectedMonth}&year=${selectedYear}`);
           const dataBulanan2 = await resBulanan2.json();
-          if (!dataBulanan2.error) {
+          if (isMountedRef.current && !dataBulanan2.error) {
             currentSchedules = dataBulanan2.schedules || [];
           }
         }
       }
 
-      setSchedules(currentSchedules);
+      if (isMountedRef.current) {
+        setSchedules(currentSchedules);
+      }
     } catch (e) {
       console.error(e);
-      triggerToast('Gagal memuat data jadwal', 'error');
+      if (isMountedRef.current) triggerToast('Gagal memuat data jadwal', 'error');
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     fetchData();
+    return () => { isMountedRef.current = false; };
   }, [selectedMonth, selectedYear]);
 
   // Handle assigning Rombongan to weekday

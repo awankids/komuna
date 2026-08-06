@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -88,6 +88,8 @@ export default function AnggotaPage() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
 
   // Custom confirm dialog state
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -103,31 +105,34 @@ export default function AnggotaPage() {
     try {
       const resA = await fetch('/api/anggota');
       const dataA = await resA.json();
-      if (!dataA.error) {
+      if (isMountedRef.current && !dataA.error) {
         setAnggotaList(dataA);
       }
 
       const resR = await fetch('/api/rombongan');
       const dataR = await resR.json();
-      if (!dataR.error) {
+      if (isMountedRef.current && !dataR.error) {
         setRombonganList(dataR);
       }
     } catch (e) {
       console.error('Error fetching data:', e);
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
     fetchData();
+    return () => { isMountedRef.current = false; };
   }, []);
 
   const triggerToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setShowToast(false), 3000);
   };
 
   // Open modal for Anggota Add
