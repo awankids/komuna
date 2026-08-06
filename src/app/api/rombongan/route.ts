@@ -162,9 +162,10 @@ export async function PUT(request: Request) {
       data: dataToUpdate
     });
 
-    // Auto-regenerate schedules for July 2026 if hariPiket was updated
+    // Auto-regenerate schedules for current month & year if hariPiket was updated
     if (hariPiket !== undefined) {
-      await regenerateSchedules(2026, 6); // 6 is July (0-indexed)
+      const now = new Date();
+      await regenerateSchedules(now.getFullYear(), now.getMonth());
     }
 
     return NextResponse.json(updated);

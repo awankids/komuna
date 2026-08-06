@@ -44,8 +44,8 @@ export default function AgendaPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Month & Year Filter
-  const [selectedMonth, setSelectedMonth] = useState('08');
-  const [selectedYear, setSelectedYear] = useState('2026');
+  const [selectedMonth, setSelectedMonth] = useState(() => String(new Date().getMonth() + 1).padStart(2, '0'));
+  const [selectedYear, setSelectedYear] = useState(() => String(new Date().getFullYear()));
 
   // Category Filter inside calendar
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');

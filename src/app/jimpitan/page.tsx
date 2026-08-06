@@ -518,7 +518,7 @@ export default function JimpitanBulananPage() {
                   aria-label="Pilih Tahun"
                   className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer hover:text-[var(--brand-primary)] transition-colors"
                 >
-                  {['2024', '2025', '2026', '2027', '2028'].map(yr => (
+                  {Array.from({ length: 6 }, (_, i) => String(new Date().getFullYear() - 2 + i)).map(yr => (
                     <option key={yr} value={yr}>{yr}</option>
                   ))}
                 </select>
