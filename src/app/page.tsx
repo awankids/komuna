@@ -352,8 +352,9 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
               <button
                 type="button"
+                aria-label="Tampilkan jimpitan hari ini"
                 onClick={() => setJimpitanTab('today')}
-                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+                className={`px-4 py-2.5 min-h-[40px] rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
                   jimpitanTab === 'today'
                     ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
                     : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
@@ -369,8 +370,9 @@ export default function DashboardPage() {
 
               <button
                 type="button"
+                aria-label="Tampilkan jimpitan kemarin"
                 onClick={() => setJimpitanTab('yesterday')}
-                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+                className={`px-4 py-2.5 min-h-[40px] rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
                   jimpitanTab === 'yesterday'
                     ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
                     : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
@@ -419,13 +421,15 @@ export default function DashboardPage() {
               {/* Right side: Input nominal */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-md w-full lg:justify-end">
                 <div className="flex flex-col w-full sm:w-60">
-                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1.5 self-start">
+                  <label htmlFor="nominal-jimpitan-dashboard" className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1.5 self-start">
                     Nominal Jimpitan {jimpitanTab === 'today' ? 'Hari Ini' : 'Kemarin'}
-                  </span>
+                  </label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-500">Rp</span>
                     <input
+                      id="nominal-jimpitan-dashboard"
                       type="text"
+                      aria-label={`Input nominal jimpitan ${jimpitanTab === 'today' ? 'hari ini' : 'kemarin'}`}
                       value={
                         (jimpitanTab === 'today' ? todayInput : yesterdayInput) === '' 
                           ? '' 
@@ -439,8 +443,9 @@ export default function DashboardPage() {
                 </div>
                 <button
                   type="button"
+                  aria-label="Simpan nominal jimpitan"
                   onClick={handleSaveNominal}
-                  className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-semibold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25"
+                  className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-semibold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 min-h-[44px]"
                 >
                   <Save className="w-5 h-5" />
                   <span>Simpan Nominal</span>
@@ -456,7 +461,7 @@ export default function DashboardPage() {
             <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x no-scrollbar md:grid md:grid-cols-5 md:gap-4 md:pb-0 md:mx-0 md:px-0">
               
               {/* Action 1: Input Jimpitan */}
-              <Link href="/jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
+              <Link href="/jimpitan" aria-label="Menu Input Jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-emerald-500/20">
                   <Coins className="w-5 h-5" />
                 </div>
@@ -464,7 +469,7 @@ export default function DashboardPage() {
               </Link>
 
               {/* Action 2: Tambah Pemasukan */}
-              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
+              <Link href="/kas" aria-label="Menu Tambah Pemasukan Kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
                   <Plus className="w-5 h-5 stroke-[2.5]" />
                 </div>
@@ -472,7 +477,7 @@ export default function DashboardPage() {
               </Link>
 
               {/* Action 3: Tambah Pengeluaran */}
-              <Link href="/kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
+              <Link href="/kas" aria-label="Menu Tambah Pengeluaran Kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-red-500/20">
                   <Minus className="w-5 h-5 stroke-[2.5]" />
                 </div>
