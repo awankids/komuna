@@ -507,9 +507,9 @@ export default function DashboardPage() {
           <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
             
             {/* Left Part: Last Transactions list (spans 2 columns on desktop) */}
-            <div className="lg:col-span-2 bg-white rounded-3xl p-5 md:p-6 border border-slate-100/80 shadow-sm space-y-6">
+            <div className="lg:col-span-2 bg-white dark:bg-[#111827] rounded-3xl p-5 md:p-6 border border-slate-100 dark:border-[#1f2937] shadow-sm space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-slate-700 tracking-tight">Transaksi Terakhir</h3>
+                <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 tracking-tight">Transaksi Terakhir</h3>
                 <Link href="/kas" className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
                   <span>Lihat semua</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -528,7 +528,7 @@ export default function DashboardPage() {
                     
                     return (
                       <div key={tx.id} className="group">
-                        <div className="py-3 md:py-3.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/50 rounded-2xl">
+                        <div className="py-3 md:py-3.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-100/70 dark:hover:bg-slate-800/60 rounded-2xl">
                           <div className="flex items-center gap-3 md:gap-4">
                             <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
                               isPemasukan 
@@ -538,7 +538,7 @@ export default function DashboardPage() {
                               {isPemasukan ? <ArrowDown className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUp className="w-4 h-4 md:w-5 md:h-5" />}
                             </div>
                             <div className="flex flex-col text-left">
-                              <span className="text-xs md:text-sm font-semibold text-slate-800 leading-tight">
+                              <span className="text-xs md:text-sm font-semibold text-slate-800 dark:text-slate-100 leading-tight">
                                 {tx.title}
                               </span>
                               <span className="text-[10px] md:text-xs text-slate-400 font-semibold mt-0.5">
@@ -570,7 +570,7 @@ export default function DashboardPage() {
 
                         {/* Explicit Straight Horizontal Hairline Divider */}
                         {idx < arr.length - 1 && (
-                          <div className="h-px bg-slate-100 dark:bg-slate-800/40 my-0.5 mx-2" />
+                          <div className="h-px bg-slate-100 dark:bg-[#1f2937] my-0.5 mx-2" />
                         )}
                       </div>
                     );
