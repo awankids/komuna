@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -43,8 +43,14 @@ interface Transaction {
 
 export default function KasRTPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState('07');
-  const [selectedYear, setSelectedYear] = useState('2026');
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const today = new Date();
+    return String(today.getMonth() + 1).padStart(2, '0');
+  });
+  const [selectedYear, setSelectedYear] = useState(() => {
+    const today = new Date();
+    return String(today.getFullYear());
+  });
   const [selectedType, setSelectedType] = useState('all'); // all, pemasukan, pengeluaran
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -83,6 +89,7 @@ export default function KasRTPage() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Transaction Modal States
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -258,7 +265,16 @@ export default function KasRTPage() {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setShowToast(false), 3000);
+  };
+
+  const sanitizeCSV = (str: string) => {
+    if (!str) return '';
+    if (str.startsWith('=') || str.startsWith('+') || str.startsWith('-') || str.startsWith('@')) {
+      return `'${str}`;
+    }
+    return str;
   };
 
   const handleOpenAdd = () => {
@@ -393,7 +409,7 @@ export default function KasRTPage() {
       const pem = t.jenis === 'pemasukan' && t.kategori !== 'Saldo Awal' ? t.nominal : 0;
       const peng = t.jenis === 'pengeluaran' ? t.nominal : 0;
       
-      csvContent += `${formattedDate};${t.jenis.toUpperCase()};${t.kategori || '-'};${t.keteranganText || t.keterangan};${pem};${peng};${t.saldo}\r\n`;
+      csvContent += `${formattedDate};${t.jenis.toUpperCase()};${sanitizeCSV(t.kategori || '-')};${sanitizeCSV(t.keteranganText || t.keterangan)};${pem};${peng};${t.saldo}\r\n`;
     });
     
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -440,14 +456,16 @@ export default function KasRTPage() {
     return breakdown;
   };
 
-  const incomeBreakdown = getCategoryBreakdown('pemasukan');
-  const expenseBreakdown = getCategoryBreakdown('pengeluaran');
+  const incomeBreakdown = useMemo(() => getCategoryBreakdown('pemasukan'), [transactions]);
+  const expenseBreakdown = useMemo(() => getCategoryBreakdown('pengeluaran'), [transactions]);
 
   // Filter transactions based on type selection
-  const filteredTransactions = transactions.filter(t => {
-    if (selectedType === 'all') return true;
-    return t.jenis === selectedType;
-  });
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter(t => {
+      if (selectedType === 'all') return true;
+      return t.jenis === selectedType;
+    });
+  }, [transactions, selectedType]);
 
   // Sort helper function
   const handleSort = (field: 'tanggal' | 'kategori' | 'nominal' | 'saldo') => {
@@ -460,42 +478,43 @@ export default function KasRTPage() {
   };
 
   // Sort transactions based on user selection
-  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
-    let valA: any = a[sortField];
-    let valB: any = b[sortField];
+  const sortedTransactions = useMemo(() => {
+    return [...filteredTransactions].sort((a, b) => {
+      let valA: any = a[sortField];
+      let valB: any = b[sortField];
 
-    if (sortField === 'tanggal') {
-      valA = new Date(a.tanggal).getTime();
-      valB = new Date(b.tanggal).getTime();
-    } else if (sortField === 'kategori') {
-      valA = (a.kategori || '').toLowerCase();
-      valB = (b.kategori || '').toLowerCase();
-    } else if (sortField === 'nominal') {
-      valA = a.nominal;
-      valB = b.nominal;
-    } else if (sortField === 'saldo') {
-      valA = a.saldo;
-      valB = b.saldo;
-    }
+      if (sortField === 'tanggal') {
+        valA = new Date(a.tanggal).getTime();
+        valB = new Date(b.tanggal).getTime();
+      } else if (sortField === 'kategori') {
+        valA = (a.kategori || '').toLowerCase();
+        valB = (b.kategori || '').toLowerCase();
+      } else if (sortField === 'nominal') {
+        valA = a.nominal;
+        valB = b.nominal;
+      } else if (sortField === 'saldo') {
+        valA = a.saldo;
+        valB = b.saldo;
+      }
 
-    if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
-    if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
-    return 0;
-  });
+      if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+      if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [filteredTransactions, sortField, sortDirection]);
 
-  // Calculate SVG Pie/Donut Chart segments
-  const calculateDonutSegments = () => {
+  // Calculate SVG Pie/Donut Chart segments with useMemo
+  const donut = useMemo(() => {
     const total = summary.totalPemasukan + summary.totalPengeluaran + summary.saldoAkhir;
-    if (total === 0) return { incomeOffset: 0, expenseOffset: 0, saldoOffset: 0, incomePct: 0, expensePct: 0, saldoPct: 0 };
+    if (total === 0) return { c: 314.16, incomeDash: 0, expenseDash: 0, saldoDash: 0, incomeOffset: 0, expenseOffset: 0, saldoOffset: 0, incomePct: 0, expensePct: 0, saldoPct: 0 };
 
     const incomePct = (summary.totalPemasukan / total) * 100;
     const expensePct = (summary.totalPengeluaran / total) * 100;
     const saldoPct = (summary.saldoAkhir / total) * 100;
 
     const r = 50;
-    const c = 2 * Math.PI * r; // 314.16
+    const c = 2 * Math.PI * r;
 
-    // Offsets
     const incomeOffset = c;
     const expenseOffset = c - (c * incomePct) / 100;
     const saldoOffset = c - (c * (incomePct + expensePct)) / 100;
@@ -512,9 +531,7 @@ export default function KasRTPage() {
       expensePct: Math.round(expensePct),
       saldoPct: Math.round(saldoPct)
     };
-  };
-
-  const donut = calculateDonutSegments();
+  }, [summary]);
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
@@ -669,7 +686,8 @@ export default function KasRTPage() {
                 <select
                   value={selectedMonth}
                   onChange={(e) => setSelectedMonth(e.target.value)}
-                  className="pl-10 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-bold text-slate-650 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[130px]"
+                  aria-label="Pilih Bulan Kas"
+                  className="pl-10 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[130px]"
                 >
                   <option value="01">Januari</option>
                   <option value="02">Februari</option>
@@ -692,12 +710,12 @@ export default function KasRTPage() {
                 <select
                   value={selectedYear}
                   onChange={(e) => setSelectedYear(e.target.value)}
-                  className="px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-bold text-slate-650 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[100px]"
+                  aria-label="Pilih Tahun Kas"
+                  className="px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[100px]"
                 >
                   {(() => {
                     const currentYearNum = new Date().getFullYear();
                     const years = [];
-                    // Generate from 5 years back to 2 years ahead (e.g., 2021 to 2028)
                     for (let y = currentYearNum - 5; y <= currentYearNum + 2; y++) {
                       years.push(y);
                     }
@@ -714,7 +732,8 @@ export default function KasRTPage() {
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="px-4 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-bold text-slate-650 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[130px]"
+                  aria-label="Filter Jenis Transaksi"
+                  className="px-4 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[130px]"
                 >
                   <option value="all">Semua Jenis</option>
                   <option value="pemasukan">Pemasukan</option>
@@ -729,6 +748,7 @@ export default function KasRTPage() {
             <div className="flex flex-wrap items-center gap-2.5">
               <button
                 onClick={handleExportExcel}
+                aria-label="Ekspor Laporan Kas RT ke Excel"
                 className="px-5 py-2.5 border border-slate-250 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-2xl transition-all text-xs flex items-center gap-1.5 cursor-pointer"
               >
                 <FileSpreadsheet className="w-4 h-4 text-slate-400" />
@@ -737,6 +757,7 @@ export default function KasRTPage() {
 
               <button
                 onClick={handleOpenAdd}
+                aria-label="Tambah Transaksi Kas Baru"
                 className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer text-xs"
               >
                 <Plus className="w-4.5 h-4.5" />
