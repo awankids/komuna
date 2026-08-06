@@ -132,37 +132,41 @@ html.dark .text-amber-600 {
   color: #fbbf24 !important;
 }
 
-html.dark .border-slate-100,
-html.dark .border-slate-200,
-html.dark .border-slate-200\/50,
-html.dark .border-slate-200\/80,
-html.dark .border-slate-250,
-html.dark .border-orange-100,
-html.dark .border-blue-100,
-html.dark .border-emerald-100,
-html.dark .border-pink-100,
-html.dark .border-red-250,
-html.dark .border-emerald-250,
-html.dark .border-violet-100,
-html.dark .border-\[\#f95713\],
-html.dark .border-\[\#10b981\],
-html.dark .border-\[\#3b82f6\],
-html.dark .border-\[\#8b5cf6\],
-html.dark .border-\[\#dbeafe\],
-html.dark .border-slate-100\/80 {
-  border-color: #1f2937 !important; /* Cohesive dark gray border */
+/* Universal Dark Mode Cohesive Hairline Border Rule (Harmonizes all Tailwind border opacity variants) */
+html.dark [class*="border-slate-"],
+html.dark [class*="border-orange-"],
+html.dark [class*="border-emerald-"],
+html.dark [class*="border-blue-"],
+html.dark [class*="border-pink-"],
+html.dark [class*="border-red-"],
+html.dark [class*="border-amber-"],
+html.dark [class*="border-violet-"],
+html.dark [class*="border-purple-"],
+html.dark [class*="border-gray-"],
+html.dark [class*="border-zinc-"],
+html.dark [class*="border-[#dbeafe]"] {
+  border-color: #1f2937 !important; /* Cohesive subtle dark gray border (#1f2937) */
 }
 
-/* Table Lines and Divides in Dark Mode */
-html.dark .divide-y > :not([hidden]) ~ :not([hidden]),
-html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
-html.dark .divide-slate-150 > :not([hidden]) ~ :not([hidden]),
-html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+html.dark [class*="border-[var(--brand-primary)]"] {
+  border-color: rgba(var(--brand-primary-rgb), 0.3) !important;
+}
+
+/* Universal Table Lines & Divides in Dark Mode */
+html.dark [class*="divide-"] > :not([hidden]) ~ :not([hidden]),
 html.dark tr,
 html.dark th,
 html.dark td,
 html.dark table {
   border-color: #1f2937 !important;
+}
+
+/* Calendar non-current month and empty day cell cards in Dark Mode */
+html.dark .bg-slate-50\/40,
+html.dark .bg-slate-50\/30,
+html.dark .bg-slate-50\/50,
+html.dark .bg-slate-100\/80 {
+  background-color: rgba(31, 41, 55, 0.5) !important;
 }
 
 /* Hover States in Dark Mode */

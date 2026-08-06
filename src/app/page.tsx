@@ -517,7 +517,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Transactions List */}
-              <div className="divide-y divide-slate-100">
+              <div className="space-y-1">
                 {transactions.length === 0 ? (
                   <div className="py-8 text-center text-sm text-slate-400 font-medium">
                     Tidak ada transaksi saat ini.
@@ -527,7 +527,7 @@ export default function DashboardPage() {
                     const isPemasukan = tx.type === 'pemasukan';
                     
                     return (
-                      <div key={tx.id} className="py-3 md:py-4 first:pt-0 last:pb-0 flex items-center justify-between transition-colors hover:bg-slate-50/50 rounded-xl px-2">
+                      <div key={tx.id} className="py-3.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/50 rounded-2xl border-b border-slate-100/80 dark:border-slate-800/40 last:border-b-0">
                         <div className="flex items-center gap-3 md:gap-4">
                           <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
                             isPemasukan 
