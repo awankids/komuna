@@ -41,16 +41,26 @@ export default function DashboardPage() {
   const [pengeluaranBulanIni, setPengeluaranBulanIni] = useState<number>(0);
   const [saldoAwal, setSaldoAwal] = useState<number>(0);
 
-  // Jimpitan input state
-  const [jimpitanInput, setJimpitanInput] = useState<string>('');
-  const [savedNominal, setSavedNominal] = useState<number | null>(null);
+  // Jimpitan input & schedule state (Today & Yesterday)
+  const [jimpitanTab, setJimpitanTab] = useState<'today' | 'yesterday'>('today');
+
+  const [todayInput, setTodayInput] = useState<string>('');
+  const [todaySavedNominal, setTodaySavedNominal] = useState<number | null>(null);
+  const [todayPetugasName, setTodayPetugasName] = useState<string>('Memuat...');
+  const [todayJadwalId, setTodayJadwalId] = useState<string | null>(null);
+  const [todayDateFormatted, setTodayDateFormatted] = useState<string>('');
+
+  const [yesterdayInput, setYesterdayInput] = useState<string>('');
+  const [yesterdaySavedNominal, setYesterdaySavedNominal] = useState<number | null>(null);
+  const [yesterdayPetugasName, setYesterdayPetugasName] = useState<string>('Memuat...');
+  const [yesterdayJadwalId, setYesterdayJadwalId] = useState<string | null>(null);
+  const [yesterdayDateFormatted, setYesterdayDateFormatted] = useState<string>('');
+
   const [showToast, setShowToast] = useState<boolean>(false);
-  const [petugasName, setPetugasName] = useState<string>('Memuat...');
-  const [jadwalId, setJadwalId] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string>('Nominal jimpitan berhasil disimpan!');
 
   // Time based greeting
   const [greeting, setGreeting] = useState('Selamat pagi');
-  const [currentDateFormatted, setCurrentDateFormatted] = useState('');
 
   // Transactions state
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -82,9 +92,13 @@ export default function DashboardPage() {
       else if (hour < 19) setGreeting('Selamat sore');
       else setGreeting('Selamat malam');
 
-      // Set formatted date
+      // Set formatted date for today and yesterday
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-      setCurrentDateFormatted(today.toLocaleDateString('id-ID', options));
+      setTodayDateFormatted(today.toLocaleDateString('id-ID', options));
+      setYesterdayDateFormatted(yesterday.toLocaleDateString('id-ID', options));
 
       const res = await fetch(`/api/jimpitan?month=${monthStr}&year=${yearStr}`);
       const data = await res.json();
@@ -96,20 +110,38 @@ export default function DashboardPage() {
       setPengeluaranBulanIni(data.totalPengeluaran);
       setSaldoAwal(data.saldoAwal || 0);
       
+      // Today's Jimpitan & Schedule
       if (data.todayJimpitan !== null && data.todayJimpitan > 0) {
-        setJimpitanInput(String(data.todayJimpitan));
-        setSavedNominal(data.todayJimpitan);
+        setTodayInput(String(data.todayJimpitan));
+        setTodaySavedNominal(data.todayJimpitan);
       } else {
-        setJimpitanInput('');
-        setSavedNominal(null);
+        setTodayInput('');
+        setTodaySavedNominal(null);
       }
 
       if (data.todaySchedule) {
-        setPetugasName(`${data.todaySchedule.anggota.nama} (${data.todaySchedule.anggota.noRumah})`);
-        setJadwalId(data.todaySchedule.id);
+        setTodayPetugasName(`${data.todaySchedule.anggota.nama} (${data.todaySchedule.anggota.noRumah})`);
+        setTodayJadwalId(data.todaySchedule.id);
       } else {
-        setPetugasName('Tidak ada petugas ronda terjadwal hari ini');
-        setJadwalId(null);
+        setTodayPetugasName('Tidak ada petugas ronda terjadwal hari ini');
+        setTodayJadwalId(null);
+      }
+
+      // Yesterday's Jimpitan & Schedule
+      if (data.yesterdayJimpitan !== null && data.yesterdayJimpitan > 0) {
+        setYesterdayInput(String(data.yesterdayJimpitan));
+        setYesterdaySavedNominal(data.yesterdayJimpitan);
+      } else {
+        setYesterdayInput('');
+        setYesterdaySavedNominal(null);
+      }
+
+      if (data.yesterdaySchedule) {
+        setYesterdayPetugasName(`${data.yesterdaySchedule.anggota.nama} (${data.yesterdaySchedule.anggota.noRumah})`);
+        setYesterdayJadwalId(data.yesterdaySchedule.id);
+      } else {
+        setYesterdayPetugasName('Tidak ada petugas ronda terjadwal kemarin');
+        setYesterdayJadwalId(null);
       }
 
       const mapped = data.recentTx.map((tx: any) => ({
@@ -132,17 +164,25 @@ export default function DashboardPage() {
     fetchData();
   }, []);
 
-  // Handle saving of today's jimpitan nominal
+  // Handle saving of today's or yesterday's jimpitan nominal
   const handleSaveNominal = async () => {
-    const val = jimpitanInput === '' ? 0 : parseInt(jimpitanInput.replace(/\D/g, ''), 10);
+    const isTodayTab = jimpitanTab === 'today';
+    const inputVal = isTodayTab ? todayInput : yesterdayInput;
+    const val = inputVal === '' ? 0 : parseInt(inputVal.replace(/\D/g, ''), 10);
     if (isNaN(val)) return;
 
     try {
-      const today = new Date();
-      const localY = today.getFullYear();
-      const localM = String(today.getMonth() + 1).padStart(2, '0');
-      const localD = String(today.getDate()).padStart(2, '0');
+      const targetDate = new Date();
+      if (!isTodayTab) {
+        targetDate.setDate(targetDate.getDate() - 1);
+      }
+
+      const localY = targetDate.getFullYear();
+      const localM = String(targetDate.getMonth() + 1).padStart(2, '0');
+      const localD = String(targetDate.getDate()).padStart(2, '0');
       const dateStr = `${localY}-${localM}-${localD}`;
+
+      const targetJadwalId = isTodayTab ? todayJadwalId : yesterdayJadwalId;
 
       const res = await fetch('/api/jimpitan', {
         method: 'POST',
@@ -150,28 +190,36 @@ export default function DashboardPage() {
         body: JSON.stringify({
           tanggal: `${dateStr}T00:00:00Z`,
           nominal: val,
-          jadwalId: jadwalId,
+          jadwalId: targetJadwalId,
           diisiOleh: 'Admin RT',
         }),
       });
 
       const resData = await res.json();
       if (resData.success) {
-        setSavedNominal(val > 0 ? val : null);
+        if (isTodayTab) setTodaySavedNominal(val > 0 ? val : null);
+        else setYesterdaySavedNominal(val > 0 ? val : null);
+
+        setToastMessage(`Nominal jimpitan (${isTodayTab ? 'Hari Ini' : 'Kemarin'}) berhasil disimpan!`);
         setShowToast(true);
         setTimeout(() => setShowToast(false), 3000);
+
         // Refresh dashboard data dynamically
         fetchData();
       }
     } catch (e) {
-      console.error('Error saving today nominal:', e);
+      console.error('Error saving nominal:', e);
     }
   };
 
   // Keep input only as numbers
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleanValue = e.target.value.replace(/\D/g, '');
-    setJimpitanInput(cleanValue);
+    if (jimpitanTab === 'today') {
+      setTodayInput(cleanValue);
+    } else {
+      setYesterdayInput(cleanValue);
+    }
   };
 
   const getMonthName = (monthStr: string) => {
@@ -209,14 +257,11 @@ export default function DashboardPage() {
         {/* Dashboard Content Container */}
         <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
           
-          {/* Success Toast Notification */}
+          {/* Toast Notification */}
           {showToast && (
-            <div className="fixed bottom-20 right-6 md:bottom-6 bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-xl shadow-emerald-100 flex items-center gap-3 animate-bounce z-50">
-              <CheckCircle2 className="w-5 h-5 text-emerald-100" />
-              <div className="flex flex-col text-left">
-                <span className="text-xs font-medium text-emerald-100 leading-none">Berhasil disimpan!</span>
-                <span className="text-sm font-bold mt-0.5">Jimpitan hari ini sebesar {formatRp(savedNominal || 0)}</span>
-              </div>
+            <div className="fixed bottom-6 right-6 bg-slate-800 text-white px-5 py-3 rounded-2xl shadow-lg flex items-center gap-3 z-50 animate-in fade-in slide-in-from-bottom-4 duration-200">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              <span className="text-xs font-semibold">{toastMessage}</span>
             </div>
           )}
 
@@ -277,50 +322,108 @@ export default function DashboardPage() {
 
           </div>
 
-          {/* Today's Schedule and Jimpitan Input panel */}
-          <div className="bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 rounded-3xl p-5 md:p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-8">
-            
-            {/* Left side: Calendar details */}
-            <div className="flex items-center gap-4 md:gap-5">
-              <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-[var(--brand-primary)]/10 flex flex-col items-center justify-center text-[var(--brand-primary)] shrink-0">
-                <Calendar className="w-7 h-7 md:w-8 md:h-8" />
-              </div>
-              <div className="space-y-1 text-left">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] md:text-xs font-bold uppercase text-[var(--brand-primary)] tracking-widest leading-none">Hari Ini</span>
-                </div>
-                <h4 className="text-md md:text-lg font-bold text-slate-800 tracking-tight">{currentDateFormatted}</h4>
-                <div className="text-xs text-slate-500 font-semibold flex flex-wrap items-center gap-1 mt-0.5">
-                  <span className="text-slate-400 font-medium">Petugas Jimpitan:</span>
-                  <span className="text-slate-700 font-bold">{petugasName}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side: Input nominal */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-md w-full lg:justify-end">
-              <div className="flex flex-col w-full sm:w-60">
-                <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1.5 self-start">Nominal Jimpitan Hari Ini</span>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-500">Rp</span>
-                  <input
-                    type="text"
-                    value={jimpitanInput === '' ? '' : parseInt(jimpitanInput, 10).toLocaleString('id-ID')}
-                    onChange={handleInputChange}
-                    placeholder="0"
-                    className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-semibold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 focus:border-[var(--brand-primary)] transition-all"
-                  />
-                </div>
-              </div>
+          {/* Schedule & Jimpitan Input Panel (Hari Ini & Kemarin) */}
+          <div className="space-y-3">
+            {/* Tab Selector */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
               <button
-                onClick={handleSaveNominal}
-                className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-semibold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25"
+                type="button"
+                onClick={() => setJimpitanTab('today')}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+                  jimpitanTab === 'today'
+                    ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
+                    : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+                }`}
               >
-                <Save className="w-5 h-5" />
-                <span>Simpan Nominal</span>
+                <span>📅 HARI INI</span>
+                {todaySavedNominal !== null && todaySavedNominal > 0 ? (
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                ) : (
+                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setJimpitanTab('yesterday')}
+                className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
+                  jimpitanTab === 'yesterday'
+                    ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
+                    : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
+                }`}
+              >
+                <span>⏪ KEMARIN</span>
+                {yesterdaySavedNominal === null || yesterdaySavedNominal === 0 ? (
+                  <span className="px-1.5 py-0.5 text-[8px] bg-amber-100 text-amber-800 rounded font-extrabold uppercase">Belum Diisi</span>
+                ) : (
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                )}
               </button>
             </div>
 
+            {/* Input Card Container */}
+            <div className="bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 rounded-3xl p-5 md:p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-8">
+              
+              {/* Left side: Calendar details */}
+              <div className="flex items-center gap-4 md:gap-5">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-[var(--brand-primary)]/10 flex flex-col items-center justify-center text-[var(--brand-primary)] shrink-0">
+                  <Calendar className="w-7 h-7 md:w-8 md:h-8" />
+                </div>
+                <div className="space-y-1 text-left">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] md:text-xs font-bold uppercase text-[var(--brand-primary)] tracking-widest leading-none">
+                      {jimpitanTab === 'today' ? 'Hari Ini' : 'Kemarin'}
+                    </span>
+                    {jimpitanTab === 'yesterday' && (yesterdaySavedNominal === null || yesterdaySavedNominal === 0) && (
+                      <span className="text-[9px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-full">
+                        Perlu Diisi
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="text-md md:text-lg font-bold text-slate-800 tracking-tight">
+                    {jimpitanTab === 'today' ? todayDateFormatted : yesterdayDateFormatted}
+                  </h4>
+                  <div className="text-xs text-slate-500 font-semibold flex flex-wrap items-center gap-1 mt-0.5">
+                    <span className="text-slate-400 font-medium">Petugas Jimpitan:</span>
+                    <span className="text-slate-700 font-bold">
+                      {jimpitanTab === 'today' ? todayPetugasName : yesterdayPetugasName}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right side: Input nominal */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-md w-full lg:justify-end">
+                <div className="flex flex-col w-full sm:w-60">
+                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1.5 self-start">
+                    Nominal Jimpitan {jimpitanTab === 'today' ? 'Hari Ini' : 'Kemarin'}
+                  </span>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-500">Rp</span>
+                    <input
+                      type="text"
+                      value={
+                        (jimpitanTab === 'today' ? todayInput : yesterdayInput) === '' 
+                          ? '' 
+                          : parseInt(jimpitanTab === 'today' ? todayInput : yesterdayInput, 10).toLocaleString('id-ID')
+                      }
+                      onChange={handleInputChange}
+                      placeholder="0"
+                      className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-semibold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 focus:border-[var(--brand-primary)] transition-all"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSaveNominal}
+                  className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-semibold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25"
+                >
+                  <Save className="w-5 h-5" />
+                  <span>Simpan Nominal</span>
+                </button>
+              </div>
+
+            </div>
           </div>
 
           {/* Quick Action Buttons */}

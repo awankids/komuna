@@ -308,6 +308,33 @@ export async function GET(request: Request) {
         }
       }
     });
+
+    // Get yesterday's schedule & jimpitan
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const startOfYesterday = new Date(Date.UTC(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 0, 0, 0, 0));
+    const endOfYesterday = new Date(Date.UTC(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 23, 59, 59, 999));
+
+    const yesterdaySchedule = await db.jadwalPetugas.findFirst({
+      where: {
+        tanggal: {
+          gte: startOfYesterday,
+          lte: endOfYesterday,
+        }
+      },
+      include: {
+        anggota: true
+      }
+    });
+
+    const yesterdayJimpitan = await db.jimpitan.findFirst({
+      where: {
+        tanggal: {
+          gte: startOfYesterday,
+          lte: endOfYesterday,
+        }
+      }
+    });
     
     return NextResponse.json({
       saldoKas,
@@ -318,6 +345,8 @@ export async function GET(request: Request) {
       recentTx,
       todaySchedule,
       todayJimpitan: todayJimpitan ? todayJimpitan.nominal : null,
+      yesterdaySchedule,
+      yesterdayJimpitan: yesterdayJimpitan ? yesterdayJimpitan.nominal : null,
     });
   } catch (error: any) {
     console.error(error);
