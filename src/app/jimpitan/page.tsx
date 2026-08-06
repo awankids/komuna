@@ -44,8 +44,14 @@ interface DayRecord {
 
 export default function JimpitanBulananPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState('07'); // Default July
-  const [selectedYear, setSelectedYear] = useState('2026'); // Default 2026
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const today = new Date();
+    return String(today.getMonth() + 1).padStart(2, '0');
+  });
+  const [selectedYear, setSelectedYear] = useState(() => {
+    const today = new Date();
+    return String(today.getFullYear());
+  });
   
   const [dayRecords, setDayRecords] = useState<DayRecord[]>([]);
   const [rombonganList, setRombonganList] = useState<Rombongan[]>([]);
