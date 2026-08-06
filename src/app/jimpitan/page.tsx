@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -75,12 +75,17 @@ export default function JimpitanBulananPage() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Dynamic today date relative to chosen timezone
   const getTodayStr = () => {
     let tz = 'Asia/Jakarta';
     if (typeof window !== 'undefined') {
-      tz = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
+      try {
+        tz = localStorage.getItem('komuna-timezone') || 'Asia/Jakarta';
+      } catch {
+        tz = 'Asia/Jakarta';
+      }
     }
     const formatter = new Intl.DateTimeFormat('en-CA', {
       timeZone: tz,
@@ -95,7 +100,8 @@ export default function JimpitanBulananPage() {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setShowToast(false), 3000);
   };
 
   const fetchMonthlyData = async (silent = false) => {
@@ -202,11 +208,16 @@ export default function JimpitanBulananPage() {
   useEffect(() => {
     fetchMonthlyData();
     if (typeof window !== 'undefined') {
-      const savedTarget = localStorage.getItem(`komuna-target-${selectedMonth}-${selectedYear}`);
-      if (savedTarget) {
-        setTargetBulanIni(parseInt(savedTarget, 10));
-      } else {
-        setTargetBulanIni(3000000); // default target
+      try {
+        const savedTarget = localStorage.getItem(`komuna-target-${selectedMonth}-${selectedYear}`);
+        if (savedTarget) {
+          setTargetBulanIni(parseInt(savedTarget, 10));
+        } else {
+          setTargetBulanIni(3000000); // default target
+        }
+      } catch (e) {
+        console.error(e);
+        setTargetBulanIni(3000000);
       }
     }
   }, [selectedMonth, selectedYear]);
@@ -298,6 +309,14 @@ export default function JimpitanBulananPage() {
     }
   };
 
+  const sanitizeCSV = (str: string) => {
+    if (!str) return '';
+    if (str.startsWith('=') || str.startsWith('+') || str.startsWith('-') || str.startsWith('@')) {
+      return `'${str}`;
+    }
+    return str;
+  };
+
   // Real Excel (CSV) Exporter
   const handleExportExcel = () => {
     let csvContent = "\uFEFF"; // UTF-8 BOM
@@ -319,7 +338,7 @@ export default function JimpitanBulananPage() {
       const nominalVal = localVal !== undefined ? localVal : r.nominal;
       const statusText = nominalVal > 0 ? "Sudah Diisi" : (r.isFuture ? "Belum Tiba" : "Belum Diisi");
       
-      csvContent += `${r.dayNum};${r.dayLabel};${r.petugasName};${r.rombonganNama || '-'};${nominalVal};${statusText}\r\n`;
+      csvContent += `${r.dayNum};${sanitizeCSV(r.dayLabel)};${sanitizeCSV(r.petugasName)};${sanitizeCSV(r.rombonganNama || '-')};${nominalVal};${sanitizeCSV(statusText)}\r\n`;
     });
     
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -384,61 +403,55 @@ export default function JimpitanBulananPage() {
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [targetInputText, setTargetInputText] = useState('');
 
-  // Calculate dynamic summary stats
+  // Calculate dynamic summary stats with useMemo
   const totalDays = dayRecords.length;
   
-  // Calculate total terkumpul (taking dirty values into account)
-  const totalTerkumpul = dayRecords.reduce((sum, r) => {
-    const localVal = modifiedNominals[r.dateKey];
-    return sum + (localVal !== undefined ? localVal : r.nominal);
-  }, 0);
+  const totalTerkumpul = useMemo(() => {
+    return dayRecords.reduce((sum, r) => {
+      const localVal = modifiedNominals[r.dateKey];
+      return sum + (localVal !== undefined ? localVal : r.nominal);
+    }, 0);
+  }, [dayRecords, modifiedNominals]);
 
-  // Count filled days
-  const filledCount = dayRecords.filter(r => {
-    const val = modifiedNominals[r.dateKey] !== undefined ? modifiedNominals[r.dateKey] : r.nominal;
-    return val > 0;
-  }).length;
+  const filledCount = useMemo(() => {
+    return dayRecords.filter(r => {
+      const val = modifiedNominals[r.dateKey] !== undefined ? modifiedNominals[r.dateKey] : r.nominal;
+      return val > 0;
+    }).length;
+  }, [dayRecords, modifiedNominals]);
 
   const rasioPengisian = totalDays > 0 ? Math.round((filledCount / totalDays) * 100) : 0;
   const sisaTarget = Math.max(0, targetBulanIni - totalTerkumpul);
 
   // Compute remaining days dynamically based on selected month/year vs today
-  const remainingDays = (() => {
+  const remainingDays = useMemo(() => {
     const today = new Date();
     const y = parseInt(selectedYear, 10);
     const m = parseInt(selectedMonth, 10) - 1;
     const numDays = new Date(y, m + 1, 0).getDate();
-    // If selected month is in the past, 0 hari lagi
     if (y < today.getFullYear() || (y === today.getFullYear() && m < today.getMonth())) {
       return 0;
     }
-    // If selected month is in the future, all days remain
     if (y > today.getFullYear() || (y === today.getFullYear() && m > today.getMonth())) {
       return numDays;
     }
-    // Current month: remaining = days left from today
     return Math.max(0, numDays - today.getDate());
-  })();
+  }, [selectedMonth, selectedYear]);
 
   // Apply frontend filters
-  const filteredRecords = dayRecords.filter(item => {
-    // Rombongan Filter
-    if (selectedRombonganFilter !== 'all' && item.rombonganId !== selectedRombonganFilter) {
-      return false;
-    }
-    // Status Filter
-    if (selectedStatusFilter !== 'all') {
-      const nominalVal = modifiedNominals[item.dateKey] !== undefined ? modifiedNominals[item.dateKey] : item.nominal;
-      
-      if (selectedStatusFilter === 'sudah_isi' && nominalVal === 0) {
+  const filteredRecords = useMemo(() => {
+    return dayRecords.filter(item => {
+      if (selectedRombonganFilter !== 'all' && item.rombonganId !== selectedRombonganFilter) {
         return false;
       }
-      if (selectedStatusFilter === 'belum_isi' && nominalVal > 0) {
-        return false;
+      if (selectedStatusFilter !== 'all') {
+        const nominalVal = modifiedNominals[item.dateKey] !== undefined ? modifiedNominals[item.dateKey] : item.nominal;
+        if (selectedStatusFilter === 'sudah_isi' && nominalVal === 0) return false;
+        if (selectedStatusFilter === 'belum_isi' && nominalVal > 0) return false;
       }
-    }
-    return true;
-  });
+      return true;
+    });
+  }, [dayRecords, selectedRombonganFilter, selectedStatusFilter, modifiedNominals]);
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
