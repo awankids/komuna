@@ -588,62 +588,70 @@ export default function KasRTPage() {
             <p className="text-xs md:text-sm text-slate-400 font-medium">Kelola pemasukan dan pengeluaran kas RT.</p>
           </div>
 
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {/* Summary Cards (Bento Grid Layout) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             
             {/* Saldo Awal */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Saldo Awal</span>
-                <span className="text-[9px] font-bold text-slate-400 block">1 {getMonthName(selectedMonth)} {selectedYear}</span>
-              </div>
-              <div className="flex justify-between items-end">
-                <h3 className="text-xl font-bold text-slate-700 tracking-tight">{formatRp(summary.saldoAwal)}</h3>
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-slate-200 transition-all">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Saldo Awal</span>
+                  <span className="text-[10px] font-semibold text-slate-400 block">1 {getMonthName(selectedMonth)} {selectedYear}</span>
+                </div>
+                <div className="w-9 h-9 rounded-2xl bg-slate-50 text-slate-500 border border-slate-100 flex items-center justify-center shrink-0">
                   <Wallet className="w-4 h-4" />
                 </div>
+              </div>
+              <div className="pt-2">
+                <h3 className="text-xl font-bold text-slate-800 tracking-tight">{formatRp(summary.saldoAwal)}</h3>
               </div>
             </div>
 
             {/* Total Pemasukan */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pemasukan</span>
-                <span className="text-[9px] font-bold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
-              </div>
-              <div className="flex justify-between items-end">
-                <h3 className="text-xl font-bold text-emerald-600 tracking-tight">{formatRp(summary.totalPemasukan)}</h3>
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-emerald-200 transition-all">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pemasukan</span>
+                  <span className="text-[10px] font-semibold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
+                </div>
+                <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100/60 flex items-center justify-center shrink-0">
                   <ArrowDown className="w-4 h-4" />
                 </div>
+              </div>
+              <div className="pt-2">
+                <h3 className="text-xl font-bold text-emerald-600 tracking-tight">{formatRp(summary.totalPemasukan)}</h3>
               </div>
             </div>
 
             {/* Total Pengeluaran */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pengeluaran</span>
-                <span className="text-[9px] font-bold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
-              </div>
-              <div className="flex justify-between items-end">
-                <h3 className="text-xl font-bold text-red-650 tracking-tight">{formatRp(summary.totalPengeluaran)}</h3>
-                <div className="w-8 h-8 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
+            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-red-200 transition-all">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pengeluaran</span>
+                  <span className="text-[10px] font-semibold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
+                </div>
+                <div className="w-9 h-9 rounded-2xl bg-red-50 text-red-500 border border-red-100/60 flex items-center justify-center shrink-0">
                   <ArrowUp className="w-4 h-4" />
                 </div>
+              </div>
+              <div className="pt-2">
+                <h3 className="text-xl font-bold text-red-650 tracking-tight">{formatRp(summary.totalPengeluaran)}</h3>
               </div>
             </div>
 
             {/* Saldo Akhir */}
-            <div className="bg-white rounded-3xl p-5 border border-[var(--brand-primary)]/20 bg-[var(--brand-light)] shadow-sm flex flex-col justify-between text-left h-28">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">Saldo Akhir</span>
-                <span className="text-[9px] font-bold text-slate-400 block">31 {getMonthName(selectedMonth)} {selectedYear}</span>
-              </div>
-              <div className="flex justify-between items-end">
-                <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
-                <div className="w-8 h-8 rounded-xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center">
+            <div className="bg-white rounded-3xl p-5 border border-[#f95713]/30 bg-gradient-to-br from-orange-50/30 to-white shadow-sm flex flex-col justify-between text-left h-32 hover:border-[#f95713]/50 transition-all">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[10px] font-bold text-[#f95713] uppercase tracking-wider block">Saldo Akhir</span>
+                  <span className="text-[10px] font-semibold text-slate-400 block">Akhir {getMonthName(selectedMonth)} {selectedYear}</span>
+                </div>
+                <div className="w-9 h-9 rounded-2xl bg-[#f95713]/10 text-[#f95713] border border-[#f95713]/20 flex items-center justify-center shrink-0">
                   <PiggyBank className="w-4 h-4" />
                 </div>
+              </div>
+              <div className="pt-2">
+                <h3 className="text-xl font-bold text-[#f95713] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
               </div>
             </div>
 
