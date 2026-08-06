@@ -238,15 +238,20 @@ html.font-jetbrains {
   --font-family: 'JetBrains Mono', monospace;
 }
 
-/* Fonts sizes */
-html.size-kecil {
-  --font-size: 13px;
+/* Font sizes (Root 1rem scaling for all Tailwind typography & UI components) */
+html, html.size-normal {
+  font-size: 16px !important;
+  --font-size: 16px;
 }
-html.size-normal {
+
+html.size-kecil {
+  font-size: 14px !important;
   --font-size: 14px;
 }
+
 html.size-besar {
-  --font-size: 15.5px;
+  font-size: 18.5px !important;
+  --font-size: 18.5px;
 }
 
 /* Professional Font Adjustments */
@@ -264,7 +269,6 @@ html.font-lora body {
 
 html.font-jetbrains body {
   letter-spacing: -0.035em;
-  font-size: calc(var(--font-size) - 0.5px) !important;
 }
 
 @theme inline {
@@ -283,7 +287,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-family) !important;
-  font-size: var(--font-size) !important;
+  font-size: 1rem !important;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
