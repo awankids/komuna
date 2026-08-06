@@ -73,6 +73,19 @@ html.dark header {
   color: #f8fafc !important;
 }
 
+/* Sidebar active link in dark mode */
+html.dark aside a.bg-\[var\(--brand-light\)\]\/80,
+html.dark aside a[class*="bg-[var(--brand-light)]"] {
+  background-color: rgba(var(--brand-primary-rgb), 0.2) !important;
+  color: var(--brand-primary) !important;
+}
+
+/* Dashboard Jimpitan Input Card Container in Dark Mode */
+html.dark div.bg-\[var\(--brand-light\)\] {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
 html.dark .text-slate-800,
 html.dark .text-slate-850,
 html.dark .text-slate-900 {
@@ -93,6 +106,30 @@ html.dark .text-slate-500,
 html.dark .text-slate-450,
 html.dark .text-slate-400 {
   color: #9ca3af !important;
+}
+
+/* Eyebrow & Category Accents in Dark Mode */
+html.dark .text-emerald-600 {
+  color: #34d399 !important;
+}
+html.dark .text-sky-600 {
+  color: #38bdf8 !important;
+}
+html.dark .text-red-500 {
+  color: #f87171 !important;
+}
+
+/* Amber Warning Box in Dark Mode */
+html.dark .bg-amber-50\/50,
+html.dark .border-amber-200\/50 {
+  background-color: rgba(245, 158, 11, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+html.dark .text-amber-800 {
+  color: #fde047 !important;
+}
+html.dark .text-amber-600 {
+  color: #fbbf24 !important;
 }
 
 html.dark .border-slate-100,
