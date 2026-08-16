@@ -602,129 +602,136 @@ export default function KasRTPage() {
             <p className="text-xs md:text-sm text-slate-400 font-medium">Kelola pemasukan dan pengeluaran kas RT.</p>
           </div>
 
-          {/* Summary Cards (Bento Grid Layout) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          {/* Dashboard Bento Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5">
             
-            {/* Saldo Awal */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-slate-200 transition-all">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Saldo Awal</span>
-                  <span className="text-[10px] font-semibold text-slate-400 block">1 {getMonthName(selectedMonth)} {selectedYear}</span>
+            {/* Hero Card: Saldo Akhir */}
+            <div className="lg:col-span-4 bg-gradient-to-br from-[var(--brand-light)]/40 to-white rounded-3xl p-6 md:p-8 border border-[var(--brand-primary)]/30 shadow-sm flex flex-col justify-between text-left min-h-[160px] hover:border-[var(--brand-primary)]/50 transition-all">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1">
+                  <span className="text-xs font-bold text-[var(--brand-primary)] uppercase tracking-wider block">Saldo Akhir</span>
+                  <span className="text-[11px] font-semibold text-slate-400 block">Bulan {getMonthName(selectedMonth)} {selectedYear}</span>
                 </div>
-                <div className="w-9 h-9 rounded-2xl bg-slate-50 text-slate-500 border border-slate-100 flex items-center justify-center shrink-0">
-                  <Wallet className="w-4 h-4" />
-                </div>
-              </div>
-              <div className="pt-2">
-                <h3 className="text-xl font-bold text-slate-800 tracking-tight">{formatRp(summary.saldoAwal)}</h3>
-              </div>
-            </div>
-
-            {/* Total Pemasukan */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-emerald-200 transition-all">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pemasukan</span>
-                  <span className="text-[10px] font-semibold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
-                </div>
-                <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100/60 flex items-center justify-center shrink-0">
-                  <ArrowDown className="w-4 h-4" />
+                <div className="w-12 h-12 rounded-2xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center shrink-0">
+                  <PiggyBank className="w-6 h-6" />
                 </div>
               </div>
-              <div className="pt-2">
-                <h3 className="text-xl font-bold text-emerald-600 tracking-tight">{formatRp(summary.totalPemasukan)}</h3>
+              <div className="mt-8">
+                <h3 className="text-3xl lg:text-4xl font-black text-[var(--brand-primary)] tracking-tighter">{formatRp(summary.saldoAkhir)}</h3>
               </div>
             </div>
 
-            {/* Total Pengeluaran */}
-            <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-red-200 transition-all">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pengeluaran</span>
-                  <span className="text-[10px] font-semibold text-slate-400 block">{getMonthName(selectedMonth)} {selectedYear}</span>
+            {/* Right Column: Other Stats & Jimpitan Widget */}
+            <div className="lg:col-span-8 flex flex-col gap-4 md:gap-5">
+              
+              {/* Secondary Stats Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
+                {/* Saldo Awal */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-slate-200 transition-all">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Saldo Awal</span>
+                      <span className="text-[10px] font-semibold text-slate-400 block">1 {getMonthName(selectedMonth)} {selectedYear}</span>
+                    </div>
+                    <div className="w-9 h-9 rounded-2xl bg-slate-50 text-slate-500 flex items-center justify-center shrink-0">
+                      <Wallet className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div className="pt-2">
+                    <h3 className="text-lg font-bold text-slate-800 tracking-tight">{formatRp(summary.saldoAwal)}</h3>
+                  </div>
                 </div>
-                <div className="w-9 h-9 rounded-2xl bg-red-50 text-red-500 border border-red-100/60 flex items-center justify-center shrink-0">
-                  <ArrowUp className="w-4 h-4" />
-                </div>
-              </div>
-              <div className="pt-2">
-                <h3 className="text-xl font-bold text-red-650 tracking-tight">{formatRp(summary.totalPengeluaran)}</h3>
-              </div>
-            </div>
 
-            {/* Saldo Akhir */}
-            <div className="bg-gradient-to-br from-[var(--brand-light)]/40 to-white rounded-3xl p-5 border border-[var(--brand-primary)]/30 shadow-sm flex flex-col justify-between text-left h-32 hover:border-[var(--brand-primary)]/50 transition-all">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <span className="text-[10px] font-bold text-[var(--brand-primary)] uppercase tracking-wider block">Saldo Akhir</span>
-                  <span className="text-[10px] font-semibold text-slate-400 block">Akhir {getMonthName(selectedMonth)} {selectedYear}</span>
+                {/* Total Pemasukan */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-emerald-200 transition-all">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pemasukan</span>
+                      <span className="text-[10px] font-semibold text-slate-400 block">Bulan Ini</span>
+                    </div>
+                    <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                      <ArrowDown className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div className="pt-2">
+                    <h3 className="text-lg font-bold text-emerald-600 tracking-tight">+{formatRp(summary.totalPemasukan)}</h3>
+                  </div>
                 </div>
-                <div className="w-9 h-9 rounded-2xl bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] border border-[var(--brand-primary)]/20 flex items-center justify-center shrink-0">
-                  <PiggyBank className="w-4 h-4" />
+
+                {/* Total Pengeluaran */}
+                <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-32 hover:border-red-200 transition-all">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pengeluaran</span>
+                      <span className="text-[10px] font-semibold text-slate-400 block">Bulan Ini</span>
+                    </div>
+                    <div className="w-9 h-9 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                      <ArrowUp className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <div className="pt-2">
+                    <h3 className="text-lg font-bold text-red-600 tracking-tight">-{formatRp(summary.totalPengeluaran)}</h3>
+                  </div>
                 </div>
               </div>
-              <div className="pt-2">
-                <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(summary.saldoAkhir)}</h3>
-              </div>
-            </div>
 
-          </div>
-
-          {/* Jimpitan Integration Banner */}
-          {jimpitanInfo.total > 0 && (
-            <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
-                  <Coins className="w-5 h-5" />
-                </div>
-                <div className="space-y-0.5">
-                  <p className="text-xs font-semibold text-blue-900">
+              {/* Jimpitan Widget */}
+              {jimpitanInfo.total > 0 && (
+                <div className="bg-[#f0f9ff] border border-blue-100 rounded-3xl p-5 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left flex-1 hover:border-blue-200 transition-all">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                      <Coins className="w-5 h-5" />
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-[10px] font-bold text-blue-800 uppercase tracking-wider">Status Jimpitan</h4>
+                      <p className="text-xs font-semibold text-blue-900">
+                        {!checkIfMonthEnded() ? (
+                          <>
+                            Pengumpulan jimpitan bulan ini sedang berlangsung. Terkumpul: <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span>
+                          </>
+                        ) : jimpitanInfo.isSent ? (
+                          <>
+                            Jimpitan sebesar <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> telah dikirim ke Kas.
+                          </>
+                        ) : (
+                          <>
+                            Terdapat jimpitan sebesar <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> yang belum dikirim.
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Link
+                      href="/jimpitan"
+                      className="px-4 py-2 bg-white text-blue-700 font-bold rounded-xl transition-all text-[11px] cursor-pointer shadow-sm hover:shadow"
+                    >
+                      Lihat Rekap
+                    </Link>
                     {!checkIfMonthEnded() ? (
-                      <>
-                        Pengumpulan jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sedang berlangsung. Total terkumpul sementara: <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif).
-                      </>
+                      <div className="px-4 py-2 bg-blue-100/70 text-blue-700 font-bold rounded-xl text-[11px] flex items-center gap-1.5">
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-600" />
+                        Berjalan
+                      </div>
                     ) : jimpitanInfo.isSent ? (
-                      <>
-                        Jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> telah berhasil dikirim ke Kas RT.
-                      </>
+                      <div className="px-4 py-2 bg-emerald-100/70 text-emerald-700 font-bold rounded-xl text-[11px] flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        Terkirim
+                      </div>
                     ) : (
-                      <>
-                        Terdapat dana jimpitan bulan {getMonthName(selectedMonth)} {selectedYear} sebesar <span className="font-extrabold text-blue-700">{formatRp(jimpitanInfo.total)}</span> ({jimpitanInfo.filledDays} hari aktif) yang belum dikirim ke Kas RT.
-                      </>
+                      <button
+                        onClick={handleSendJimpitanToKas}
+                        disabled={isSendingJimpitan}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all text-[11px] flex items-center gap-1.5 shadow-sm"
+                      >
+                        Kirim
+                      </button>
                     )}
-                  </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
-                <Link
-                  href="/jimpitan"
-                  className="px-4 py-2 border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 font-bold rounded-xl transition-all text-xs cursor-pointer shadow-xs"
-                >
-                  Lihat Rekap Jimpitan
-                </Link>
-                {!checkIfMonthEnded() ? (
-                  <div className="px-4 py-2 bg-blue-100/70 text-blue-700 border border-blue-200 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-600" />
-                    Sedang Berjalan
-                  </div>
-                ) : jimpitanInfo.isSent ? (
-                  <div className="px-4 py-2 bg-emerald-100/70 text-emerald-700 border border-emerald-200 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    Telah Dikirim
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleSendJimpitanToKas}
-                    disabled={isSendingJimpitan}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all text-xs flex items-center gap-1.5 cursor-pointer shadow-sm shadow-blue-100"
-                  >
-                    <span>Kirim ke Kas</span>
-                  </button>
-                )}
-              </div>
+              )}
             </div>
-          )}
+          </div>
 
           {/* Control Bar: Filter, Month selector, TAMBAH Button */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm gap-4">
@@ -785,13 +792,36 @@ export default function KasRTPage() {
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
                   aria-label="Filter Jenis Transaksi"
-                  className="px-4 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 cursor-pointer appearance-none min-w-[130px]"
+                  className="px-4 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 cursor-pointer appearance-none min-w-[130px]"
                 >
                   <option value="all">Semua Jenis</option>
                   <option value="pemasukan">Pemasukan</option>
                   <option value="pengeluaran">Pengeluaran</option>
                 </select>
                 <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
+              </div>
+
+              {/* Select Sort */}
+              <div className="relative">
+                <select
+                  value={`${sortField}-${sortDirection}`}
+                  onChange={(e) => {
+                    const [field, dir] = e.target.value.split('-');
+                    setSortField(field as any);
+                    setSortDirection(dir as any);
+                  }}
+                  aria-label="Urutkan Transaksi"
+                  className="px-4 pr-8 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 cursor-pointer appearance-none min-w-[140px]"
+                >
+                  <option value="tanggal-desc">Terbaru</option>
+                  <option value="tanggal-asc">Terlama</option>
+                  <option value="nominal-desc">Nominal Tertinggi</option>
+                  <option value="nominal-asc">Nominal Terendah</option>
+                  <option value="saldo-desc">Saldo Tertinggi</option>
+                  <option value="saldo-asc">Saldo Terendah</option>
+                  <option value="kategori-asc">Kategori (A-Z)</option>
+                </select>
+                <ArrowUpDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
               </div>
 
             </div>
@@ -828,189 +858,103 @@ export default function KasRTPage() {
             ) : filteredTransactions.length === 0 ? (
               <div className="py-24 text-center text-slate-400 font-bold text-sm">Tidak ada transaksi pada filter terpilih.</div>
             ) : (
-              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
-                <table className="w-full text-left border-collapse min-w-[850px]">
-                <thead>
-                  <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider select-none">
-                    
-                    {/* Tanggal header */}
-                    <th 
-                      onClick={() => handleSort('tanggal')}
-                      className="py-4 px-6 text-center w-28 cursor-pointer hover:bg-slate-100/50 hover:text-slate-600 transition-colors"
-                    >
-                      <div className="flex items-center justify-center gap-1">
-                        <span>Tanggal</span>
-                        {sortField === 'tanggal' ? (
-                          sortDirection === 'asc' ? <ChevronUp className="w-3 h-3 text-[#f95713]" /> : <ChevronDown className="w-3 h-3 text-[#f95713]" />
-                        ) : (
-                          <ArrowUpDown className="w-3 h-3 text-slate-350" />
-                        )}
-                      </div>
-                    </th>
-
-                    <th className="py-4 px-6 text-center w-20">Jenis</th>
-
-                    {/* Kategori header */}
-                    <th 
-                      onClick={() => handleSort('kategori')}
-                      className="py-4 px-6 w-36 cursor-pointer hover:bg-slate-100/50 hover:text-slate-600 transition-colors"
-                    >
-                      <div className="flex items-center justify-start gap-1">
-                        <span>Kategori</span>
-                        {sortField === 'kategori' ? (
-                          sortDirection === 'asc' ? <ChevronUp className="w-3 h-3 text-[#f95713]" /> : <ChevronDown className="w-3 h-3 text-[#f95713]" />
-                        ) : (
-                          <ArrowUpDown className="w-3 h-3 text-slate-350" />
-                        )}
-                      </div>
-                    </th>
-
-                    <th className="py-4 px-6">Keterangan</th>
-
-                    {/* Pemasukan header (sorts by nominal) */}
-                    <th 
-                      onClick={() => handleSort('nominal')}
-                      className="py-4 px-6 text-right w-44 cursor-pointer hover:bg-slate-100/50 hover:text-slate-600 transition-colors"
-                    >
-                      <div className="flex items-center justify-end gap-1">
-                        <span>Pemasukan</span>
-                        {sortField === 'nominal' ? (
-                          sortDirection === 'asc' ? <ChevronUp className="w-3 h-3 text-[#f95713]" /> : <ChevronDown className="w-3 h-3 text-[#f95713]" />
-                        ) : (
-                          <ArrowUpDown className="w-3 h-3 text-slate-350" />
-                        )}
-                      </div>
-                    </th>
-
-                    {/* Pengeluaran header (sorts by nominal) */}
-                    <th 
-                      onClick={() => handleSort('nominal')}
-                      className="py-4 px-6 text-right w-44 cursor-pointer hover:bg-slate-100/50 hover:text-slate-600 transition-colors"
-                    >
-                      <div className="flex items-center justify-end gap-1">
-                        <span>Pengeluaran</span>
-                        {sortField === 'nominal' ? (
-                          sortDirection === 'asc' ? <ChevronUp className="w-3 h-3 text-[#f95713]" /> : <ChevronDown className="w-3 h-3 text-[#f95713]" />
-                        ) : (
-                          <ArrowUpDown className="w-3 h-3 text-slate-350" />
-                        )}
-                      </div>
-                    </th>
-
-                    {/* Saldo header */}
-                    <th 
-                      onClick={() => handleSort('saldo')}
-                      className="py-4 px-6 text-right w-44 cursor-pointer hover:bg-slate-100/50 hover:text-slate-600 transition-colors"
-                    >
-                      <div className="flex items-center justify-end gap-1">
-                        <span>Saldo</span>
-                        {sortField === 'saldo' ? (
-                          sortDirection === 'asc' ? <ChevronUp className="w-3 h-3 text-[#f95713]" /> : <ChevronDown className="w-3 h-3 text-[#f95713]" />
-                        ) : (
-                          <ArrowUpDown className="w-3 h-3 text-slate-350" />
-                        )}
-                      </div>
-                    </th>
-
-                    <th className="py-4 px-6 text-right w-24">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {sortedTransactions.map((tx) => {
-                    const d = new Date(tx.tanggal);
-                    const formattedDate = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
-                    
-                    return (
-                      <tr key={tx.id} className="hover:bg-slate-50/40 transition-colors">
+              <div className="flex flex-col gap-3 md:gap-4">
+                {sortedTransactions.map((tx) => {
+                  const d = new Date(tx.tanggal);
+                  const dateStr = String(d.getDate()).padStart(2, '0');
+                  const monthStr = d.toLocaleString('id-ID', { month: 'short' });
+                  
+                  return (
+                    <div key={tx.id} className="bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center shadow-sm hover:border-slate-200 hover:shadow-md transition-all">
+                      
+                      {/* Left: Date + Icon + Info */}
+                      <div className="flex items-start gap-4 w-full sm:w-auto">
+                        {/* Date */}
+                        <div className="flex flex-col items-center justify-center min-w-[3rem]">
+                          <span className="text-xl font-black text-slate-700">{dateStr}</span>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{monthStr}</span>
+                        </div>
                         
-                        {/* Tanggal */}
-                        <td className="py-4 px-6 text-center text-xs font-semibold text-slate-500">
-                          {formattedDate}
-                        </td>
-
-                        {/* Jenis Icon */}
-                        <td className="py-4 px-6 text-center">
-                          <div className="flex justify-center">
+                        {/* Vertical Divider */}
+                        <div className="w-px h-10 bg-slate-100 hidden sm:block mt-1"></div>
+                        
+                        {/* Icon & Details */}
+                        <div className="flex items-start gap-3 w-full">
+                          <div className="mt-0.5">
                             {tx.jenis === 'pemasukan' ? (
-                              <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner">
-                                <ArrowDown className="w-3.5 h-3.5" />
+                              <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                                <ArrowDown className="w-4 h-4" />
                               </div>
                             ) : (
-                              <div className="w-6 h-6 rounded-full bg-red-50 text-red-500 flex items-center justify-center shadow-inner">
-                                <ArrowUp className="w-3.5 h-3.5" />
+                              <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                <ArrowUp className="w-4 h-4" />
                               </div>
                             )}
                           </div>
-                        </td>
-
-                        {/* Kategori Badge */}
-                        <td className="py-4 px-6 text-xs">
-                          <div className="flex flex-col items-start gap-1">
-                            <span className="font-extrabold text-slate-700">{tx.kategori || '-'}</span>
-                            {tx.isVirtual ? (
-                              <span className="text-[8px] font-black uppercase bg-emerald-50 text-emerald-600 border border-emerald-100 px-1.5 py-0.5 rounded">Otomatis</span>
-                            ) : tx.kategori !== 'Saldo Awal' ? (
-                              <span className="text-[8px] font-black uppercase bg-slate-100 text-slate-500 border border-slate-200 px-1.5 py-0.5 rounded">Manual</span>
-                            ) : null}
-                          </div>
-                        </td>
-
-                        {/* Keterangan */}
-                        <td className="py-4 px-6 text-xs">
-                          <div className="flex flex-col">
-                            <span className="font-bold text-slate-800">{tx.keteranganText || tx.keterangan}</span>
-                            {tx.detailKeterangan && (
-                              <span className="text-[10px] text-slate-400 font-medium mt-0.5">{tx.detailKeterangan}</span>
-                            )}
-                          </div>
-                        </td>
-
-                        {/* Pemasukan */}
-                        <td className="py-4 px-6 text-right text-xs font-extrabold text-emerald-600">
-                          {tx.jenis === 'pemasukan' && tx.kategori !== 'Saldo Awal' ? formatRp(tx.nominal) : '-'}
-                        </td>
-
-                        {/* Pengeluaran */}
-                        <td className="py-4 px-6 text-right text-xs font-extrabold text-red-650">
-                          {tx.jenis === 'pengeluaran' ? formatRp(tx.nominal) : '-'}
-                        </td>
-
-                        {/* Saldo Running */}
-                        <td className="py-4 px-6 text-right text-xs font-black text-slate-800">
-                          {formatRp(tx.saldo)}
-                        </td>
-
-                        {/* Actions */}
-                        <td className="py-4 px-6 text-xs text-right">
-                          {!tx.isVirtual && tx.kategori !== 'Saldo Awal' ? (
-                            <div className="flex items-center justify-end gap-1">
-                              {tx.kategori !== 'Jimpitan' && tx.sumber !== 'jimpitan' && (
-                                <button
-                                  onClick={() => handleOpenEdit(tx)}
-                                  className="p-1 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-lg transition-colors cursor-pointer"
-                                  title="Edit Transaksi"
-                                >
-                                  <Edit2 className="w-3.5 h-3.5" />
-                                </button>
-                              )}
-                              <button
-                                onClick={() => handleOpenDelete(tx)}
-                                className="p-1 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
-                                title="Hapus Transaksi"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
+                          
+                          <div className="space-y-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-sm font-bold text-slate-800">{tx.keteranganText || tx.keterangan}</span>
+                              {tx.isVirtual ? (
+                                <span className="text-[9px] font-black uppercase bg-emerald-50 text-emerald-600 border border-emerald-100 px-1.5 py-0.5 rounded-md">Otomatis</span>
+                              ) : tx.kategori !== 'Saldo Awal' ? (
+                                <span className="text-[9px] font-black uppercase bg-slate-50 text-slate-500 border border-slate-200 px-1.5 py-0.5 rounded-md">Manual</span>
+                              ) : null}
                             </div>
-                          ) : (
-                            <span className="text-[10px] text-slate-300 font-semibold italic">-</span>
-                          )}
-                        </td>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[11px] font-bold text-slate-500">{tx.kategori || 'Tanpa Kategori'}</span>
+                              {tx.detailKeterangan && (
+                                <>
+                                  <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                                  <span className="text-[11px] text-slate-400 font-medium">{tx.detailKeterangan}</span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                      {/* Right: Nominal, Saldo, Actions */}
+                      <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 pt-4 sm:pt-0 border-t sm:border-0 border-slate-100 sm:mt-0 mt-2">
+                        
+                        {/* Amounts */}
+                        <div className="flex flex-col sm:items-end text-left sm:text-right">
+                          <span className={`text-base font-black ${tx.jenis === 'pemasukan' ? 'text-emerald-600' : 'text-red-650'}`}>
+                            {tx.jenis === 'pemasukan' ? '+' : '-'}{formatRp(tx.nominal)}
+                          </span>
+                          <span className="text-[11px] font-semibold text-slate-400">Saldo: {formatRp(tx.saldo)}</span>
+                        </div>
+                        
+                        {/* Actions */}
+                        {!tx.isVirtual && tx.kategori !== 'Saldo Awal' ? (
+                          <div className="flex items-center gap-1 pl-2 border-l border-slate-100 shrink-0">
+                            {tx.kategori !== 'Jimpitan' && tx.sumber !== 'jimpitan' && (
+                              <button
+                                onClick={() => handleOpenEdit(tx)}
+                                className="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 border border-slate-100 text-slate-400 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors cursor-pointer"
+                                title="Edit"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleOpenDelete(tx)}
+                              className="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-50 border border-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors cursor-pointer"
+                              title="Hapus"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="pl-2 border-l border-slate-100 shrink-0 flex items-center justify-center w-8">
+                             <span className="text-[10px] text-slate-300 font-semibold italic">-</span>
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
