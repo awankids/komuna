@@ -83,6 +83,20 @@ export async function POST(request: Request) {
       },
     });
 
+    // Trigger Smart Notification for Agenda (Fire and forget)
+    const formattedDate = new Date(dateVal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    const locationString = lokasi ? ` di ${lokasi}` : '';
+    const timeString = waktuMulai ? ` pkl ${waktuMulai}` : '';
+    
+    db.notifikasi.create({
+      data: {
+        title: 'Agenda Baru 📅',
+        message: `Ada agenda baru: **${judul}** pada tanggal ${formattedDate}${timeString}${locationString}.`,
+        type: 'info',
+        isRead: false
+      }
+    }).catch(err => console.error('Failed to create agenda notification:', err));
+
     return NextResponse.json(newAgenda, { status: 201 });
   } catch (error: any) {
     console.error('Error creating agenda:', error);

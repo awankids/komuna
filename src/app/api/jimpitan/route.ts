@@ -113,6 +113,21 @@ export async function POST(request: Request) {
       });
     }
 
+    // 2.5 Trigger Smart Notification for Jimpitan (Fire and forget)
+    if (!existingJimpitan || existingJimpitan.nominal !== nominal) {
+      const formattedDate = new Date(tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+      const formattedNominal = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(nominal);
+      
+      db.notifikasi.create({
+        data: {
+          title: 'Laporan Jimpitan Masuk 💰',
+          message: `Alhamdulillah, jimpitan tanggal ${formattedDate} telah disetor oleh **${petugasName}** sejumlah ${formattedNominal}.`,
+          type: 'success',
+          isRead: false
+        }
+      }).catch(err => console.error('Failed to create jimpitan notification:', err));
+    }
+
     // 3. Late entry check: has this month already been sent to Kas RT?
     const monthNum = startOfDay.getUTCMonth(); // 0-indexed
     const yearNum = startOfDay.getUTCFullYear();
