@@ -92,6 +92,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
     }
   };
 
+  const handleMarkRead = async (id: string) => {
+    try {
+      await fetch(`/api/notifikasi/${id}`, { method: 'PUT' });
+      setNotifications(notifications.map(n => n.id === id ? { ...n, isRead: true } : n));
+      setUnreadCount(prev => Math.max(0, prev - 1));
+      setIsNotifOpen(false);
+    } catch (e) {
+      console.error('Failed to mark as read', e);
+    }
+  };
+
   const formatTime = (dateStr: string) => {
     const date = new Date(dateStr);
     const now = new Date();
@@ -162,7 +173,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   </div>
                 ) : (
                   notifications.map((notif) => (
-                    <Link href="/notifikasi" onClick={() => setIsNotifOpen(false)} key={notif.id} className={`block px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${!notif.isRead ? 'bg-slate-50/50' : ''}`}>
+                    <Link href="/notifikasi" onClick={() => handleMarkRead(notif.id)} key={notif.id} className={`block px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${!notif.isRead ? 'bg-slate-50/50' : ''}`}>
                       <div className="flex items-start gap-3">
                         <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${!notif.isRead ? 'bg-[var(--brand-primary)]' : 'bg-transparent'}`} />
                         <div>
@@ -176,7 +187,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 )}
               </div>
               <div className="p-3 text-center border-t border-slate-50">
-                <Link href="/notifikasi" onClick={() => setIsNotifOpen(false)} className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors inline-block w-full py-1">Lihat semua notifikasi</Link>
+                <Link href="/notifikasi" onClick={() => { handleMarkAllRead(); setIsNotifOpen(false); }} className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors inline-block w-full py-1">Lihat semua notifikasi</Link>
               </div>
             </div>
           )}
