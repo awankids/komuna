@@ -54,7 +54,7 @@ export default async function NotifikasiPage() {
     <div className="min-h-screen bg-slate-50 font-sans pb-20 md:pb-8 text-slate-800">
       <Header />
 
-      <main className="max-w-4xl mx-auto px-4 md:px-8 pt-6">
+      <main className="max-w-2xl mx-auto px-4 md:px-8 pt-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-2xl font-black text-slate-800 tracking-tight">Semua Notifikasi</h1>
@@ -85,29 +85,39 @@ export default async function NotifikasiPage() {
               {notifikasi.map((item) => (
                 <div 
                   key={item.id} 
-                  className={`p-4 md:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 transition-colors ${!item.isRead ? 'bg-sky-50/30' : 'hover:bg-slate-50'}`}
+                  className={`p-5 transition-colors ${!item.isRead ? 'bg-sky-50/40' : 'hover:bg-slate-50'}`}
                 >
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className={`mt-0.5 shrink-0 ${!item.isRead ? 'relative' : ''}`}>
-                      {getIcon(item.type, item.isRead)}
-                      {!item.isRead && (
-                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[var(--brand-primary)] rounded-full border-2 border-white" />
-                      )}
+                  <div className="flex gap-4">
+                    {/* Icon Column */}
+                    <div className="shrink-0 mt-0.5">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center relative ${!item.isRead ? 'bg-white shadow-sm border border-sky-100' : 'bg-slate-50 border border-slate-100'}`}>
+                        {getIcon(item.type, item.isRead)}
+                        {!item.isRead && (
+                          <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-[var(--brand-primary)] rounded-full border-2 border-white" />
+                        )}
+                      </div>
                     </div>
-                    <div className="space-y-1.5 flex-1">
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h4 className={`text-base ${!item.isRead ? 'font-bold text-slate-800' : 'font-semibold text-slate-700'}`}>
+                    
+                    {/* Content Column */}
+                    <div className="flex-1 space-y-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+                        <h4 className={`text-[15px] tracking-tight ${!item.isRead ? 'font-bold text-slate-800' : 'font-semibold text-slate-700'}`}>
                           {item.title}
                         </h4>
-                        <span className="text-[11px] font-semibold text-slate-400 whitespace-nowrap bg-slate-100 px-2.5 py-1 rounded-full">
-                          {formatTime(item.createdAt)}
-                        </span>
+                        <div className="flex items-center gap-1.5 text-slate-400">
+                          <CalendarDays className="w-3.5 h-3.5" />
+                          <span className="text-[11px] font-semibold">
+                            {formatTime(item.createdAt)}
+                          </span>
+                        </div>
                       </div>
+                      
                       <p className={`text-sm leading-relaxed ${!item.isRead ? 'text-slate-600 font-medium' : 'text-slate-500'}`}>
                         {item.message}
                       </p>
                       
-                      <div className="flex justify-end items-center gap-2 pt-1">
+                      {/* Actions Footer */}
+                      <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100/60">
                         <WhatsAppShareButton 
                           text={`*${item.title}*\n\n${item.message}\n\n_Pesan otomatis dari komuna.id_`} 
                         />

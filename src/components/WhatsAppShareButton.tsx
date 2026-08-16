@@ -24,7 +24,7 @@ export default function WhatsAppShareButton({
   return (
     <button
       onClick={handleShare}
-      className={`flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366] hover:bg-[#1ebd5a] text-white rounded-lg text-xs font-bold transition-all shadow-sm ${className}`}
+      className={`flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 hover:border-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/5 rounded-lg text-xs font-bold transition-all shadow-sm ${className}`}
       title="Bagikan ke WhatsApp"
     >
       <MessageCircle className="w-3.5 h-3.5" />
