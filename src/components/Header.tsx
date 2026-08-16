@@ -57,12 +57,53 @@ export default function Header({ onMenuClick }: HeaderProps) {
     }
   };
 
-  // Static dummy notifications
-  const notifications = [
-    { id: 1, title: 'Pembayaran Kas Berhasil', time: '10 menit yang lalu', unread: true },
-    { id: 2, title: 'Jadwal Ronda: Ahmad', time: '2 jam yang lalu', unread: true },
-    { id: 3, title: 'Laporan Keuangan Bulan Lalu', time: '1 hari yang lalu', unread: false },
-  ];
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Fetch notifications from API
+  const fetchNotifications = async () => {
+    try {
+      const res = await fetch('/api/notifikasi');
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data.notifikasi || []);
+        setUnreadCount(data.notifikasi?.filter((n: any) => !n.isRead).length || 0);
+      }
+    } catch (e) {
+      console.error('Failed to fetch notifications', e);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleMarkAllRead = async () => {
+    try {
+      await fetch('/api/notifikasi/mark-all-read', { method: 'PUT' });
+      setUnreadCount(0);
+      setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+    } catch (e) {
+      console.error('Failed to mark as read', e);
+    }
+  };
+
+  const formatTime = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.round(diffMs / 60000);
+    const diffHrs = Math.round(diffMs / 3600000);
+    const diffDays = Math.round(diffMs / 86400000);
+
+    if (diffMins < 60) return `${diffMins} menit yang lalu`;
+    if (diffHrs < 24) return `${diffHrs} jam yang lalu`;
+    if (diffDays === 1) return `Kemarin`;
+    return `${diffDays} hari yang lalu`;
+  };
 
   return (
     <header className="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-8 font-sans sticky top-0 z-40">
@@ -97,9 +138,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className={`relative text-slate-500 p-2 rounded-xl transition-all duration-200 focus:outline-none ${isNotifOpen ? 'bg-slate-100 text-slate-800' : 'hover:text-slate-800 hover:bg-slate-50'}`}
           >
             <Bell className="w-6 h-6" />
-            <span className="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-white rounded-full flex items-center justify-center text-[9px] font-bold border-2 border-white">
-              3
-            </span>
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-white rounded-full flex items-center justify-center text-[9px] font-bold border-2 border-white">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
           </button>
           
           {/* Notification Dropdown */}
@@ -107,20 +150,29 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
               <div className="px-4 py-3 border-b border-slate-50 flex items-center justify-between">
                 <h3 className="font-bold text-sm text-slate-800">Notifikasi</h3>
-                <button className="text-[10px] text-[var(--brand-primary)] font-semibold hover:underline">Tandai dibaca</button>
+                {unreadCount > 0 && (
+                  <button onClick={handleMarkAllRead} className="text-[10px] text-[var(--brand-primary)] font-semibold hover:underline">Tandai dibaca</button>
+                )}
               </div>
               <div className="max-h-80 overflow-y-auto">
-                {notifications.map((notif) => (
-                  <div key={notif.id} className={`px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${notif.unread ? 'bg-slate-50/50' : ''}`}>
-                    <div className="flex items-start gap-3">
-                      <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${notif.unread ? 'bg-[var(--brand-primary)]' : 'bg-transparent'}`} />
-                      <div>
-                        <p className={`text-xs ${notif.unread ? 'font-bold text-slate-800' : 'font-medium text-slate-600'}`}>{notif.title}</p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">{notif.time}</p>
+                {notifications.length === 0 ? (
+                  <div className="px-4 py-6 text-center text-slate-400 text-xs font-medium italic">
+                    Belum ada notifikasi
+                  </div>
+                ) : (
+                  notifications.map((notif) => (
+                    <div key={notif.id} className={`px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${!notif.isRead ? 'bg-slate-50/50' : ''}`}>
+                      <div className="flex items-start gap-3">
+                        <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${!notif.isRead ? 'bg-[var(--brand-primary)]' : 'bg-transparent'}`} />
+                        <div>
+                          <p className={`text-xs ${!notif.isRead ? 'font-bold text-slate-800' : 'font-medium text-slate-600'}`}>{notif.title}</p>
+                          {notif.message && <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">{notif.message}</p>}
+                          <p className="text-[9px] text-slate-400 mt-1">{formatTime(notif.createdAt)}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
               <div className="p-3 text-center border-t border-slate-50">
                 <button className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors">Lihat semua notifikasi</button>

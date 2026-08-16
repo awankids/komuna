@@ -76,3 +76,8 @@ export type TransaksiKeuangan = Prisma.TransaksiKeuanganModel
  * 
  */
 export type Agenda = Prisma.AgendaModel
+/**
+ * Model Notifikasi
+ * 
+ */
+export type Notifikasi = Prisma.NotifikasiModel

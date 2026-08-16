@@ -390,7 +390,8 @@ export const ModelName = {
   JadwalPetugas: 'JadwalPetugas',
   Jimpitan: 'Jimpitan',
   TransaksiKeuangan: 'TransaksiKeuangan',
-  Agenda: 'Agenda'
+  Agenda: 'Agenda',
+  Notifikasi: 'Notifikasi'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -928,6 +929,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Notifikasi: {
+      payload: Prisma.$NotifikasiPayload<ExtArgs>
+      fields: Prisma.NotifikasiFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotifikasiFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotifikasiFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>
+        }
+        findFirst: {
+          args: Prisma.NotifikasiFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotifikasiFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>
+        }
+        findMany: {
+          args: Prisma.NotifikasiFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>[]
+        }
+        create: {
+          args: Prisma.NotifikasiCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>
+        }
+        createMany: {
+          args: Prisma.NotifikasiCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotifikasiCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>[]
+        }
+        delete: {
+          args: Prisma.NotifikasiDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>
+        }
+        update: {
+          args: Prisma.NotifikasiUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotifikasiDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotifikasiUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotifikasiUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotifikasiUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotifikasiPayload>
+        }
+        aggregate: {
+          args: Prisma.NotifikasiAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotifikasi>
+        }
+        groupBy: {
+          args: Prisma.NotifikasiGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotifikasiGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotifikasiCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotifikasiCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1061,6 +1136,18 @@ export const AgendaScalarFieldEnum = {
 } as const
 
 export type AgendaScalarFieldEnum = (typeof AgendaScalarFieldEnum)[keyof typeof AgendaScalarFieldEnum]
+
+
+export const NotifikasiScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+} as const
+
+export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1272,6 +1359,7 @@ export type GlobalOmitConfig = {
   jimpitan?: Prisma.JimpitanOmit
   transaksiKeuangan?: Prisma.TransaksiKeuanganOmit
   agenda?: Prisma.AgendaOmit
+  notifikasi?: Prisma.NotifikasiOmit
 }
 
 /* Types for Logging */

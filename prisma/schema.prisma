@@ -97,3 +97,11 @@ model Agenda {
   createdAt    DateTime @default(now())
 }
 
+model Notifikasi {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  type      String   @default("info") // info, success, warning, error
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
