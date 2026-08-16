@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, Bell, ChevronDown, LogOut, User, Settings, Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -175,7 +176,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 )}
               </div>
               <div className="p-3 text-center border-t border-slate-50">
-                <button className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors">Lihat semua notifikasi</button>
+                <Link href="/notifikasi" onClick={() => setIsNotifOpen(false)} className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors inline-block w-full py-1">Lihat semua notifikasi</Link>
               </div>
             </div>
           )}
