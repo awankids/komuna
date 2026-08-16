@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       path: '/',
       httpOnly: false, // Accessible by client-side router for simplicity
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: 60 * 60 * 24 * 30, // 30 days
     });
     
     return response;

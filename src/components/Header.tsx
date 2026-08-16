@@ -1,15 +1,71 @@
 'use client';
 
-import React from 'react';
-import { Menu, Bell, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, Bell, ChevronDown, LogOut, User, Settings, Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
+  const router = useRouter();
+  const [userData, setUserData] = useState<{nama: string, role: string} | null>(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
+  
+  const profileRef = useRef<HTMLDivElement>(null);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setIsNotifOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Fetch session from cookie
+  useEffect(() => {
+    const getSession = () => {
+      const cookies = document.cookie.split(';');
+      const sessionCookie = cookies.find(c => c.trim().startsWith('komuna_session='));
+      if (sessionCookie) {
+        try {
+          const sessionValue = decodeURIComponent(sessionCookie.split('=')[1]);
+          setUserData(JSON.parse(sessionValue));
+        } catch (e) {
+          console.error('Failed to parse session cookie', e);
+        }
+      }
+    };
+    getSession();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      router.push('/login');
+    } catch (error) {
+      console.error('Failed to logout', error);
+    }
+  };
+
+  // Static dummy notifications
+  const notifications = [
+    { id: 1, title: 'Pembayaran Kas Berhasil', time: '10 menit yang lalu', unread: true },
+    { id: 2, title: 'Jadwal Ronda: Ahmad', time: '2 jam yang lalu', unread: true },
+    { id: 3, title: 'Laporan Keuangan Bulan Lalu', time: '1 hari yang lalu', unread: false },
+  ];
+
   return (
-    <header className="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-8 font-sans sticky top-0 z-10">
+    <header className="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-8 font-sans sticky top-0 z-40">
       {/* Left side: Hamburger button */}
       <button 
         onClick={onMenuClick}
@@ -35,35 +91,100 @@ export default function Header({ onMenuClick }: HeaderProps) {
       {/* Right side: Notifications & Profile */}
       <div className="flex items-center gap-3 md:gap-6">
         {/* Notifications Icon with Badge */}
-        <button className="relative text-slate-500 hover:text-slate-800 p-2 hover:bg-slate-50 rounded-xl transition-all duration-200">
-          <Bell className="w-6 h-6" />
-          <span className="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-white rounded-full flex items-center justify-center text-[9px] font-bold border-2 border-white">
-            3
-          </span>
-        </button>
+        <div className="relative" ref={notifRef}>
+          <button 
+            onClick={() => setIsNotifOpen(!isNotifOpen)}
+            className={`relative text-slate-500 p-2 rounded-xl transition-all duration-200 focus:outline-none ${isNotifOpen ? 'bg-slate-100 text-slate-800' : 'hover:text-slate-800 hover:bg-slate-50'}`}
+          >
+            <Bell className="w-6 h-6" />
+            <span className="absolute top-1 right-1 w-4.5 h-4.5 bg-red-500 text-white rounded-full flex items-center justify-center text-[9px] font-bold border-2 border-white">
+              3
+            </span>
+          </button>
+          
+          {/* Notification Dropdown */}
+          {isNotifOpen && (
+            <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+              <div className="px-4 py-3 border-b border-slate-50 flex items-center justify-between">
+                <h3 className="font-bold text-sm text-slate-800">Notifikasi</h3>
+                <button className="text-[10px] text-[var(--brand-primary)] font-semibold hover:underline">Tandai dibaca</button>
+              </div>
+              <div className="max-h-80 overflow-y-auto">
+                {notifications.map((notif) => (
+                  <div key={notif.id} className={`px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${notif.unread ? 'bg-slate-50/50' : ''}`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${notif.unread ? 'bg-[var(--brand-primary)]' : 'bg-transparent'}`} />
+                      <div>
+                        <p className={`text-xs ${notif.unread ? 'font-bold text-slate-800' : 'font-medium text-slate-600'}`}>{notif.title}</p>
+                        <p className="text-[10px] text-slate-400 mt-0.5">{notif.time}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="p-3 text-center border-t border-slate-50">
+                <button className="text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors">Lihat semua notifikasi</button>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Vertical Divider */}
-        <span className="w-px h-6 bg-slate-200" />
+        <span className="w-px h-6 bg-slate-200 hidden md:block" />
 
         {/* Profile Card */}
-        <div className="flex items-center gap-1.5 md:gap-3 cursor-pointer group">
-          {/* Avatar (simulated with nice graphics) */}
-          <div className="w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden border border-slate-200 shadow-sm bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center text-white font-semibold">
-            {/* Simple silhouette or initials */}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4.5 h-4.5 md:w-5 md:h-5">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
+        <div className="relative" ref={profileRef}>
+          <div 
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            className="flex items-center gap-1.5 md:gap-3 cursor-pointer group p-1 pr-2 rounded-2xl hover:bg-slate-50 transition-colors"
+          >
+            {/* Avatar (simulated with nice graphics) */}
+            <div className="w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden border border-slate-200 shadow-sm bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center text-white font-semibold shrink-0">
+              {/* Simple silhouette or initials */}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4.5 h-4.5 md:w-5 md:h-5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div className="hidden sm:flex flex-col text-left">
+              <span className="text-sm font-bold text-slate-800 leading-tight group-hover:text-[var(--brand-primary)] transition-colors duration-200 capitalize">
+                {userData?.nama || 'Memuat...'}
+              </span>
+              <span className="text-[11px] text-slate-400 font-medium capitalize">
+                {userData?.role || 'Admin'}
+              </span>
+            </div>
+            <ChevronDown className={`w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
           </div>
-          <div className="hidden sm:flex flex-col text-left">
-            <span className="text-sm font-bold text-slate-800 leading-tight group-hover:text-[var(--brand-primary)] transition-colors duration-200">
-              Admin RT 04
-            </span>
-            <span className="text-[11px] text-slate-400 font-medium">
-              Ketua RT
-            </span>
-          </div>
-          <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors duration-200" />
+
+          {/* Profile Dropdown */}
+          {isProfileOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
+              <div className="px-4 py-3 border-b border-slate-50 block sm:hidden">
+                <span className="text-sm font-bold text-slate-800 block capitalize">{userData?.nama || 'Memuat...'}</span>
+                <span className="text-[10px] text-slate-400 font-medium block capitalize">{userData?.role || 'Admin'}</span>
+              </div>
+              <div className="p-2 space-y-1">
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors">
+                  <User className="w-4 h-4" />
+                  Profil Saya
+                </button>
+                <button className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors">
+                  <Settings className="w-4 h-4" />
+                  Pengaturan
+                </button>
+              </div>
+              <div className="p-2 border-t border-slate-50">
+                <button 
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Keluar
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

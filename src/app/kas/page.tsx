@@ -1143,8 +1143,8 @@ export default function KasRTPage() {
               <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
               
               {/* Form Card */}
-              <form onSubmit={handleSubmit} className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-left space-y-5">
-                <h3 className="text-lg font-black text-slate-800">{modalMode === 'add' ? 'Tambah Transaksi Kas' : 'Edit Transaksi Kas'}</h3>
+              <form onSubmit={handleSubmit} className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-left space-y-5">
+                <h3 className="text-lg font-black text-slate-800 dark:text-slate-100">{modalMode === 'add' ? 'Tambah Transaksi Kas' : 'Edit Transaksi Kas'}</h3>
 
                 {modalMode === 'edit' && transactions.find(t => t.id === currentTxId)?.sumber === 'jimpitan' && (
                   <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-left flex items-start gap-2.5">
@@ -1164,7 +1164,7 @@ export default function KasRTPage() {
                       type="date"
                       value={formTanggal}
                       onChange={(e) => setFormTanggal(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713]"
+                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                       required
                     />
                   </div>
@@ -1217,7 +1217,7 @@ export default function KasRTPage() {
                     <select
                       value={formKategori}
                       onChange={(e) => setFormKategori(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] cursor-pointer"
+                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] cursor-pointer transition-colors"
                     >
                       {categories[formJenis] && categories[formJenis].map((cat: string) => (
                         <option key={cat} value={cat}>{cat}</option>
@@ -1233,7 +1233,7 @@ export default function KasRTPage() {
                       placeholder="e.g. Pembayaran Listrik Pos Ronda"
                       value={formKeterangan}
                       onChange={(e) => setFormKeterangan(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713]"
+                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                       required
                     />
                   </div>
@@ -1246,7 +1246,7 @@ export default function KasRTPage() {
                       placeholder="e.g. Pak Ahmad / Sapu, Pel, dll"
                       value={formSubKeterangan}
                       onChange={(e) => setFormSubKeterangan(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713]"
+                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                     />
                   </div>
 
@@ -1258,7 +1258,7 @@ export default function KasRTPage() {
                       placeholder="e.g. 150000"
                       value={formNominal}
                       onChange={(e) => setFormNominal(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl font-black text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713]"
+                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                       min="1"
                       required
                     />
