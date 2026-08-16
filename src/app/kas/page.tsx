@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
+import TransactionForm from '@/components/TransactionForm';
 import {
   Wallet,
   ArrowDown,
@@ -377,27 +378,24 @@ export default function KasRTPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    const formData = new FormData(e.currentTarget);
-    const keteranganInput = formData.get('keterangan') as string;
-    const subKeteranganInput = formData.get('subKeterangan') as string;
-    const nominalInput = formData.get('nominal') as string;
-
-    if (!formTanggal || !keteranganInput || !nominalInput) {
+  const handleSubmit = async (data: {
+    tanggal: string;
+    jenis: 'pemasukan' | 'pengeluaran';
+    kategori: string;
+    keterangan: string;
+    nominal: string;
+  }) => {
+    if (!data.tanggal || !data.keterangan || !data.nominal) {
       triggerToast('Semua kolom wajib diisi', 'error');
       return;
     }
-
-    const fullKeterangan = subKeteranganInput ? `${keteranganInput} / ${subKeteranganInput}` : keteranganInput;
 
     try {
       const url = '/api/transaksi';
       const method = modalMode === 'add' ? 'POST' : 'PUT';
       const body = modalMode === 'add'
-        ? { tanggal: formTanggal, jenis: formJenis, kategori: formKategori, keterangan: fullKeterangan, nominal: nominalInput }
-        : { id: currentTxId, tanggal: formTanggal, jenis: formJenis, kategori: formKategori, keterangan: fullKeterangan, nominal: nominalInput };
+        ? { tanggal: data.tanggal, jenis: data.jenis, kategori: data.kategori, keterangan: data.keterangan, nominal: data.nominal }
+        : { id: currentTxId, tanggal: data.tanggal, jenis: data.jenis, kategori: data.kategori, keterangan: data.keterangan, nominal: data.nominal };
 
       const res = await fetch(url, {
         method,
@@ -405,9 +403,9 @@ export default function KasRTPage() {
         body: JSON.stringify(body),
       });
 
-      const data = await res.json();
-      if (data.error) {
-        triggerToast(data.error, 'error');
+      const resData = await res.json();
+      if (resData.error) {
+        triggerToast(resData.error, 'error');
       } else {
         triggerToast(
           modalMode === 'add' ? 'Transaksi kas berhasil dicatat' : 'Data transaksi kas berhasil diperbarui',
@@ -420,6 +418,11 @@ export default function KasRTPage() {
       triggerToast('Gagal menyimpan transaksi', 'error');
     }
   };
+
+  const handleOpenCategoryModal = useCallback((jenis: 'pemasukan' | 'pengeluaran') => {
+    setCategoryTab(jenis);
+    setIsCategoryModalOpen(true);
+  }, []);
 
   const handleExportExcel = () => {
     let csvContent = "\uFEFF"; // UTF-8 BOM
@@ -1148,146 +1151,22 @@ export default function KasRTPage() {
               {/* Backdrop */}
               <div className="absolute inset-0 bg-slate-900/60" onClick={() => setIsModalOpen(false)} />
               
-              {/* Form Card */}
-              <form key={modalMode + currentTxId} onSubmit={handleSubmit} className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 text-left space-y-5">
-                <h3 className="text-lg font-black text-slate-800 dark:text-slate-100">{modalMode === 'add' ? 'Tambah Transaksi Kas' : 'Edit Transaksi Kas'}</h3>
-
-                {modalMode === 'edit' && transactions.find(t => t.id === currentTxId)?.sumber === 'jimpitan' && (
-                  <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-left flex items-start gap-2.5">
-                    <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                    <p className="text-xs font-semibold text-amber-800 leading-relaxed">
-                      Catatan: Mengubah nominal jimpitan susulan ini akan otomatis memperbarui nominal jimpitan harian terkait di halaman Jimpitan.
-                    </p>
-                  </div>
-                )}
-
-                <div className="space-y-4">
-                  
-                  {/* Tanggal */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tanggal</label>
-                    <input
-                      type="date"
-                      value={formTanggal}
-                      onChange={(e) => setFormTanggal(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
-                      required
-                    />
-                  </div>
-
-                  {/* Jenis */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Jenis Transaksi</label>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => { setFormJenis('pemasukan'); setFormKategori('Sumbangan'); }}
-                        className={`py-2 px-4 rounded-xl text-xs font-bold transition-all border ${
-                          formJenis === 'pemasukan'
-                            ? 'bg-emerald-50 text-emerald-600 border-emerald-250 shadow-sm'
-                            : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
-                        }`}
-                      >
-                        Pemasukan
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => { setFormJenis('pengeluaran'); setFormKategori('Kebersihan'); }}
-                        className={`py-2 px-4 rounded-xl text-xs font-bold transition-all border ${
-                          formJenis === 'pengeluaran'
-                            ? 'bg-red-50 text-red-650 border-red-250 shadow-sm'
-                            : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
-                        }`}
-                      >
-                        Pengeluaran
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Kategori with custom management option */}
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Kategori</label>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCategoryTab(formJenis);
-                          setIsCategoryModalOpen(true);
-                        }}
-                        className="text-[10px] font-bold text-[#f95713] hover:text-orange-600 transition-colors flex items-center gap-0.5 cursor-pointer"
-                      >
-                        <Settings2 className="w-3 h-3" />
-                        <span>Kelola Kategori</span>
-                      </button>
-                    </div>
-                    <select
-                      value={formKategori}
-                      onChange={(e) => setFormKategori(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] cursor-pointer transition-colors"
-                    >
-                      {categories[formJenis] && categories[formJenis].map((cat: string) => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Keterangan */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Keterangan Utama</label>
-                    <input
-                      name="keterangan"
-                      type="text"
-                      placeholder="e.g. Pembayaran Listrik Pos Ronda"
-                      defaultValue={formKeterangan}
-                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
-                      required
-                    />
-                  </div>
-
-                  {/* Sub Keterangan */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Detail / Keterangan Tambahan (Opsional)</label>
-                    <input
-                      name="subKeterangan"
-                      type="text"
-                      placeholder="e.g. Pak Ahmad / Sapu, Pel, dll"
-                      defaultValue={formSubKeterangan}
-                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
-                    />
-                  </div>
-
-                  {/* Nominal */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nominal (Rp)</label>
-                    <input
-                      name="nominal"
-                      type="number"
-                      placeholder="e.g. 150000"
-                      defaultValue={formNominal}
-                      className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
-                      min="1"
-                      required
-                    />
-                  </div>
-
-                </div>
-
-                <div className="flex gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-3 border-2 border-slate-200 text-slate-500 font-bold rounded-2xl hover:bg-slate-50 transition-all text-xs cursor-pointer"
-                  >
-                    Batal
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 py-3 bg-[#f95713] hover:bg-orange-600 text-white font-bold rounded-2xl shadow-lg shadow-orange-100 transition-all text-xs cursor-pointer"
-                  >
-                    Simpan Transaksi
-                  </button>
-                </div>
-              </form>
+              {/* Isolated Form Component - prevents parent re-renders from breaking Android IME */}
+              <TransactionForm
+                modalMode={modalMode}
+                currentTxId={currentTxId}
+                initialTanggal={formTanggal}
+                initialJenis={formJenis}
+                initialKategori={formKategori}
+                initialKeterangan={formKeterangan}
+                initialSubKeterangan={formSubKeterangan}
+                initialNominal={formNominal}
+                categories={categories}
+                isJimpitan={modalMode === 'edit' && transactions.find(t => t.id === currentTxId)?.sumber === 'jimpitan' || false}
+                onSubmit={handleSubmit}
+                onCancel={() => setIsModalOpen(false)}
+                onOpenCategoryModal={handleOpenCategoryModal}
+              />
             </div>
           )}
 
