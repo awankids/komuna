@@ -300,391 +300,327 @@ export default function DashboardPage() {
           </div>
 
           {/* Statistics Grid */}
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x no-scrollbar md:grid md:grid-cols-4 md:gap-6 md:pb-0 md:mx-0 md:px-0">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             
             {/* Card 1: Saldo Kas */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Saldo Kas</span>
-              <h3 className="text-sm md:text-base font-bold text-slate-800 tracking-tight">{formatRp(saldoKas)}</h3>
-              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner mt-1">
-                <Wallet className="w-5 h-5" />
+            <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-36 relative overflow-hidden group transition-shadow hover:shadow-md">
+              <div className="flex justify-between items-start">
+                <span className="text-sm font-semibold text-slate-500">Saldo Kas</span>
+                <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <Wallet className="w-4 h-4" />
+                </div>
               </div>
-              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">Saldo saat ini</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{formatRp(saldoKas)}</h3>
+                <span className="text-[11px] font-medium text-slate-400 mt-0.5 block">Saldo saat ini</span>
+              </div>
             </div>
 
             {/* Card 2: Jimpitan Bulan Ini */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-bold text-[var(--brand-primary)] uppercase tracking-wider">Jimpitan Bulan Ini</span>
-              <h3 className="text-sm md:text-base font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(jimpitanBulanIni)}</h3>
-              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shadow-inner mt-1">
-                <Coins className="w-5 h-5" />
+            <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-36 relative overflow-hidden group transition-shadow hover:shadow-md">
+              <div className="flex justify-between items-start">
+                <span className="text-sm font-semibold text-slate-500">Jimpitan</span>
+                <div className="w-8 h-8 rounded-full bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center">
+                  <Coins className="w-4 h-4" />
+                </div>
               </div>
-              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">
-                Total {new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()} hari
-              </span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{formatRp(jimpitanBulanIni)}</h3>
+                <span className="text-[11px] font-medium text-slate-400 mt-0.5 block">
+                  Bulan ini ({new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()} hari)
+                </span>
+              </div>
             </div>
 
             {/* Card 3: Pemasukan Bulan Ini */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-bold text-sky-600 uppercase tracking-wider">Pemasukan Bulan Ini</span>
-              <h3 className="text-sm md:text-base font-bold text-sky-600 tracking-tight">{formatRp(pemasukanBulanIni)}</h3>
-              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center shadow-inner mt-1">
-                <ArrowDown className="w-5 h-5" />
+            <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-36 relative overflow-hidden group transition-shadow hover:shadow-md">
+              <div className="flex justify-between items-start">
+                <span className="text-sm font-semibold text-slate-500">Pemasukan</span>
+                <div className="w-8 h-8 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center">
+                  <ArrowDown className="w-4 h-4" />
+                </div>
               </div>
-              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">Total pemasukan</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{formatRp(pemasukanBulanIni)}</h3>
+                <span className="text-[11px] font-medium text-slate-400 mt-0.5 block">Bulan ini</span>
+              </div>
             </div>
 
             {/* Card 4: Pengeluaran Bulan Ini */}
-            <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-between h-40 md:h-44 text-center snap-start shrink-0 w-[160px] sm:w-[190px] md:w-auto md:shrink select-none">
-              <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">Pengeluaran Bulan Ini</span>
-              <h3 className="text-sm md:text-base font-bold text-red-500 tracking-tight">{formatRp(pengeluaranBulanIni)}</h3>
-              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-red-50 text-red-500 flex items-center justify-center shadow-inner mt-1">
-                <ArrowUp className="w-5 h-5" />
+            <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between h-36 relative overflow-hidden group transition-shadow hover:shadow-md">
+              <div className="flex justify-between items-start">
+                <span className="text-sm font-semibold text-slate-500">Pengeluaran</span>
+                <div className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center">
+                  <ArrowUp className="w-4 h-4" />
+                </div>
               </div>
-              <span className="text-[9px] md:text-[10px] font-medium text-slate-400 mt-1">Total pengeluaran</span>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">{formatRp(pengeluaranBulanIni)}</h3>
+                <span className="text-[11px] font-medium text-slate-400 mt-0.5 block">Bulan ini</span>
+              </div>
             </div>
 
           </div>
 
-          {/* Schedule & Jimpitan Input Panel (Hari Ini & Kemarin) */}
-          <div className="space-y-3">
-            {/* Tab Selector */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-              <button
-                type="button"
-                aria-label="Tampilkan jimpitan hari ini"
-                onClick={() => setJimpitanTab('today')}
-                className={`px-4 py-2.5 min-h-[40px] rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
-                  jimpitanTab === 'today'
-                    ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
-                    : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-                }`}
-              >
-                <span>📅 HARI INI</span>
-                {todaySavedNominal !== null && todaySavedNominal > 0 ? (
-                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                ) : (
-                  <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                )}
-              </button>
+          {/* Bento Grid Container */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-              <button
-                type="button"
-                aria-label="Tampilkan jimpitan kemarin"
-                onClick={() => setJimpitanTab('yesterday')}
-                className={`px-4 py-2.5 min-h-[40px] rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border ${
-                  jimpitanTab === 'yesterday'
-                    ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
-                    : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200/80'
-                }`}
-              >
-                <span>⏪ KEMARIN</span>
-                {yesterdaySavedNominal === null || yesterdaySavedNominal === 0 ? (
-                  <span className="px-1.5 py-0.5 text-[8px] bg-amber-100 text-amber-800 rounded font-extrabold uppercase">Belum Diisi</span>
-                ) : (
-                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                )}
-              </button>
-            </div>
-
-            {/* Input Card Container */}
-            <div className="bg-[var(--brand-light)] border border-[var(--brand-primary)]/20 rounded-3xl p-5 md:p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-8">
+            {/* LEFT COLUMN: Jimpitan Input & Transactions (8 cols) */}
+            <div className="lg:col-span-8 space-y-6 flex flex-col">
               
-              {/* Left side: Calendar details */}
-              <div className="flex items-center gap-4 md:gap-5">
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-[var(--brand-primary)]/10 flex flex-col items-center justify-center text-[var(--brand-primary)] shrink-0">
-                  <Calendar className="w-7 h-7 md:w-8 md:h-8" />
+              {/* Schedule & Jimpitan Input Panel */}
+              <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col transition-shadow hover:shadow-md">
+                
+                {/* Header & Tabs */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 border-b border-slate-100 gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-[var(--brand-primary)]/10 flex items-center justify-center text-[var(--brand-primary)]">
+                      <Calendar className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-800">Input Jimpitan</h3>
+                      <p className="text-xs text-slate-500 font-medium mt-0.5">Catat jimpitan warga dengan cepat</p>
+                    </div>
+                  </div>
+
+                  {/* Tab Selector integrated */}
+                  <div className="flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => setJimpitanTab('today')}
+                      className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                        jimpitanTab === 'today'
+                          ? 'bg-white text-slate-800 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-700'
+                      }`}
+                    >
+                      <span>Hari Ini</span>
+                      {todaySavedNominal !== null && todaySavedNominal > 0 ? (
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      ) : (
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setJimpitanTab('yesterday')}
+                      className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+                        jimpitanTab === 'yesterday'
+                          ? 'bg-white text-slate-800 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-700'
+                      }`}
+                    >
+                      <span>Kemarin</span>
+                      {yesterdaySavedNominal === null || yesterdaySavedNominal === 0 ? (
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                      ) : (
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <div className="space-y-1 text-left">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] md:text-xs font-bold uppercase text-[var(--brand-primary)] tracking-widest leading-none">
-                      {jimpitanTab === 'today' ? 'Hari Ini' : 'Kemarin'}
+
+                {/* Form Area */}
+                <div className="p-5 md:p-6 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold uppercase text-[var(--brand-primary)] tracking-widest">
+                      {jimpitanTab === 'today' ? 'Jadwal Hari Ini' : 'Jadwal Kemarin'}
                     </span>
-                    {jimpitanTab === 'yesterday' && (yesterdaySavedNominal === null || yesterdaySavedNominal === 0) && (
-                      <span className="text-[9px] font-bold bg-amber-500 text-white px-2 py-0.5 rounded-full">
-                        Perlu Diisi
+                    <h4 className="text-base font-bold text-slate-800">
+                      {jimpitanTab === 'today' ? todayDateFormatted : yesterdayDateFormatted}
+                    </h4>
+                    <div className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                      <span>Petugas:</span>
+                      <span className="font-semibold text-slate-700">
+                        {jimpitanTab === 'today' ? todayPetugasName : yesterdayPetugasName}
                       </span>
-                    )}
+                    </div>
                   </div>
-                  <h4 className="text-md md:text-lg font-bold text-slate-800 tracking-tight">
-                    {jimpitanTab === 'today' ? todayDateFormatted : yesterdayDateFormatted}
-                  </h4>
-                  <div className="text-xs text-slate-500 font-semibold flex flex-wrap items-center gap-1 mt-0.5">
-                    <span className="text-slate-400 font-medium">Petugas Jimpitan:</span>
-                    <span className="text-slate-700 font-bold">
-                      {jimpitanTab === 'today' ? todayPetugasName : yesterdayPetugasName}
-                    </span>
+
+                  <div className="flex items-center gap-3 w-full md:w-auto">
+                    <div className="relative w-full md:w-48">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400">Rp</span>
+                      <input
+                        id="nominal-jimpitan-dashboard"
+                        type="text"
+                        value={
+                          (jimpitanTab === 'today' ? todayInput : yesterdayInput) === '' 
+                            ? '' 
+                            : parseInt(jimpitanTab === 'today' ? todayInput : yesterdayInput, 10).toLocaleString('id-ID')
+                        }
+                        onChange={handleInputChange}
+                        placeholder="0"
+                        className="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] focus:ring-1 focus:ring-[var(--brand-primary)] transition-all"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleSaveNominal}
+                      className="px-4 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-sm font-semibold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 shrink-0"
+                    >
+                      <Save className="w-4 h-4" />
+                      <span className="hidden sm:inline">Simpan</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* Right side: Input nominal */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 max-w-md w-full lg:justify-end">
-                <div className="flex flex-col w-full sm:w-60">
-                  <label htmlFor="nominal-jimpitan-dashboard" className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1.5 self-start">
-                    Nominal Jimpitan {jimpitanTab === 'today' ? 'Hari Ini' : 'Kemarin'}
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-500">Rp</span>
-                    <input
-                      id="nominal-jimpitan-dashboard"
-                      type="text"
-                      aria-label={`Input nominal jimpitan ${jimpitanTab === 'today' ? 'hari ini' : 'kemarin'}`}
-                      value={
-                        (jimpitanTab === 'today' ? todayInput : yesterdayInput) === '' 
-                          ? '' 
-                          : parseInt(jimpitanTab === 'today' ? todayInput : yesterdayInput, 10).toLocaleString('id-ID')
-                      }
-                      onChange={handleInputChange}
-                      placeholder="0"
-                      className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-lg font-semibold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 focus:border-[var(--brand-primary)] transition-all"
-                    />
-                  </div>
+              {/* Transaksi Terakhir */}
+              <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-200 shadow-sm flex flex-col flex-1 transition-shadow hover:shadow-md">
+                <div className="flex items-center justify-between mb-5">
+                  <h3 className="text-sm font-bold text-slate-800 tracking-tight">Transaksi Terakhir</h3>
+                  <Link href="/kas" className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
+                    <span>Lihat semua</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
-                <button
-                  type="button"
-                  aria-label="Simpan nominal jimpitan"
-                  onClick={handleSaveNominal}
-                  className="sm:mt-5 px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-semibold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/25 min-h-[44px]"
-                >
-                  <Save className="w-5 h-5" />
-                  <span>Simpan Nominal</span>
-                </button>
-              </div>
 
-            </div>
-          </div>
-
-          {/* Quick Action Buttons */}
-          <div className="space-y-4" id="quick-actions-section">
-            <h3 className="text-xs font-bold text-slate-450 tracking-wider uppercase text-left">Aksi Cepat</h3>
-            <div className="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x no-scrollbar md:grid md:grid-cols-5 md:gap-4 md:pb-0 md:mx-0 md:px-0">
-              
-              {/* Action 1: Input Jimpitan */}
-              <Link href="/jimpitan" aria-label="Menu Input Jimpitan" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-emerald-500/20">
-                  <Coins className="w-5 h-5" />
-                </div>
-                <span className="text-[10px] md:text-xs font-semibold text-slate-750 leading-tight">Input Jimpitan</span>
-              </Link>
-
-              {/* Action 2: Tambah Pemasukan */}
-              <Link href="/kas" aria-label="Menu Tambah Pemasukan Kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-sm">
-                  <Plus className="w-5 h-5 stroke-[2.5]" />
-                </div>
-                <span className="text-[10px] md:text-xs font-semibold text-slate-755 leading-tight">Tambah Pemasukan</span>
-              </Link>
-
-              {/* Action 3: Tambah Pengeluaran */}
-              <Link href="/kas" aria-label="Menu Tambah Pengeluaran Kas" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-red-500/20">
-                  <Minus className="w-5 h-5 stroke-[2.5]" />
-                </div>
-                <span className="text-[10px] md:text-xs font-semibold text-slate-700 leading-tight">Tambah Pengeluaran</span>
-              </Link>
-
-              {/* Action 4: Tambah Anggota */}
-              <Link href="/anggota" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-blue-500/20">
-                  <Users className="w-5 h-5" />
-                </div>
-                <span className="text-[10px] md:text-xs font-semibold text-slate-700 leading-tight">Tambah Anggota</span>
-              </Link>
-
-              {/* Action 5: Lihat Jadwal */}
-              <Link href="/jadwal" className="bg-white hover:bg-slate-50 border border-slate-100 rounded-2xl p-2.5 md:p-4 flex flex-col items-center justify-center gap-2 text-center transition-all duration-200 shadow-sm hover:shadow group cursor-pointer select-none snap-start shrink-0 w-[100px] sm:w-[130px] md:w-auto md:shrink">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform duration-200 shadow-md shadow-purple-500/20">
-                  <Calendar className="w-5 h-5" />
-                </div>
-                <span className="text-[10px] md:text-xs font-semibold text-slate-700 leading-tight">Lihat Jadwal</span>
-              </Link>
-
-            </div>
-          </div>
-
-          {/* Bottom Sections: Transactions & Monthly Recap */}
-          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
-            
-            {/* Left Part: Last Transactions list (spans 2 columns on desktop) */}
-            <div className="lg:col-span-2 bg-white dark:bg-[#111827] rounded-3xl p-5 md:p-6 border border-slate-100 dark:border-[#1f2937] shadow-sm space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 tracking-tight">Transaksi Terakhir</h3>
-                <Link href="/kas" className="text-xs font-semibold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
-                  <span>Lihat semua</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-              {/* Transactions List */}
-              <div className="space-y-0.5">
-                {transactions.length === 0 ? (
-                  <div className="py-8 text-center text-sm text-slate-400 font-medium">
-                    Tidak ada transaksi saat ini.
-                  </div>
-                ) : (
-                  transactions.slice(0, 4).map((tx, idx, arr) => {
-                    const isPemasukan = tx.type === 'pemasukan';
-                    
-                    return (
-                      <div key={tx.id} className="group">
-                        <div className="py-3 md:py-3.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-100/70 dark:hover:bg-slate-800/60 rounded-2xl">
-                          <div className="flex items-center gap-3 md:gap-4">
-                            <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
-                              isPemasukan 
-                                ? 'bg-[var(--brand-light)] text-[var(--brand-primary)]' 
-                                : 'bg-red-50 text-red-500'
-                            }`}>
-                              {isPemasukan ? <ArrowDown className="w-4 h-4 md:w-5 md:h-5" /> : <ArrowUp className="w-4 h-4 md:w-5 md:h-5" />}
+                <div className="space-y-1">
+                  {transactions.length === 0 ? (
+                    <div className="py-8 text-center text-sm text-slate-400 font-medium">
+                      Tidak ada transaksi saat ini.
+                    </div>
+                  ) : (
+                    transactions.slice(0, 5).map((tx, idx, arr) => {
+                      const isPemasukan = tx.type === 'pemasukan';
+                      return (
+                        <div key={tx.id} className="group">
+                          <div className="py-2.5 px-3 flex items-center justify-between transition-colors hover:bg-slate-50 rounded-2xl">
+                            <div className="flex items-center gap-3 md:gap-4">
+                              <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                                isPemasukan 
+                                  ? 'bg-emerald-50 text-emerald-600' 
+                                  : 'bg-red-50 text-red-500'
+                              }`}>
+                                {isPemasukan ? <ArrowDown className="w-4 h-4" /> : <ArrowUp className="w-4 h-4" />}
+                              </div>
+                              <div className="flex flex-col text-left">
+                                <span className="text-xs md:text-sm font-bold text-slate-800 leading-tight">
+                                  {tx.title}
+                                </span>
+                                <span className="text-[10px] md:text-xs text-slate-400 font-medium mt-0.5">
+                                  {tx.subtitle}
+                                </span>
+                              </div>
                             </div>
-                            <div className="flex flex-col text-left">
-                              <span className="text-xs md:text-sm font-semibold text-slate-800 dark:text-slate-100 leading-tight">
-                                {tx.title}
-                              </span>
-                              <span className="text-[10px] md:text-xs text-slate-400 font-semibold mt-0.5">
-                                {tx.subtitle}
-                              </span>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center gap-2 md:gap-6">
-                            <span className={`text-[9px] md:text-[10px] font-black uppercase px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg ${
-                              isPemasukan 
-                                ? 'bg-emerald-50 text-emerald-600' 
-                                : 'bg-red-50 text-red-500'
-                            }`}>
-                              {isPemasukan ? 'Pemasukan' : 'Pengeluaran'}
-                            </span>
                             
-                            <span className="hidden sm:inline text-xs text-slate-400 font-semibold">
-                              {tx.date}
-                            </span>
-
-                            <span className={`text-xs md:text-sm font-bold ${
-                              isPemasukan ? 'text-emerald-600' : 'text-red-500'
-                            }`}>
-                              {isPemasukan ? `+${formatRp(tx.amount)}` : formatRp(tx.amount)}
-                            </span>
+                            <div className="flex flex-col items-end gap-1">
+                              <span className={`text-xs md:text-sm font-bold ${
+                                isPemasukan ? 'text-emerald-600' : 'text-red-500'
+                              }`}>
+                                {isPemasukan ? `+${formatRp(tx.amount)}` : formatRp(tx.amount)}
+                              </span>
+                              <span className="text-[10px] text-slate-400 font-medium">
+                                {tx.date}
+                              </span>
+                            </div>
                           </div>
+                          {idx < arr.length - 1 && (
+                            <div className="h-px bg-slate-100 my-0.5 mx-2" />
+                          )}
                         </div>
-
-                        {/* Explicit Straight Horizontal Hairline Divider */}
-                        {idx < arr.length - 1 && (
-                          <div className="h-px bg-slate-100 dark:bg-[#1f2937] my-0.5 mx-2" />
-                        )}
-                      </div>
-                    );
-                  })
-                )}
+                      );
+                    })
+                  )}
+                </div>
               </div>
 
             </div>
 
-            {/* Right Part: Monthly Recap (Donut chart & side-by-side legends) */}
-            <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-100/80 shadow-sm flex flex-col justify-between text-left gap-4">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col">
-                  <h3 className="text-md font-extrabold text-slate-850 tracking-tight leading-none">Ringkasan Bulan</h3>
-                  <span className="text-xs text-[var(--brand-primary)] font-bold mt-1.5">{getMonthName(String(new Date().getMonth() + 1).padStart(2, '0'))} {new Date().getFullYear()}</span>
+            {/* RIGHT COLUMN: Quick Actions & Chart (4 cols) */}
+            <div className="lg:col-span-4 space-y-6 flex flex-col">
+              
+              {/* Quick Actions */}
+              <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-200 shadow-sm transition-shadow hover:shadow-md" id="quick-actions-section">
+                <h3 className="text-sm font-bold text-slate-800 tracking-tight mb-4">Aksi Cepat</h3>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <Link href="/jimpitan" className="bg-slate-50 hover:bg-[var(--brand-primary)]/5 border border-slate-100 hover:border-[var(--brand-primary)]/20 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-center transition-all group">
+                    <div className="w-10 h-10 rounded-full bg-white text-slate-600 group-hover:text-[var(--brand-primary)] shadow-sm flex items-center justify-center transition-colors">
+                      <Coins className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-700 group-hover:text-[var(--brand-primary)]">Input Jimpitan</span>
+                  </Link>
+
+                  <Link href="/kas" className="bg-slate-50 hover:bg-[var(--brand-primary)]/5 border border-slate-100 hover:border-[var(--brand-primary)]/20 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-center transition-all group">
+                    <div className="w-10 h-10 rounded-full bg-white text-slate-600 group-hover:text-[var(--brand-primary)] shadow-sm flex items-center justify-center transition-colors">
+                      <Plus className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-700 group-hover:text-[var(--brand-primary)]">Kas Masuk</span>
+                  </Link>
+
+                  <Link href="/kas" className="bg-slate-50 hover:bg-red-50 border border-slate-100 hover:border-red-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-center transition-all group">
+                    <div className="w-10 h-10 rounded-full bg-white text-slate-600 group-hover:text-red-500 shadow-sm flex items-center justify-center transition-colors">
+                      <Minus className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-700 group-hover:text-red-600">Kas Keluar</span>
+                  </Link>
+
+                  <Link href="/anggota" className="bg-slate-50 hover:bg-sky-50 border border-slate-100 hover:border-sky-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-center transition-all group">
+                    <div className="w-10 h-10 rounded-full bg-white text-slate-600 group-hover:text-sky-500 shadow-sm flex items-center justify-center transition-colors">
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-700 group-hover:text-sky-600">Tambah Warga</span>
+                  </Link>
                 </div>
-                <Link href="/kas" className="text-xs font-bold text-[var(--brand-primary)] hover:underline flex items-center gap-1 transition-all">
-                  <span>Lihat laporan</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
               </div>
 
-              {/* Side-by-side layout: vertical data, donut, legend */}
-              <div className="flex flex-col sm:flex-row items-center justify-between py-2 sm:py-6 gap-6 sm:gap-2">
-                {/* Left Values List */}
-                <div className="flex flex-row sm:flex-col justify-between w-full sm:w-auto gap-3 text-[10px] font-semibold text-slate-500 shrink-0">
-                  <div className="space-y-0.5 text-left">
-                    <span className="text-slate-400 uppercase tracking-wide block">Total Pemasukan</span>
-                    <span className="text-xs font-extrabold text-slate-800 block">{formatRp(pemasukanBulanIni)}</span>
-                  </div>
-                  <div className="space-y-0.5 text-left">
-                    <span className="text-slate-400 uppercase tracking-wide block">Total Pengeluaran</span>
-                    <span className="text-xs font-extrabold text-slate-800 block">{formatRp(pengeluaranBulanIni)}</span>
-                  </div>
-                  <div className="space-y-0.5 text-left">
-                    <span className="text-slate-400 uppercase tracking-wide block">Saldo Akhir</span>
-                    <span className="text-xs font-black text-[var(--brand-primary)] block">{formatRp(saldoKas)}</span>
-                  </div>
+              {/* Monthly Recap (Chart) */}
+              <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-200 shadow-sm flex flex-col flex-1 transition-shadow hover:shadow-md">
+                <div className="flex flex-col mb-6">
+                  <h3 className="text-sm font-bold text-slate-800 tracking-tight">Ringkasan Bulan</h3>
+                  <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider mt-1">{getMonthName(String(new Date().getMonth() + 1).padStart(2, '0'))} {new Date().getFullYear()}</span>
                 </div>
 
-                {/* Donut Chart SVG */}
-                <div className="relative w-24 h-24 md:w-28 md:h-28 shrink-0">
-                  <svg viewBox="0 0 120 120" className="w-full h-full transform -rotate-90">
-                    <circle cx="60" cy="60" r="50" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
+                <div className="flex-1 flex flex-col items-center justify-center gap-6">
+                  {/* Donut Chart SVG */}
+                  <div className="relative w-32 h-32">
+                    <svg viewBox="0 0 120 120" className="w-full h-full transform -rotate-90">
+                      <circle cx="60" cy="60" r="50" fill="transparent" stroke="#f8fafc" strokeWidth="12" />
+                      
+                      {/* Pemasukan segment */}
+                      <circle cx="60" cy="60" r="50" fill="transparent" stroke="#10b981" strokeWidth="12"
+                        strokeDasharray={`${pLength} 314.16`} strokeDashoffset={pOffset} className="transition-all duration-500" />
+
+                      {/* Pengeluaran segment */}
+                      <circle cx="60" cy="60" r="50" fill="transparent" stroke="#ef4444" strokeWidth="12"
+                        strokeDasharray={`${eLength} 314.16`} strokeDashoffset={eOffset} className="transition-all duration-500" />
+
+                      {/* Saldo Awal segment */}
+                      <circle cx="60" cy="60" r="50" fill="transparent" stroke="#e2e8f0" strokeWidth="12"
+                        strokeDasharray={`${sLength} 314.16`} strokeDashoffset={sOffset} className="transition-all duration-500" />
+                    </svg>
                     
-                    {/* Pemasukan segment (Green) */}
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="transparent"
-                      stroke="#10b981"
-                      strokeWidth="12"
-                      strokeDasharray={`${pLength} 314.16`}
-                      strokeDashoffset={pOffset}
-                      className="transition-all duration-500"
-                    />
-
-                    {/* Pengeluaran segment (Red) */}
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="transparent"
-                      stroke="#ef4444"
-                      strokeWidth="12"
-                      strokeDasharray={`${eLength} 314.16`}
-                      strokeDashoffset={eOffset}
-                      className="transition-all duration-500"
-                    />
-
-                    {/* Next segment (Grey) */}
-                    <circle
-                      cx="60"
-                      cy="60"
-                      r="50"
-                      fill="transparent"
-                      stroke="#cbd5e1"
-                      strokeWidth="12"
-                      strokeDasharray={`${sLength} 314.16`}
-                      strokeDashoffset={sOffset}
-                      className="transition-all duration-500"
-                    />
-                  </svg>
-                  
-                  {/* Inside Center label */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    <span className="text-[7px] text-slate-400 font-extrabold uppercase tracking-wide">Saldo Akhir</span>
-                    <span className="text-[9px] font-black text-slate-800 mt-0.5">{formatRp(saldoKas)}</span>
+                    {/* Inside Center label */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                      <span className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">Saldo</span>
+                      <span className="text-[10px] font-black text-slate-800 mt-0.5">{formatRp(saldoKas)}</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Right Legend Percentages */}
-                <div className="flex flex-row sm:flex-col justify-between w-full sm:w-auto gap-3 text-[10px] font-semibold text-slate-500 shrink-0">
-                  <div className="flex items-center gap-1.5 justify-end">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <span>Pemasukan</span>
-                    <span className="font-extrabold text-slate-800">
-                      {Math.round(pemasukanBulanIni + pengeluaranBulanIni + saldoAwal > 0 ? (pemasukanBulanIni / (pemasukanBulanIni + pengeluaranBulanIni + saldoAwal)) * 105 : 60)}%
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 justify-end">
-                    <span className="w-2 h-2 rounded-full bg-red-500" />
-                    <span>Pengeluaran</span>
-                    <span className="font-extrabold text-slate-800">
-                      {Math.round(pemasukanBulanIni + pengeluaranBulanIni + saldoAwal > 0 ? (pengeluaranBulanIni / (pemasukanBulanIni + pengeluaranBulanIni + saldoAwal)) * 100 : 30)}%
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1.5 justify-end">
-                    <span className="w-2 h-2 rounded-full bg-slate-300" />
-                    <span>Saldo Awal</span>
-                    <span className="font-extrabold text-slate-800">
-                      {Math.round(pemasukanBulanIni + pengeluaranBulanIni + saldoAwal > 0 ? (saldoAwal / (pemasukanBulanIni + pengeluaranBulanIni + saldoAwal)) * 100 : 10)}%
-                    </span>
+                  {/* Legend */}
+                  <div className="w-full space-y-3 mt-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+                        <span className="text-slate-500 font-medium">Pemasukan</span>
+                      </div>
+                      <span className="font-bold text-slate-700">{formatRp(pemasukanBulanIni)}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-red-500" />
+                        <span className="text-slate-500 font-medium">Pengeluaran</span>
+                      </div>
+                      <span className="font-bold text-slate-700">{formatRp(pengeluaranBulanIni)}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-slate-200" />
+                        <span className="text-slate-500 font-medium">Saldo Awal</span>
+                      </div>
+                      <span className="font-bold text-slate-700">{formatRp(saldoAwal)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
