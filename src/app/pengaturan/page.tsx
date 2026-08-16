@@ -859,7 +859,7 @@ export default function PengaturanPage() {
                 }}
               />
               {/* Dialog Card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200">
+              <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 ">
                 {/* Warning Icon */}
                 <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-50 mx-auto mb-5 text-amber-500">
                   <ShieldAlert className="w-8 h-8" />

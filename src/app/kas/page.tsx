@@ -1146,10 +1146,10 @@ export default function KasRTPage() {
           {isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center">
               {/* Backdrop */}
-              <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+              <div className="absolute inset-0 bg-slate-900/60" onClick={() => setIsModalOpen(false)} />
               
               {/* Form Card */}
-              <form key={modalMode + currentTxId} onSubmit={handleSubmit} className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-left space-y-5">
+              <form key={modalMode + currentTxId} onSubmit={handleSubmit} className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 text-left space-y-5">
                 <h3 className="text-lg font-black text-slate-800 dark:text-slate-100">{modalMode === 'add' ? 'Tambah Transaksi Kas' : 'Edit Transaksi Kas'}</h3>
 
                 {modalMode === 'edit' && transactions.find(t => t.id === currentTxId)?.sumber === 'jimpitan' && (
@@ -1294,9 +1294,9 @@ export default function KasRTPage() {
           {/* Delete Confirm Modal */}
           {showDeleteConfirm && txToDelete && (
             <div className="fixed inset-0 z-50 flex items-center justify-center">
-              <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setShowDeleteConfirm(false)} />
+              <div className="absolute inset-0 bg-slate-900/60" onClick={() => setShowDeleteConfirm(false)} />
               
-              <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-center">
+              <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
                 <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-red-50 mx-auto mb-5 text-red-500">
                   <Trash2 className="w-7 h-7" />
                 </div>
@@ -1336,10 +1336,10 @@ export default function KasRTPage() {
           {isCategoryModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center">
               {/* Backdrop */}
-              <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsCategoryModalOpen(false)} />
+              <div className="absolute inset-0 bg-slate-900/60" onClick={() => setIsCategoryModalOpen(false)} />
               
               {/* Modal Card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-left space-y-5">
+              <div className="relative bg-white rounded-3xl shadow-2xl p-6 max-w-md w-full mx-4 text-left space-y-5">
                 <h3 className="text-base font-black text-slate-800">Kelola Kategori Kas</h3>
                 
                 {/* Tabs */}

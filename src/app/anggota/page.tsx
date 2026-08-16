@@ -583,7 +583,7 @@ export default function AnggotaPage() {
                 onClick={() => setConfirmDialog(prev => ({ ...prev, open: false }))}
               />
               {/* Dialog Card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200">
+              <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 ">
                 {/* Icon */}
                 <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-red-50 mx-auto mb-5">
                   <Trash2 className="w-7 h-7 text-red-500" />
@@ -1042,7 +1042,7 @@ export default function AnggotaPage() {
           {/* CRUD Modal for Anggota */}
           {isModalOpen && (
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50">
-              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 ">
                 
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                   <h3 className="text-lg font-bold text-slate-800 tracking-tight">
@@ -1149,7 +1149,7 @@ export default function AnggotaPage() {
           {/* CRUD Modal for Rombongan */}
           {isRomModalOpen && (
             <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50">
-              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 ">
                 
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                   <h3 className="text-lg font-bold text-slate-800 tracking-tight">
