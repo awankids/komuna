@@ -21,7 +21,7 @@ export async function GET() {
       ketuaId: rom.ketuaId,
       hariPiket: rom.hariPiket,
       ketuaNama: rom.ketua?.nama || 'Belum Ditentukan',
-      ketuaNoRumah: rom.ketua?.noRumah ? `No. ${rom.ketua.noRumah}` : '',
+      ketuaNoRumah: rom.ketua?.noRumah || '',
       activeMemberCount: rom.anggota.length,
       // also return list of all active members in this group to choose leader from
       activeMembers: rom.anggota.map(a => ({ id: a.id, nama: a.nama }))
