@@ -46,7 +46,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
         }
       }
     };
+    
     getSession();
+
+    // Listen for profile updates
+    const handleProfileUpdate = () => getSession();
+    window.addEventListener('komuna_profile_updated', handleProfileUpdate);
+    return () => window.removeEventListener('komuna_profile_updated', handleProfileUpdate);
   }, []);
 
   const handleLogout = async () => {
@@ -229,14 +235,22 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <span className="text-[10px] text-slate-400 font-medium block capitalize">{userData?.role || 'Admin'}</span>
               </div>
               <div className="p-2 space-y-1">
-                <button className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors">
+                <Link 
+                  href="/profil" 
+                  onClick={() => setIsProfileOpen(false)}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors"
+                >
                   <User className="w-4 h-4" />
                   Profil Saya
-                </button>
-                <button className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors">
+                </Link>
+                <Link 
+                  href="/pengaturan" 
+                  onClick={() => setIsProfileOpen(false)}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors"
+                >
                   <Settings className="w-4 h-4" />
                   Pengaturan
-                </button>
+                </Link>
               </div>
               <div className="p-2 border-t border-slate-50">
                 <button 
