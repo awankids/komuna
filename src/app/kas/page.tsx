@@ -377,21 +377,27 @@ export default function KasRTPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formTanggal || !formKeterangan || !formNominal) {
+    
+    const formData = new FormData(e.currentTarget);
+    const keteranganInput = formData.get('keterangan') as string;
+    const subKeteranganInput = formData.get('subKeterangan') as string;
+    const nominalInput = formData.get('nominal') as string;
+
+    if (!formTanggal || !keteranganInput || !nominalInput) {
       triggerToast('Semua kolom wajib diisi', 'error');
       return;
     }
 
-    const fullKeterangan = formSubKeterangan ? `${formKeterangan} / ${formSubKeterangan}` : formKeterangan;
+    const fullKeterangan = subKeteranganInput ? `${keteranganInput} / ${subKeteranganInput}` : keteranganInput;
 
     try {
       const url = '/api/transaksi';
       const method = modalMode === 'add' ? 'POST' : 'PUT';
       const body = modalMode === 'add'
-        ? { tanggal: formTanggal, jenis: formJenis, kategori: formKategori, keterangan: fullKeterangan, nominal: formNominal }
-        : { id: currentTxId, tanggal: formTanggal, jenis: formJenis, kategori: formKategori, keterangan: fullKeterangan, nominal: formNominal };
+        ? { tanggal: formTanggal, jenis: formJenis, kategori: formKategori, keterangan: fullKeterangan, nominal: nominalInput }
+        : { id: currentTxId, tanggal: formTanggal, jenis: formJenis, kategori: formKategori, keterangan: fullKeterangan, nominal: nominalInput };
 
       const res = await fetch(url, {
         method,
@@ -1143,7 +1149,7 @@ export default function KasRTPage() {
               <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
               
               {/* Form Card */}
-              <form onSubmit={handleSubmit} className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-left space-y-5">
+              <form key={modalMode + currentTxId} onSubmit={handleSubmit} className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200 text-left space-y-5">
                 <h3 className="text-lg font-black text-slate-800 dark:text-slate-100">{modalMode === 'add' ? 'Tambah Transaksi Kas' : 'Edit Transaksi Kas'}</h3>
 
                 {modalMode === 'edit' && transactions.find(t => t.id === currentTxId)?.sumber === 'jimpitan' && (
@@ -1229,10 +1235,10 @@ export default function KasRTPage() {
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Keterangan Utama</label>
                     <input
+                      name="keterangan"
                       type="text"
                       placeholder="e.g. Pembayaran Listrik Pos Ronda"
-                      value={formKeterangan}
-                      onChange={(e) => setFormKeterangan(e.target.value)}
+                      defaultValue={formKeterangan}
                       className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                       required
                     />
@@ -1242,10 +1248,10 @@ export default function KasRTPage() {
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Detail / Keterangan Tambahan (Opsional)</label>
                     <input
+                      name="subKeterangan"
                       type="text"
                       placeholder="e.g. Pak Ahmad / Sapu, Pel, dll"
-                      value={formSubKeterangan}
-                      onChange={(e) => setFormSubKeterangan(e.target.value)}
+                      defaultValue={formSubKeterangan}
                       className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                     />
                   </div>
@@ -1254,10 +1260,10 @@ export default function KasRTPage() {
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nominal (Rp)</label>
                     <input
+                      name="nominal"
                       type="number"
                       placeholder="e.g. 150000"
-                      value={formNominal}
-                      onChange={(e) => setFormNominal(e.target.value)}
+                      defaultValue={formNominal}
                       className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
                       min="1"
                       required
