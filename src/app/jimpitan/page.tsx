@@ -765,9 +765,6 @@ export default function JimpitanBulananPage() {
                       type="text"
                       inputMode="numeric"
                       defaultValue={String(targetBulanIni)}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      spellCheck={false}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);

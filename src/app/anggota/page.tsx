@@ -704,9 +704,6 @@ export default function AnggotaPage() {
                 placeholder="Cari nama, no rumah atau HP..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                autoComplete="off"
-                autoCorrect="off"
-                spellCheck={false}
                 className="w-full pl-11 pr-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
               />
             </div>
@@ -1089,9 +1086,6 @@ export default function AnggotaPage() {
                       type="text"
                       placeholder="Contoh: Budi Santoso"
                       defaultValue=""
-                      autoComplete="off"
-                      autoCorrect="off"
-                      spellCheck={false}
                       className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                       required
                     />
@@ -1105,9 +1099,6 @@ export default function AnggotaPage() {
                         type="text"
                         placeholder="Contoh: No. 12"
                         defaultValue=""
-                        autoComplete="off"
-                        autoCorrect="off"
-                        spellCheck={false}
                         className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                         required
                       />
@@ -1120,9 +1111,6 @@ export default function AnggotaPage() {
                         type="text"
                         placeholder="Contoh: 0812-3456-..."
                         defaultValue=""
-                        autoComplete="off"
-                        autoCorrect="off"
-                        spellCheck={false}
                         className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                       />
                     </div>
@@ -1207,9 +1195,6 @@ export default function AnggotaPage() {
                           type="text"
                           placeholder="Contoh: Rombongan 8"
                           defaultValue=""
-                          autoComplete="off"
-                          autoCorrect="off"
-                          spellCheck={false}
                           className="flex-1 px-4 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                           required
                         />

@@ -1255,9 +1255,6 @@ export default function KasRTPage() {
                     type="text"
                     placeholder="Tambah kategori baru..."
                     defaultValue={newCategoryName}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
                     className="flex-1 px-3.5 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-705 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713]"
                     required
                   />
@@ -1284,9 +1281,6 @@ export default function KasRTPage() {
                               ref={editingCategoryNewNameRef}
                               type="text"
                               defaultValue={editingCategoryNewName}
-                              autoComplete="off"
-                              autoCorrect="off"
-                              spellCheck={false}
                               className="flex-1 px-2.5 py-1 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/10"
                               autoFocus
                             />

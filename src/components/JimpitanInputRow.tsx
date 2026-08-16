@@ -65,9 +65,6 @@ export default function JimpitanInputRow({
         onChange={handleChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck={false}
         placeholder="0"
         className={`w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-bold text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:bg-white transition-all text-left ${
           isDirty ? 'border-amber-400 ring-2 ring-amber-400/10' : ''

@@ -709,9 +709,6 @@ export default function AgendaPage() {
                       required
                       placeholder="Contoh: Kerja Bakti Bersihkan Selokan"
                       defaultValue={formJudul}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      spellCheck={false}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                   </div>
@@ -778,9 +775,6 @@ export default function AgendaPage() {
                       type="text"
                       placeholder="Contoh: Balai RT 04"
                       defaultValue={formLokasi}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      spellCheck={false}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                   </div>
@@ -793,9 +787,6 @@ export default function AgendaPage() {
                       rows={2}
                       placeholder="Catatan tambahan kegiatan..."
                       defaultValue={formKeterangan}
-                      autoComplete="off"
-                      autoCorrect="off"
-                      spellCheck={false}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                   </div>

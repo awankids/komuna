@@ -175,9 +175,6 @@ export default function LoginPage() {
                     type="email"
                     placeholder="Masukkan email Anda"
                     defaultValue=""
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
                     className="w-full pl-11 pr-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                     required
                   />
@@ -197,9 +194,6 @@ export default function LoginPage() {
                     type="password"
                     placeholder="Masukkan kata sandi Anda"
                     defaultValue=""
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
                     className="w-full pl-11 pr-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                     required
                   />

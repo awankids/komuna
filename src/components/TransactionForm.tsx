@@ -169,9 +169,6 @@ export default function TransactionForm({
             type="text"
             placeholder="e.g. Pembayaran Listrik Pos Ronda"
             defaultValue={initialKeterangan}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
             className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
             required
           />
@@ -185,9 +182,6 @@ export default function TransactionForm({
             type="text"
             placeholder="e.g. Pak Ahmad / Sapu, Pel, dll"
             defaultValue={initialSubKeterangan}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
             className="w-full px-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs text-slate-700 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713] transition-colors"
           />
         </div>
