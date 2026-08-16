@@ -58,7 +58,8 @@ export const ModelName = {
   Jimpitan: 'Jimpitan',
   TransaksiKeuangan: 'TransaksiKeuangan',
   Agenda: 'Agenda',
-  Notifikasi: 'Notifikasi'
+  Notifikasi: 'Notifikasi',
+  PengaturanAplikasi: 'PengaturanAplikasi'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -183,6 +184,17 @@ export const NotifikasiScalarFieldEnum = {
 } as const
 
 export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]
+
+
+export const PengaturanAplikasiScalarFieldEnum = {
+  id: 'id',
+  namaApp: 'namaApp',
+  namaRt: 'namaRt',
+  tagline: 'tagline',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PengaturanAplikasiScalarFieldEnum = (typeof PengaturanAplikasiScalarFieldEnum)[keyof typeof PengaturanAplikasiScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -105,3 +105,11 @@ model Notifikasi {
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+model PengaturanAplikasi {
+  id        String   @id @default(uuid())
+  namaApp   String   @default("komuna.id")
+  namaRt    String   @default("RT 04")
+  tagline   String   @default("Kebersamaan, Terpadu, Transparan")
+  updatedAt DateTime @updatedAt
+}

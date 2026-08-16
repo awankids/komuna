@@ -25,6 +25,37 @@ interface SidebarProps {
 export default function Sidebar({ activeMenu, isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
 
+  const [appConfig, setAppConfig] = React.useState({
+    namaApp: 'komuna.id',
+    namaRt: 'RT 04',
+    tagline: 'Kebersamaan, Terpadu, Transparan'
+  });
+
+  React.useEffect(() => {
+    const fetchConfig = async () => {
+      // Coba ambil dari cache dulu agar cepat
+      const cached = localStorage.getItem('komuna_app_config');
+      if (cached) {
+        try { setAppConfig(JSON.parse(cached)); } catch(e) {}
+      }
+      
+      try {
+        const res = await fetch('/api/config');
+        if (res.ok) {
+          const data = await res.json();
+          setAppConfig(data);
+          localStorage.setItem('komuna_app_config', JSON.stringify(data));
+        }
+      } catch (e) {
+        console.error('Failed to fetch app config', e);
+      }
+    };
+
+    fetchConfig();
+    window.addEventListener('komuna_config_updated', fetchConfig);
+    return () => window.removeEventListener('komuna_config_updated', fetchConfig);
+  }, []);
+
   const menuSections = [
     {
       title: 'Ringkasan',
@@ -95,15 +126,15 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
                   <path d="M9 22V12h6v10" />
                 </svg>
               </div>
-              <div className="text-left space-y-0.5">
-                <div className="flex items-center gap-1.5">
-                  <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-none">komuna.id</h1>
-                  <span className="text-[9px] font-bold bg-[var(--brand-light)] text-[var(--brand-primary)] px-1.5 py-0.5 rounded-md border border-[var(--brand-primary)]/20">
-                    RT 04
+              <div className="text-left space-y-0.5 max-w-[140px]">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-none truncate">{appConfig.namaApp}</h1>
+                  <span className="text-[9px] font-bold bg-[var(--brand-light)] text-[var(--brand-primary)] px-1.5 py-0.5 rounded-md border border-[var(--brand-primary)]/20 whitespace-nowrap">
+                    {appConfig.namaRt}
                   </span>
                 </div>
-                <p className="text-[10px] text-slate-400 font-medium tracking-wide">
-                  Kebersamaan, Terpadu, Transparan
+                <p className="text-[10px] text-slate-400 font-medium tracking-wide truncate">
+                  {appConfig.tagline}
                 </p>
               </div>
             </div>

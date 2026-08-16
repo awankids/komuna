@@ -81,3 +81,8 @@ export type Agenda = Prisma.AgendaModel
  * 
  */
 export type Notifikasi = Prisma.NotifikasiModel
+/**
+ * Model PengaturanAplikasi
+ * 
+ */
+export type PengaturanAplikasi = Prisma.PengaturanAplikasiModel

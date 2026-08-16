@@ -391,7 +391,8 @@ export const ModelName = {
   Jimpitan: 'Jimpitan',
   TransaksiKeuangan: 'TransaksiKeuangan',
   Agenda: 'Agenda',
-  Notifikasi: 'Notifikasi'
+  Notifikasi: 'Notifikasi',
+  PengaturanAplikasi: 'PengaturanAplikasi'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1004,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PengaturanAplikasi: {
+      payload: Prisma.$PengaturanAplikasiPayload<ExtArgs>
+      fields: Prisma.PengaturanAplikasiFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PengaturanAplikasiFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PengaturanAplikasiFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>
+        }
+        findFirst: {
+          args: Prisma.PengaturanAplikasiFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PengaturanAplikasiFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>
+        }
+        findMany: {
+          args: Prisma.PengaturanAplikasiFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>[]
+        }
+        create: {
+          args: Prisma.PengaturanAplikasiCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>
+        }
+        createMany: {
+          args: Prisma.PengaturanAplikasiCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PengaturanAplikasiCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>[]
+        }
+        delete: {
+          args: Prisma.PengaturanAplikasiDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>
+        }
+        update: {
+          args: Prisma.PengaturanAplikasiUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>
+        }
+        deleteMany: {
+          args: Prisma.PengaturanAplikasiDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PengaturanAplikasiUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PengaturanAplikasiUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>[]
+        }
+        upsert: {
+          args: Prisma.PengaturanAplikasiUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengaturanAplikasiPayload>
+        }
+        aggregate: {
+          args: Prisma.PengaturanAplikasiAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePengaturanAplikasi>
+        }
+        groupBy: {
+          args: Prisma.PengaturanAplikasiGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PengaturanAplikasiGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PengaturanAplikasiCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PengaturanAplikasiCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1148,6 +1223,17 @@ export const NotifikasiScalarFieldEnum = {
 } as const
 
 export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]
+
+
+export const PengaturanAplikasiScalarFieldEnum = {
+  id: 'id',
+  namaApp: 'namaApp',
+  namaRt: 'namaRt',
+  tagline: 'tagline',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PengaturanAplikasiScalarFieldEnum = (typeof PengaturanAplikasiScalarFieldEnum)[keyof typeof PengaturanAplikasiScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1360,6 +1446,7 @@ export type GlobalOmitConfig = {
   transaksiKeuangan?: Prisma.TransaksiKeuanganOmit
   agenda?: Prisma.AgendaOmit
   notifikasi?: Prisma.NotifikasiOmit
+  pengaturanAplikasi?: Prisma.PengaturanAplikasiOmit
 }
 
 /* Types for Logging */

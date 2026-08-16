@@ -15,8 +15,36 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   
+  const [appConfig, setAppConfig] = useState({
+    namaApp: 'komuna.id',
+    namaRt: 'RT 04',
+    tagline: 'Kebersamaan, Terpadu, Transparan'
+  });
+
   const profileRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      const cached = localStorage.getItem('komuna_app_config');
+      if (cached) {
+        try { setAppConfig(JSON.parse(cached)); } catch(e) {}
+      }
+      try {
+        const res = await fetch('/api/config');
+        if (res.ok) {
+          const data = await res.json();
+          setAppConfig(data);
+          localStorage.setItem('komuna_app_config', JSON.stringify(data));
+        }
+      } catch (e) {
+        console.error('Failed to fetch app config', e);
+      }
+    };
+    fetchConfig();
+    window.addEventListener('komuna_config_updated', fetchConfig);
+    return () => window.removeEventListener('komuna_config_updated', fetchConfig);
+  }, []);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -125,25 +153,28 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   return (
     <header className="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-8 font-sans sticky top-0 z-40">
-      {/* Left side: Hamburger button */}
-      <button 
-        onClick={onMenuClick}
-        className="text-slate-500 hover:text-slate-800 p-2 hover:bg-slate-50 rounded-xl transition-all duration-200 focus:outline-none"
-      >
-        <Menu className="w-6 h-6" />
-      </button>
+      <div className="flex items-center gap-4">
+        {/* Mobile menu button */}
+        <button 
+          onClick={onMenuClick}
+          className="p-2 -ml-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors md:hidden"
+          aria-label="Buka Menu"
+        >
+          <Menu className="w-5.5 h-5.5" />
+        </button>
 
-      {/* Middle: Logo (Mobile only) */}
-      <div className="flex md:hidden items-center gap-2 flex-1 justify-center">
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--brand-primary)] text-white shadow-sm">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4.5 h-4.5">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-            <path d="M9 22V12h6v10" />
-          </svg>
-        </div>
-        <div className="text-left">
-          <h1 className="text-sm font-bold text-slate-800 tracking-tight leading-none">komuna.id</h1>
-          <span className="text-[8px] text-slate-400 font-semibold tracking-wide uppercase leading-none mt-0.5 block">Kebersamaan, Terpadu</span>
+        {/* Mobile Header Title */}
+        <div className="flex items-center gap-2 md:hidden">
+          <div className="w-7 h-7 rounded-lg bg-[var(--brand-primary)] text-white flex items-center justify-center shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <path d="M9 22V12h6v10" />
+            </svg>
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-sm font-extrabold text-slate-800 tracking-tight leading-none">{appConfig.namaApp}</h1>
+            <p className="text-[9px] text-slate-400 font-medium truncate max-w-[120px]">{appConfig.tagline}</p>
+          </div>
         </div>
       </div>
 

@@ -22,7 +22,9 @@ import {
   Type,
   Sliders,
   Terminal,
-  Trash2
+  Trash2,
+  LayoutDashboard,
+  Save
 } from 'lucide-react';
 
 interface DBStats {
@@ -48,6 +50,14 @@ export default function PengaturanPage() {
   const [isLoadingStats, setIsLoadingStats] = useState(true);
   const [isBackupLoading, setIsBackupLoading] = useState(false);
   const [isRestoreLoading, setIsRestoreLoading] = useState(false);
+  const [isSavingConfig, setIsSavingConfig] = useState(false);
+
+  // App Identity State
+  const [appConfig, setAppConfig] = useState({
+    namaApp: 'komuna.id',
+    namaRt: 'RT 04',
+    tagline: 'Kebersamaan, Terpadu, Transparan'
+  });
 
   // Theme states
   const [theme, setTheme] = useState('orange');
@@ -75,6 +85,9 @@ export default function PengaturanPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
+        const savedConfig = localStorage.getItem('komuna_app_config');
+        if (savedConfig) setAppConfig(JSON.parse(savedConfig));
+        
         const savedTheme = localStorage.getItem('komuna-theme') || 'orange';
         const savedDark = localStorage.getItem('komuna-dark') === 'yes';
         const savedFont = localStorage.getItem('komuna-font') || 'outfit';
@@ -343,6 +356,93 @@ export default function PengaturanPage() {
             
             {/* Backup & Restore Panel */}
             <div className="lg:col-span-2 space-y-8">
+              
+              {/* Identitas Aplikasi Card */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[var(--brand-primary)] flex items-center justify-center shrink-0">
+                    <LayoutDashboard className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-800">Identitas Aplikasi (Global)</h3>
+                    <p className="text-xs text-slate-400 font-medium mt-1 leading-relaxed">
+                      Ubah nama aplikasi, nama RT/Desa, dan semboyan. Perubahan ini akan langsung berlaku untuk semua pengguna (warga dan pengurus).
+                    </p>
+                  </div>
+                </div>
+
+                <form 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setIsSavingConfig(true);
+                    try {
+                      const res = await fetch('/api/config', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(appConfig)
+                      });
+                      if (res.ok) {
+                        triggerToast('Identitas aplikasi berhasil diperbarui secara global!', 'success');
+                        localStorage.setItem('komuna_app_config', JSON.stringify(appConfig));
+                        window.dispatchEvent(new Event('komuna_config_updated'));
+                      } else {
+                        triggerToast('Gagal memperbarui identitas aplikasi.', 'error');
+                      }
+                    } catch (err) {
+                      triggerToast('Terjadi kesalahan jaringan.', 'error');
+                    } finally {
+                      setIsSavingConfig(false);
+                    }
+                  }}
+                  className="space-y-4 pt-4 border-t border-slate-50"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600 block">Nama Aplikasi</label>
+                      <input
+                        type="text"
+                        value={appConfig.namaApp}
+                        onChange={(e) => setAppConfig({ ...appConfig, namaApp: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
+                        placeholder="Contoh: komuna.id"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600 block">Nama RT / Desa</label>
+                      <input
+                        type="text"
+                        value={appConfig.namaRt}
+                        onChange={(e) => setAppConfig({ ...appConfig, namaRt: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
+                        placeholder="Contoh: RT 04 Sukamaju"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-600 block">Semboyan (Tagline)</label>
+                    <input
+                      type="text"
+                      value={appConfig.tagline}
+                      onChange={(e) => setAppConfig({ ...appConfig, tagline: e.target.value })}
+                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
+                      placeholder="Contoh: Kebersamaan, Terpadu, Transparan"
+                      required
+                    />
+                  </div>
+                  <div className="flex justify-end pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSavingConfig}
+                      className="px-6 py-3.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-xl transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-xs"
+                    >
+                      {isSavingConfig ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                      <span>Simpan Identitas Global</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
               
               {/* Backup Card */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">

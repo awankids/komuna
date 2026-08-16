@@ -25,6 +25,32 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
 
+  const [appConfig, setAppConfig] = useState({
+    namaApp: 'komuna.id',
+    namaRt: 'RT 04',
+    tagline: 'Kebersamaan, Terpadu, Transparan'
+  });
+
+  React.useEffect(() => {
+    const fetchConfig = async () => {
+      const cached = localStorage.getItem('komuna_app_config');
+      if (cached) {
+        try { setAppConfig(JSON.parse(cached)); } catch(e) {}
+      }
+      try {
+        const res = await fetch('/api/config');
+        if (res.ok) {
+          const data = await res.json();
+          setAppConfig(data);
+          localStorage.setItem('komuna_app_config', JSON.stringify(data));
+        }
+      } catch (e) {
+        console.error('Failed to fetch app config', e);
+      }
+    };
+    fetchConfig();
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -69,8 +95,8 @@ export default function LoginPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-black text-slate-800 tracking-tight leading-none">komuna.id</h1>
-              <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase">Kebersamaan, Terpadu, Transparan</span>
+              <h1 className="text-xl font-black text-slate-800 tracking-tight leading-none">{appConfig.namaApp}</h1>
+              <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase">{appConfig.tagline}</span>
             </div>
           </div>
 
