@@ -83,8 +83,10 @@ export default function KasRTPage() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [categoryTab, setCategoryTab] = useState<'pemasukan' | 'pengeluaran'>('pemasukan');
   const [newCategoryName, setNewCategoryName] = useState('');
+  const newCategoryNameRef = useRef<HTMLInputElement>(null);
   const [editingCategoryOldName, setEditingCategoryOldName] = useState<string | null>(null);
   const [editingCategoryNewName, setEditingCategoryNewName] = useState('');
+  const editingCategoryNewNameRef = useRef<HTMLInputElement>(null);
 
   // Toast Notification
   const [toastMessage, setToastMessage] = useState('');
@@ -144,13 +146,14 @@ export default function KasRTPage() {
 
   const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newCategoryName.trim()) return;
+    const nameVal = newCategoryNameRef.current?.value?.trim() || '';
+    if (!nameVal) return;
 
     try {
       const res = await fetch('/api/kategori', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: categoryTab, name: newCategoryName })
+        body: JSON.stringify({ type: categoryTab, name: nameVal })
       });
       const data = await res.json();
       if (data.error) {
@@ -158,6 +161,7 @@ export default function KasRTPage() {
       } else {
         setCategories(data.categories);
         setNewCategoryName('');
+        if (newCategoryNameRef.current) newCategoryNameRef.current.value = '';
         triggerToast('Kategori berhasil ditambahkan', 'success');
       }
     } catch (err) {
@@ -166,7 +170,8 @@ export default function KasRTPage() {
   };
 
   const handleEditCategory = async (oldName: string) => {
-    if (!editingCategoryNewName.trim() || editingCategoryNewName === oldName) {
+    const newNameVal = editingCategoryNewNameRef.current?.value?.trim() || editingCategoryNewName.trim();
+    if (!newNameVal || newNameVal === oldName) {
       setEditingCategoryOldName(null);
       return;
     }
@@ -175,7 +180,7 @@ export default function KasRTPage() {
       const res = await fetch('/api/kategori', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: categoryTab, oldName, newName: editingCategoryNewName })
+        body: JSON.stringify({ type: categoryTab, oldName, newName: newNameVal })
       });
       const data = await res.json();
       if (data.error) {
@@ -1246,10 +1251,13 @@ export default function KasRTPage() {
                 {/* Add Category Form */}
                 <form onSubmit={handleAddCategory} className="flex gap-2">
                   <input
+                    ref={newCategoryNameRef}
                     type="text"
                     placeholder="Tambah kategori baru..."
-                    value={newCategoryName}
-                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    defaultValue={newCategoryName}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     className="flex-1 px-3.5 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-705 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#f95713]"
                     required
                   />
@@ -1273,9 +1281,12 @@ export default function KasRTPage() {
                         {isEditing ? (
                           <div className="flex-1 flex gap-2">
                             <input
+                              ref={editingCategoryNewNameRef}
                               type="text"
-                              value={editingCategoryNewName}
-                              onChange={(e) => setEditingCategoryNewName(e.target.value)}
+                              defaultValue={editingCategoryNewName}
+                              autoComplete="off"
+                              autoCorrect="off"
+                              spellCheck={false}
                               className="flex-1 px-2.5 py-1 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/10"
                               autoFocus
                             />

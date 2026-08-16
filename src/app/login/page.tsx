@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   Lock, 
@@ -18,8 +18,8 @@ import {
 } from 'lucide-react';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -34,7 +34,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: emailRef.current?.value ?? '', password: passwordRef.current?.value ?? '' }),
       });
 
       const data = await res.json();
@@ -171,10 +171,13 @@ export default function LoginPage() {
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
+                    ref={emailRef}
                     type="email"
                     placeholder="Masukkan email Anda"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    defaultValue=""
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     className="w-full pl-11 pr-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                     required
                   />
@@ -190,10 +193,13 @@ export default function LoginPage() {
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
+                    ref={passwordRef}
                     type="password"
                     placeholder="Masukkan kata sandi Anda"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    defaultValue=""
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     className="w-full pl-11 pr-4 py-3 bg-[#f8fafc] border border-slate-200 rounded-2xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                     required
                   />

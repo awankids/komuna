@@ -71,9 +71,12 @@ export default function AnggotaPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
   const [currentId, setCurrentId] = useState('');
-  const [formNama, setFormNama] = useState('');
-  const [formNoRumah, setFormNoRumah] = useState('');
-  const [formNoHp, setFormNoHp] = useState('');
+  // Uncontrolled refs for text inputs inside modals (fix Gboard Android IME bug)
+  const formNamaRef = useRef<HTMLInputElement>(null);
+  const formNoRumahRef = useRef<HTMLInputElement>(null);
+  const formNoHpRef = useRef<HTMLInputElement>(null);
+  const romFormNamaRef = useRef<HTMLInputElement>(null);
+
   const [formRombonganId, setFormRombonganId] = useState('none');
   const [formStatusAktif, setFormStatusAktif] = useState(true);
 
@@ -139,9 +142,12 @@ export default function AnggotaPage() {
   const handleOpenAdd = () => {
     setModalMode('add');
     setCurrentId('');
-    setFormNama('');
-    setFormNoRumah('');
-    setFormNoHp('');
+    // Reset uncontrolled inputs
+    setTimeout(() => {
+      if (formNamaRef.current) formNamaRef.current.value = '';
+      if (formNoRumahRef.current) formNoRumahRef.current.value = '';
+      if (formNoHpRef.current) formNoHpRef.current.value = '';
+    }, 0);
     setFormRombonganId(rombonganList.length > 0 ? rombonganList[0].id : 'none');
     setFormStatusAktif(true);
     setIsModalOpen(true);
@@ -151,9 +157,12 @@ export default function AnggotaPage() {
   const handleOpenEdit = (anggota: Anggota) => {
     setModalMode('edit');
     setCurrentId(anggota.id);
-    setFormNama(anggota.nama);
-    setFormNoRumah(anggota.noRumah);
-    setFormNoHp(anggota.noHp || '');
+    // Set uncontrolled inputs via ref (after modal opens)
+    setTimeout(() => {
+      if (formNamaRef.current) formNamaRef.current.value = anggota.nama;
+      if (formNoRumahRef.current) formNoRumahRef.current.value = anggota.noRumah;
+      if (formNoHpRef.current) formNoHpRef.current.value = anggota.noHp || '';
+    }, 0);
     setFormRombonganId(anggota.rombonganId || 'none');
     setFormStatusAktif(anggota.statusAktif);
     setIsModalOpen(true);
@@ -164,6 +173,9 @@ export default function AnggotaPage() {
     setRomModalMode('add');
     setRomCurrentId('');
     setRomFormNama('');
+    setTimeout(() => {
+      if (romFormNamaRef.current) romFormNamaRef.current.value = '';
+    }, 0);
     setIsRomModalOpen(true);
   };
 
@@ -172,13 +184,20 @@ export default function AnggotaPage() {
     setRomModalMode('edit');
     setRomCurrentId(rom.id);
     setRomFormNama(rom.nama);
+    setTimeout(() => {
+      if (romFormNamaRef.current) romFormNamaRef.current.value = rom.nama;
+    }, 0);
     setIsRomModalOpen(true);
   };
 
   // Handle Anggota Submit
   const handleSubmitAnggota = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formNama || !formNoRumah) {
+    const nama = formNamaRef.current?.value ?? '';
+    const noRumah = formNoRumahRef.current?.value ?? '';
+    const noHp = formNoHpRef.current?.value ?? '';
+
+    if (!nama || !noRumah) {
       triggerToast('Nama dan Nomor Rumah wajib diisi', 'error');
       return;
     }
@@ -187,8 +206,8 @@ export default function AnggotaPage() {
       const url = '/api/anggota';
       const method = modalMode === 'add' ? 'POST' : 'PUT';
       const body = modalMode === 'add' 
-        ? { nama: formNama, noRumah: formNoRumah, noHp: formNoHp, rombonganId: formRombonganId }
-        : { id: currentId, nama: formNama, noRumah: formNoRumah, noHp: formNoHp, rombonganId: formRombonganId, statusAktif: formStatusAktif };
+        ? { nama, noRumah, noHp, rombonganId: formRombonganId }
+        : { id: currentId, nama, noRumah, noHp, rombonganId: formRombonganId, statusAktif: formStatusAktif };
 
       const res = await fetch(url, {
         method,
@@ -216,7 +235,9 @@ export default function AnggotaPage() {
   // Handle Rombongan Submit (Add/Edit)
   const handleSubmitRombongan = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!romFormNama.trim()) {
+    const nama = romFormNamaRef.current?.value ?? '';
+
+    if (!nama.trim()) {
       triggerToast('Nama rombongan wajib diisi', 'error');
       return;
     }
@@ -225,8 +246,8 @@ export default function AnggotaPage() {
       const url = '/api/rombongan';
       const method = romModalMode === 'add' ? 'POST' : 'PUT';
       const body = romModalMode === 'add'
-        ? { nama: romFormNama }
-        : { id: romCurrentId, nama: romFormNama };
+        ? { nama }
+        : { id: romCurrentId, nama };
 
       const res = await fetch(url, {
         method,
@@ -683,6 +704,9 @@ export default function AnggotaPage() {
                 placeholder="Cari nama, no rumah atau HP..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
                 className="w-full pl-11 pr-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-2xl text-xs font-semibold text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
               />
             </div>
@@ -1061,10 +1085,13 @@ export default function AnggotaPage() {
                   <div className="flex flex-col text-left">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nama Lengkap</label>
                     <input
+                      ref={formNamaRef}
                       type="text"
                       placeholder="Contoh: Budi Santoso"
-                      value={formNama}
-                      onChange={(e) => setFormNama(e.target.value)}
+                      defaultValue=""
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
                       className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                       required
                     />
@@ -1074,10 +1101,13 @@ export default function AnggotaPage() {
                     <div className="flex flex-col text-left">
                       <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">No. Rumah / Blok</label>
                       <input
+                        ref={formNoRumahRef}
                         type="text"
                         placeholder="Contoh: No. 12"
-                        value={formNoRumah}
-                        onChange={(e) => setFormNoRumah(e.target.value)}
+                        defaultValue=""
+                        autoComplete="off"
+                        autoCorrect="off"
+                        spellCheck={false}
                         className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                         required
                       />
@@ -1086,10 +1116,13 @@ export default function AnggotaPage() {
                     <div className="flex flex-col text-left">
                       <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">No. HP (WhatsApp)</label>
                       <input
+                        ref={formNoHpRef}
                         type="text"
                         placeholder="Contoh: 0812-3456-..."
-                        value={formNoHp}
-                        onChange={(e) => setFormNoHp(e.target.value)}
+                        defaultValue=""
+                        autoComplete="off"
+                        autoCorrect="off"
+                        spellCheck={false}
                         className="w-full px-4 py-2.5 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                       />
                     </div>
@@ -1170,10 +1203,13 @@ export default function AnggotaPage() {
                       <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Nama Rombongan</label>
                       <div className="flex gap-2">
                         <input
+                          ref={romFormNamaRef}
                           type="text"
                           placeholder="Contoh: Rombongan 8"
-                          value={romFormNama}
-                          onChange={(e) => setRomFormNama(e.target.value)}
+                          defaultValue=""
+                          autoComplete="off"
+                          autoCorrect="off"
+                          spellCheck={false}
                           className="flex-1 px-4 py-2 bg-[#f8fafc] border border-slate-200 rounded-xl text-sm font-bold text-slate-850 focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:border-[#f95713] transition-all"
                           required
                         />

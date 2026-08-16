@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
+import JimpitanInputRow from '@/components/JimpitanInputRow';
 import { 
   Calendar, 
   CheckCircle2, 
@@ -402,6 +403,7 @@ export default function JimpitanBulananPage() {
   const [targetBulanIni, setTargetBulanIni] = useState(3000000);
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [targetInputText, setTargetInputText] = useState('');
+  const targetInputRef = useRef<HTMLInputElement>(null);
 
   // Calculate dynamic summary stats with useMemo
   const totalDays = dayRecords.length;
@@ -676,45 +678,17 @@ export default function JimpitanBulananPage() {
                             )}
                           </td>
 
-                          {/* Nominal Input Field */}
+                            {/* Nominal Input Field */}
                           <td className="py-3 px-4">
                             <div className="flex items-center justify-center">
-                              {isFut ? (
-                                <span className="text-slate-300 font-bold text-xs">-</span>
-                              ) : (
-                                <div className="relative w-full max-w-[140px]">
-                                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rp</span>
-                                  <input
-                                    type="text"
-                                    disabled={isSaving}
-                                    aria-label={`Nominal jimpitan tanggal ${item.dateStr}`}
-                                    value={inputsText[item.dateKey] !== undefined ? inputsText[item.dateKey] : (activeVal > 0 ? activeVal.toLocaleString('id-ID') : '')}
-                                    onChange={(e) => handleInputChange(item.dateKey, e.target.value)}
-                                    onBlur={() => {
-                                      const localVal = modifiedNominals[item.dateKey];
-                                      const activeVal = localVal !== undefined ? localVal : item.nominal;
-                                      if (activeVal !== item.nominal) {
-                                        handleAutoSave(item.dateKey, activeVal);
-                                      } else {
-                                        setInputsText(prev => {
-                                          const next = { ...prev };
-                                          delete next[item.dateKey];
-                                          return next;
-                                        });
-                                      }
-                                    }}
-                                    onKeyDown={(e) => {
-                                      if (e.key === 'Enter') {
-                                        (e.target as HTMLInputElement).blur();
-                                      }
-                                    }}
-                                    placeholder="0"
-                                    className={`w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-bold text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:bg-white transition-all text-left ${
-                                      localVal !== undefined && localVal !== item.nominal ? 'border-amber-400 ring-2 ring-amber-400/10' : ''
-                                    }`}
-                                  />
-                                </div>
-                              )}
+                              <JimpitanInputRow
+                                dateKey={item.dateKey}
+                                dateStr={item.dateStr}
+                                initialValue={item.nominal}
+                                isFuture={isFut}
+                                isSaving={isSaving}
+                                onSave={handleAutoSave}
+                              />
                             </div>
                           </td>
 
@@ -769,7 +743,7 @@ export default function JimpitanBulananPage() {
                   ) : (
                     <button
                       onClick={() => {
-                        const val = parseInt(targetInputText.replace(/\D/g, ''), 10);
+                        const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
                         if (!isNaN(val) && val > 0) {
                           setTargetBulanIni(val);
                           localStorage.setItem(`komuna-target-${selectedMonth}-${selectedYear}`, String(val));
@@ -786,13 +760,17 @@ export default function JimpitanBulananPage() {
                 <div>
                   {isEditingTarget ? (
                     <input
+                      ref={targetInputRef}
                       autoFocus
                       type="text"
-                      value={targetInputText}
-                      onChange={(e) => setTargetInputText(e.target.value)}
+                      inputMode="numeric"
+                      defaultValue={String(targetBulanIni)}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                          const val = parseInt(targetInputText.replace(/\D/g, ''), 10);
+                          const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
                           if (!isNaN(val) && val > 0) {
                             setTargetBulanIni(val);
                             localStorage.setItem(`komuna-target-${selectedMonth}-${selectedYear}`, String(val));

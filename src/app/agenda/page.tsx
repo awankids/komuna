@@ -57,6 +57,7 @@ export default function AgendaPage() {
 
   // Form State (For Add / Edit)
   const [editingAgendaId, setEditingAgendaId] = useState<string | null>(null);
+  // formJudul/formLokasi/formKeterangan digunakan sebagai defaultValue saja (uncontrolled)
   const [formJudul, setFormJudul] = useState('');
   const [formKategori, setFormKategori] = useState('umum');
   const [formTanggal, setFormTanggal] = useState('');
@@ -66,6 +67,13 @@ export default function AgendaPage() {
   const [formKeterangan, setFormKeterangan] = useState('');
   const [formStatus, setFormStatus] = useState('terjadwal');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // formKey forces remount of the form so defaultValue is re-applied on each open/edit
+  const [formKey, setFormKey] = useState(0);
+
+  // Uncontrolled refs for text inputs inside modal (fix Android Gboard IME bug)
+  const judulRef = useRef<HTMLInputElement>(null);
+  const lokasiRef = useRef<HTMLInputElement>(null);
+  const keteranganRef = useRef<HTMLTextAreaElement>(null);
 
   // Toast State
   const [toastMessage, setToastMessage] = useState('');
@@ -282,6 +290,7 @@ export default function AgendaPage() {
     setFormLokasi('');
     setFormKeterangan('');
     setFormStatus('terjadwal');
+    setFormKey((k) => k + 1);
   };
 
   // Open Edit Mode
@@ -295,13 +304,19 @@ export default function AgendaPage() {
     setFormLokasi(agenda.lokasi || '');
     setFormKeterangan(agenda.keterangan || '');
     setFormStatus(agenda.status || 'terjadwal');
+    setFormKey((k) => k + 1);
     setIsFormOpen(true);
   };
 
   // Submit Agenda (Create / Update)
   const handleSubmitAgenda = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formJudul.trim() || !formTanggal) {
+    // Baca nilai dari uncontrolled refs
+    const judulVal = judulRef.current?.value ?? '';
+    const lokasiVal = lokasiRef.current?.value ?? '';
+    const keteranganVal = keteranganRef.current?.value ?? '';
+
+    if (!judulVal.trim() || !formTanggal) {
       triggerToast('Judul dan tanggal wajib diisi', 'error');
       return;
     }
@@ -310,13 +325,13 @@ export default function AgendaPage() {
     try {
       const payload = {
         id: editingAgendaId || undefined,
-        judul: formJudul,
+        judul: judulVal,
         kategori: formKategori,
         tanggal: formTanggal,
         waktuMulai: formWaktuMulai,
         waktuSelesai: formWaktuSelesai,
-        lokasi: formLokasi,
-        keterangan: formKeterangan,
+        lokasi: lokasiVal,
+        keterangan: keteranganVal,
         status: formStatus,
       };
 
@@ -671,7 +686,7 @@ export default function AgendaPage() {
               
               {/* Form Mode (Add / Edit) */}
               {isFormOpen ? (
-                <form onSubmit={handleSubmitAgenda} className="space-y-4">
+                <form key={formKey} onSubmit={handleSubmitAgenda} className="space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                     <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       {editingAgendaId ? 'Edit Agenda' : 'Tambah Agenda Baru'}
@@ -689,11 +704,14 @@ export default function AgendaPage() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Judul Agenda <span className="text-red-500">*</span></label>
                     <input
+                      ref={judulRef}
                       type="text"
                       required
                       placeholder="Contoh: Kerja Bakti Bersihkan Selokan"
-                      value={formJudul}
-                      onChange={(e) => setFormJudul(e.target.value)}
+                      defaultValue={formJudul}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                   </div>
@@ -756,10 +774,13 @@ export default function AgendaPage() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Lokasi Kegiatan</label>
                     <input
+                      ref={lokasiRef}
                       type="text"
                       placeholder="Contoh: Balai RT 04"
-                      value={formLokasi}
-                      onChange={(e) => setFormLokasi(e.target.value)}
+                      defaultValue={formLokasi}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                   </div>
@@ -768,10 +789,13 @@ export default function AgendaPage() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Catatan / Keterangan</label>
                     <textarea
+                      ref={keteranganRef}
                       rows={2}
                       placeholder="Catatan tambahan kegiatan..."
-                      value={formKeterangan}
-                      onChange={(e) => setFormKeterangan(e.target.value)}
+                      defaultValue={formKeterangan}
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />
                   </div>
