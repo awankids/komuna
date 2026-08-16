@@ -162,7 +162,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   </div>
                 ) : (
                   notifications.map((notif) => (
-                    <div key={notif.id} className={`px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${!notif.isRead ? 'bg-slate-50/50' : ''}`}>
+                    <Link href="/notifikasi" onClick={() => setIsNotifOpen(false)} key={notif.id} className={`block px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${!notif.isRead ? 'bg-slate-50/50' : ''}`}>
                       <div className="flex items-start gap-3">
                         <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${!notif.isRead ? 'bg-[var(--brand-primary)]' : 'bg-transparent'}`} />
                         <div>
@@ -171,7 +171,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                           <p className="text-[9px] text-slate-400 mt-1">{formatTime(notif.createdAt)}</p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))
                 )}
               </div>
