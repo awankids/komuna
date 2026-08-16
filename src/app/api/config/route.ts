@@ -10,7 +10,8 @@ export async function GET() {
       return NextResponse.json({
         namaApp: 'komuna.id',
         namaRt: 'RT 04',
-        tagline: 'Kebersamaan, Terpadu, Transparan'
+        tagline: 'Kebersamaan, Terpadu, Transparan',
+        targetJimpitan: 3000000
       });
     }
 
@@ -20,7 +21,8 @@ export async function GET() {
     return NextResponse.json({ 
       namaApp: 'komuna.id',
       namaRt: 'RT 04',
-      tagline: 'Kebersamaan, Terpadu, Transparan'
+      tagline: 'Kebersamaan, Terpadu, Transparan',
+      targetJimpitan: 3000000
     }, { status: 200 }); // Graceful fallback
   }
 }
@@ -28,8 +30,10 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { namaApp, namaRt, tagline } = body;
+    const { namaApp, namaRt, tagline, targetJimpitan } = body;
 
+    // Remove the strict requirement for ALL fields, only validate those provided. 
+    // Wait, the existing code requires all 3. Let's keep it requiring all 3.
     if (!namaApp || !namaRt || !tagline) {
       return NextResponse.json({ error: 'Data tidak lengkap' }, { status: 400 });
     }
@@ -38,14 +42,17 @@ export async function PUT(request: Request) {
     const existing = await db.pengaturanAplikasi.findFirst();
     let config;
 
+    // Use existing target if not provided in PUT
+    const target = targetJimpitan !== undefined ? parseInt(targetJimpitan, 10) : (existing?.targetJimpitan || 3000000);
+
     if (existing) {
       config = await db.pengaturanAplikasi.update({
         where: { id: existing.id },
-        data: { namaApp, namaRt, tagline }
+        data: { namaApp, namaRt, tagline, targetJimpitan: target }
       });
     } else {
       config = await db.pengaturanAplikasi.create({
-        data: { namaApp, namaRt, tagline }
+        data: { namaApp, namaRt, tagline, targetJimpitan: target }
       });
     }
 

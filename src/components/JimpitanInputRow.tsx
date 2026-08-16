@@ -53,8 +53,8 @@ export default function JimpitanInputRow({
   }
 
   return (
-    <div className="relative w-full max-w-[140px]">
-      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">Rp</span>
+    <div className="relative w-full max-w-[90px] md:max-w-[110px]">
+      <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] md:text-xs font-bold text-slate-400">Rp</span>
       <input
         ref={inputRef}
         type="text"
@@ -66,8 +66,8 @@ export default function JimpitanInputRow({
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         placeholder="0"
-        className={`w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-bold text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-orange-500/25 focus:bg-white transition-all text-left ${
-          isDirty ? 'border-amber-400 ring-2 ring-amber-400/10' : ''
+        className={`w-full pl-7 md:pl-8 pr-2.5 py-1.5 bg-slate-50/70 hover:bg-slate-50 border border-slate-200/80 rounded-full text-[11px] md:text-xs font-bold text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)]/50 focus:bg-white transition-all text-left ${
+          isDirty ? 'border-amber-400 bg-amber-50/20' : ''
         }`}
       />
     </div>

@@ -20,8 +20,18 @@ export type PengaturanAplikasiModel = runtime.Types.Result.DefaultSelection<Pris
 
 export type AggregatePengaturanAplikasi = {
   _count: PengaturanAplikasiCountAggregateOutputType | null
+  _avg: PengaturanAplikasiAvgAggregateOutputType | null
+  _sum: PengaturanAplikasiSumAggregateOutputType | null
   _min: PengaturanAplikasiMinAggregateOutputType | null
   _max: PengaturanAplikasiMaxAggregateOutputType | null
+}
+
+export type PengaturanAplikasiAvgAggregateOutputType = {
+  targetJimpitan: number | null
+}
+
+export type PengaturanAplikasiSumAggregateOutputType = {
+  targetJimpitan: number | null
 }
 
 export type PengaturanAplikasiMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type PengaturanAplikasiMinAggregateOutputType = {
   namaApp: string | null
   namaRt: string | null
   tagline: string | null
+  targetJimpitan: number | null
   updatedAt: Date | null
 }
 
@@ -37,6 +48,7 @@ export type PengaturanAplikasiMaxAggregateOutputType = {
   namaApp: string | null
   namaRt: string | null
   tagline: string | null
+  targetJimpitan: number | null
   updatedAt: Date | null
 }
 
@@ -45,16 +57,26 @@ export type PengaturanAplikasiCountAggregateOutputType = {
   namaApp: number
   namaRt: number
   tagline: number
+  targetJimpitan: number
   updatedAt: number
   _all: number
 }
 
+
+export type PengaturanAplikasiAvgAggregateInputType = {
+  targetJimpitan?: true
+}
+
+export type PengaturanAplikasiSumAggregateInputType = {
+  targetJimpitan?: true
+}
 
 export type PengaturanAplikasiMinAggregateInputType = {
   id?: true
   namaApp?: true
   namaRt?: true
   tagline?: true
+  targetJimpitan?: true
   updatedAt?: true
 }
 
@@ -63,6 +85,7 @@ export type PengaturanAplikasiMaxAggregateInputType = {
   namaApp?: true
   namaRt?: true
   tagline?: true
+  targetJimpitan?: true
   updatedAt?: true
 }
 
@@ -71,6 +94,7 @@ export type PengaturanAplikasiCountAggregateInputType = {
   namaApp?: true
   namaRt?: true
   tagline?: true
+  targetJimpitan?: true
   updatedAt?: true
   _all?: true
 }
@@ -113,6 +137,18 @@ export type PengaturanAplikasiAggregateArgs<ExtArgs extends runtime.Types.Extens
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PengaturanAplikasiAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PengaturanAplikasiSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PengaturanAplikasiMinAggregateInputType
@@ -143,6 +179,8 @@ export type PengaturanAplikasiGroupByArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   _count?: PengaturanAplikasiCountAggregateInputType | true
+  _avg?: PengaturanAplikasiAvgAggregateInputType
+  _sum?: PengaturanAplikasiSumAggregateInputType
   _min?: PengaturanAplikasiMinAggregateInputType
   _max?: PengaturanAplikasiMaxAggregateInputType
 }
@@ -152,8 +190,11 @@ export type PengaturanAplikasiGroupByOutputType = {
   namaApp: string
   namaRt: string
   tagline: string
+  targetJimpitan: number
   updatedAt: Date
   _count: PengaturanAplikasiCountAggregateOutputType | null
+  _avg: PengaturanAplikasiAvgAggregateOutputType | null
+  _sum: PengaturanAplikasiSumAggregateOutputType | null
   _min: PengaturanAplikasiMinAggregateOutputType | null
   _max: PengaturanAplikasiMaxAggregateOutputType | null
 }
@@ -181,6 +222,7 @@ export type PengaturanAplikasiWhereInput = {
   namaApp?: Prisma.StringFilter<"PengaturanAplikasi"> | string
   namaRt?: Prisma.StringFilter<"PengaturanAplikasi"> | string
   tagline?: Prisma.StringFilter<"PengaturanAplikasi"> | string
+  targetJimpitan?: Prisma.IntFilter<"PengaturanAplikasi"> | number
   updatedAt?: Prisma.DateTimeFilter<"PengaturanAplikasi"> | Date | string
 }
 
@@ -189,6 +231,7 @@ export type PengaturanAplikasiOrderByWithRelationInput = {
   namaApp?: Prisma.SortOrder
   namaRt?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  targetJimpitan?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -200,6 +243,7 @@ export type PengaturanAplikasiWhereUniqueInput = Prisma.AtLeast<{
   namaApp?: Prisma.StringFilter<"PengaturanAplikasi"> | string
   namaRt?: Prisma.StringFilter<"PengaturanAplikasi"> | string
   tagline?: Prisma.StringFilter<"PengaturanAplikasi"> | string
+  targetJimpitan?: Prisma.IntFilter<"PengaturanAplikasi"> | number
   updatedAt?: Prisma.DateTimeFilter<"PengaturanAplikasi"> | Date | string
 }, "id">
 
@@ -208,10 +252,13 @@ export type PengaturanAplikasiOrderByWithAggregationInput = {
   namaApp?: Prisma.SortOrder
   namaRt?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  targetJimpitan?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PengaturanAplikasiCountOrderByAggregateInput
+  _avg?: Prisma.PengaturanAplikasiAvgOrderByAggregateInput
   _max?: Prisma.PengaturanAplikasiMaxOrderByAggregateInput
   _min?: Prisma.PengaturanAplikasiMinOrderByAggregateInput
+  _sum?: Prisma.PengaturanAplikasiSumOrderByAggregateInput
 }
 
 export type PengaturanAplikasiScalarWhereWithAggregatesInput = {
@@ -222,6 +269,7 @@ export type PengaturanAplikasiScalarWhereWithAggregatesInput = {
   namaApp?: Prisma.StringWithAggregatesFilter<"PengaturanAplikasi"> | string
   namaRt?: Prisma.StringWithAggregatesFilter<"PengaturanAplikasi"> | string
   tagline?: Prisma.StringWithAggregatesFilter<"PengaturanAplikasi"> | string
+  targetJimpitan?: Prisma.IntWithAggregatesFilter<"PengaturanAplikasi"> | number
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PengaturanAplikasi"> | Date | string
 }
 
@@ -230,6 +278,7 @@ export type PengaturanAplikasiCreateInput = {
   namaApp?: string
   namaRt?: string
   tagline?: string
+  targetJimpitan?: number
   updatedAt?: Date | string
 }
 
@@ -238,6 +287,7 @@ export type PengaturanAplikasiUncheckedCreateInput = {
   namaApp?: string
   namaRt?: string
   tagline?: string
+  targetJimpitan?: number
   updatedAt?: Date | string
 }
 
@@ -246,6 +296,7 @@ export type PengaturanAplikasiUpdateInput = {
   namaApp?: Prisma.StringFieldUpdateOperationsInput | string
   namaRt?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -254,6 +305,7 @@ export type PengaturanAplikasiUncheckedUpdateInput = {
   namaApp?: Prisma.StringFieldUpdateOperationsInput | string
   namaRt?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -262,6 +314,7 @@ export type PengaturanAplikasiCreateManyInput = {
   namaApp?: string
   namaRt?: string
   tagline?: string
+  targetJimpitan?: number
   updatedAt?: Date | string
 }
 
@@ -270,6 +323,7 @@ export type PengaturanAplikasiUpdateManyMutationInput = {
   namaApp?: Prisma.StringFieldUpdateOperationsInput | string
   namaRt?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -278,6 +332,7 @@ export type PengaturanAplikasiUncheckedUpdateManyInput = {
   namaApp?: Prisma.StringFieldUpdateOperationsInput | string
   namaRt?: Prisma.StringFieldUpdateOperationsInput | string
   tagline?: Prisma.StringFieldUpdateOperationsInput | string
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -286,7 +341,12 @@ export type PengaturanAplikasiCountOrderByAggregateInput = {
   namaApp?: Prisma.SortOrder
   namaRt?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  targetJimpitan?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type PengaturanAplikasiAvgOrderByAggregateInput = {
+  targetJimpitan?: Prisma.SortOrder
 }
 
 export type PengaturanAplikasiMaxOrderByAggregateInput = {
@@ -294,6 +354,7 @@ export type PengaturanAplikasiMaxOrderByAggregateInput = {
   namaApp?: Prisma.SortOrder
   namaRt?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  targetJimpitan?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -302,7 +363,12 @@ export type PengaturanAplikasiMinOrderByAggregateInput = {
   namaApp?: Prisma.SortOrder
   namaRt?: Prisma.SortOrder
   tagline?: Prisma.SortOrder
+  targetJimpitan?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type PengaturanAplikasiSumOrderByAggregateInput = {
+  targetJimpitan?: Prisma.SortOrder
 }
 
 
@@ -312,6 +378,7 @@ export type PengaturanAplikasiSelect<ExtArgs extends runtime.Types.Extensions.In
   namaApp?: boolean
   namaRt?: boolean
   tagline?: boolean
+  targetJimpitan?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pengaturanAplikasi"]>
 
@@ -320,6 +387,7 @@ export type PengaturanAplikasiSelectCreateManyAndReturn<ExtArgs extends runtime.
   namaApp?: boolean
   namaRt?: boolean
   tagline?: boolean
+  targetJimpitan?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pengaturanAplikasi"]>
 
@@ -328,6 +396,7 @@ export type PengaturanAplikasiSelectUpdateManyAndReturn<ExtArgs extends runtime.
   namaApp?: boolean
   namaRt?: boolean
   tagline?: boolean
+  targetJimpitan?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pengaturanAplikasi"]>
 
@@ -336,10 +405,11 @@ export type PengaturanAplikasiSelectScalar = {
   namaApp?: boolean
   namaRt?: boolean
   tagline?: boolean
+  targetJimpitan?: boolean
   updatedAt?: boolean
 }
 
-export type PengaturanAplikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "namaApp" | "namaRt" | "tagline" | "updatedAt", ExtArgs["result"]["pengaturanAplikasi"]>
+export type PengaturanAplikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "namaApp" | "namaRt" | "tagline" | "targetJimpitan" | "updatedAt", ExtArgs["result"]["pengaturanAplikasi"]>
 
 export type $PengaturanAplikasiPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PengaturanAplikasi"
@@ -349,6 +419,7 @@ export type $PengaturanAplikasiPayload<ExtArgs extends runtime.Types.Extensions.
     namaApp: string
     namaRt: string
     tagline: string
+    targetJimpitan: number
     updatedAt: Date
   }, ExtArgs["result"]["pengaturanAplikasi"]>
   composites: {}
@@ -777,6 +848,7 @@ export interface PengaturanAplikasiFieldRefs {
   readonly namaApp: Prisma.FieldRef<"PengaturanAplikasi", 'String'>
   readonly namaRt: Prisma.FieldRef<"PengaturanAplikasi", 'String'>
   readonly tagline: Prisma.FieldRef<"PengaturanAplikasi", 'String'>
+  readonly targetJimpitan: Prisma.FieldRef<"PengaturanAplikasi", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"PengaturanAplikasi", 'DateTime'>
 }
     

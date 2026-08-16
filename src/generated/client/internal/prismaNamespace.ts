@@ -1230,6 +1230,7 @@ export const PengaturanAplikasiScalarFieldEnum = {
   namaApp: 'namaApp',
   namaRt: 'namaRt',
   tagline: 'tagline',
+  targetJimpitan: 'targetJimpitan',
   updatedAt: 'updatedAt'
 } as const
 

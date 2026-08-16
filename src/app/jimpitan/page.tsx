@@ -208,19 +208,20 @@ export default function JimpitanBulananPage() {
   // Load target on mount and when month/year changes
   useEffect(() => {
     fetchMonthlyData();
-    if (typeof window !== 'undefined') {
-      try {
-        const savedTarget = localStorage.getItem(`komuna-target-${selectedMonth}-${selectedYear}`);
-        if (savedTarget) {
-          setTargetBulanIni(parseInt(savedTarget, 10));
+    // Fetch global target from API
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.targetJimpitan) {
+          setTargetBulanIni(data.targetJimpitan);
         } else {
-          setTargetBulanIni(3000000); // default target
+          setTargetBulanIni(3000000); // default fallback
         }
-      } catch (e) {
-        console.error(e);
+      })
+      .catch(err => {
+        console.error('Failed to load target:', err);
         setTargetBulanIni(3000000);
-      }
-    }
+      });
   }, [selectedMonth, selectedYear]);
 
   // Handle month prev/next arrows
@@ -455,6 +456,24 @@ export default function JimpitanBulananPage() {
     });
   }, [dayRecords, selectedRombonganFilter, selectedStatusFilter, modifiedNominals]);
 
+  const handleSaveTarget = async (val: number) => {
+    setTargetBulanIni(val);
+    setIsEditingTarget(false);
+    try {
+      const res = await fetch('/api/config');
+      const data = await res.json();
+      await fetch('/api/config', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, targetJimpitan: val })
+      });
+      triggerToast('Target bulanan berhasil diperbarui', 'success');
+    } catch (e) {
+      console.error('Gagal menyimpan target jimpitan', e);
+      triggerToast('Gagal menyimpan target bulanan', 'error');
+    }
+  };
+
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
       <Sidebar activeMenu="Jimpitan" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
@@ -602,99 +621,84 @@ export default function JimpitanBulananPage() {
             ) : filteredRecords.length === 0 ? (
               <div className="py-24 text-center text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</div>
             ) : (
-              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
-                <table className="w-full text-left border-collapse min-w-[650px]">
-                  <thead>
-                    <tr className="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                      <th className="py-4 px-4 text-center w-14">Tgl</th>
-                      <th className="py-4 px-4 text-center w-16">Hari</th>
-                      <th className="py-4 px-4 w-[240px]">Petugas Jimpitan</th>
-                      <th className="py-4 px-4 text-center w-[160px]">Rombongan</th>
-                      <th className="py-4 px-4 text-center w-[180px]">Nominal (Rp)</th>
-                      <th className="py-4 px-4 text-center w-20">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {filteredRecords.map((item) => {
-                      const localVal = modifiedNominals[item.dateKey];
-                      const activeVal = localVal !== undefined ? localVal : item.nominal;
-                      
-                      const isFut = item.isFuture;
-                      const isTod = item.isToday;
+              <div className="w-full">
+                <div className="flex flex-col divide-y divide-slate-100 relative ml-2 md:ml-0 border-l border-slate-100 md:border-none">
+                  {filteredRecords.map((item) => {
+                    const localVal = modifiedNominals[item.dateKey];
+                    const activeVal = localVal !== undefined ? localVal : item.nominal;
+                    
+                    const isFut = item.isFuture;
+                    const isTod = item.isToday;
 
-                      return (
-                        <tr 
-                          key={item.dateKey} 
-                          className={`transition-colors ${
-                            isTod 
-                              ? 'bg-orange-50/20 font-semibold' 
-                              : isFut 
-                                ? 'bg-slate-50/20 opacity-60' 
-                                : 'hover:bg-slate-50/40'
-                          }`}
-                        >
-                          {/* Day number */}
-                          <td className="py-4 px-4 text-center font-bold text-slate-700 text-xs">
+                    // Determine dot color
+                    let dotColor = "bg-slate-200"; // Belum Tiba
+                    if (isTod) dotColor = "bg-[var(--brand-primary)]";
+                    else if (item.status === 'sudah_isi') dotColor = "bg-emerald-500";
+                    else if (item.status === 'belum_isi') dotColor = "bg-slate-400";
+
+                    return (
+                      <div 
+                        key={item.dateKey} 
+                        className={`flex items-stretch py-4 pl-4 pr-1 transition-colors relative ${
+                          isTod 
+                            ? 'bg-[var(--brand-light)]/20' 
+                            : isFut 
+                              ? 'bg-slate-50/20 opacity-60' 
+                              : 'hover:bg-slate-50/40 bg-white'
+                        }`}
+                      >
+                        {/* Status Dot (Left Timeline Style) */}
+                        <div className="absolute left-[-1px] top-1/2 -translate-y-1/2 -ml-[5px] md:-ml-1.5 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full border border-white shadow-sm" style={{ zIndex: 10 }}>
+                          <div className={`w-full h-full rounded-full ${dotColor}`} />
+                        </div>
+
+                        {/* Left: Date Block */}
+                        <div className="flex flex-col items-center justify-center w-[60px] md:w-[72px] shrink-0 border-r border-slate-100 pr-3 mr-3 md:mr-4">
+                          <span className={`text-xl md:text-2xl font-black tracking-tighter ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-800'}`}>
                             {String(item.dayNum).padStart(2, '0')}
-                          </td>
-                          
-                          {/* Short weekday + Javanese Pasaran */}
-                          <td className={`py-4 px-4 text-center ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-500'}`}>
-                            <div className="flex flex-col items-center gap-0.5">
-                              <span className={`font-bold text-xs ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-700'}`}>
-                                {item.dayLabel}
-                              </span>
-                              <span className={`text-[9px] font-semibold ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-500'}`}>
-                                {getPasaran(item.dateKey)}
-                              </span>
-                            </div>
-                          </td>
+                          </span>
+                          <span className={`text-[10px] md:text-xs font-bold mt-0.5 ${isTod ? 'text-[var(--brand-primary)]' : 'text-slate-700'}`}>
+                            {item.dayLabel}
+                          </span>
+                          <span className={`text-[9px] md:text-[10px] font-semibold mt-0.5 ${isTod ? 'text-[var(--brand-primary)] opacity-80' : 'text-slate-400'}`}>
+                            {getPasaran(item.dateKey)}
+                          </span>
+                        </div>
 
-                          {/* Officer with subtext House No. */}
-                          <td className="py-4 px-4 text-xs">
-                            <div className="flex flex-col text-left">
-                              {item.petugasName !== 'Tanpa Petugas' ? (
-                                <>
-                                  <span className="text-[9px] text-slate-400 font-semibold">Ketua Rombongan</span>
-                                  <span className="font-bold text-slate-800 mt-0.5">{item.petugasName}</span>
-                                  {item.petugasNoRumah && (
-                                    <span className="text-[9px] text-slate-400 font-medium mt-0.5">{item.petugasNoRumah}</span>
-                                  )}
-                                </>
-                              ) : (
-                                <span className="text-[10px] text-slate-400 font-semibold italic">Belum ada petugas</span>
+                        {/* Middle: Officer Info */}
+                        <div className="flex-1 flex flex-col justify-center min-w-0 pr-2">
+                          {item.petugasName !== 'Tanpa Petugas' ? (
+                            <>
+                              <span className="text-[9px] md:text-[10px] text-slate-400 font-semibold tracking-wide uppercase">Ketua Rombongan</span>
+                              <span className="font-bold text-slate-800 text-xs md:text-sm mt-0.5 truncate">{item.petugasName}</span>
+                              {item.petugasNoRumah && (
+                                <span className="text-[10px] md:text-[11px] text-slate-400 font-medium mt-0.5">{item.petugasNoRumah}</span>
                               )}
-                            </div>
-                          </td>
+                              {item.rombonganNama && (
+                                <div className="mt-2">
+                                  <span className={`text-[8px] md:text-[9px] font-bold uppercase px-2 py-0.5 rounded-full border whitespace-nowrap ${getRombonganColorClass(item.rombonganId)}`}>
+                                    {item.rombonganNama}
+                                  </span>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <span className="text-xs text-slate-400 font-semibold italic flex items-center h-full">Belum ada petugas</span>
+                          )}
+                        </div>
 
-                          {/* Group Rombongan Badge */}
-                          <td className="py-4 px-4 text-center">
-                            {item.rombonganNama ? (
-                              <span className={`text-[8px] font-bold uppercase px-2.5 py-1 rounded-md border whitespace-nowrap ${getRombonganColorClass(item.rombonganId)}`}>
-                                {item.rombonganNama}
-                              </span>
-                            ) : (
-                              <span className="text-slate-300">-</span>
-                            )}
-                          </td>
-
-                            {/* Nominal Input Field */}
-                          <td className="py-3 px-4">
-                            <div className="flex items-center justify-center">
-                              <JimpitanInputRow
-                                dateKey={item.dateKey}
-                                dateStr={item.dateStr}
-                                initialValue={item.nominal}
-                                isFuture={isFut}
-                                isSaving={isSaving}
-                                onSave={handleAutoSave}
-                              />
-                            </div>
-                          </td>
-
-                          {/* Status Badge */}
-                          <td className="py-4 px-4 text-center">
-                            <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-lg whitespace-nowrap ${
+                        {/* Right: Nominal & Status */}
+                        <div className="flex flex-col items-end justify-center shrink-0 w-[100px] md:w-[120px]">
+                          <JimpitanInputRow
+                            dateKey={item.dateKey}
+                            dateStr={item.dateStr}
+                            initialValue={item.nominal}
+                            isFuture={isFut}
+                            isSaving={isSaving}
+                            onSave={handleAutoSave}
+                          />
+                          <div className="mt-2 flex items-center justify-end w-full pr-5 md:pr-6 relative">
+                             <span className={`text-[8px] md:text-[9px] font-bold uppercase px-2 py-0.5 rounded-full tracking-wide ${
                               item.status === 'sudah_isi' 
                                 ? 'bg-emerald-50 text-emerald-600' 
                                 : item.status === 'belum_isi'
@@ -703,12 +707,14 @@ export default function JimpitanBulananPage() {
                             }`}>
                               {item.status === 'sudah_isi' ? 'Diisi' : item.status === 'belum_isi' ? 'Kosong' : 'Belum'}
                             </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                            {/* Chevron */}
+                            <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-300 absolute right-0" />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
@@ -745,10 +751,10 @@ export default function JimpitanBulananPage() {
                       onClick={() => {
                         const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
                         if (!isNaN(val) && val > 0) {
-                          setTargetBulanIni(val);
-                          localStorage.setItem(`komuna-target-${selectedMonth}-${selectedYear}`, String(val));
+                          handleSaveTarget(val);
+                        } else {
+                          setIsEditingTarget(false);
                         }
-                        setIsEditingTarget(false);
                       }}
                       aria-label="Simpan target bulan ini"
                       className="p-1 rounded-lg hover:bg-emerald-50 transition-colors text-emerald-500 cursor-pointer"
@@ -769,10 +775,10 @@ export default function JimpitanBulananPage() {
                         if (e.key === 'Enter') {
                           const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
                           if (!isNaN(val) && val > 0) {
-                            setTargetBulanIni(val);
-                            localStorage.setItem(`komuna-target-${selectedMonth}-${selectedYear}`, String(val));
+                            handleSaveTarget(val);
+                          } else {
+                            setIsEditingTarget(false);
                           }
-                          setIsEditingTarget(false);
                         }
                         if (e.key === 'Escape') setIsEditingTarget(false);
                       }}

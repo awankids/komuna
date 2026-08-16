@@ -107,9 +107,10 @@ model Notifikasi {
 }
 
 model PengaturanAplikasi {
-  id        String   @id @default(uuid())
-  namaApp   String   @default("komuna.id")
-  namaRt    String   @default("RT 04")
-  tagline   String   @default("Kebersamaan, Terpadu, Transparan")
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(uuid())
+  namaApp        String   @default("komuna.id")
+  namaRt         String   @default("RT 04")
+  tagline        String   @default("Kebersamaan, Terpadu, Transparan")
+  targetJimpitan Int      @default(3000000)
+  updatedAt      DateTime @updatedAt
 }
