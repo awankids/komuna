@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { Check, CheckCircle2, Info, AlertTriangle, AlertCircle, Trash2, CalendarDays } from 'lucide-react';
 import Link from 'next/link';
 import WhatsAppShareButton from '@/components/WhatsAppShareButton';
+import DeleteNotificationButton from '@/components/DeleteNotificationButton';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -106,10 +107,11 @@ export default async function NotifikasiPage() {
                         {item.message}
                       </p>
                       
-                      <div className="flex justify-end pt-1">
+                      <div className="flex justify-end items-center gap-2 pt-1">
                         <WhatsAppShareButton 
                           text={`*${item.title}*\n\n${item.message}\n\n_Pesan otomatis dari komuna.id_`} 
                         />
+                        <DeleteNotificationButton id={item.id} />
                       </div>
                     </div>
                   </div>
