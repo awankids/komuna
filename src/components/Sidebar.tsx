@@ -15,7 +15,8 @@ import {
   Settings, 
   LogOut,
   X,
-  ShieldCheck
+  ShieldCheck,
+  FileCheck
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -71,6 +72,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
         { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
         { name: 'Kas RT', icon: Wallet, href: '/kas' },
         { name: 'Hutang & Piutang', icon: ReceiptText, href: '/hutang-piutang' },
+        { name: 'Surat Pengantar', icon: FileCheck, href: '/surat' },
         { name: 'Laporan', icon: FileText, href: '/laporan' },
       ],
     },
@@ -101,6 +103,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       if (activeMenu === 'HutangPiutang' && name === 'Hutang & Piutang') return true;
       if (activeMenu === 'Laporan' && name === 'Laporan') return true;
       if ((activeMenu === 'Pengurus' || activeMenu === 'Susunan Pengurus') && name === 'Susunan Pengurus') return true;
+      if ((activeMenu === 'Surat' || activeMenu === 'Surat Pengantar') && name === 'Surat Pengantar') return true;
     }
     if (href === '/') return pathname === '/';
     if (href === '#') return false;

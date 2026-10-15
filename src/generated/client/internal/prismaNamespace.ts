@@ -395,7 +395,8 @@ export const ModelName = {
   PengaturanAplikasi: 'PengaturanAplikasi',
   HutangPiutang: 'HutangPiutang',
   PembayaranHutangPiutang: 'PembayaranHutangPiutang',
-  PengurusRT: 'PengurusRT'
+  PengurusRT: 'PengurusRT',
+  SuratPengantar: 'SuratPengantar'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1303,6 +1304,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SuratPengantar: {
+      payload: Prisma.$SuratPengantarPayload<ExtArgs>
+      fields: Prisma.SuratPengantarFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SuratPengantarFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SuratPengantarFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>
+        }
+        findFirst: {
+          args: Prisma.SuratPengantarFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SuratPengantarFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>
+        }
+        findMany: {
+          args: Prisma.SuratPengantarFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>[]
+        }
+        create: {
+          args: Prisma.SuratPengantarCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>
+        }
+        createMany: {
+          args: Prisma.SuratPengantarCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SuratPengantarCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>[]
+        }
+        delete: {
+          args: Prisma.SuratPengantarDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>
+        }
+        update: {
+          args: Prisma.SuratPengantarUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>
+        }
+        deleteMany: {
+          args: Prisma.SuratPengantarDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SuratPengantarUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SuratPengantarUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>[]
+        }
+        upsert: {
+          args: Prisma.SuratPengantarUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SuratPengantarPayload>
+        }
+        aggregate: {
+          args: Prisma.SuratPengantarAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSuratPengantar>
+        }
+        groupBy: {
+          args: Prisma.SuratPengantarGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SuratPengantarGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SuratPengantarCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SuratPengantarCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1359,6 +1434,13 @@ export const AnggotaScalarFieldEnum = {
   nama: 'nama',
   noRumah: 'noRumah',
   noHp: 'noHp',
+  nik: 'nik',
+  tempatLahir: 'tempatLahir',
+  tanggalLahir: 'tanggalLahir',
+  jenisKelamin: 'jenisKelamin',
+  agama: 'agama',
+  pekerjaan: 'pekerjaan',
+  statusPerkawinan: 'statusPerkawinan',
   statusAktif: 'statusAktif',
   rombonganId: 'rombonganId',
   createdAt: 'createdAt'
@@ -1522,6 +1604,39 @@ export const PengurusRTScalarFieldEnum = {
 } as const
 
 export type PengurusRTScalarFieldEnum = (typeof PengurusRTScalarFieldEnum)[keyof typeof PengurusRTScalarFieldEnum]
+
+
+export const SuratPengantarScalarFieldEnum = {
+  id: 'id',
+  nomorSurat: 'nomorSurat',
+  nomorUrut: 'nomorUrut',
+  jenisSurat: 'jenisSurat',
+  judulSurat: 'judulSurat',
+  anggotaId: 'anggotaId',
+  namaWarga: 'namaWarga',
+  nik: 'nik',
+  tempatLahir: 'tempatLahir',
+  tanggalLahir: 'tanggalLahir',
+  jenisKelamin: 'jenisKelamin',
+  agama: 'agama',
+  pekerjaan: 'pekerjaan',
+  statusPerkawinan: 'statusPerkawinan',
+  alamat: 'alamat',
+  keperluan: 'keperluan',
+  keteranganTambahan: 'keteranganTambahan',
+  tanggalSurat: 'tanggalSurat',
+  berlakuHingga: 'berlakuHingga',
+  namaPenandatangan: 'namaPenandatangan',
+  jabatanPenandatangan: 'jabatanPenandatangan',
+  kotaSurat: 'kotaSurat',
+  kodeVerifikasi: 'kodeVerifikasi',
+  status: 'status',
+  dibuatOleh: 'dibuatOleh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SuratPengantarScalarFieldEnum = (typeof SuratPengantarScalarFieldEnum)[keyof typeof SuratPengantarScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1738,6 +1853,7 @@ export type GlobalOmitConfig = {
   hutangPiutang?: Prisma.HutangPiutangOmit
   pembayaranHutangPiutang?: Prisma.PembayaranHutangPiutangOmit
   pengurusRT?: Prisma.PengurusRTOmit
+  suratPengantar?: Prisma.SuratPengantarOmit
 }
 
 /* Types for Logging */

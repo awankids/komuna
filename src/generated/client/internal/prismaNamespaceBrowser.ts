@@ -62,7 +62,8 @@ export const ModelName = {
   PengaturanAplikasi: 'PengaturanAplikasi',
   HutangPiutang: 'HutangPiutang',
   PembayaranHutangPiutang: 'PembayaranHutangPiutang',
-  PengurusRT: 'PengurusRT'
+  PengurusRT: 'PengurusRT',
+  SuratPengantar: 'SuratPengantar'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -98,6 +99,13 @@ export const AnggotaScalarFieldEnum = {
   nama: 'nama',
   noRumah: 'noRumah',
   noHp: 'noHp',
+  nik: 'nik',
+  tempatLahir: 'tempatLahir',
+  tanggalLahir: 'tanggalLahir',
+  jenisKelamin: 'jenisKelamin',
+  agama: 'agama',
+  pekerjaan: 'pekerjaan',
+  statusPerkawinan: 'statusPerkawinan',
   statusAktif: 'statusAktif',
   rombonganId: 'rombonganId',
   createdAt: 'createdAt'
@@ -261,6 +269,39 @@ export const PengurusRTScalarFieldEnum = {
 } as const
 
 export type PengurusRTScalarFieldEnum = (typeof PengurusRTScalarFieldEnum)[keyof typeof PengurusRTScalarFieldEnum]
+
+
+export const SuratPengantarScalarFieldEnum = {
+  id: 'id',
+  nomorSurat: 'nomorSurat',
+  nomorUrut: 'nomorUrut',
+  jenisSurat: 'jenisSurat',
+  judulSurat: 'judulSurat',
+  anggotaId: 'anggotaId',
+  namaWarga: 'namaWarga',
+  nik: 'nik',
+  tempatLahir: 'tempatLahir',
+  tanggalLahir: 'tanggalLahir',
+  jenisKelamin: 'jenisKelamin',
+  agama: 'agama',
+  pekerjaan: 'pekerjaan',
+  statusPerkawinan: 'statusPerkawinan',
+  alamat: 'alamat',
+  keperluan: 'keperluan',
+  keteranganTambahan: 'keteranganTambahan',
+  tanggalSurat: 'tanggalSurat',
+  berlakuHingga: 'berlakuHingga',
+  namaPenandatangan: 'namaPenandatangan',
+  jabatanPenandatangan: 'jabatanPenandatangan',
+  kotaSurat: 'kotaSurat',
+  kodeVerifikasi: 'kodeVerifikasi',
+  status: 'status',
+  dibuatOleh: 'dibuatOleh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SuratPengantarScalarFieldEnum = (typeof SuratPengantarScalarFieldEnum)[keyof typeof SuratPengantarScalarFieldEnum]
 
 
 export const SortOrder = {

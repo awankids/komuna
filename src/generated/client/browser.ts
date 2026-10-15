@@ -77,3 +77,8 @@ export type PembayaranHutangPiutang = Prisma.PembayaranHutangPiutangModel
  * 
  */
 export type PengurusRT = Prisma.PengurusRTModel
+/**
+ * Model SuratPengantar
+ * 
+ */
+export type SuratPengantar = Prisma.SuratPengantarModel

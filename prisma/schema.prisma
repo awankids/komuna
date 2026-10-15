@@ -21,6 +21,13 @@ model Anggota {
   nama              String
   noRumah           String
   noHp              String?
+  nik               String?
+  tempatLahir       String?
+  tanggalLahir      DateTime?
+  jenisKelamin      String?
+  agama             String?
+  pekerjaan         String?
+  statusPerkawinan  String?
   statusAktif       Boolean  @default(true)
   rombonganId       String?
   rombongan         Rombongan? @relation("RombonganAnggota", fields: [rombonganId], references: [id], onDelete: SetNull)
@@ -30,6 +37,7 @@ model Anggota {
   jadwal            JadwalPetugas[]
   hutangPiutang     HutangPiutang[]
   pengurus          PengurusRT[]
+  suratPengantar    SuratPengantar[]
 }
 
 model Rombongan {
@@ -185,3 +193,41 @@ model PengurusRT {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
+
+model SuratPengantar {
+  id                   String    @id @default(uuid())
+  nomorSurat           String    @unique
+  nomorUrut            Int
+  jenisSurat           String    // "ktp_kk", "skck", "domisili", "sku", "belum_nikah", "kematian", "keramaian", "kustom"
+  judulSurat           String
+  
+  anggotaId            String?
+  anggota              Anggota?  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  
+  namaWarga            String
+  nik                  String?
+  tempatLahir          String?
+  tanggalLahir         DateTime?
+  jenisKelamin         String?
+  agama                String?
+  pekerjaan            String?
+  statusPerkawinan     String?
+  alamat               String
+  
+  keperluan            String
+  keteranganTambahan   String?
+  
+  tanggalSurat         DateTime  @default(now())
+  berlakuHingga        DateTime?
+  namaPenandatangan    String
+  jabatanPenandatangan String
+  kotaSurat            String    @default("Semarang")
+  
+  kodeVerifikasi       String    @unique @default(cuid())
+  status               String    @default("aktif") // "aktif" | "dibatalkan"
+  dibuatOleh           String    @default("Admin RT")
+  
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
