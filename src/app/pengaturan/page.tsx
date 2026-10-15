@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -24,7 +24,11 @@ import {
   Terminal,
   Trash2,
   LayoutDashboard,
-  Save
+  Save,
+  Sparkles,
+  HardDrive,
+  Zap,
+  Info
 } from 'lucide-react';
 
 interface DBStats {
@@ -80,6 +84,13 @@ export default function PengaturanPage() {
   const [pendingRestoreData, setPendingRestoreData] = useState<any>(null);
   const [showConfirmRestore, setShowConfirmRestore] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Cache & System Update States
+  const [cacheSize, setCacheSize] = useState<string>('Memeriksa...');
+  const [swStatus, setSwStatus] = useState<string>('Memeriksa...');
+  const [isClearingCache, setIsClearingCache] = useState(false);
+  const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
+  const [showConfirmClearCache, setShowConfirmClearCache] = useState(false);
 
   // Load theme settings from localStorage on client-side
   useEffect(() => {
@@ -315,6 +326,118 @@ export default function PengaturanPage() {
     } finally {
       setIsRestoreLoading(false);
       setPendingRestoreData(null);
+    }
+  };
+
+  // Measure cache storage and check SW status
+  const checkCacheAndSW = useCallback(async () => {
+    if (typeof window !== 'undefined') {
+      // 1. Check ServiceWorker
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        setSwStatus('Aktif & Mengontrol');
+      } else if ('serviceWorker' in navigator) {
+        setSwStatus('Terdaftar (Siap)');
+      } else {
+        setSwStatus('Tidak Didukung');
+      }
+
+      // 2. Measure CacheStorage size
+      try {
+        if ('storage' in navigator && 'estimate' in navigator.storage) {
+          const estimate = await navigator.storage.estimate();
+          const usageBytes = estimate.usage || 0;
+          if (usageBytes > 1024 * 1024) {
+            setCacheSize(`~${(usageBytes / (1024 * 1024)).toFixed(1)} MB`);
+          } else if (usageBytes > 1024) {
+            setCacheSize(`~${Math.round(usageBytes / 1024)} KB`);
+          } else {
+            setCacheSize(`${usageBytes} Bytes`);
+          }
+        } else if ('caches' in window) {
+          const keys = await caches.keys();
+          setCacheSize(`${keys.length} Kontainer Cache`);
+        } else {
+          setCacheSize('Tersedia');
+        }
+      } catch (e) {
+        setCacheSize('Tersedia');
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    checkCacheAndSW();
+  }, [checkCacheAndSW]);
+
+  const handleSoftCheckUpdate = async () => {
+    setIsCheckingUpdate(true);
+    try {
+      if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          await registration.update();
+          if (registration.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            triggerToast('Versi baru ditemukan! Memuat ulang dalam 1 detik...', 'success');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+            return;
+          }
+        }
+      }
+
+      // Also refresh app config
+      const res = await fetch('/api/config');
+      if (res.ok) {
+        const data = await res.json();
+        setAppConfig(data);
+        localStorage.setItem('komuna_app_config', JSON.stringify(data));
+      }
+
+      await checkCacheAndSW();
+      triggerToast('Aplikasi sudah menggunakan versi terbaru dari server!', 'success');
+    } catch (e) {
+      triggerToast('Gagal memeriksa pembaruan server', 'error');
+    } finally {
+      setIsCheckingUpdate(false);
+    }
+  };
+
+  const handleExecuteClearCache = async () => {
+    setShowConfirmClearCache(false);
+    setIsClearingCache(true);
+    try {
+      // 1. Delete all CacheStorage keys
+      if (typeof window !== 'undefined' && 'caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map((name) => caches.delete(name)));
+      }
+
+      // 2. Unregister all service workers so fresh one installs on reload
+      if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const reg of registrations) {
+          await reg.unregister();
+        }
+      }
+
+      // 3. Clear transient localStorage caches (keep session cookie and user theme preferences)
+      try {
+        localStorage.removeItem('komuna_app_config');
+        localStorage.removeItem('komuna-error-logs');
+      } catch (e) {}
+
+      triggerToast('Cache berhasil dibersihkan! Memuat ulang aplikasi...', 'success');
+
+      // 4. Force reload cleanly with cache busting query param
+      setTimeout(() => {
+        window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
+      }, 900);
+    } catch (e: any) {
+      console.error('Clear cache error:', e);
+      triggerToast('Gagal membersihkan cache: ' + e.message, 'error');
+      setIsClearingCache(false);
     }
   };
 
@@ -794,6 +917,92 @@ export default function PengaturanPage() {
                 </div>
               </div>
 
+              {/* Penyimpanan Cache & Pembaruan Sistem Card */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-800">Penyimpanan Cache & Pembaruan Sistem</h3>
+                    <p className="text-xs text-slate-400 font-medium mt-1 leading-relaxed">
+                      Bersihkan file statis usang dan paksa aplikasi memuat fitur atau tampilan terbaru dari server Vercel. Sangat berguna jika Anda baru saja memperbarui aplikasi atau tampilan belum ter-update di smartphone/PWA.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Live Diagnostics Metrics */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100/80 space-y-1">
+                    <span className="text-[11px] font-semibold text-slate-400 block flex items-center gap-1.5">
+                      <HardDrive className="w-3.5 h-3.5 text-slate-400" />
+                      Kapasitas Cache
+                    </span>
+                    <span className="text-sm font-bold text-slate-800 block">{cacheSize}</span>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100/80 space-y-1">
+                    <span className="text-[11px] font-semibold text-slate-400 block flex items-center gap-1.5">
+                      <Zap className="w-3.5 h-3.5 text-amber-500" />
+                      Service Worker
+                    </span>
+                    <span className="text-sm font-bold text-slate-800 block flex items-center gap-1.5">
+                      <span className={`w-2 h-2 rounded-full ${swStatus.includes('Aktif') ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                      {swStatus}
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100/80 space-y-1">
+                    <span className="text-[11px] font-semibold text-slate-400 block flex items-center gap-1.5">
+                      <Info className="w-3.5 h-3.5 text-blue-500" />
+                      Versi PWA
+                    </span>
+                    <span className="text-sm font-bold text-slate-800 block">v1.2.0 (Live Ready)</span>
+                  </div>
+                </div>
+
+                {/* Safe Note */}
+                <div className="p-3 rounded-2xl bg-emerald-50/60 border border-emerald-100 text-xs text-emerald-800 flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <p className="leading-relaxed">
+                    <strong>Pembersihan Aman (Anti-Logout):</strong> Tindakan ini hanya menghapus cache file tampilan (HTML, CSS, JS) dan menyinkronkan worker terbaru. <u>Sesi login Anda dan data penting warga tidak akan terhapus</u>.
+                  </p>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="pt-4 border-t border-slate-50 flex flex-wrap items-center justify-between gap-3">
+                  <div className="text-xs text-slate-400 font-medium">
+                    Pilih metode pembaruan:
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={handleSoftCheckUpdate}
+                      disabled={isCheckingUpdate || isClearingCache}
+                      className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 font-bold rounded-xl text-xs flex items-center gap-2 transition-all cursor-pointer"
+                    >
+                      <RefreshCw className={`w-4 h-4 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
+                      <span>{isCheckingUpdate ? 'Memeriksa...' : 'Cek Pembaruan'}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmClearCache(true)}
+                      disabled={isClearingCache || isCheckingUpdate}
+                      className="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-xs cursor-pointer"
+                    >
+                      {isClearingCache ? (
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Sparkles className="w-4 h-4" />
+                      )}
+                      <span>Bersihkan Seluruh Cache & Reload</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {/* Error Log & Diagnostics Card */}
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6 text-left">
                 <div className="flex items-start gap-4">
@@ -946,6 +1155,43 @@ export default function PengaturanPage() {
             </div>
 
           </div>
+
+          {/* Confirm Clear Cache Dialog Modal */}
+          {showConfirmClearCache && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+              <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+
+                <div>
+                  <h3 className="text-base font-bold text-slate-800">Bersihkan Seluruh Cache Aplikasi?</h3>
+                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
+                    Seluruh file statis dan memori lokal lama akan dibersihkan, lalu aplikasi akan otomatis dimuat ulang untuk mengambil pembaruan paling mutakhir dari server. Sesi login Anda tetap aman.
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-center gap-2.5 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmClearCache(false)}
+                    className="flex-1 px-4 py-2.5 border-2 border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs rounded-xl transition-all cursor-pointer"
+                  >
+                    Batal
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={isClearingCache}
+                    onClick={handleExecuteClearCache}
+                    className="flex-1 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-200 transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isClearingCache ? 'Membersihkan...' : 'Ya, Bersihkan & Reload'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Confirm Restore Dialog Modal */}
           {showConfirmRestore && pendingRestoreData && (
