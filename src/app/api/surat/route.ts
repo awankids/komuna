@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     // Fetch config for RT/RW format
     const config = await db.pengaturanAplikasi.findFirst();
-    const namaRt = config?.namaRt || 'RT 04';
+    const namaRt = config?.namaRt || 'RT';
 
     // Calculate Next Letter Number
     const now = new Date();
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
 
     if (!nomorSurat) {
       const config = await db.pengaturanAplikasi.findFirst();
-      const namaRt = config?.namaRt || 'RT 04';
+      const namaRt = config?.namaRt || 'RT';
       const cleanRt = namaRt.replace(/\s+/g, '.');
       nomorSurat = `${String(nextUrut).padStart(3, '0')}/${cleanRt}/${romanMonth}/${currentYear}`;
     }

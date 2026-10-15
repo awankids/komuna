@@ -27,7 +27,7 @@ export default function LoginPage() {
 
   const [appConfig, setAppConfig] = useState({
     namaApp: 'komuna.id',
-    namaRt: 'RT 04',
+    namaRt: '',
     tagline: 'Kebersamaan, Terpadu, Transparan'
   });
 

@@ -61,7 +61,7 @@ export default function PengaturanPage() {
   // App Identity State
   const [appConfig, setAppConfig] = useState({
     namaApp: 'komuna.id',
-    namaRt: 'RT 04',
+    namaRt: '',
     tagline: 'Kebersamaan, Terpadu, Transparan',
     kotaWilayah: 'Semarang',
     nomorSk: '',
@@ -97,12 +97,23 @@ export default function PengaturanPage() {
   const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
   const [showConfirmClearCache, setShowConfirmClearCache] = useState(false);
 
-  // Load theme settings from localStorage on client-side
+  // Load theme settings from localStorage on client-side and fetch fresh config
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
         const savedConfig = localStorage.getItem('komuna_app_config');
         if (savedConfig) setAppConfig(JSON.parse(savedConfig));
+
+        // Always fetch fresh configuration from server
+        fetch('/api/config')
+          .then(res => res.ok ? res.json() : null)
+          .then(data => {
+            if (data) {
+              setAppConfig(prev => ({ ...prev, ...data }));
+              localStorage.setItem('komuna_app_config', JSON.stringify(data));
+            }
+          })
+          .catch(err => console.error('Error fetching fresh config:', err));
         
         const savedTheme = localStorage.getItem('komuna-theme') || 'orange';
         const savedDark = localStorage.getItem('komuna-dark') === 'yes';
@@ -543,7 +554,7 @@ export default function PengaturanPage() {
                         value={appConfig.namaRt}
                         onChange={(e) => setAppConfig({ ...appConfig, namaRt: e.target.value })}
                         className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
-                        placeholder="Contoh: RT 04 Sukamaju"
+                        placeholder="Contoh: RT 01 / Sukamaju"
                         required
                       />
                     </div>

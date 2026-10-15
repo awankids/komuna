@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     // 1. App Configuration & Legalitas
     const config = await db.pengaturanAplikasi.findFirst() || {
       namaApp: 'komuna.id',
-      namaRt: 'RT 04',
+      namaRt: 'RT',
       tagline: 'Kebersamaan, Terpadu, Transparan',
       targetJimpitan: 3000000,
       kotaWilayah: 'Semarang',

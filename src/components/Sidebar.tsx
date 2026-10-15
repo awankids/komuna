@@ -31,7 +31,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
 
   const [appConfig, setAppConfig] = React.useState({
     namaApp: 'komuna.id',
-    namaRt: 'RT 04',
+    namaRt: '',
     tagline: 'Kebersamaan, Terpadu, Transparan'
   });
 
@@ -141,9 +141,11 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
               <div className="text-left space-y-0.5 max-w-[140px]">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-none truncate">{appConfig.namaApp}</h1>
-                  <span className="text-[9px] font-bold bg-[var(--brand-light)] text-[var(--brand-primary)] px-1.5 py-0.5 rounded-md border border-[var(--brand-primary)]/20 whitespace-nowrap">
-                    {appConfig.namaRt}
-                  </span>
+                  {appConfig.namaRt && (
+                    <span className="text-[9px] font-bold bg-[var(--brand-light)] text-[var(--brand-primary)] px-1.5 py-0.5 rounded-md border border-[var(--brand-primary)]/20 whitespace-nowrap">
+                      {appConfig.namaRt}
+                    </span>
+                  )}
                 </div>
                 <p className="text-[10px] text-slate-400 font-medium tracking-wide truncate">
                   {appConfig.tagline}

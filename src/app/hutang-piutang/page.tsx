@@ -102,6 +102,33 @@ export default function HutangPiutangPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [anggotaList, setAnggotaList] = useState<AnggotaOption[]>([]);
 
+  // App Configuration
+  const [appConfig, setAppConfig] = useState<{ namaApp?: string; namaRt?: string }>({
+    namaApp: 'komuna.id',
+    namaRt: '',
+  });
+
+  const fetchAppConfig = async () => {
+    if (typeof window === 'undefined') return;
+    const cached = localStorage.getItem('komuna_app_config');
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (parsed.namaRt) setAppConfig(parsed);
+      } catch (e) {}
+    }
+    try {
+      const res = await fetch('/api/config');
+      if (res.ok) {
+        const data = await res.json();
+        setAppConfig(data);
+        localStorage.setItem('komuna_app_config', JSON.stringify(data));
+      }
+    } catch (e) {
+      console.error('Failed to fetch app config', e);
+    }
+  };
+
   // Filter & Search states
   const [filterTipe, setFilterTipe] = useState<'semua' | 'piutang' | 'hutang'>('semua');
   const [filterStatus, setFilterStatus] = useState<'semua' | 'belum_lunas' | 'sebagian' | 'lunas'>('semua');
@@ -275,6 +302,9 @@ export default function HutangPiutangPage() {
       }
     };
     fetchAnggota();
+    fetchAppConfig();
+    window.addEventListener('komuna_config_updated', fetchAppConfig);
+    return () => window.removeEventListener('komuna_config_updated', fetchAppConfig);
   }, []);
 
   // Quick WhatsApp message generator
@@ -282,7 +312,7 @@ export default function HutangPiutangPage() {
     setWaItem(item);
     const sisa = formatRp(item.sisaNominal);
     const jatuhTempoText = item.jatuhTempo ? formatDate(item.jatuhTempo) : 'waktu dekat';
-    const draft = `Salam hangat Bapak/Ibu ${item.namaPihak},\n\nSemoga selalu sehat sekeluarga. Mengingatkan secara santun perihal catatan kas RT untuk *${item.judul}*, dengan sisa nominal sebesar *${sisa}* (estimasi tempo: ${jatuhTempoText}).\n\nApabila sudah ada kesempatan untuk pelunasan atau cicilan bertahap, silakan konfirmasi kepada pengurus RT. Terima kasih atas pengertian dan kerja sama dalam kebersamaan warga RT 04.`;
+    const draft = `Salam hangat Bapak/Ibu ${item.namaPihak},\n\nSemoga selalu sehat sekeluarga. Mengingatkan secara santun perihal catatan kas RT untuk *${item.judul}*, dengan sisa nominal sebesar *${sisa}* (estimasi tempo: ${jatuhTempoText}).\n\nApabila sudah ada kesempatan untuk pelunasan atau cicilan bertahap, silakan konfirmasi kepada pengurus RT. Terima kasih atas pengertian dan kerja sama dalam kebersamaan warga ${appConfig.namaRt || 'RT'}.`;
     setWaMessageText(draft);
     setIsWaModalOpen(true);
   };
@@ -486,7 +516,7 @@ export default function HutangPiutangPage() {
 
     let csvContent = '\uFEFF'; // UTF-8 BOM
     csvContent += 'sep=;\r\n';
-    csvContent += 'LAPORAN HUTANG & PIUTANG RT 04\r\n';
+    csvContent += `LAPORAN HUTANG & PIUTANG ${(appConfig.namaRt || 'RT').toUpperCase()}\r\n`;
     csvContent += `Tanggal Ekspor:;${new Date().toLocaleDateString('id-ID')}\r\n`;
     csvContent += `Total Piutang Aktif;${summary.totalPiutangAktif}\r\n`;
     csvContent += `Total Hutang Aktif;${summary.totalHutangAktif}\r\n`;
@@ -504,7 +534,8 @@ export default function HutangPiutangPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `Laporan_Hutang_Piutang_RT04_${new Date().toISOString().split('T')[0]}.csv`);
+    const sanitizedRt = (appConfig.namaRt || 'RT').replace(/\s+/g, '_');
+    link.setAttribute('download', `Laporan_Hutang_Piutang_${sanitizedRt}_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -44,7 +44,7 @@ const SEED_PROKER = [
     anggaranRealisasi: 8350000,
     status: 'terlaksana',
     persentase: 100,
-    keteranganHasil: 'Lomba anak-anak, tirakatan malam 17-an, jalan santai bersama 120 warga RT 04'
+    keteranganHasil: 'Lomba anak-anak, tirakatan malam 17-an, jalan santai bersama 120 warga RT'
   },
   {
     tahun: 2026,

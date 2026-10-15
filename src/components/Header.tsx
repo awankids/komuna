@@ -17,7 +17,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   
   const [appConfig, setAppConfig] = useState({
     namaApp: 'komuna.id',
-    namaRt: 'RT 04',
+    namaRt: '',
     tagline: 'Kebersamaan, Terpadu, Transparan'
   });
 
@@ -186,10 +186,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
           {/* Desktop Context / Breadcrumb */}
           <div className="hidden md:flex items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--brand-light)] text-[var(--brand-primary)] text-xs font-bold border border-[var(--brand-primary)]/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
-              {appConfig.namaRt}
-            </span>
+            {appConfig.namaRt && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--brand-light)] text-[var(--brand-primary)] text-xs font-bold border border-[var(--brand-primary)]/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
+                {appConfig.namaRt}
+              </span>
+            )}
             <span className="text-slate-300 font-light">•</span>
             <span className="text-xs font-semibold text-slate-500 tracking-tight">{appConfig.tagline}</span>
           </div>

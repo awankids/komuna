@@ -1131,7 +1131,7 @@ export default function AgendaPage() {
                     <input
                       ref={lokasiRef}
                       type="text"
-                      placeholder="Contoh: Balai RT 04"
+                      placeholder="Contoh: Balai Warga / Pos Ronda"
                       defaultValue={formLokasi}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                     />

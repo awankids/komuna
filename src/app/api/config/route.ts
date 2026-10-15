@@ -9,7 +9,7 @@ export async function GET() {
     if (!config) {
       return NextResponse.json({
         namaApp: 'komuna.id',
-        namaRt: 'RT 04',
+        namaRt: 'RT',
         tagline: 'Kebersamaan, Terpadu, Transparan',
         targetJimpitan: 3000000,
         kotaWilayah: 'Semarang',
@@ -23,7 +23,7 @@ export async function GET() {
     console.error('Failed to fetch AppConfig:', error);
     return NextResponse.json({ 
       namaApp: 'komuna.id',
-      namaRt: 'RT 04',
+      namaRt: 'RT',
       tagline: 'Kebersamaan, Terpadu, Transparan',
       targetJimpitan: 3000000,
       kotaWilayah: 'Semarang',

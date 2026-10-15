@@ -77,6 +77,33 @@ export default function DashboardPage() {
     return 'Selamat malam';
   });
 
+  // App Configuration
+  const [appConfig, setAppConfig] = useState<{ namaApp?: string; namaRt?: string }>({
+    namaApp: 'komuna.id',
+    namaRt: '',
+  });
+
+  const fetchAppConfig = async () => {
+    if (typeof window === 'undefined') return;
+    const cached = localStorage.getItem('komuna_app_config');
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        if (parsed.namaRt) setAppConfig(parsed);
+      } catch (e) {}
+    }
+    try {
+      const res = await fetch('/api/config');
+      if (res.ok) {
+        const data = await res.json();
+        setAppConfig(data);
+        localStorage.setItem('komuna_app_config', JSON.stringify(data));
+      }
+    } catch (e) {
+      console.error('Failed to fetch app config', e);
+    }
+  };
+
   // Transactions state
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -216,9 +243,12 @@ export default function DashboardPage() {
   useEffect(() => {
     isMountedRef.current = true;
     fetchData();
+    fetchAppConfig();
+    window.addEventListener('komuna_config_updated', fetchAppConfig);
     return () => { 
       isMountedRef.current = false; 
       if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+      window.removeEventListener('komuna_config_updated', fetchAppConfig);
     };
   }, []);
 
@@ -367,7 +397,7 @@ export default function DashboardPage() {
                 {greeting}, Admin! <Sparkles className="w-5 h-5 text-amber-500 shrink-0 inline" />
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                Berikut ringkasan keuangan dan aktivitas operasional RT 04
+                Berikut ringkasan keuangan dan aktivitas operasional {appConfig.namaRt || 'RT'}
               </p>
             </div>
             

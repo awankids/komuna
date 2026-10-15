@@ -159,7 +159,7 @@ export default function SuratPengantarPage() {
   // App Config
   const [appConfig, setAppConfig] = useState({
     namaApp: 'komuna.id',
-    namaRt: 'RT 04',
+    namaRt: '',
     tagline: 'Kebersamaan, Terpadu, Transparan',
     kotaWilayah: 'Semarang',
   });
@@ -181,12 +181,12 @@ export default function SuratPengantarPage() {
     agama: 'Islam',
     pekerjaan: 'Karyawan Swasta',
     statusPerkawinan: 'Belum Kawin',
-    alamat: 'Jl. Klipang Blok A No. 04',
+    alamat: 'Jl. Utama Lingkungan RT',
     keperluan: 'Permohonan penerbitan e-KTP baru / perpanjangan Kartu Keluarga (KK) di Kelurahan.',
     keteranganTambahan: 'Warga tersebut di atas adalah benar penduduk tetap di lingkungan RT kami.',
     tanggalSurat: new Date().toISOString().split('T')[0],
     namaPenandatangan: 'Bpk. Bambang Sutrisno',
-    jabatanPenandatangan: 'Ketua RT 04',
+    jabatanPenandatangan: 'Ketua RT',
     kotaSurat: 'Semarang',
     kodeVerifikasi: 'KOMUNA-' + Math.random().toString(36).substring(2, 9).toUpperCase()
   });
@@ -240,12 +240,12 @@ export default function SuratPengantarPage() {
         setFormData(prev => ({ 
           ...prev, 
           kotaSurat: json.kotaWilayah || prev.kotaSurat,
-          jabatanPenandatangan: `Ketua ${json.namaRt || 'RT 04'}`
+          jabatanPenandatangan: `Ketua ${json.namaRt || 'RT'}`
         }));
 
-        const defaultKop1 = `PAGUYUBAN RUKUN TETANGGA ${(json.namaRt || 'RT 04').toUpperCase()}`;
+        const defaultKop1 = `PAGUYUBAN RUKUN TETANGGA ${(json.namaRt || 'RT').toUpperCase()}`;
         const defaultKop2 = `KELURAHAN WILAYAH KOTA ${(json.kotaWilayah || 'Semarang').toUpperCase()}`;
-        const defaultKop3 = `Alamat Sekretariat: ${json.namaRt || 'RT 04'}, Kota ${json.kotaWilayah || 'Semarang'}. Kontak Layanan Warga: 0812-3456-7890`;
+        const defaultKop3 = `Alamat Sekretariat: ${json.namaRt || 'RT'}, Kota ${json.kotaWilayah || 'Semarang'}. Kontak Layanan Warga: 0812-3456-7890`;
 
         const savedKop = localStorage.getItem('komuna_custom_kop');
         if (savedKop) {
@@ -266,8 +266,8 @@ export default function SuratPengantarPage() {
         } else {
           setRedaksiConfig(prev => ({
             ...prev,
-            kalimatPembuka: `Yang bertanda tangan di bawah ini, Pengurus ${json.namaRt || 'RT 04'}, Kota ${json.kotaWilayah || 'Semarang'}, dengan ini menerangkan bahwa:`,
-            kalimatKeterangan: `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${json.namaRt || 'RT 04'}.`,
+            kalimatPembuka: `Yang bertanda tangan di bawah ini, Pengurus ${json.namaRt || 'RT'}, Kota ${json.kotaWilayah || 'Semarang'}, dengan ini menerangkan bahwa:`,
+            kalimatKeterangan: `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${json.namaRt || 'RT'}.`,
             labelKeperluan: 'Maksud / Keperluan Surat:',
             kalimatPenutup: 'Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.'
           }));
@@ -327,14 +327,14 @@ export default function SuratPengantarPage() {
 
   // Reset Kop & Redaksi to Default
   const handleResetKopAndRedaksi = () => {
-    const defaultKop1 = `PAGUYUBAN RUKUN TETANGGA ${(appConfig.namaRt || 'RT 04').toUpperCase()}`;
+    const defaultKop1 = `PAGUYUBAN RUKUN TETANGGA ${(appConfig.namaRt || 'RT').toUpperCase()}`;
     const defaultKop2 = `KELURAHAN WILAYAH KOTA ${(appConfig.kotaWilayah || 'Semarang').toUpperCase()}`;
-    const defaultKop3 = `Alamat Sekretariat: ${appConfig.namaRt || 'RT 04'}, Kota ${appConfig.kotaWilayah || 'Semarang'}. Kontak Layanan Warga: 0812-3456-7890`;
+    const defaultKop3 = `Alamat Sekretariat: ${appConfig.namaRt || 'RT'}, Kota ${appConfig.kotaWilayah || 'Semarang'}. Kontak Layanan Warga: 0812-3456-7890`;
 
     const defKop = { baris1: defaultKop1, baris2: defaultKop2, baris3: defaultKop3 };
     const defRedaksi = {
-      kalimatPembuka: `Yang bertanda tangan di bawah ini, Pengurus ${appConfig.namaRt || 'RT 04'}, Kota ${appConfig.kotaWilayah || 'Semarang'}, dengan ini menerangkan bahwa:`,
-      kalimatKeterangan: `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${appConfig.namaRt || 'RT 04'}.`,
+      kalimatPembuka: `Yang bertanda tangan di bawah ini, Pengurus ${appConfig.namaRt || 'RT'}, Kota ${appConfig.kotaWilayah || 'Semarang'}, dengan ini menerangkan bahwa:`,
+      kalimatKeterangan: `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${appConfig.namaRt || 'RT'}.`,
       labelKeperluan: 'Maksud / Keperluan Surat:',
       kalimatPenutup: 'Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.'
     };
@@ -680,7 +680,7 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                                 value={kopConfig.baris1}
                                 onChange={(e) => setKopConfig(prev => ({ ...prev, baris1: e.target.value }))}
                                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
-                                placeholder="PAGUYUBAN RUKUN TETANGGA RT 04"
+                                placeholder={`PAGUYUBAN RUKUN TETANGGA ${(appConfig.namaRt || 'RT').toUpperCase()}`}
                               />
                             </div>
 
@@ -693,7 +693,7 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                                 value={kopConfig.baris2}
                                 onChange={(e) => setKopConfig(prev => ({ ...prev, baris2: e.target.value }))}
                                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
-                                placeholder="KELURAHAN WILAYAH KOTA SEMARANG"
+                                placeholder={`KELURAHAN WILAYAH KOTA ${(appConfig.kotaWilayah || 'WILAYAH').toUpperCase()}`}
                               />
                             </div>
 
@@ -706,7 +706,7 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                                 value={kopConfig.baris3}
                                 onChange={(e) => setKopConfig(prev => ({ ...prev, baris3: e.target.value }))}
                                 className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
-                                placeholder="Alamat Sekretariat: Balai RT 04. Kontak: 0812-..."
+                                placeholder={`Alamat Sekretariat: Balai ${appConfig.namaRt || 'RT'}. Kontak: 0812-...`}
                               />
                             </div>
                           </div>
