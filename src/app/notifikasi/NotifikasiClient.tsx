@@ -95,7 +95,7 @@ export default function NotifikasiClient({ initialData }: { initialData: Notific
       <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="max-w-2xl mx-auto px-4 md:px-8 pt-6 w-full pb-20 md:pb-8 font-sans">
+        <main className="w-full max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-6 md:px-8 xl:px-10 py-6 md:py-8 pb-24 md:pb-16 font-sans">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
               <h1 className="text-2xl font-black text-slate-800 tracking-tight">Semua Notifikasi</h1>

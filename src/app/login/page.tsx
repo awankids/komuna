@@ -83,7 +83,7 @@ export default function LoginPage() {
     <div className="flex-1 min-h-screen bg-slate-50 flex flex-col font-sans">
       
       {/* 1. Main Landing + Login Split Section */}
-      <div className="max-w-7xl w-full mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1">
+      <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-12 xl:px-16 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center flex-1">
         
         {/* Left Side: Marketing Info */}
         <div className="lg:col-span-7 space-y-8 text-left">

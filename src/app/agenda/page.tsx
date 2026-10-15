@@ -421,7 +421,7 @@ export default function AgendaPage() {
       <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        <main className="flex-1 p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl w-full mx-auto pb-24 md:pb-16 font-sans">
+        <main className="flex-1 w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12 py-6 md:py-8 space-y-6 md:space-y-7 pb-24 md:pb-16 font-sans">
           
           {/* Toast Notification */}
           {showToast && (

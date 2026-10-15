@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
+import Sidebar from '@/components/Sidebar';
 import { User, Mail, Shield, Key, Save, CheckCircle2, AlertCircle, RefreshCw } from 'lucide-react';
 
 export default function ProfilPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user, setUser] = useState<{ id: string, nama: string, email: string, role: string, createdAt: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -91,10 +93,13 @@ export default function ProfilPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans pb-20 md:pb-8 text-slate-800">
-      <Header />
+    <div className="flex w-full min-h-screen bg-[#f8fafc]">
+      <Sidebar activeMenu="" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <main className="max-w-2xl mx-auto px-4 md:px-8 pt-6">
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+        <Header onMenuClick={() => setIsSidebarOpen(true)} />
+
+        <main className="w-full max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-6 md:px-8 xl:px-10 py-6 md:py-8 pb-24 md:pb-16 font-sans">
         
         {/* Toast Notification */}
         {showToast && (
@@ -250,6 +255,7 @@ export default function ProfilPage() {
           </div>
         )}
       </main>
+      </div>
     </div>
   );
 }
