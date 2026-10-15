@@ -23,7 +23,7 @@ export default function MobileNavBar({ onQuickActionClick }: MobileNavBarProps) 
     { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
     { name: 'Input', icon: Plus, href: '#', isCenter: true },
     { name: 'Kas RT', icon: Wallet, href: '/kas' },
-    { name: 'Laporan', icon: FileText, href: '#' } // For mock or route
+    { name: 'Laporan', icon: FileText, href: '/laporan' }
   ];
 
   const handleNavClick = (item: typeof navItems[0]) => {

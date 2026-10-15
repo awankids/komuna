@@ -70,7 +70,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
         { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
         { name: 'Kas RT', icon: Wallet, href: '/kas' },
         { name: 'Hutang & Piutang', icon: ReceiptText, href: '/hutang-piutang' },
-        { name: 'Laporan', icon: FileText, href: '#' },
+        { name: 'Laporan', icon: FileText, href: '/laporan' },
       ],
     },
     {
@@ -97,6 +97,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       if (activeMenu === 'Agenda' && name === 'Agenda RT') return true;
       if (activeMenu === 'Anggota' && name === 'Data Warga') return true;
       if (activeMenu === 'HutangPiutang' && name === 'Hutang & Piutang') return true;
+      if (activeMenu === 'Laporan' && name === 'Laporan') return true;
     }
     if (href === '/') return pathname === '/';
     if (href === '#') return false;
