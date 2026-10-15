@@ -35,7 +35,8 @@ import {
   Coins,
   ShieldCheck,
   Eye,
-  Check
+  Check,
+  FileText
 } from 'lucide-react';
 
 interface Rombongan {
@@ -964,7 +965,7 @@ export default function AnggotaPage() {
                   : 'border-transparent text-slate-400 hover:text-slate-700'
               }`}
             >
-              <span>👨‍👩‍👧‍👦</span>
+              <Home className="w-4 h-4 text-blue-500" />
               <span>Kartu Keluarga (KK)</span>
               <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-100 text-slate-600 font-bold">{demografiSummary.totalKk}</span>
             </button>
@@ -977,7 +978,7 @@ export default function AnggotaPage() {
                   : 'border-transparent text-slate-400 hover:text-slate-700'
               }`}
             >
-              <span>👥</span>
+              <Users className="w-4 h-4 text-emerald-500" />
               <span>Semua Jiwa</span>
               <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-100 text-slate-600 font-bold">{demografiSummary.totalJiwa}</span>
             </button>
@@ -990,7 +991,7 @@ export default function AnggotaPage() {
                   : 'border-transparent text-slate-400 hover:text-slate-700'
               }`}
             >
-              <span>🛡️</span>
+              <ShieldCheck className="w-4 h-4 text-purple-500" />
               <span>Per Rombongan (Ronda)</span>
               <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-100 text-slate-600 font-bold">{rombonganList.length}</span>
             </button>
@@ -1003,7 +1004,7 @@ export default function AnggotaPage() {
                   : 'border-transparent text-slate-400 hover:text-slate-700'
               }`}
             >
-              <span>📋</span>
+              <FileText className="w-4 h-4 text-amber-500" />
               <span>Mutasi Kependudukan (LPJ)</span>
             </button>
           </div>
@@ -1097,8 +1098,9 @@ export default function AnggotaPage() {
                                 <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
                                   Kepala Keluarga
                                 </span>
-                                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700">
-                                  🏠 {kk.noRumah}
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700">
+                                  <Home className="w-3 h-3 text-slate-500" />
+                                  <span>{kk.noRumah}</span>
                                 </span>
                                 {kk.noKk && (
                                   <span className="text-[10px] text-slate-400 font-mono">
@@ -1109,8 +1111,9 @@ export default function AnggotaPage() {
 
                               <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 font-medium">
                                 {kk.rombongan ? (
-                                  <span className="text-slate-600 font-bold text-[11px] bg-slate-100 px-2 py-0.5 rounded-lg">
-                                    🛡️ {kk.rombongan.nama}
+                                  <span className="inline-flex items-center gap-1 text-slate-600 font-bold text-[11px] bg-slate-100 px-2 py-0.5 rounded-lg">
+                                    <ShieldCheck className="w-3 h-3 text-slate-500" />
+                                    <span>{kk.rombongan.nama}</span>
                                   </span>
                                 ) : (
                                   <span className="text-slate-400 italic text-[11px]">Tanpa Rombongan Ronda</span>
@@ -1120,7 +1123,10 @@ export default function AnggotaPage() {
                                 {kk.pekerjaan && (
                                   <>
                                     <span>•</span>
-                                    <span>💼 {kk.pekerjaan}</span>
+                                    <span className="inline-flex items-center gap-1">
+                                      <Briefcase className="w-3 h-3 text-slate-400" />
+                                      <span>{kk.pekerjaan}</span>
+                                    </span>
                                   </>
                                 )}
                               </div>
@@ -1131,7 +1137,7 @@ export default function AnggotaPage() {
                           <div className="flex items-center gap-2.5 justify-between lg:justify-end border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100">
                             {/* Family Count Badge */}
                             <div className="px-3 py-1.5 rounded-2xl bg-orange-50 border border-orange-200/80 text-[var(--brand-primary)] flex items-center gap-1.5 text-xs font-bold">
-                              <span>👨‍👩‍👧‍👦</span>
+                              <Users className="w-3.5 h-3.5" />
                               <span>{totalJiwaFamily} Jiwa</span>
                             </div>
 
@@ -1439,12 +1445,18 @@ export default function AnggotaPage() {
                             <td className="py-3.5 px-4">
                               <div className="flex items-center gap-1.5">
                                 {m.isWajibJimpitan ? (
-                                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-50 text-amber-700 border border-amber-200">💰 Jimpitan</span>
+                                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                    <Coins className="w-2.5 h-2.5 text-amber-600" />
+                                    <span>Jimpitan</span>
+                                  </span>
                                 ) : (
                                   <span className="text-slate-300 text-[10px]">-</span>
                                 )}
                                 {m.isWajibRonda && (
-                                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200">🛡️ Ronda</span>
+                                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                                    <ShieldCheck className="w-2.5 h-2.5 text-blue-600" />
+                                    <span>Ronda</span>
+                                  </span>
                                 )}
                               </div>
                             </td>
@@ -1567,7 +1579,7 @@ export default function AnggotaPage() {
                           <option value="none">Belum Ditentukan</option>
                           {rom.activeMembers.map((member) => (
                             <option key={member.id} value={member.id}>
-                              ✓ {member.nama}
+                              {member.nama}
                             </option>
                           ))}
                         </select>

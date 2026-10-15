@@ -420,7 +420,7 @@ Hal: ${formData.judulSurat}
 
 Yth. Bpk/Ibu *${formData.namaWarga}*,
 Surat pengantar RT Anda telah diterbitkan untuk keperluan:
-👉 *${formData.keperluan}*
+• *${formData.keperluan}*
 
 Penandatangan: ${formData.namaPenandatangan} (${formData.jabatanPenandatangan})
 Tanggal: ${new Date(formData.tanggalSurat).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}

@@ -19,7 +19,8 @@ import {
   AlertCircle,
   Loader2,
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Sparkles
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -363,7 +364,7 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-left">
             <div className="space-y-1">
               <h2 className="text-xl sm:text-2xl xl:text-3xl font-extrabold text-slate-800 tracking-tight flex items-center gap-2">
-                {greeting}, Admin! <span className="animate-pulse">👋</span>
+                {greeting}, Admin! <Sparkles className="w-5 h-5 text-amber-500 shrink-0 inline" />
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 font-medium">
                 Berikut ringkasan keuangan dan aktivitas operasional RT 04

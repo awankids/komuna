@@ -17,7 +17,8 @@ import {
   Settings,
   HelpCircle,
   RotateCw,
-  Edit
+  Edit,
+  Flag
 } from 'lucide-react';
 import Link from 'next/link';
 import { getIndonesianHoliday } from '@/lib/holidays';
@@ -435,8 +436,9 @@ export default function JadwalPage() {
                 <ChevronLeft className="w-4 h-4" />
               </button>
               
-              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[120px] text-center">
-                📅 {getMonthName(selectedMonth)} {selectedYear}
+              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[120px] flex items-center justify-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                <span>{getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
 
               <button
@@ -619,12 +621,13 @@ export default function JadwalPage() {
                     {/* National Holiday Badge if present */}
                     {holidayInfo && holidayInfo.name !== 'Hari Minggu' && (
                       <div className="mt-1">
-                        <span className={`text-[8.5px] font-extrabold px-1.5 py-0.5 rounded-md border block truncate leading-tight ${
+                        <span className={`text-[8.5px] font-extrabold px-1.5 py-0.5 rounded-md border flex items-center gap-1 truncate leading-tight ${
                           holidayInfo.type === 'national' 
                             ? 'bg-red-100 text-red-700 border-red-200' 
                             : 'bg-amber-100 text-amber-800 border-amber-200'
                         }`} title={holidayInfo.name}>
-                          🇮🇩 {holidayInfo.name}
+                          <Flag className={`w-2.5 h-2.5 shrink-0 ${holidayInfo.type === 'national' ? 'text-red-600' : 'text-amber-600'}`} />
+                          <span className="truncate">{holidayInfo.name}</span>
                         </span>
                       </div>
                     )}

@@ -28,7 +28,9 @@ import {
   Sparkles,
   HardDrive,
   Zap,
-  Info
+  Info,
+  MapPin,
+  ExternalLink
 } from 'lucide-react';
 
 interface DBStats {
@@ -1099,9 +1101,9 @@ export default function PengaturanPage() {
                               <span className="text-red-400 uppercase font-bold tracking-wider">{log.type}</span>
                             </div>
                             <div className="text-red-200 font-semibold break-all">{log.message}</div>
-                            <div className="text-[9px] text-slate-400 mt-0.5 flex flex-col gap-0.5">
-                              <span>📍 Sumber: {log.source}</span>
-                              <span className="break-all">🔗 URL: {log.url}</span>
+                            <div className="text-[9px] text-slate-400 mt-1 flex flex-col gap-1">
+                              <span className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5 text-slate-400 shrink-0" /> Sumber: {log.source}</span>
+                              <span className="break-all flex items-center gap-1.5"><ExternalLink className="w-2.5 h-2.5 text-slate-400 shrink-0" /> URL: {log.url}</span>
                             </div>
                           </div>
                         ))}

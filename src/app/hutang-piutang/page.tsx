@@ -282,7 +282,7 @@ export default function HutangPiutangPage() {
     setWaItem(item);
     const sisa = formatRp(item.sisaNominal);
     const jatuhTempoText = item.jatuhTempo ? formatDate(item.jatuhTempo) : 'waktu dekat';
-    const draft = `Salam hangat Bapak/Ibu ${item.namaPihak},\n\nSemoga selalu sehat sekeluarga. Mengingatkan secara santun perihal catatan kas RT untuk *${item.judul}*, dengan sisa nominal sebesar *${sisa}* (estimasi tempo: ${jatuhTempoText}).\n\nApabila sudah ada kesempatan untuk pelunasan atau cicilan bertahap, silakan konfirmasi kepada pengurus RT. Terima kasih atas pengertian dan kerja sama dalam kebersamaan warga RT 04. 🙏`;
+    const draft = `Salam hangat Bapak/Ibu ${item.namaPihak},\n\nSemoga selalu sehat sekeluarga. Mengingatkan secara santun perihal catatan kas RT untuk *${item.judul}*, dengan sisa nominal sebesar *${sisa}* (estimasi tempo: ${jatuhTempoText}).\n\nApabila sudah ada kesempatan untuk pelunasan atau cicilan bertahap, silakan konfirmasi kepada pengurus RT. Terima kasih atas pengertian dan kerja sama dalam kebersamaan warga RT 04.`;
     setWaMessageText(draft);
     setIsWaModalOpen(true);
   };
@@ -689,10 +689,18 @@ export default function HutangPiutangPage() {
                 <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
                   {summary.countJatuhTempoSegera} <span className="text-sm font-semibold text-slate-400">Tagihan</span>
                 </h3>
-                <span className="text-[11px] font-medium text-amber-700 mt-1 block">
-                  {summary.countOverdue > 0
-                    ? `⚠️ ${summary.countOverdue} tagihan telah melewati tempo!`
-                    : 'Semua tagihan masih dalam batas tempo.'}
+                <span className="text-[11px] font-medium mt-1 flex items-center gap-1.5">
+                  {summary.countOverdue > 0 ? (
+                    <>
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0 inline" />
+                      <span className="text-amber-700">{summary.countOverdue} tagihan telah melewati tempo!</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 inline" />
+                      <span className="text-emerald-700">Semua tagihan masih dalam batas tempo.</span>
+                    </>
+                  )}
                 </span>
               </div>
             </div>
@@ -1074,12 +1082,14 @@ export default function HutangPiutangPage() {
 
                 <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 leading-relaxed">
                   {summary.netReceivables >= 0 ? (
-                    <span className="text-emerald-700 font-medium">
-                      ✓ Likuiditas RT dalam posisi aman. Nilai hak piutang warga melebihi total kewajiban hutang ke pihak vendor.
+                    <span className="text-emerald-700 font-medium flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 inline" />
+                      Likuiditas RT dalam posisi aman. Nilai hak piutang warga melebihi total kewajiban hutang ke pihak vendor.
                     </span>
                   ) : (
-                    <span className="text-red-600 font-medium">
-                      ⚠️ Kewajiban hutang lebih besar dari piutang. Pastikan ketersediaan kas RT mencukupi sebelum jatuh tempo.
+                    <span className="text-red-600 font-medium flex items-center gap-1.5">
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-600 shrink-0 inline" />
+                      Kewajiban hutang lebih besar dari piutang. Pastikan ketersediaan kas RT mencukupi sebelum jatuh tempo.
                     </span>
                   )}
                 </div>

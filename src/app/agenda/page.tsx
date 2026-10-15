@@ -604,23 +604,25 @@ export default function AgendaPage() {
           <div className="flex border-b border-slate-200">
             <button
               onClick={() => setActiveTab('kalender')}
-              className={`pb-3 px-6 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer ${
+              className={`pb-3 px-6 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'kalender'
                   ? 'border-[var(--brand-primary)] text-[var(--brand-primary)]'
                   : 'border-transparent text-slate-400 hover:text-slate-700'
               }`}
             >
-              📅 Kalender Agenda Bulanan
+              <CalendarIcon className="w-4 h-4" />
+              <span>Kalender Agenda Bulanan</span>
             </button>
             <button
               onClick={() => setActiveTab('proker')}
-              className={`pb-3 px-6 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer ${
+              className={`pb-3 px-6 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer flex items-center gap-2 ${
                 activeTab === 'proker'
                   ? 'border-[var(--brand-primary)] text-[var(--brand-primary)]'
                   : 'border-transparent text-slate-400 hover:text-slate-700'
               }`}
             >
-              📋 Matriks Program Kerja Tahunan (LPJ)
+              <Target className="w-4 h-4" />
+              <span>Matriks Program Kerja Tahunan (LPJ)</span>
             </button>
           </div>
 
@@ -639,8 +641,9 @@ export default function AgendaPage() {
                 <ChevronLeft className="w-4 h-4" />
               </button>
               
-              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[140px] text-center">
-                📅 {getMonthName(selectedMonth)} {selectedYear}
+              <div className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[140px] text-center flex items-center justify-center gap-1.5">
+                <CalendarIcon className="w-3.5 h-3.5 text-slate-500" />
+                <span>{getMonthName(selectedMonth)} {selectedYear}</span>
               </div>
 
               <button
@@ -762,12 +765,13 @@ export default function AgendaPage() {
                         {/* National Holiday / Observance Badge if present */}
                         {holidayInfo && holidayInfo.name !== 'Hari Minggu' && (
                           <div className="mt-1">
-                            <span className={`text-[8.5px] font-extrabold px-1.5 py-0.5 rounded-md border block truncate leading-tight ${
+                            <span className={`text-[8.5px] font-extrabold px-1.5 py-0.5 rounded-md border inline-flex items-center gap-1 truncate leading-tight ${
                               holidayInfo.type === 'national' 
                                 ? 'bg-red-100 text-red-700 border-red-200' 
                                 : 'bg-amber-100 text-amber-800 border-amber-200'
                             }`} title={holidayInfo.name}>
-                              🇮🇩 {holidayInfo.name}
+                              <Flag className="w-2.5 h-2.5 text-red-600 shrink-0" />
+                              <span className="truncate">{holidayInfo.name}</span>
                             </span>
                           </div>
                         )}
@@ -789,8 +793,9 @@ export default function AgendaPage() {
                                   )}
                                 </div>
                                 {item.lokasi && (
-                                  <div className="text-[8px] opacity-75 truncate flex items-center gap-0.5 mt-0.5 font-medium">
-                                    <span>📍 {item.lokasi}</span>
+                                  <div className="text-[8px] opacity-75 truncate flex items-center gap-1 mt-0.5 font-medium">
+                                    <MapPin className="w-2.5 h-2.5 shrink-0" />
+                                    <span className="truncate">{item.lokasi}</span>
                                   </div>
                                 )}
                               </div>
@@ -936,7 +941,10 @@ export default function AgendaPage() {
 
                           <div>
                             <h4 className="text-sm font-bold text-slate-800 leading-snug">{p.namaProgram}</h4>
-                            <span className="text-xs text-slate-400 block mt-0.5">🎯 Target: {p.targetBulan || 'Tahun ' + p.tahun}</span>
+                            <span className="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
+                              <Target className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                              Target: {p.targetBulan || 'Tahun ' + p.tahun}
+                            </span>
                           </div>
 
                           {/* Progress Bar */}
@@ -1029,7 +1037,7 @@ export default function AgendaPage() {
                       : 'bg-amber-50 text-amber-800 border-amber-200'
                   }`}>
                     <Flag className="w-4 h-4 shrink-0 text-red-600" />
-                    <span>🇮🇩 {hInfo.type === 'national' ? 'Hari Libur Nasional: ' : 'Hari Besar: '}{hInfo.name}</span>
+                    <span>{hInfo.type === 'national' ? 'Hari Libur Nasional: ' : 'Hari Besar: '}{hInfo.name}</span>
                   </div>
                 );
               })()}
