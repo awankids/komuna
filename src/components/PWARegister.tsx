@@ -12,32 +12,65 @@ declare global {
 export default function PWARegister() {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      // Register service worker
-      window.addEventListener('load', () => {
+      // Track controller change to reload cleanly once when new SW activates
+      let refreshing = false;
+      const handleControllerChange = () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      };
+      navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
+
+      // Register and proactively check for SW updates
+      const registerSW = () => {
         navigator.serviceWorker
           .register('/sw.js')
           .then((registration) => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            // Proactively check for new version on server
+            registration.update().catch(() => {});
+
+            // If a worker is already waiting, tell it to skip waiting immediately
+            if (registration.waiting) {
+              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+
+            // Listen for new installing workers
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  }
+                });
+              }
+            });
           })
           .catch((err) => {
             console.error('ServiceWorker registration failed: ', err);
           });
-      });
+      };
+
+      if (document.readyState === 'complete') {
+        registerSW();
+      } else {
+        window.addEventListener('load', registerSW);
+      }
 
       // Capture beforeinstallprompt event
       const handleBeforeInstallPrompt = (e: Event) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
-        // Stash the event so it can be triggered later.
         window.deferredPrompt = e;
-        // Dispatch custom event to notify components that app is installable
         window.dispatchEvent(new CustomEvent('pwa-installable'));
       };
 
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
       return () => {
+        window.removeEventListener('load', registerSW);
         window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
       };
     }
   }, []);

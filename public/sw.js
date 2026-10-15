@@ -1,10 +1,16 @@
-const CACHE_NAME = 'komuna-cache-v2';
+const CACHE_NAME = 'komuna-cache-v3';
 const ASSETS_TO_CACHE = [
   '/icon.svg',
   '/icon-192.png',
   '/icon-512.png',
   '/landing_illustration.jpg'
 ];
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
