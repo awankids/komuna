@@ -152,31 +152,42 @@ export default function Header({ onMenuClick }: HeaderProps) {
   };
 
   return (
-    <header className="h-16 md:h-20 bg-white border-b border-slate-100 flex items-center justify-between px-4 md:px-8 font-sans sticky top-0 z-40">
-      <div className="flex items-center gap-4">
-        {/* Mobile menu button */}
-        <button 
-          onClick={onMenuClick}
-          className="p-2 -ml-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors md:hidden"
-          aria-label="Buka Menu"
-        >
-          <Menu className="w-5.5 h-5.5" />
-        </button>
+    <header className="h-16 md:h-20 bg-white border-b border-slate-200/80 sticky top-0 z-40 font-sans">
+      <div className="w-full max-w-[1920px] mx-auto h-full flex items-center justify-between px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12">
+        <div className="flex items-center gap-4">
+          {/* Mobile menu button */}
+          <button 
+            onClick={onMenuClick}
+            className="p-2 -ml-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors md:hidden"
+            aria-label="Buka Menu"
+          >
+            <Menu className="w-5.5 h-5.5" />
+          </button>
 
-        {/* Mobile Header Title */}
-        <div className="flex items-center gap-2 md:hidden">
-          <div className="w-7 h-7 rounded-lg bg-[var(--brand-primary)] text-white flex items-center justify-center shrink-0">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <path d="M9 22V12h6v10" />
-            </svg>
+          {/* Mobile Header Title */}
+          <div className="flex items-center gap-2 md:hidden">
+            <div className="w-7 h-7 rounded-lg bg-[var(--brand-primary)] text-white flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <path d="M9 22V12h6v10" />
+              </svg>
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-sm font-extrabold text-slate-800 tracking-tight leading-none">{appConfig.namaApp}</h1>
+              <p className="text-[9px] text-slate-400 font-medium truncate max-w-[120px]">{appConfig.tagline}</p>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-sm font-extrabold text-slate-800 tracking-tight leading-none">{appConfig.namaApp}</h1>
-            <p className="text-[9px] text-slate-400 font-medium truncate max-w-[120px]">{appConfig.tagline}</p>
+
+          {/* Desktop Context / Breadcrumb */}
+          <div className="hidden md:flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--brand-light)] text-[var(--brand-primary)] text-xs font-bold border border-[var(--brand-primary)]/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
+              {appConfig.namaRt}
+            </span>
+            <span className="text-slate-300 font-light">•</span>
+            <span className="text-xs font-semibold text-slate-500 tracking-tight">{appConfig.tagline}</span>
           </div>
         </div>
-      </div>
 
       {/* Right side: Notifications & Profile */}
       <div className="flex items-center gap-3 md:gap-6">
@@ -296,6 +307,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           )}
         </div>
       </div>
-    </header>
+    </div>
+  </header>
   );
 }
