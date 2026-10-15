@@ -394,7 +394,8 @@ export const ModelName = {
   Notifikasi: 'Notifikasi',
   PengaturanAplikasi: 'PengaturanAplikasi',
   HutangPiutang: 'HutangPiutang',
-  PembayaranHutangPiutang: 'PembayaranHutangPiutang'
+  PembayaranHutangPiutang: 'PembayaranHutangPiutang',
+  PengurusRT: 'PengurusRT'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1228,6 +1229,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PengurusRT: {
+      payload: Prisma.$PengurusRTPayload<ExtArgs>
+      fields: Prisma.PengurusRTFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PengurusRTFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PengurusRTFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>
+        }
+        findFirst: {
+          args: Prisma.PengurusRTFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PengurusRTFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>
+        }
+        findMany: {
+          args: Prisma.PengurusRTFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>[]
+        }
+        create: {
+          args: Prisma.PengurusRTCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>
+        }
+        createMany: {
+          args: Prisma.PengurusRTCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PengurusRTCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>[]
+        }
+        delete: {
+          args: Prisma.PengurusRTDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>
+        }
+        update: {
+          args: Prisma.PengurusRTUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>
+        }
+        deleteMany: {
+          args: Prisma.PengurusRTDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PengurusRTUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PengurusRTUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>[]
+        }
+        upsert: {
+          args: Prisma.PengurusRTUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PengurusRTPayload>
+        }
+        aggregate: {
+          args: Prisma.PengurusRTAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePengurusRT>
+        }
+        groupBy: {
+          args: Prisma.PengurusRTGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PengurusRTGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PengurusRTCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PengurusRTCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1381,6 +1456,9 @@ export const PengaturanAplikasiScalarFieldEnum = {
   namaRt: 'namaRt',
   tagline: 'tagline',
   targetJimpitan: 'targetJimpitan',
+  kotaWilayah: 'kotaWilayah',
+  nomorSk: 'nomorSk',
+  periodeAktif: 'periodeAktif',
   updatedAt: 'updatedAt'
 } as const
 
@@ -1424,6 +1502,26 @@ export const PembayaranHutangPiutangScalarFieldEnum = {
 } as const
 
 export type PembayaranHutangPiutangScalarFieldEnum = (typeof PembayaranHutangPiutangScalarFieldEnum)[keyof typeof PembayaranHutangPiutangScalarFieldEnum]
+
+
+export const PengurusRTScalarFieldEnum = {
+  id: 'id',
+  jabatan: 'jabatan',
+  kategori: 'kategori',
+  nama: 'nama',
+  nik: 'nik',
+  noHp: 'noHp',
+  alamatRumah: 'alamatRumah',
+  anggotaId: 'anggotaId',
+  urutan: 'urutan',
+  periode: 'periode',
+  statusAktif: 'statusAktif',
+  keterangan: 'keterangan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PengurusRTScalarFieldEnum = (typeof PengurusRTScalarFieldEnum)[keyof typeof PengurusRTScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1639,6 +1737,7 @@ export type GlobalOmitConfig = {
   pengaturanAplikasi?: Prisma.PengaturanAplikasiOmit
   hutangPiutang?: Prisma.HutangPiutangOmit
   pembayaranHutangPiutang?: Prisma.PembayaranHutangPiutangOmit
+  pengurusRT?: Prisma.PengurusRTOmit
 }
 
 /* Types for Logging */

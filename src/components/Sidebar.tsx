@@ -14,7 +14,8 @@ import {
   FileText, 
   Settings, 
   LogOut,
-  X
+  X,
+  ShieldCheck
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -84,6 +85,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       title: 'Manajemen',
       items: [
         { name: 'Data Warga', icon: Users, href: '/anggota' },
+        { name: 'Susunan Pengurus', icon: ShieldCheck, href: '/pengurus' },
         { name: 'Pengaturan', icon: Settings, href: '/pengaturan' },
       ],
     },
@@ -98,6 +100,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       if (activeMenu === 'Anggota' && name === 'Data Warga') return true;
       if (activeMenu === 'HutangPiutang' && name === 'Hutang & Piutang') return true;
       if (activeMenu === 'Laporan' && name === 'Laporan') return true;
+      if ((activeMenu === 'Pengurus' || activeMenu === 'Susunan Pengurus') && name === 'Susunan Pengurus') return true;
     }
     if (href === '/') return pathname === '/';
     if (href === '#') return false;

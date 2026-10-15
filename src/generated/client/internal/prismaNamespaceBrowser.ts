@@ -61,7 +61,8 @@ export const ModelName = {
   Notifikasi: 'Notifikasi',
   PengaturanAplikasi: 'PengaturanAplikasi',
   HutangPiutang: 'HutangPiutang',
-  PembayaranHutangPiutang: 'PembayaranHutangPiutang'
+  PembayaranHutangPiutang: 'PembayaranHutangPiutang',
+  PengurusRT: 'PengurusRT'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -194,6 +195,9 @@ export const PengaturanAplikasiScalarFieldEnum = {
   namaRt: 'namaRt',
   tagline: 'tagline',
   targetJimpitan: 'targetJimpitan',
+  kotaWilayah: 'kotaWilayah',
+  nomorSk: 'nomorSk',
+  periodeAktif: 'periodeAktif',
   updatedAt: 'updatedAt'
 } as const
 
@@ -237,6 +241,26 @@ export const PembayaranHutangPiutangScalarFieldEnum = {
 } as const
 
 export type PembayaranHutangPiutangScalarFieldEnum = (typeof PembayaranHutangPiutangScalarFieldEnum)[keyof typeof PembayaranHutangPiutangScalarFieldEnum]
+
+
+export const PengurusRTScalarFieldEnum = {
+  id: 'id',
+  jabatan: 'jabatan',
+  kategori: 'kategori',
+  nama: 'nama',
+  nik: 'nik',
+  noHp: 'noHp',
+  alamatRumah: 'alamatRumah',
+  anggotaId: 'anggotaId',
+  urutan: 'urutan',
+  periode: 'periode',
+  statusAktif: 'statusAktif',
+  keterangan: 'keterangan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PengurusRTScalarFieldEnum = (typeof PengurusRTScalarFieldEnum)[keyof typeof PengurusRTScalarFieldEnum]
 
 
 export const SortOrder = {

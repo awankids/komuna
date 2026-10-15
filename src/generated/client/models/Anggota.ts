@@ -202,6 +202,7 @@ export type AnggotaWhereInput = {
   memimpinRombongan?: Prisma.XOR<Prisma.RombonganNullableScalarRelationFilter, Prisma.RombonganWhereInput> | null
   jadwal?: Prisma.JadwalPetugasListRelationFilter
   hutangPiutang?: Prisma.HutangPiutangListRelationFilter
+  pengurus?: Prisma.PengurusRTListRelationFilter
 }
 
 export type AnggotaOrderByWithRelationInput = {
@@ -216,6 +217,7 @@ export type AnggotaOrderByWithRelationInput = {
   memimpinRombongan?: Prisma.RombonganOrderByWithRelationInput
   jadwal?: Prisma.JadwalPetugasOrderByRelationAggregateInput
   hutangPiutang?: Prisma.HutangPiutangOrderByRelationAggregateInput
+  pengurus?: Prisma.PengurusRTOrderByRelationAggregateInput
 }
 
 export type AnggotaWhereUniqueInput = Prisma.AtLeast<{
@@ -233,6 +235,7 @@ export type AnggotaWhereUniqueInput = Prisma.AtLeast<{
   memimpinRombongan?: Prisma.XOR<Prisma.RombonganNullableScalarRelationFilter, Prisma.RombonganWhereInput> | null
   jadwal?: Prisma.JadwalPetugasListRelationFilter
   hutangPiutang?: Prisma.HutangPiutangListRelationFilter
+  pengurus?: Prisma.PengurusRTListRelationFilter
 }, "id">
 
 export type AnggotaOrderByWithAggregationInput = {
@@ -272,6 +275,7 @@ export type AnggotaCreateInput = {
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateInput = {
@@ -285,6 +289,7 @@ export type AnggotaUncheckedCreateInput = {
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUpdateInput = {
@@ -298,6 +303,7 @@ export type AnggotaUpdateInput = {
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateInput = {
@@ -311,6 +317,7 @@ export type AnggotaUncheckedUpdateInput = {
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateManyInput = {
@@ -488,6 +495,22 @@ export type AnggotaUpdateOneWithoutHutangPiutangNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AnggotaUpdateToOneWithWhereWithoutHutangPiutangInput, Prisma.AnggotaUpdateWithoutHutangPiutangInput>, Prisma.AnggotaUncheckedUpdateWithoutHutangPiutangInput>
 }
 
+export type AnggotaCreateNestedOneWithoutPengurusInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutPengurusInput, Prisma.AnggotaUncheckedCreateWithoutPengurusInput>
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutPengurusInput
+  connect?: Prisma.AnggotaWhereUniqueInput
+}
+
+export type AnggotaUpdateOneWithoutPengurusNestedInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutPengurusInput, Prisma.AnggotaUncheckedCreateWithoutPengurusInput>
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutPengurusInput
+  upsert?: Prisma.AnggotaUpsertWithoutPengurusInput
+  disconnect?: Prisma.AnggotaWhereInput | boolean
+  delete?: Prisma.AnggotaWhereInput | boolean
+  connect?: Prisma.AnggotaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AnggotaUpdateToOneWithWhereWithoutPengurusInput, Prisma.AnggotaUpdateWithoutPengurusInput>, Prisma.AnggotaUncheckedUpdateWithoutPengurusInput>
+}
+
 export type AnggotaCreateWithoutMemimpinRombonganInput = {
   id?: string
   nama: string
@@ -498,6 +521,7 @@ export type AnggotaCreateWithoutMemimpinRombonganInput = {
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutMemimpinRombonganInput = {
@@ -510,6 +534,7 @@ export type AnggotaUncheckedCreateWithoutMemimpinRombonganInput = {
   createdAt?: Date | string
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutMemimpinRombonganInput = {
@@ -527,6 +552,7 @@ export type AnggotaCreateWithoutRombonganInput = {
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutRombonganInput = {
@@ -539,6 +565,7 @@ export type AnggotaUncheckedCreateWithoutRombonganInput = {
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutRombonganInput = {
@@ -572,6 +599,7 @@ export type AnggotaUpdateWithoutMemimpinRombonganInput = {
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutMemimpinRombonganInput = {
@@ -584,6 +612,7 @@ export type AnggotaUncheckedUpdateWithoutMemimpinRombonganInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUpsertWithWhereUniqueWithoutRombonganInput = {
@@ -625,6 +654,7 @@ export type AnggotaCreateWithoutJadwalInput = {
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutJadwalInput = {
@@ -637,6 +667,7 @@ export type AnggotaUncheckedCreateWithoutJadwalInput = {
   createdAt?: Date | string
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutJadwalInput = {
@@ -665,6 +696,7 @@ export type AnggotaUpdateWithoutJadwalInput = {
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutJadwalInput = {
@@ -677,6 +709,7 @@ export type AnggotaUncheckedUpdateWithoutJadwalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateWithoutHutangPiutangInput = {
@@ -689,6 +722,7 @@ export type AnggotaCreateWithoutHutangPiutangInput = {
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutHutangPiutangInput = {
@@ -701,6 +735,7 @@ export type AnggotaUncheckedCreateWithoutHutangPiutangInput = {
   createdAt?: Date | string
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutHutangPiutangInput = {
@@ -729,6 +764,7 @@ export type AnggotaUpdateWithoutHutangPiutangInput = {
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutHutangPiutangInput = {
@@ -741,6 +777,75 @@ export type AnggotaUncheckedUpdateWithoutHutangPiutangInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaCreateWithoutPengurusInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
+  memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaUncheckedCreateWithoutPengurusInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  statusAktif?: boolean
+  rombonganId?: string | null
+  createdAt?: Date | string
+  memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaCreateOrConnectWithoutPengurusInput = {
+  where: Prisma.AnggotaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutPengurusInput, Prisma.AnggotaUncheckedCreateWithoutPengurusInput>
+}
+
+export type AnggotaUpsertWithoutPengurusInput = {
+  update: Prisma.XOR<Prisma.AnggotaUpdateWithoutPengurusInput, Prisma.AnggotaUncheckedUpdateWithoutPengurusInput>
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutPengurusInput, Prisma.AnggotaUncheckedCreateWithoutPengurusInput>
+  where?: Prisma.AnggotaWhereInput
+}
+
+export type AnggotaUpdateToOneWithWhereWithoutPengurusInput = {
+  where?: Prisma.AnggotaWhereInput
+  data: Prisma.XOR<Prisma.AnggotaUpdateWithoutPengurusInput, Prisma.AnggotaUncheckedUpdateWithoutPengurusInput>
+}
+
+export type AnggotaUpdateWithoutPengurusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
+  memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaUncheckedUpdateWithoutPengurusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateManyRombonganInput = {
@@ -762,6 +867,7 @@ export type AnggotaUpdateWithoutRombonganInput = {
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutRombonganInput = {
@@ -774,6 +880,7 @@ export type AnggotaUncheckedUpdateWithoutRombonganInput = {
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateManyWithoutRombonganInput = {
@@ -793,11 +900,13 @@ export type AnggotaUncheckedUpdateManyWithoutRombonganInput = {
 export type AnggotaCountOutputType = {
   jadwal: number
   hutangPiutang: number
+  pengurus: number
 }
 
 export type AnggotaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   jadwal?: boolean | AnggotaCountOutputTypeCountJadwalArgs
   hutangPiutang?: boolean | AnggotaCountOutputTypeCountHutangPiutangArgs
+  pengurus?: boolean | AnggotaCountOutputTypeCountPengurusArgs
 }
 
 /**
@@ -824,6 +933,13 @@ export type AnggotaCountOutputTypeCountHutangPiutangArgs<ExtArgs extends runtime
   where?: Prisma.HutangPiutangWhereInput
 }
 
+/**
+ * AnggotaCountOutputType without action
+ */
+export type AnggotaCountOutputTypeCountPengurusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PengurusRTWhereInput
+}
+
 
 export type AnggotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -837,6 +953,7 @@ export type AnggotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   memimpinRombongan?: boolean | Prisma.Anggota$memimpinRombonganArgs<ExtArgs>
   jadwal?: boolean | Prisma.Anggota$jadwalArgs<ExtArgs>
   hutangPiutang?: boolean | Prisma.Anggota$hutangPiutangArgs<ExtArgs>
+  pengurus?: boolean | Prisma.Anggota$pengurusArgs<ExtArgs>
   _count?: boolean | Prisma.AnggotaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anggota"]>
 
@@ -878,6 +995,7 @@ export type AnggotaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   memimpinRombongan?: boolean | Prisma.Anggota$memimpinRombonganArgs<ExtArgs>
   jadwal?: boolean | Prisma.Anggota$jadwalArgs<ExtArgs>
   hutangPiutang?: boolean | Prisma.Anggota$hutangPiutangArgs<ExtArgs>
+  pengurus?: boolean | Prisma.Anggota$pengurusArgs<ExtArgs>
   _count?: boolean | Prisma.AnggotaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AnggotaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -894,6 +1012,7 @@ export type $AnggotaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     memimpinRombongan: Prisma.$RombonganPayload<ExtArgs> | null
     jadwal: Prisma.$JadwalPetugasPayload<ExtArgs>[]
     hutangPiutang: Prisma.$HutangPiutangPayload<ExtArgs>[]
+    pengurus: Prisma.$PengurusRTPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1301,6 +1420,7 @@ export interface Prisma__AnggotaClient<T, Null = never, ExtArgs extends runtime.
   memimpinRombongan<T extends Prisma.Anggota$memimpinRombonganArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$memimpinRombonganArgs<ExtArgs>>): Prisma.Prisma__RombonganClient<runtime.Types.Result.GetResult<Prisma.$RombonganPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   jadwal<T extends Prisma.Anggota$jadwalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$jadwalArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JadwalPetugasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   hutangPiutang<T extends Prisma.Anggota$hutangPiutangArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$hutangPiutangArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HutangPiutangPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pengurus<T extends Prisma.Anggota$pengurusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$pengurusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengurusRTPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1821,6 +1941,30 @@ export type Anggota$hutangPiutangArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.HutangPiutangScalarFieldEnum | Prisma.HutangPiutangScalarFieldEnum[]
+}
+
+/**
+ * Anggota.pengurus
+ */
+export type Anggota$pengurusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PengurusRT
+   */
+  select?: Prisma.PengurusRTSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PengurusRT
+   */
+  omit?: Prisma.PengurusRTOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengurusRTInclude<ExtArgs> | null
+  where?: Prisma.PengurusRTWhereInput
+  orderBy?: Prisma.PengurusRTOrderByWithRelationInput | Prisma.PengurusRTOrderByWithRelationInput[]
+  cursor?: Prisma.PengurusRTWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PengurusRTScalarFieldEnum | Prisma.PengurusRTScalarFieldEnum[]
 }
 
 /**

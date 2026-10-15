@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import Link from 'next/link';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -72,7 +73,11 @@ export default function LaporanPage() {
     namaApp: 'komuna.id',
     namaRt: 'RT 04',
     tagline: 'Kebersamaan, Terpadu, Transparan',
+    kotaWilayah: 'Semarang',
   });
+
+  // Pengurus List
+  const [pengurusList, setPengurusList] = useState<{ id: string; jabatan: string; nama: string; statusAktif: boolean }[]>([]);
 
   // Custom Signatures & Document Metadata
   const [docConfig, setDocConfig] = useState({
@@ -154,27 +159,54 @@ export default function LaporanPage() {
     }
   };
 
-  // Fetch App Configuration
+  // Fetch App Configuration & Pengurus
   useEffect(() => {
-    const fetchConfig = async () => {
+    const fetchConfigAndPengurus = async () => {
       try {
         const cached = localStorage.getItem('komuna_app_config');
         if (cached) {
           try {
-            setAppConfig(JSON.parse(cached));
+            const parsed = JSON.parse(cached);
+            setAppConfig(parsed);
+            if (parsed.kotaWilayah) {
+              setDocConfig(prev => ({ ...prev, kota: parsed.kotaWilayah }));
+            }
           } catch (e) {}
         }
-        const res = await fetch('/api/config');
-        if (res.ok) {
-          const data = await res.json();
+
+        const [configRes, pengurusRes] = await Promise.all([
+          fetch('/api/config'),
+          fetch('/api/pengurus')
+        ]);
+
+        if (configRes.ok) {
+          const data = await configRes.json();
           setAppConfig(data);
           localStorage.setItem('komuna_app_config', JSON.stringify(data));
+          if (data.kotaWilayah) {
+            setDocConfig(prev => ({ ...prev, kota: data.kotaWilayah }));
+          }
+        }
+
+        if (pengurusRes.ok) {
+          const pData = await pengurusRes.json();
+          const list = pData.data || [];
+          setPengurusList(list);
+
+          const ketua = pData.signatures?.ketuaRt || list.find((p: any) => p.statusAktif && p.jabatan.toLowerCase().includes('ketua'))?.nama;
+          const bendahara = pData.signatures?.bendahara || list.find((p: any) => p.statusAktif && p.jabatan.toLowerCase().includes('bendahara'))?.nama;
+
+          setDocConfig(prev => ({
+            ...prev,
+            namaKetuaRt: ketua || prev.namaKetuaRt,
+            namaBendahara: bendahara || prev.namaBendahara,
+          }));
         }
       } catch (e) {
-        console.error('Failed to fetch config:', e);
+        console.error('Failed to fetch config or pengurus:', e);
       }
     };
-    fetchConfig();
+    fetchConfigAndPengurus();
   }, []);
 
   // Fetch Report Data
@@ -505,15 +537,41 @@ export default function LaporanPage() {
 
               {/* Kustomisasi Tanda Tangan & Keterangan Card */}
               <div className="bg-white rounded-3xl p-5 md:p-6 border border-slate-100 shadow-xs space-y-4">
-                <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-                  <UserCheck className="w-4 h-4 text-slate-600" />
-                  <h3 className="text-sm font-bold text-slate-800">Legalitas & Tanda Tangan</h3>
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div className="flex items-center gap-2">
+                    <UserCheck className="w-4 h-4 text-slate-600" />
+                    <h3 className="text-sm font-bold text-slate-800">Legalitas & Tanda Tangan</h3>
+                  </div>
+                  <Link
+                    href="/pengurus"
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal-600 hover:text-teal-700 hover:underline"
+                    title="Buka Halaman Susunan Pengurus RT"
+                  >
+                    <span>Atur Pengurus RT</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </Link>
                 </div>
 
                 <div className="space-y-3 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-600 block">Nama Ketua RT</label>
+                      <div className="flex items-center justify-between">
+                        <label className="font-bold text-slate-600 block">Nama Ketua RT</label>
+                        {pengurusList.length > 0 && (
+                          <select
+                            onChange={(e) => {
+                              if (e.target.value) setDocConfig(prev => ({ ...prev, namaKetuaRt: e.target.value }));
+                            }}
+                            className="text-[10px] text-teal-600 font-semibold bg-teal-50 border-none rounded px-1.5 py-0.5 cursor-pointer outline-none"
+                            value=""
+                          >
+                            <option value="">Pilih...</option>
+                            {pengurusList.map(p => (
+                              <option key={p.id} value={p.nama}>{p.jabatan}: {p.nama}</option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
                       <input
                         type="text"
                         value={docConfig.namaKetuaRt}
@@ -524,7 +582,23 @@ export default function LaporanPage() {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="font-bold text-slate-600 block">Nama Bendahara RT</label>
+                      <div className="flex items-center justify-between">
+                        <label className="font-bold text-slate-600 block">Nama Bendahara RT</label>
+                        {pengurusList.length > 0 && (
+                          <select
+                            onChange={(e) => {
+                              if (e.target.value) setDocConfig(prev => ({ ...prev, namaBendahara: e.target.value }));
+                            }}
+                            className="text-[10px] text-teal-600 font-semibold bg-teal-50 border-none rounded px-1.5 py-0.5 cursor-pointer outline-none"
+                            value=""
+                          >
+                            <option value="">Pilih...</option>
+                            {pengurusList.map(p => (
+                              <option key={p.id} value={p.nama}>{p.jabatan}: {p.nama}</option>
+                            ))}
+                          </select>
+                        )}
+                      </div>
                       <input
                         type="text"
                         value={docConfig.namaBendahara}

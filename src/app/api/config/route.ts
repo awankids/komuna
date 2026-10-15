@@ -11,7 +11,10 @@ export async function GET() {
         namaApp: 'komuna.id',
         namaRt: 'RT 04',
         tagline: 'Kebersamaan, Terpadu, Transparan',
-        targetJimpitan: 3000000
+        targetJimpitan: 3000000,
+        kotaWilayah: 'Semarang',
+        nomorSk: '',
+        periodeAktif: '2024 - 2029',
       });
     }
 
@@ -22,7 +25,10 @@ export async function GET() {
       namaApp: 'komuna.id',
       namaRt: 'RT 04',
       tagline: 'Kebersamaan, Terpadu, Transparan',
-      targetJimpitan: 3000000
+      targetJimpitan: 3000000,
+      kotaWilayah: 'Semarang',
+      nomorSk: '',
+      periodeAktif: '2024 - 2029',
     }, { status: 200 }); // Graceful fallback
   }
 }
@@ -30,10 +36,8 @@ export async function GET() {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { namaApp, namaRt, tagline, targetJimpitan } = body;
+    const { namaApp, namaRt, tagline, targetJimpitan, kotaWilayah, nomorSk, periodeAktif } = body;
 
-    // Remove the strict requirement for ALL fields, only validate those provided. 
-    // Wait, the existing code requires all 3. Let's keep it requiring all 3.
     if (!namaApp || !namaRt || !tagline) {
       return NextResponse.json({ error: 'Data tidak lengkap' }, { status: 400 });
     }
@@ -44,15 +48,34 @@ export async function PUT(request: Request) {
 
     // Use existing target if not provided in PUT
     const target = targetJimpitan !== undefined ? parseInt(targetJimpitan, 10) : (existing?.targetJimpitan || 3000000);
+    const kota = kotaWilayah !== undefined ? kotaWilayah : (existing?.kotaWilayah || 'Semarang');
+    const sk = nomorSk !== undefined ? nomorSk : (existing?.nomorSk || '');
+    const periode = periodeAktif !== undefined ? periodeAktif : (existing?.periodeAktif || '2024 - 2029');
 
     if (existing) {
       config = await db.pengaturanAplikasi.update({
         where: { id: existing.id },
-        data: { namaApp, namaRt, tagline, targetJimpitan: target }
+        data: { 
+          namaApp, 
+          namaRt, 
+          tagline, 
+          targetJimpitan: target,
+          kotaWilayah: kota,
+          nomorSk: sk,
+          periodeAktif: periode
+        }
       });
     } else {
       config = await db.pengaturanAplikasi.create({
-        data: { namaApp, namaRt, tagline, targetJimpitan: target }
+        data: { 
+          namaApp, 
+          namaRt, 
+          tagline, 
+          targetJimpitan: target,
+          kotaWilayah: kota,
+          nomorSk: sk,
+          periodeAktif: periode
+        }
       });
     }
 

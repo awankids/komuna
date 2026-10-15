@@ -29,6 +29,7 @@ model Anggota {
   
   jadwal            JadwalPetugas[]
   hutangPiutang     HutangPiutang[]
+  pengurus          PengurusRT[]
 }
 
 model Rombongan {
@@ -115,6 +116,9 @@ model PengaturanAplikasi {
   namaRt         String   @default("RT 04")
   tagline        String   @default("Kebersamaan, Terpadu, Transparan")
   targetJimpitan Int      @default(3000000)
+  kotaWilayah    String   @default("Semarang")
+  nomorSk        String?
+  periodeAktif   String   @default("2024 - 2029")
   updatedAt      DateTime @updatedAt
 }
 
@@ -159,4 +163,25 @@ model PembayaranHutangPiutang {
   transaksiKasId   String?             @unique
   transaksiKas     TransaksiKeuangan?  @relation(fields: [transaksiKasId], references: [id], onDelete: SetNull)
   createdAt        DateTime            @default(now())
+}
+
+model PengurusRT {
+  id             String    @id @default(uuid())
+  jabatan        String    // e.g. "Ketua RT", "Wakil Ketua RT", "Sekretaris", "Bendahara", "Seksi Keamanan"
+  kategori       String    @default("inti") // "inti" | "seksi"
+  nama           String
+  nik            String?
+  noHp           String?
+  alamatRumah    String?
+  
+  anggotaId      String?
+  anggota        Anggota?  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  
+  urutan         Int       @default(1)
+  periode        String?   @default("2024 - 2029")
+  statusAktif    Boolean   @default(true)
+  keterangan     String?
+  
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }

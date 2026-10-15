@@ -60,7 +60,10 @@ export default function PengaturanPage() {
   const [appConfig, setAppConfig] = useState({
     namaApp: 'komuna.id',
     namaRt: 'RT 04',
-    tagline: 'Kebersamaan, Terpadu, Transparan'
+    tagline: 'Kebersamaan, Terpadu, Transparan',
+    kotaWilayah: 'Semarang',
+    nomorSk: '',
+    periodeAktif: '2024 - 2029',
   });
 
   // Theme states
@@ -554,6 +557,40 @@ export default function PengaturanPage() {
                       required
                     />
                   </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600 block">Kota / Wilayah Legalitas</label>
+                      <input
+                        type="text"
+                        value={appConfig.kotaWilayah}
+                        onChange={(e) => setAppConfig({ ...appConfig, kotaWilayah: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
+                        placeholder="Contoh: Semarang"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600 block">Periode Masa Bakti</label>
+                      <input
+                        type="text"
+                        value={appConfig.periodeAktif}
+                        onChange={(e) => setAppConfig({ ...appConfig, periodeAktif: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
+                        placeholder="Contoh: 2024 - 2029"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600 block">Nomor SK Pengurus (Opsional)</label>
+                      <input
+                        type="text"
+                        value={appConfig.nomorSk || ''}
+                        onChange={(e) => setAppConfig({ ...appConfig, nomorSk: e.target.value })}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)] transition-all bg-white"
+                        placeholder="SK.04/RW.02/2024"
+                      />
+                    </div>
+                  </div>
+
                   <div className="flex justify-end pt-2">
                     <button
                       type="submit"
