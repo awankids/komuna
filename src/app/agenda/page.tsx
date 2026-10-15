@@ -21,9 +21,27 @@ import {
   Filter,
   Check,
   Ban,
-  Flag
+  Flag,
+  Target,
+  Sparkles,
+  TrendingUp,
+  Layers
 } from 'lucide-react';
 import { getIndonesianHoliday } from '@/lib/holidays';
+
+export interface ProgramKerjaItem {
+  id: string;
+  tahun: number;
+  bidang: string;
+  namaProgram: string;
+  targetBulan: string | null;
+  anggaranRencana: number;
+  anggaranRealisasi: number;
+  status: string;
+  persentase: number;
+  keteranganHasil: string | null;
+  dokumentasiUrl: string | null;
+}
 
 interface AgendaItem {
   id: string;
@@ -47,8 +65,33 @@ export default function AgendaPage() {
   const [selectedMonth, setSelectedMonth] = useState(() => String(new Date().getMonth() + 1).padStart(2, '0'));
   const [selectedYear, setSelectedYear] = useState(() => String(new Date().getFullYear()));
 
-  // Category Filter inside calendar
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
+  // Active Sub-Tab (Kalender vs Program Kerja)
+  const [activeTab, setActiveTab] = useState<'kalender' | 'proker'>('kalender');
+
+  // Proker States
+  const [prokerList, setProkerList] = useState<ProgramKerjaItem[]>([]);
+  const [prokerSummary, setProkerSummary] = useState({
+    totalProgram: 0,
+    totalTerlaksana: 0,
+    totalBerjalan: 0,
+    totalTertunda: 0,
+    persentaseKetercapaian: 0,
+    totalAnggaranRencana: 0,
+    totalAnggaranRealisasi: 0
+  });
+  const [isProkerModalOpen, setIsProkerModalOpen] = useState(false);
+  const [editingProkerId, setEditingProkerId] = useState<string | null>(null);
+  const [selectedProkerBidang, setSelectedProkerBidang] = useState('all');
+  const [prokerForm, setProkerForm] = useState({
+    namaProgram: '',
+    bidang: 'lingkungan',
+    targetBulan: '',
+    anggaranRencana: 0,
+    anggaranRealisasi: 0,
+    status: 'terlaksana',
+    persentase: 100,
+    keteranganHasil: ''
+  });
 
   // Modal States
   const [selectedDateKey, setSelectedDateKey] = useState<string | null>(null);
@@ -67,6 +110,7 @@ export default function AgendaPage() {
   const [formKeterangan, setFormKeterangan] = useState('');
   const [formStatus, setFormStatus] = useState('terjadwal');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
   // formKey forces remount of the form so defaultValue is re-applied on each open/edit
   const [formKey, setFormKey] = useState(0);
 
@@ -136,11 +180,98 @@ export default function AgendaPage() {
     }
   };
 
+  // Fetch Program Kerja for selected year & category
+  const fetchProkerData = async () => {
+    try {
+      const res = await fetch(`/api/program-kerja?tahun=${selectedYear}&bidang=${selectedProkerBidang}`);
+      if (res.ok) {
+        const json = await res.json();
+        setProkerList(json.data || []);
+        if (json.summary) setProkerSummary(json.summary);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     isMountedRef.current = true;
     fetchAgendaData();
+    fetchProkerData();
     return () => { isMountedRef.current = false; };
-  }, [selectedMonth, selectedYear]);
+  }, [selectedMonth, selectedYear, selectedProkerBidang]);
+
+  // Proker Handlers
+  const resetProkerForm = () => {
+    setEditingProkerId(null);
+    setProkerForm({
+      namaProgram: '',
+      bidang: 'lingkungan',
+      targetBulan: '',
+      anggaranRencana: 0,
+      anggaranRealisasi: 0,
+      status: 'terlaksana',
+      persentase: 100,
+      keteranganHasil: ''
+    });
+  };
+
+  const handleOpenEditProker = (p: ProgramKerjaItem) => {
+    setEditingProkerId(p.id);
+    setProkerForm({
+      namaProgram: p.namaProgram,
+      bidang: p.bidang,
+      targetBulan: p.targetBulan || '',
+      anggaranRencana: p.anggaranRencana,
+      anggaranRealisasi: p.anggaranRealisasi,
+      status: p.status,
+      persentase: p.persentase,
+      keteranganHasil: p.keteranganHasil || ''
+    });
+    setIsProkerModalOpen(true);
+  };
+
+  const handleSaveProker = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!prokerForm.namaProgram.trim()) {
+      triggerToast('Nama program kerja wajib diisi', 'error');
+      return;
+    }
+
+    try {
+      const method = editingProkerId ? 'PUT' : 'POST';
+      const body = editingProkerId
+        ? { id: editingProkerId, ...prokerForm }
+        : { tahun: parseInt(selectedYear) || 2026, ...prokerForm };
+
+      const res = await fetch('/api/program-kerja', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Gagal menyimpan');
+
+      triggerToast(editingProkerId ? 'Program kerja berhasil diperbarui' : 'Program kerja baru berhasil dicatat', 'success');
+      setIsProkerModalOpen(false);
+      resetProkerForm();
+      fetchProkerData();
+    } catch (err: any) {
+      triggerToast(err.message, 'error');
+    }
+  };
+
+  const handleDeleteProker = async (id: string) => {
+    if (!confirm('Hapus program kerja ini dari matriks tahunan?')) return;
+    try {
+      const res = await fetch(`/api/program-kerja?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Gagal menghapus');
+      triggerToast('Program kerja berhasil dihapus', 'success');
+      fetchProkerData();
+    } catch (err) {
+      triggerToast('Gagal menghapus program kerja', 'error');
+    }
+  };
 
   // Month navigation helpers
   const handlePrevMonth = () => {
@@ -436,26 +567,68 @@ export default function AgendaPage() {
           {/* Title Area */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
             <div className="space-y-1">
-              <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Agenda Kegiatan RT</h2>
-              <p className="text-xs md:text-sm text-slate-400 font-medium">Jadwal acara, rapat pengurus, posyandu, dan kerja bakti warga.</p>
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Agenda & Program Kerja RT</h2>
+              <p className="text-xs md:text-sm text-slate-400 font-medium">Jadwal acara, rapat pengurus, posyandu, kerja bakti, dan matriks capaian program kerja tahunan.</p>
             </div>
 
+            <div className="flex items-center gap-2">
+              {activeTab === 'kalender' ? (
+                <button
+                  onClick={() => {
+                    setSelectedDateKey(getTodayStr());
+                    setIsModalOpen(true);
+                    setIsFormOpen(true);
+                    resetForm(getTodayStr());
+                  }}
+                  className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 text-xs cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Tambah Agenda</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    resetProkerForm();
+                    setIsProkerModalOpen(true);
+                  }}
+                  className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 text-xs cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Tambah Program Kerja</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Sub-Tab Switcher: Kalender Bulanan vs Program Kerja Tahunan */}
+          <div className="flex border-b border-slate-200">
             <button
-              onClick={() => {
-                setSelectedDateKey(getTodayStr());
-                setIsModalOpen(true);
-                setIsFormOpen(true);
-                resetForm(getTodayStr());
-              }}
-              className="px-5 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-2xl shadow-sm transition-all flex items-center justify-center gap-2 text-xs cursor-pointer"
+              onClick={() => setActiveTab('kalender')}
+              className={`pb-3 px-6 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer ${
+                activeTab === 'kalender'
+                  ? 'border-[var(--brand-primary)] text-[var(--brand-primary)]'
+                  : 'border-transparent text-slate-400 hover:text-slate-700'
+              }`}
             >
-              <Plus className="w-4 h-4" />
-              <span>Tambah Agenda</span>
+              📅 Kalender Agenda Bulanan
+            </button>
+            <button
+              onClick={() => setActiveTab('proker')}
+              className={`pb-3 px-6 text-xs sm:text-sm font-bold border-b-2 transition-all cursor-pointer ${
+                activeTab === 'proker'
+                  ? 'border-[var(--brand-primary)] text-[var(--brand-primary)]'
+                  : 'border-transparent text-slate-400 hover:text-slate-700'
+              }`}
+            >
+              📋 Matriks Program Kerja Tahunan (LPJ)
             </button>
           </div>
 
-          {/* Month Navigator & Category Filter Control Bar */}
-          <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-4 justify-between">
+          {/* TAB 1: KALENDER AGENDA BULANAN */}
+          {activeTab === 'kalender' && (
+            <>
+              {/* Month Navigator & Category Filter Control Bar */}
+              <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-4 justify-between">
             
             {/* Prev/Next Month Trigger */}
             <div className="flex items-center gap-2 justify-between sm:justify-start">
@@ -639,6 +812,183 @@ export default function AgendaPage() {
               </div>
             </div>
           </div>
+          </>
+          )}
+
+          {/* TAB 2: MATRIKS PROGRAM KERJA TAHUNAN (LPJ) */}
+          {activeTab === 'proker' && (
+            <div className="space-y-5 text-left">
+              {/* 4 Stat Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-slate-100 text-slate-700">
+                    <Target className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Total Program</span>
+                    <h3 className="text-xl font-bold text-slate-800">{prokerSummary.totalProgram}</h3>
+                    <span className="text-xs text-slate-500">Tahun {selectedYear}</span>
+                  </div>
+                </div>
+
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-600">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Ketercapaian</span>
+                    <h3 className="text-xl font-bold text-emerald-600">{prokerSummary.persentaseKetercapaian}%</h3>
+                    <span className="text-xs text-slate-500">{prokerSummary.totalTerlaksana} Terlaksana</span>
+                  </div>
+                </div>
+
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-amber-50 text-amber-600">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Sedang Berjalan</span>
+                    <h3 className="text-xl font-bold text-amber-600">{prokerSummary.totalBerjalan}</h3>
+                    <span className="text-xs text-slate-500">Program Proses</span>
+                  </div>
+                </div>
+
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-blue-50 text-blue-600">
+                    <TrendingUp className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Realisasi Biaya</span>
+                    <h3 className="text-base sm:text-lg font-bold text-blue-600 truncate">
+                      {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(prokerSummary.totalAnggaranRealisasi)}
+                    </h3>
+                    <span className="text-xs text-slate-500">Dari Kas & Swadaya</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bidang Filter Bar */}
+              <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+                  {[
+                    { id: 'all', label: 'Semua Bidang' },
+                    { id: 'lingkungan', label: 'Lingkungan' },
+                    { id: 'keamanan', label: 'Keamanan' },
+                    { id: 'sosial_pkk', label: 'Sosial & PKK' },
+                    { id: 'kepemudaan', label: 'Pemuda & Olahraga' },
+                    { id: 'pembangunan', label: 'Pembangunan Fisik' },
+                    { id: 'keagamaan', label: 'Keagamaan' }
+                  ].map(b => (
+                    <button
+                      key={b.id}
+                      onClick={() => setSelectedProkerBidang(b.id)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+                        selectedProkerBidang === b.id
+                          ? 'bg-slate-800 text-white'
+                          : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {b.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      resetProkerForm();
+                      setIsProkerModalOpen(true);
+                    }}
+                    className="px-3.5 py-1.5 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold flex items-center gap-1.5 whitespace-nowrap cursor-pointer shadow-xs"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Tambah Program</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Proker List Cards */}
+              {prokerList.length === 0 ? (
+                <div className="text-center py-16 bg-white rounded-3xl border border-slate-100 space-y-2">
+                  <p className="text-sm font-bold text-slate-600">Belum ada program kerja untuk filter ini</p>
+                  <p className="text-xs text-slate-400">Silakan tambahkan program kerja tahunan untuk melengkapi buku LPJ.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                  {prokerList.map((p) => {
+                    const formatRp = (n: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n);
+                    return (
+                      <div
+                        key={p.id}
+                        className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between space-y-4 hover:border-slate-200 transition"
+                      >
+                        <div className="space-y-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--brand-primary)] bg-orange-50 px-2 py-0.5 rounded-md">
+                              {p.bidang}
+                            </span>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                              p.status === 'terlaksana' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                            }`}>
+                              {p.status === 'terlaksana' ? '100% Terlaksana' : `${p.persentase}% Berjalan`}
+                            </span>
+                          </div>
+
+                          <div>
+                            <h4 className="text-sm font-bold text-slate-800 leading-snug">{p.namaProgram}</h4>
+                            <span className="text-xs text-slate-400 block mt-0.5">🎯 Target: {p.targetBulan || 'Tahun ' + p.tahun}</span>
+                          </div>
+
+                          {/* Progress Bar */}
+                          <div className="space-y-1">
+                            <div className="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                              <div className="bg-emerald-500 h-full" style={{ width: `${p.persentase}%` }}></div>
+                            </div>
+                          </div>
+
+                          {/* Budget Info */}
+                          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100/80 grid grid-cols-2 gap-2 text-[11px]">
+                            <div>
+                              <span className="text-slate-400 block text-[10px]">Rencana Biaya:</span>
+                              <span className="font-semibold text-slate-700">{formatRp(p.anggaranRencana)}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-400 block text-[10px]">Realisasi Aktual:</span>
+                              <span className="font-bold text-slate-800">{formatRp(p.anggaranRealisasi)}</span>
+                            </div>
+                          </div>
+
+                          {p.keteranganHasil && (
+                            <p className="text-[11px] text-slate-500 italic bg-amber-50/50 p-2.5 rounded-xl">
+                              "{p.keteranganHasil}"
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="pt-2 border-t border-slate-100 flex items-center justify-end gap-1">
+                          <button
+                            onClick={() => handleOpenEditProker(p)}
+                            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition cursor-pointer"
+                            title="Edit Program Kerja"
+                          >
+                            <Edit className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteProker(p.id)}
+                            className="p-1.5 text-rose-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition cursor-pointer"
+                            title="Hapus Program Kerja"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
         </main>
       </div>
@@ -951,6 +1301,150 @@ export default function AgendaPage() {
 
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Modal Add / Edit Program Kerja */}
+      {isProkerModalOpen && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-lg w-full p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <Target className="w-4 h-4 text-[var(--brand-primary)]" />
+                <span>{editingProkerId ? 'Edit Program Kerja' : 'Tambah Program Kerja Baru'}</span>
+              </h3>
+              <button onClick={() => setIsProkerModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveProker} className="space-y-3 text-xs text-left">
+              <div>
+                <label className="block font-bold text-slate-600 mb-1">Nama Program Kerja</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Contoh: Kerja Bakti Massal Normalisasi Saluran Air"
+                  value={prokerForm.namaProgram}
+                  onChange={(e) => setProkerForm(prev => ({ ...prev, namaProgram: e.target.value }))}
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-600 mb-1">Bidang / Seksi</label>
+                  <select
+                    value={prokerForm.bidang}
+                    onChange={(e) => setProkerForm(prev => ({ ...prev, bidang: e.target.value }))}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                  >
+                    <option value="lingkungan">Lingkungan & Kebersihan</option>
+                    <option value="keamanan">Keamanan / Ronda</option>
+                    <option value="sosial_pkk">Sosial & PKK</option>
+                    <option value="kepemudaan">Pemuda & Olahraga</option>
+                    <option value="pembangunan">Pembangunan Fisik</option>
+                    <option value="keagamaan">Keagamaan</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-600 mb-1">Target Waktu Pelaksanaan</label>
+                  <input
+                    type="text"
+                    placeholder="Maret 2026 / Triwulan I"
+                    value={prokerForm.targetBulan}
+                    onChange={(e) => setProkerForm(prev => ({ ...prev, targetBulan: e.target.value }))}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-600 mb-1">Rencana Anggaran (Rp)</label>
+                  <input
+                    type="number"
+                    value={prokerForm.anggaranRencana}
+                    onChange={(e) => setProkerForm(prev => ({ ...prev, anggaranRencana: parseInt(e.target.value) || 0 }))}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-600 mb-1">Realisasi Biaya Aktual (Rp)</label>
+                  <input
+                    type="number"
+                    value={prokerForm.anggaranRealisasi}
+                    onChange={(e) => setProkerForm(prev => ({ ...prev, anggaranRealisasi: parseInt(e.target.value) || 0 }))}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 font-bold focus:outline-none focus:border-[var(--brand-primary)]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-600 mb-1">Status Capaian</label>
+                  <select
+                    value={prokerForm.status}
+                    onChange={(e) => {
+                      const st = e.target.value;
+                      setProkerForm(prev => ({
+                        ...prev,
+                        status: st,
+                        persentase: st === 'terlaksana' ? 100 : st === 'berjalan' ? 50 : 0
+                      }));
+                    }}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                  >
+                    <option value="terlaksana">Terlaksana Penuh (100%)</option>
+                    <option value="berjalan">Sedang Berjalan</option>
+                    <option value="tertunda">Tertunda</option>
+                    <option value="batal">Dibatalkan</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-600 mb-1">Persentase Selesai (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={prokerForm.persentase}
+                    onChange={(e) => setProkerForm(prev => ({ ...prev, persentase: parseInt(e.target.value) || 0 }))}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-600 mb-1">Keterangan Hasil & Manfaat</label>
+                <textarea
+                  rows={2}
+                  placeholder="Hasil nyata pelaksanaan bagi warga..."
+                  value={prokerForm.keteranganHasil}
+                  onChange={(e) => setProkerForm(prev => ({ ...prev, keteranganHasil: e.target.value }))}
+                  className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] resize-none"
+                />
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setIsProkerModalOpen(false)}
+                  className="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold cursor-pointer"
+                >
+                  Simpan Program
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

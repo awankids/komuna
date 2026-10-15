@@ -82,3 +82,28 @@ export type PengurusRT = Prisma.PengurusRTModel
  * 
  */
 export type SuratPengantar = Prisma.SuratPengantarModel
+/**
+ * Model MutasiWarga
+ * 
+ */
+export type MutasiWarga = Prisma.MutasiWargaModel
+/**
+ * Model ProgramKerja
+ * 
+ */
+export type ProgramKerja = Prisma.ProgramKerjaModel
+/**
+ * Model InventarisAset
+ * 
+ */
+export type InventarisAset = Prisma.InventarisAsetModel
+/**
+ * Model PeminjamanAset
+ * 
+ */
+export type PeminjamanAset = Prisma.PeminjamanAsetModel
+/**
+ * Model EvaluasiTahunan
+ * 
+ */
+export type EvaluasiTahunan = Prisma.EvaluasiTahunanModel

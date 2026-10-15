@@ -55,7 +55,29 @@ export default function AnggotaPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRombonganFilter, setSelectedRombonganFilter] = useState('all');
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('all');
-  const [activeTab, setActiveTab] = useState<'semua' | 'rombongan'>('semua');
+  const [activeTab, setActiveTab] = useState<'semua' | 'rombongan' | 'mutasi'>('semua');
+
+  // Mutasi Kependudukan States
+  const [mutasiList, setMutasiList] = useState<any[]>([]);
+  const [mutasiSummary, setMutasiSummary] = useState({
+    totalLahir: 0,
+    totalMeninggal: 0,
+    totalMasuk: 0,
+    totalKeluar: 0,
+    deltaNetto: 0,
+    totalWargaAktif: 0
+  });
+  const [isMutasiModalOpen, setIsMutasiModalOpen] = useState(false);
+  const [mutasiForm, setMutasiForm] = useState({
+    jenisMutasi: 'lahir',
+    tanggalPeristiwa: new Date().toISOString().split('T')[0],
+    namaWarga: '',
+    nik: '',
+    noRumah: '',
+    jenisKelamin: 'Laki-laki',
+    keterangan: '',
+    anggotaId: ''
+  });
   
   const [isLoading, setIsLoading] = useState(true);
   const [visibleRows, setVisibleRows] = useState(12);
@@ -117,10 +139,63 @@ export default function AnggotaPage() {
       if (isMountedRef.current && !dataR.error) {
         setRombonganList(dataR);
       }
+
+      const resM = await fetch('/api/mutasi-warga');
+      const dataM = await resM.json();
+      if (isMountedRef.current && dataM.data) {
+        setMutasiList(dataM.data);
+        if (dataM.summary) setMutasiSummary(dataM.summary);
+      }
     } catch (e) {
       console.error('Error fetching data:', e);
     } finally {
       if (isMountedRef.current) setIsLoading(false);
+    }
+  };
+
+  const handleSaveMutasi = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!mutasiForm.namaWarga.trim()) {
+      triggerToast('Nama warga wajib diisi', 'error');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/mutasi-warga', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mutasiForm)
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Gagal mencatat mutasi');
+
+      triggerToast('Peristiwa mutasi warga berhasil dicatat', 'success');
+      setIsMutasiModalOpen(false);
+      setMutasiForm({
+        jenisMutasi: 'lahir',
+        tanggalPeristiwa: new Date().toISOString().split('T')[0],
+        namaWarga: '',
+        nik: '',
+        noRumah: '',
+        jenisKelamin: 'Laki-laki',
+        keterangan: '',
+        anggotaId: ''
+      });
+      fetchData();
+    } catch (err: any) {
+      triggerToast(err.message, 'error');
+    }
+  };
+
+  const handleDeleteMutasi = async (id: string) => {
+    if (!confirm('Apakah Anda yakin ingin menghapus catatan mutasi ini?')) return;
+    try {
+      const res = await fetch(`/api/mutasi-warga?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Gagal menghapus');
+      triggerToast('Catatan mutasi berhasil dihapus', 'success');
+      fetchData();
+    } catch (err) {
+      triggerToast('Gagal menghapus catatan mutasi', 'error');
     }
   };
 
@@ -796,10 +871,23 @@ export default function AnggotaPage() {
             >
               Per Rombongan
             </button>
+            <button
+              onClick={() => setActiveTab('mutasi')}
+              className={`pb-3 px-6 text-sm font-bold border-b-2 transition-all cursor-pointer ${
+                activeTab === 'mutasi'
+                  ? 'border-[#f95713] text-[#f95713]'
+                  : 'border-transparent text-slate-400 hover:text-slate-700'
+              }`}
+            >
+              Mutasi & Dinamika Warga (LPJ)
+            </button>
           </div>
 
-          {/* Main Table Card */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6 flex flex-col justify-between">
+          {/* TAB 1 & 2: DAFTAR WARGA & ROMBONGAN */}
+          {activeTab !== 'mutasi' && (
+            <>
+              {/* Main Table Card */}
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6 flex flex-col justify-between">
             {isLoading ? (
               <div className="py-20 text-center text-slate-400 font-medium">
                 Memuat data anggota...
@@ -1059,6 +1147,113 @@ export default function AnggotaPage() {
               Perubahan data anggota akan mempengaruhi jadwal jimpitan. Pastikan data sudah benar.
             </span>
           </div>
+          </>
+          )}
+
+          {/* TAB 3: MUTASI & DINAMIKA KEPENDUDUKAN (LPJ) */}
+          {activeTab === 'mutasi' && (
+            <div className="space-y-5 text-left">
+              {/* Summary Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-3.5">
+                <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-1">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Kelahiran</span>
+                  <h3 className="text-xl font-bold text-emerald-600">+{mutasiSummary.totalLahir}</h3>
+                  <span className="text-[11px] text-slate-500">Bayi Baru</span>
+                </div>
+                <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-1">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Warga Masuk</span>
+                  <h3 className="text-xl font-bold text-blue-600">+{mutasiSummary.totalMasuk}</h3>
+                  <span className="text-[11px] text-slate-500">Pindah Masuk</span>
+                </div>
+                <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-1">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Warga Pindah</span>
+                  <h3 className="text-xl font-bold text-amber-600">-{mutasiSummary.totalKeluar}</h3>
+                  <span className="text-[11px] text-slate-500">Pindah Keluar</span>
+                </div>
+                <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-1">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Kematian</span>
+                  <h3 className="text-xl font-bold text-slate-700">-{mutasiSummary.totalMeninggal}</h3>
+                  <span className="text-[11px] text-slate-500">Meninggal Dunia</span>
+                </div>
+                <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-1 col-span-2 lg:col-span-1">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Pertumbuhan Netto</span>
+                  <h3 className="text-xl font-bold text-[var(--brand-primary)]">
+                    {mutasiSummary.deltaNetto > 0 ? `+${mutasiSummary.deltaNetto}` : mutasiSummary.deltaNetto}
+                  </h3>
+                  <span className="text-[11px] text-slate-500">Jiwa Tahun Berjalan</span>
+                </div>
+              </div>
+
+              {/* Action Bar */}
+              <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-bold text-slate-800">Buku Register Mutasi Kependudukan</h3>
+                  <p className="text-xs text-slate-400">Pencatatan resmi peristiwa kelahiran, kematian, kepindahan warga untuk LPJ tahunan.</p>
+                </div>
+                <button
+                  onClick={() => setIsMutasiModalOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Catat Mutasi Warga</span>
+                </button>
+              </div>
+
+              {/* Mutasi Table */}
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6">
+                {mutasiList.length === 0 ? (
+                  <div className="text-center py-12 text-slate-400 text-xs">
+                    Belum ada data mutasi warga tercatat.
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+                        <tr>
+                          <th className="py-3 px-3">Tanggal</th>
+                          <th className="py-3 px-3">Jenis Peristiwa</th>
+                          <th className="py-3 px-3">Nama Warga / Keluarga</th>
+                          <th className="py-3 px-3">Rumah</th>
+                          <th className="py-3 px-3">Keterangan / Alasan</th>
+                          <th className="py-3 px-3 text-right">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-slate-700">
+                        {mutasiList.map((m) => (
+                          <tr key={m.id} className="hover:bg-slate-50/50 transition">
+                            <td className="py-3 px-3 whitespace-nowrap font-medium text-slate-500">
+                              {new Date(m.tanggalPeristiwa).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            </td>
+                            <td className="py-3 px-3">
+                              {m.jenisMutasi === 'lahir' && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">Kelahiran</span>}
+                              {m.jenisMutasi === 'masuk' && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600">Pindah Masuk</span>}
+                              {m.jenisMutasi === 'keluar' && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600">Pindah Keluar</span>}
+                              {m.jenisMutasi === 'meninggal' && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">Meninggal</span>}
+                            </td>
+                            <td className="py-3 px-3 font-bold text-slate-800">
+                              {m.namaWarga}
+                              {m.jenisKelamin && <span className="block text-[10px] font-normal text-slate-400">{m.jenisKelamin}</span>}
+                            </td>
+                            <td className="py-3 px-3 font-medium text-slate-600">{m.noRumah || '-'}</td>
+                            <td className="py-3 px-3 text-slate-600 italic">"{m.keterangan || '-'}"</td>
+                            <td className="py-3 px-3 text-right">
+                              <button
+                                onClick={() => handleDeleteMutasi(m.id)}
+                                className="p-1.5 text-rose-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition cursor-pointer"
+                                title="Hapus catatan mutasi"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* CRUD Modal for Anggota */}
           {isModalOpen && (
@@ -1293,6 +1488,116 @@ export default function AnggotaPage() {
                   </div>
                 </div>
 
+              </div>
+            </div>
+          )}
+
+          {/* Modal Catat Mutasi Warga */}
+          {isMutasiModalOpen && (
+            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <Plus className="w-4 h-4 text-[var(--brand-primary)]" />
+                    <span>Catat Peristiwa Mutasi Kependudukan</span>
+                  </h3>
+                  <button onClick={() => setIsMutasiModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <form onSubmit={handleSaveMutasi} className="space-y-3 text-xs text-left">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-600 mb-1">Jenis Peristiwa</label>
+                      <select
+                        value={mutasiForm.jenisMutasi}
+                        onChange={(e) => setMutasiForm(prev => ({ ...prev, jenisMutasi: e.target.value }))}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] font-bold"
+                      >
+                        <option value="lahir">Kelahiran Bayi</option>
+                        <option value="masuk">Warga Pindah Masuk</option>
+                        <option value="keluar">Warga Pindah Keluar</option>
+                        <option value="meninggal">Warga Meninggal Dunia</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-slate-600 mb-1">Tanggal Peristiwa</label>
+                      <input
+                        type="date"
+                        required
+                        value={mutasiForm.tanggalPeristiwa}
+                        onChange={(e) => setMutasiForm(prev => ({ ...prev, tanggalPeristiwa: e.target.value }))}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-600 mb-1">Nama Warga / Bayi</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Contoh: Muhammad Arkan / Bpk. Hendra"
+                      value={mutasiForm.namaWarga}
+                      onChange={(e) => setMutasiForm(prev => ({ ...prev, namaWarga: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-bold text-slate-600 mb-1">No. Rumah / Blok</label>
+                      <input
+                        type="text"
+                        placeholder="Contoh: Blok B-08"
+                        value={mutasiForm.noRumah}
+                        onChange={(e) => setMutasiForm(prev => ({ ...prev, noRumah: e.target.value }))}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-slate-600 mb-1">Jenis Kelamin</label>
+                      <select
+                        value={mutasiForm.jenisKelamin}
+                        onChange={(e) => setMutasiForm(prev => ({ ...prev, jenisKelamin: e.target.value }))}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                      >
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-600 mb-1">Keterangan / Alasan / No. Surat</label>
+                    <textarea
+                      rows={2}
+                      placeholder="Contoh: Kelahiran anak kedua di RS Hermina / Pindah tugas ke Jakarta"
+                      value={mutasiForm.keterangan}
+                      onChange={(e) => setMutasiForm(prev => ({ ...prev, keterangan: e.target.value }))}
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] resize-none"
+                    />
+                  </div>
+
+                  <div className="pt-2 flex justify-end gap-2 border-t border-slate-100">
+                    <button
+                      type="button"
+                      onClick={() => setIsMutasiModalOpen(false)}
+                      className="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-semibold cursor-pointer"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold cursor-pointer"
+                    >
+                      Simpan Mutasi
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           )}

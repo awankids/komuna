@@ -26,7 +26,8 @@ import {
   X,
   ExternalLink,
   ChevronRight,
-  Info
+  Info,
+  Sparkles
 } from 'lucide-react';
 
 interface Transaction {
@@ -424,6 +425,31 @@ export default function LaporanPage() {
                 <span>Cetak / Unduh PDF</span>
               </button>
             </div>
+          </div>
+
+          {/* Switcher Banner: Kas Bulanan vs Buku LPJ Tahunan */}
+          <div className="no-print bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 border border-orange-100 p-4 sm:p-5 rounded-3xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <span className="p-2.5 rounded-2xl bg-white text-[var(--brand-primary)] shadow-xs">
+                <Sparkles className="w-5 h-5" />
+              </span>
+              <div className="text-left">
+                <h4 className="text-xs sm:text-sm font-bold text-slate-800">
+                  Buku Laporan Pertanggungjawaban (LPJ) Tahunan RT
+                </h4>
+                <p className="text-[11px] text-slate-500">
+                  Gabungan 4 pilar administrasi: Rekap Mutasi Kependudukan, Realisasi Kas 1 Tahun, Program Kerja, dan Inventaris Aset.
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/laporan/lpj"
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-sm w-fit whitespace-nowrap cursor-pointer"
+            >
+              <span>Buka Buku LPJ Tahunan</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
 
           {/* Main Workspace Bento Grid: 5 Cols Control : 7 Cols Document Paper Preview */}

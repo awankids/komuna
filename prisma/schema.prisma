@@ -38,6 +38,7 @@ model Anggota {
   hutangPiutang     HutangPiutang[]
   pengurus          PengurusRT[]
   suratPengantar    SuratPengantar[]
+  mutasi            MutasiWarga[]
 }
 
 model Rombongan {
@@ -230,4 +231,103 @@ model SuratPengantar {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
 }
+
+// 1. Pencatatan Dinamika Kependudukan (Mutasi Warga)
+model MutasiWarga {
+  id               String    @id @default(uuid())
+  jenisMutasi      String    // "lahir" | "meninggal" | "masuk" | "keluar"
+  tanggalPeristiwa DateTime  @default(now())
+  
+  namaWarga        String
+  nik              String?
+  noRumah          String?
+  jenisKelamin     String?   // "Laki-laki" | "Perempuan"
+  keterangan       String?   // Asal/tujuan pindah, penyebab, no surat pengantar
+  
+  anggotaId        String?
+  anggota          Anggota?  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  
+  dicatatOleh      String    @default("Sekretaris RT")
+  createdAt        DateTime  @default(now())
+}
+
+// 2. Program Kerja & Capaian Tahunan
+model ProgramKerja {
+  id                String    @id @default(uuid())
+  tahun             Int       // e.g. 2026
+  bidang            String    // "lingkungan", "keamanan", "sosial_pkk", "pembangunan", "keagamaan", "kepemudaan"
+  namaProgram       String    // e.g. "Kerja Bakti Massal Normalisasi Saluran Air"
+  targetBulan       String?   // e.g. "Maret 2026", "Triwulan II"
+  
+  anggaranRencana   Int       @default(0)
+  anggaranRealisasi  Int       @default(0)
+  
+  status            String    @default("terlaksana") // "terlaksana", "berjalan", "tertunda", "batal"
+  persentase        Int       @default(100) // 0 - 100%
+  keteranganHasil   String?   // Deskripsi hasil kegiatan & manfaat
+  dokumentasiUrl    String?   // Lampiran foto kegiatan (opsional)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// 3. Buku Inventaris & Aset Lingkungan RT
+model InventarisAset {
+  id               String          @id @default(uuid())
+  kodeBarang       String?         // e.g. "AST-001", "TND-01"
+  namaBarang       String          // e.g. "Tenda Terop Besi 4 x 6 meter"
+  kategori         String          // "tenda_kursi", "kebersihan", "elektronik_sound", "keamanan", "peralatan"
+  jumlah           Int             @default(1)
+  satuan           String          @default("unit") // unit, buah, set, rol
+  
+  kondisiBaik      Int             @default(1)
+  kondisiRusak     Int             @default(0)
+  
+  lokasiSimpan     String?         @default("Balai RT")
+  tahunPengadaan   Int             @default(2025)
+  sumberPerolehan  String          @default("Kas RT") // "Kas RT", "Swadaya Warga", "Hibah Kelurahan"
+  statusTahunIni   String          @default("tetap") // "tetap", "bertambah_baru", "perbaikan", "afkir"
+  
+  keterangan       String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  
+  peminjaman       PeminjamanAset[]
+}
+
+// Sub-model: Catatan Peminjaman Aset oleh Warga
+model PeminjamanAset {
+  id               String         @id @default(uuid())
+  inventarisId     String
+  inventaris       InventarisAset @relation(fields: [inventarisId], references: [id], onDelete: Cascade)
+  
+  namaPeminjam     String
+  noRumah          String?
+  kontakPeminjam   String?
+  jumlahPinjam     Int            @default(1)
+  keperluan        String         // Hajatan, tasyakuran, kematian
+  
+  tanggalPinjam    DateTime       @default(now())
+  tanggalKembali   DateTime?
+  status           String         @default("dipinjam") // "dipinjam" | "dikembalikan"
+  catatanKondisi   String?
+  
+  createdAt        DateTime       @default(now())
+}
+
+// 4. Refleksi Tahunan: Kendala, Solusi, & Rencana Masa Depan
+model EvaluasiTahunan {
+  id               String    @id @default(uuid())
+  tahun            Int       @unique // e.g. 2026
+  
+  kataPengantar    String?   // Pesan pembuka dari Ketua RT
+  kendalaTantangan String    // Hambatan operasional selama setahun
+  solusiTindakan   String    // Solusi dan rekomendasi yang diterapkan
+  usulanRencana    String    // Rencana kerja prioritas tahun berikutnya
+  estimasiAnggaran Int       @default(0)
+  
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
 

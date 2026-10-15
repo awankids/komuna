@@ -63,7 +63,12 @@ export const ModelName = {
   HutangPiutang: 'HutangPiutang',
   PembayaranHutangPiutang: 'PembayaranHutangPiutang',
   PengurusRT: 'PengurusRT',
-  SuratPengantar: 'SuratPengantar'
+  SuratPengantar: 'SuratPengantar',
+  MutasiWarga: 'MutasiWarga',
+  ProgramKerja: 'ProgramKerja',
+  InventarisAset: 'InventarisAset',
+  PeminjamanAset: 'PeminjamanAset',
+  EvaluasiTahunan: 'EvaluasiTahunan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -302,6 +307,96 @@ export const SuratPengantarScalarFieldEnum = {
 } as const
 
 export type SuratPengantarScalarFieldEnum = (typeof SuratPengantarScalarFieldEnum)[keyof typeof SuratPengantarScalarFieldEnum]
+
+
+export const MutasiWargaScalarFieldEnum = {
+  id: 'id',
+  jenisMutasi: 'jenisMutasi',
+  tanggalPeristiwa: 'tanggalPeristiwa',
+  namaWarga: 'namaWarga',
+  nik: 'nik',
+  noRumah: 'noRumah',
+  jenisKelamin: 'jenisKelamin',
+  keterangan: 'keterangan',
+  anggotaId: 'anggotaId',
+  dicatatOleh: 'dicatatOleh',
+  createdAt: 'createdAt'
+} as const
+
+export type MutasiWargaScalarFieldEnum = (typeof MutasiWargaScalarFieldEnum)[keyof typeof MutasiWargaScalarFieldEnum]
+
+
+export const ProgramKerjaScalarFieldEnum = {
+  id: 'id',
+  tahun: 'tahun',
+  bidang: 'bidang',
+  namaProgram: 'namaProgram',
+  targetBulan: 'targetBulan',
+  anggaranRencana: 'anggaranRencana',
+  anggaranRealisasi: 'anggaranRealisasi',
+  status: 'status',
+  persentase: 'persentase',
+  keteranganHasil: 'keteranganHasil',
+  dokumentasiUrl: 'dokumentasiUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProgramKerjaScalarFieldEnum = (typeof ProgramKerjaScalarFieldEnum)[keyof typeof ProgramKerjaScalarFieldEnum]
+
+
+export const InventarisAsetScalarFieldEnum = {
+  id: 'id',
+  kodeBarang: 'kodeBarang',
+  namaBarang: 'namaBarang',
+  kategori: 'kategori',
+  jumlah: 'jumlah',
+  satuan: 'satuan',
+  kondisiBaik: 'kondisiBaik',
+  kondisiRusak: 'kondisiRusak',
+  lokasiSimpan: 'lokasiSimpan',
+  tahunPengadaan: 'tahunPengadaan',
+  sumberPerolehan: 'sumberPerolehan',
+  statusTahunIni: 'statusTahunIni',
+  keterangan: 'keterangan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InventarisAsetScalarFieldEnum = (typeof InventarisAsetScalarFieldEnum)[keyof typeof InventarisAsetScalarFieldEnum]
+
+
+export const PeminjamanAsetScalarFieldEnum = {
+  id: 'id',
+  inventarisId: 'inventarisId',
+  namaPeminjam: 'namaPeminjam',
+  noRumah: 'noRumah',
+  kontakPeminjam: 'kontakPeminjam',
+  jumlahPinjam: 'jumlahPinjam',
+  keperluan: 'keperluan',
+  tanggalPinjam: 'tanggalPinjam',
+  tanggalKembali: 'tanggalKembali',
+  status: 'status',
+  catatanKondisi: 'catatanKondisi',
+  createdAt: 'createdAt'
+} as const
+
+export type PeminjamanAsetScalarFieldEnum = (typeof PeminjamanAsetScalarFieldEnum)[keyof typeof PeminjamanAsetScalarFieldEnum]
+
+
+export const EvaluasiTahunanScalarFieldEnum = {
+  id: 'id',
+  tahun: 'tahun',
+  kataPengantar: 'kataPengantar',
+  kendalaTantangan: 'kendalaTantangan',
+  solusiTindakan: 'solusiTindakan',
+  usulanRencana: 'usulanRencana',
+  estimasiAnggaran: 'estimasiAnggaran',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EvaluasiTahunanScalarFieldEnum = (typeof EvaluasiTahunanScalarFieldEnum)[keyof typeof EvaluasiTahunanScalarFieldEnum]
 
 
 export const SortOrder = {
