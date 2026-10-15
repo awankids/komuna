@@ -48,6 +48,7 @@ interface AnggotaItem {
   agama?: string | null;
   pekerjaan?: string | null;
   statusPerkawinan?: string | null;
+  statusKeluarga?: string;
 }
 
 interface PengurusSignatory {
@@ -820,11 +821,14 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                         className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)]"
                       >
                         <option value="">-- Ketik Manual atau Pilih Warga --</option>
-                        {anggotaList.map((w) => (
-                          <option key={w.id} value={w.id}>
-                            {w.nama} (No. Rumah {w.noRumah})
-                          </option>
-                        ))}
+                        {anggotaList.map((w) => {
+                          const roleLabel = w.statusKeluarga === 'istri' ? ' - Istri' : w.statusKeluarga === 'anak' ? ' - Anak' : w.statusKeluarga === 'orang_tua' ? ' - Orang Tua' : w.statusKeluarga === 'kepala_keluarga' ? ' - Kepala Keluarga' : '';
+                          return (
+                            <option key={w.id} value={w.id}>
+                              {w.nama} ({w.noRumah}{roleLabel})
+                            </option>
+                          );
+                        })}
                       </select>
                     </div>
 

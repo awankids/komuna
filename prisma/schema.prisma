@@ -22,17 +22,30 @@ model Anggota {
   noRumah           String
   noHp              String?
   nik               String?
+  noKk              String?
   tempatLahir       String?
   tanggalLahir      DateTime?
-  jenisKelamin      String?
-  agama             String?
+  jenisKelamin      String?   @default("Laki-laki")
+  agama             String?   @default("Islam")
   pekerjaan         String?
-  statusPerkawinan  String?
-  statusAktif       Boolean  @default(true)
+  statusPerkawinan  String?   @default("Kawin")
+  statusAktif       Boolean   @default(true)
+
+  // Hierarki Keluarga
+  statusKeluarga    String    @default("kepala_keluarga") // "kepala_keluarga" | "istri" | "anak" | "orang_tua" | "famili_lain"
+  kepalaKeluargaId  String?
+  kepalaKeluarga    Anggota?  @relation("KeluargaHierarchy", fields: [kepalaKeluargaId], references: [id], onDelete: SetNull)
+  anggotaKeluarga   Anggota[] @relation("KeluargaHierarchy")
+
+  // Kewajiban Operasional RT
+  isWajibJimpitan   Boolean   @default(true)
+  isWajibRonda      Boolean   @default(true)
+
   rombonganId       String?
   rombongan         Rombongan? @relation("RombonganAnggota", fields: [rombonganId], references: [id], onDelete: SetNull)
   memimpinRombongan Rombongan? @relation("RombonganKetua")
-  createdAt         DateTime @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
   
   jadwal            JadwalPetugas[]
   hutangPiutang     HutangPiutang[]

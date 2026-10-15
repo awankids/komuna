@@ -30,6 +30,7 @@ export type AnggotaMinAggregateOutputType = {
   noRumah: string | null
   noHp: string | null
   nik: string | null
+  noKk: string | null
   tempatLahir: string | null
   tanggalLahir: Date | null
   jenisKelamin: string | null
@@ -37,8 +38,13 @@ export type AnggotaMinAggregateOutputType = {
   pekerjaan: string | null
   statusPerkawinan: string | null
   statusAktif: boolean | null
+  statusKeluarga: string | null
+  kepalaKeluargaId: string | null
+  isWajibJimpitan: boolean | null
+  isWajibRonda: boolean | null
   rombonganId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type AnggotaMaxAggregateOutputType = {
@@ -47,6 +53,7 @@ export type AnggotaMaxAggregateOutputType = {
   noRumah: string | null
   noHp: string | null
   nik: string | null
+  noKk: string | null
   tempatLahir: string | null
   tanggalLahir: Date | null
   jenisKelamin: string | null
@@ -54,8 +61,13 @@ export type AnggotaMaxAggregateOutputType = {
   pekerjaan: string | null
   statusPerkawinan: string | null
   statusAktif: boolean | null
+  statusKeluarga: string | null
+  kepalaKeluargaId: string | null
+  isWajibJimpitan: boolean | null
+  isWajibRonda: boolean | null
   rombonganId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type AnggotaCountAggregateOutputType = {
@@ -64,6 +76,7 @@ export type AnggotaCountAggregateOutputType = {
   noRumah: number
   noHp: number
   nik: number
+  noKk: number
   tempatLahir: number
   tanggalLahir: number
   jenisKelamin: number
@@ -71,8 +84,13 @@ export type AnggotaCountAggregateOutputType = {
   pekerjaan: number
   statusPerkawinan: number
   statusAktif: number
+  statusKeluarga: number
+  kepalaKeluargaId: number
+  isWajibJimpitan: number
+  isWajibRonda: number
   rombonganId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -83,6 +101,7 @@ export type AnggotaMinAggregateInputType = {
   noRumah?: true
   noHp?: true
   nik?: true
+  noKk?: true
   tempatLahir?: true
   tanggalLahir?: true
   jenisKelamin?: true
@@ -90,8 +109,13 @@ export type AnggotaMinAggregateInputType = {
   pekerjaan?: true
   statusPerkawinan?: true
   statusAktif?: true
+  statusKeluarga?: true
+  kepalaKeluargaId?: true
+  isWajibJimpitan?: true
+  isWajibRonda?: true
   rombonganId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type AnggotaMaxAggregateInputType = {
@@ -100,6 +124,7 @@ export type AnggotaMaxAggregateInputType = {
   noRumah?: true
   noHp?: true
   nik?: true
+  noKk?: true
   tempatLahir?: true
   tanggalLahir?: true
   jenisKelamin?: true
@@ -107,8 +132,13 @@ export type AnggotaMaxAggregateInputType = {
   pekerjaan?: true
   statusPerkawinan?: true
   statusAktif?: true
+  statusKeluarga?: true
+  kepalaKeluargaId?: true
+  isWajibJimpitan?: true
+  isWajibRonda?: true
   rombonganId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type AnggotaCountAggregateInputType = {
@@ -117,6 +147,7 @@ export type AnggotaCountAggregateInputType = {
   noRumah?: true
   noHp?: true
   nik?: true
+  noKk?: true
   tempatLahir?: true
   tanggalLahir?: true
   jenisKelamin?: true
@@ -124,8 +155,13 @@ export type AnggotaCountAggregateInputType = {
   pekerjaan?: true
   statusPerkawinan?: true
   statusAktif?: true
+  statusKeluarga?: true
+  kepalaKeluargaId?: true
+  isWajibJimpitan?: true
+  isWajibRonda?: true
   rombonganId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -207,6 +243,7 @@ export type AnggotaGroupByOutputType = {
   noRumah: string
   noHp: string | null
   nik: string | null
+  noKk: string | null
   tempatLahir: string | null
   tanggalLahir: Date | null
   jenisKelamin: string | null
@@ -214,8 +251,13 @@ export type AnggotaGroupByOutputType = {
   pekerjaan: string | null
   statusPerkawinan: string | null
   statusAktif: boolean
+  statusKeluarga: string
+  kepalaKeluargaId: string | null
+  isWajibJimpitan: boolean
+  isWajibRonda: boolean
   rombonganId: string | null
   createdAt: Date
+  updatedAt: Date
   _count: AnggotaCountAggregateOutputType | null
   _min: AnggotaMinAggregateOutputType | null
   _max: AnggotaMaxAggregateOutputType | null
@@ -245,6 +287,7 @@ export type AnggotaWhereInput = {
   noRumah?: Prisma.StringFilter<"Anggota"> | string
   noHp?: Prisma.StringNullableFilter<"Anggota"> | string | null
   nik?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  noKk?: Prisma.StringNullableFilter<"Anggota"> | string | null
   tempatLahir?: Prisma.StringNullableFilter<"Anggota"> | string | null
   tanggalLahir?: Prisma.DateTimeNullableFilter<"Anggota"> | Date | string | null
   jenisKelamin?: Prisma.StringNullableFilter<"Anggota"> | string | null
@@ -252,8 +295,15 @@ export type AnggotaWhereInput = {
   pekerjaan?: Prisma.StringNullableFilter<"Anggota"> | string | null
   statusPerkawinan?: Prisma.StringNullableFilter<"Anggota"> | string | null
   statusAktif?: Prisma.BoolFilter<"Anggota"> | boolean
+  statusKeluarga?: Prisma.StringFilter<"Anggota"> | string
+  kepalaKeluargaId?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  isWajibJimpitan?: Prisma.BoolFilter<"Anggota"> | boolean
+  isWajibRonda?: Prisma.BoolFilter<"Anggota"> | boolean
   rombonganId?: Prisma.StringNullableFilter<"Anggota"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
+  kepalaKeluarga?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  anggotaKeluarga?: Prisma.AnggotaListRelationFilter
   rombongan?: Prisma.XOR<Prisma.RombonganNullableScalarRelationFilter, Prisma.RombonganWhereInput> | null
   memimpinRombongan?: Prisma.XOR<Prisma.RombonganNullableScalarRelationFilter, Prisma.RombonganWhereInput> | null
   jadwal?: Prisma.JadwalPetugasListRelationFilter
@@ -269,6 +319,7 @@ export type AnggotaOrderByWithRelationInput = {
   noRumah?: Prisma.SortOrder
   noHp?: Prisma.SortOrderInput | Prisma.SortOrder
   nik?: Prisma.SortOrderInput | Prisma.SortOrder
+  noKk?: Prisma.SortOrderInput | Prisma.SortOrder
   tempatLahir?: Prisma.SortOrderInput | Prisma.SortOrder
   tanggalLahir?: Prisma.SortOrderInput | Prisma.SortOrder
   jenisKelamin?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -276,8 +327,15 @@ export type AnggotaOrderByWithRelationInput = {
   pekerjaan?: Prisma.SortOrderInput | Prisma.SortOrder
   statusPerkawinan?: Prisma.SortOrderInput | Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  statusKeluarga?: Prisma.SortOrder
+  kepalaKeluargaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isWajibJimpitan?: Prisma.SortOrder
+  isWajibRonda?: Prisma.SortOrder
   rombonganId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  kepalaKeluarga?: Prisma.AnggotaOrderByWithRelationInput
+  anggotaKeluarga?: Prisma.AnggotaOrderByRelationAggregateInput
   rombongan?: Prisma.RombonganOrderByWithRelationInput
   memimpinRombongan?: Prisma.RombonganOrderByWithRelationInput
   jadwal?: Prisma.JadwalPetugasOrderByRelationAggregateInput
@@ -296,6 +354,7 @@ export type AnggotaWhereUniqueInput = Prisma.AtLeast<{
   noRumah?: Prisma.StringFilter<"Anggota"> | string
   noHp?: Prisma.StringNullableFilter<"Anggota"> | string | null
   nik?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  noKk?: Prisma.StringNullableFilter<"Anggota"> | string | null
   tempatLahir?: Prisma.StringNullableFilter<"Anggota"> | string | null
   tanggalLahir?: Prisma.DateTimeNullableFilter<"Anggota"> | Date | string | null
   jenisKelamin?: Prisma.StringNullableFilter<"Anggota"> | string | null
@@ -303,8 +362,15 @@ export type AnggotaWhereUniqueInput = Prisma.AtLeast<{
   pekerjaan?: Prisma.StringNullableFilter<"Anggota"> | string | null
   statusPerkawinan?: Prisma.StringNullableFilter<"Anggota"> | string | null
   statusAktif?: Prisma.BoolFilter<"Anggota"> | boolean
+  statusKeluarga?: Prisma.StringFilter<"Anggota"> | string
+  kepalaKeluargaId?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  isWajibJimpitan?: Prisma.BoolFilter<"Anggota"> | boolean
+  isWajibRonda?: Prisma.BoolFilter<"Anggota"> | boolean
   rombonganId?: Prisma.StringNullableFilter<"Anggota"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
+  kepalaKeluarga?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  anggotaKeluarga?: Prisma.AnggotaListRelationFilter
   rombongan?: Prisma.XOR<Prisma.RombonganNullableScalarRelationFilter, Prisma.RombonganWhereInput> | null
   memimpinRombongan?: Prisma.XOR<Prisma.RombonganNullableScalarRelationFilter, Prisma.RombonganWhereInput> | null
   jadwal?: Prisma.JadwalPetugasListRelationFilter
@@ -320,6 +386,7 @@ export type AnggotaOrderByWithAggregationInput = {
   noRumah?: Prisma.SortOrder
   noHp?: Prisma.SortOrderInput | Prisma.SortOrder
   nik?: Prisma.SortOrderInput | Prisma.SortOrder
+  noKk?: Prisma.SortOrderInput | Prisma.SortOrder
   tempatLahir?: Prisma.SortOrderInput | Prisma.SortOrder
   tanggalLahir?: Prisma.SortOrderInput | Prisma.SortOrder
   jenisKelamin?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -327,8 +394,13 @@ export type AnggotaOrderByWithAggregationInput = {
   pekerjaan?: Prisma.SortOrderInput | Prisma.SortOrder
   statusPerkawinan?: Prisma.SortOrderInput | Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  statusKeluarga?: Prisma.SortOrder
+  kepalaKeluargaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isWajibJimpitan?: Prisma.SortOrder
+  isWajibRonda?: Prisma.SortOrder
   rombonganId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.AnggotaCountOrderByAggregateInput
   _max?: Prisma.AnggotaMaxOrderByAggregateInput
   _min?: Prisma.AnggotaMinOrderByAggregateInput
@@ -343,6 +415,7 @@ export type AnggotaScalarWhereWithAggregatesInput = {
   noRumah?: Prisma.StringWithAggregatesFilter<"Anggota"> | string
   noHp?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
   nik?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
+  noKk?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
   tempatLahir?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
   tanggalLahir?: Prisma.DateTimeNullableWithAggregatesFilter<"Anggota"> | Date | string | null
   jenisKelamin?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
@@ -350,8 +423,13 @@ export type AnggotaScalarWhereWithAggregatesInput = {
   pekerjaan?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
   statusPerkawinan?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
   statusAktif?: Prisma.BoolWithAggregatesFilter<"Anggota"> | boolean
+  statusKeluarga?: Prisma.StringWithAggregatesFilter<"Anggota"> | string
+  kepalaKeluargaId?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
+  isWajibJimpitan?: Prisma.BoolWithAggregatesFilter<"Anggota"> | boolean
+  isWajibRonda?: Prisma.BoolWithAggregatesFilter<"Anggota"> | boolean
   rombonganId?: Prisma.StringNullableWithAggregatesFilter<"Anggota"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Anggota"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Anggota"> | Date | string
 }
 
 export type AnggotaCreateInput = {
@@ -360,6 +438,7 @@ export type AnggotaCreateInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -367,7 +446,13 @@ export type AnggotaCreateInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
@@ -383,6 +468,7 @@ export type AnggotaUncheckedCreateInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -390,8 +476,14 @@ export type AnggotaUncheckedCreateInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
@@ -406,6 +498,7 @@ export type AnggotaUpdateInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -413,7 +506,13 @@ export type AnggotaUpdateInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
@@ -429,6 +528,7 @@ export type AnggotaUncheckedUpdateInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -436,8 +536,14 @@ export type AnggotaUncheckedUpdateInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -452,6 +558,7 @@ export type AnggotaCreateManyInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -459,8 +566,13 @@ export type AnggotaCreateManyInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type AnggotaUpdateManyMutationInput = {
@@ -469,6 +581,7 @@ export type AnggotaUpdateManyMutationInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -476,7 +589,11 @@ export type AnggotaUpdateManyMutationInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AnggotaUncheckedUpdateManyInput = {
@@ -485,6 +602,7 @@ export type AnggotaUncheckedUpdateManyInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -492,59 +610,13 @@ export type AnggotaUncheckedUpdateManyInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type AnggotaCountOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  nama?: Prisma.SortOrder
-  noRumah?: Prisma.SortOrder
-  noHp?: Prisma.SortOrder
-  nik?: Prisma.SortOrder
-  tempatLahir?: Prisma.SortOrder
-  tanggalLahir?: Prisma.SortOrder
-  jenisKelamin?: Prisma.SortOrder
-  agama?: Prisma.SortOrder
-  pekerjaan?: Prisma.SortOrder
-  statusPerkawinan?: Prisma.SortOrder
-  statusAktif?: Prisma.SortOrder
-  rombonganId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type AnggotaMaxOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  nama?: Prisma.SortOrder
-  noRumah?: Prisma.SortOrder
-  noHp?: Prisma.SortOrder
-  nik?: Prisma.SortOrder
-  tempatLahir?: Prisma.SortOrder
-  tanggalLahir?: Prisma.SortOrder
-  jenisKelamin?: Prisma.SortOrder
-  agama?: Prisma.SortOrder
-  pekerjaan?: Prisma.SortOrder
-  statusPerkawinan?: Prisma.SortOrder
-  statusAktif?: Prisma.SortOrder
-  rombonganId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-}
-
-export type AnggotaMinOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  nama?: Prisma.SortOrder
-  noRumah?: Prisma.SortOrder
-  noHp?: Prisma.SortOrder
-  nik?: Prisma.SortOrder
-  tempatLahir?: Prisma.SortOrder
-  tanggalLahir?: Prisma.SortOrder
-  jenisKelamin?: Prisma.SortOrder
-  agama?: Prisma.SortOrder
-  pekerjaan?: Prisma.SortOrder
-  statusPerkawinan?: Prisma.SortOrder
-  statusAktif?: Prisma.SortOrder
-  rombonganId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AnggotaNullableScalarRelationFilter = {
@@ -562,9 +634,98 @@ export type AnggotaOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type AnggotaCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  nama?: Prisma.SortOrder
+  noRumah?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
+  nik?: Prisma.SortOrder
+  noKk?: Prisma.SortOrder
+  tempatLahir?: Prisma.SortOrder
+  tanggalLahir?: Prisma.SortOrder
+  jenisKelamin?: Prisma.SortOrder
+  agama?: Prisma.SortOrder
+  pekerjaan?: Prisma.SortOrder
+  statusPerkawinan?: Prisma.SortOrder
+  statusAktif?: Prisma.SortOrder
+  statusKeluarga?: Prisma.SortOrder
+  kepalaKeluargaId?: Prisma.SortOrder
+  isWajibJimpitan?: Prisma.SortOrder
+  isWajibRonda?: Prisma.SortOrder
+  rombonganId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type AnggotaMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  nama?: Prisma.SortOrder
+  noRumah?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
+  nik?: Prisma.SortOrder
+  noKk?: Prisma.SortOrder
+  tempatLahir?: Prisma.SortOrder
+  tanggalLahir?: Prisma.SortOrder
+  jenisKelamin?: Prisma.SortOrder
+  agama?: Prisma.SortOrder
+  pekerjaan?: Prisma.SortOrder
+  statusPerkawinan?: Prisma.SortOrder
+  statusAktif?: Prisma.SortOrder
+  statusKeluarga?: Prisma.SortOrder
+  kepalaKeluargaId?: Prisma.SortOrder
+  isWajibJimpitan?: Prisma.SortOrder
+  isWajibRonda?: Prisma.SortOrder
+  rombonganId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
+export type AnggotaMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  nama?: Prisma.SortOrder
+  noRumah?: Prisma.SortOrder
+  noHp?: Prisma.SortOrder
+  nik?: Prisma.SortOrder
+  noKk?: Prisma.SortOrder
+  tempatLahir?: Prisma.SortOrder
+  tanggalLahir?: Prisma.SortOrder
+  jenisKelamin?: Prisma.SortOrder
+  agama?: Prisma.SortOrder
+  pekerjaan?: Prisma.SortOrder
+  statusPerkawinan?: Prisma.SortOrder
+  statusAktif?: Prisma.SortOrder
+  statusKeluarga?: Prisma.SortOrder
+  kepalaKeluargaId?: Prisma.SortOrder
+  isWajibJimpitan?: Prisma.SortOrder
+  isWajibRonda?: Prisma.SortOrder
+  rombonganId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+}
+
 export type AnggotaScalarRelationFilter = {
   is?: Prisma.AnggotaWhereInput
   isNot?: Prisma.AnggotaWhereInput
+}
+
+export type AnggotaCreateNestedOneWithoutAnggotaKeluargaInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutAnggotaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutAnggotaKeluargaInput>
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutAnggotaKeluargaInput
+  connect?: Prisma.AnggotaWhereUniqueInput
+}
+
+export type AnggotaCreateNestedManyWithoutKepalaKeluargaInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput> | Prisma.AnggotaCreateWithoutKepalaKeluargaInput[] | Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput[]
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput | Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput[]
+  createMany?: Prisma.AnggotaCreateManyKepalaKeluargaInputEnvelope
+  connect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+}
+
+export type AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput> | Prisma.AnggotaCreateWithoutKepalaKeluargaInput[] | Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput[]
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput | Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput[]
+  createMany?: Prisma.AnggotaCreateManyKepalaKeluargaInputEnvelope
+  connect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -577,6 +738,44 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutAnggotaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutAnggotaKeluargaInput>
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutAnggotaKeluargaInput
+  upsert?: Prisma.AnggotaUpsertWithoutAnggotaKeluargaInput
+  disconnect?: Prisma.AnggotaWhereInput | boolean
+  delete?: Prisma.AnggotaWhereInput | boolean
+  connect?: Prisma.AnggotaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AnggotaUpdateToOneWithWhereWithoutAnggotaKeluargaInput, Prisma.AnggotaUpdateWithoutAnggotaKeluargaInput>, Prisma.AnggotaUncheckedUpdateWithoutAnggotaKeluargaInput>
+}
+
+export type AnggotaUpdateManyWithoutKepalaKeluargaNestedInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput> | Prisma.AnggotaCreateWithoutKepalaKeluargaInput[] | Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput[]
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput | Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput[]
+  upsert?: Prisma.AnggotaUpsertWithWhereUniqueWithoutKepalaKeluargaInput | Prisma.AnggotaUpsertWithWhereUniqueWithoutKepalaKeluargaInput[]
+  createMany?: Prisma.AnggotaCreateManyKepalaKeluargaInputEnvelope
+  set?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  disconnect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  delete?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  connect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  update?: Prisma.AnggotaUpdateWithWhereUniqueWithoutKepalaKeluargaInput | Prisma.AnggotaUpdateWithWhereUniqueWithoutKepalaKeluargaInput[]
+  updateMany?: Prisma.AnggotaUpdateManyWithWhereWithoutKepalaKeluargaInput | Prisma.AnggotaUpdateManyWithWhereWithoutKepalaKeluargaInput[]
+  deleteMany?: Prisma.AnggotaScalarWhereInput | Prisma.AnggotaScalarWhereInput[]
+}
+
+export type AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput> | Prisma.AnggotaCreateWithoutKepalaKeluargaInput[] | Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput[]
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput | Prisma.AnggotaCreateOrConnectWithoutKepalaKeluargaInput[]
+  upsert?: Prisma.AnggotaUpsertWithWhereUniqueWithoutKepalaKeluargaInput | Prisma.AnggotaUpsertWithWhereUniqueWithoutKepalaKeluargaInput[]
+  createMany?: Prisma.AnggotaCreateManyKepalaKeluargaInputEnvelope
+  set?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  disconnect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  delete?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  connect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
+  update?: Prisma.AnggotaUpdateWithWhereUniqueWithoutKepalaKeluargaInput | Prisma.AnggotaUpdateWithWhereUniqueWithoutKepalaKeluargaInput[]
+  updateMany?: Prisma.AnggotaUpdateManyWithWhereWithoutKepalaKeluargaInput | Prisma.AnggotaUpdateManyWithWhereWithoutKepalaKeluargaInput[]
+  deleteMany?: Prisma.AnggotaScalarWhereInput | Prisma.AnggotaScalarWhereInput[]
 }
 
 export type AnggotaCreateNestedOneWithoutMemimpinRombonganInput = {
@@ -715,12 +914,13 @@ export type AnggotaUpdateOneWithoutMutasiNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AnggotaUpdateToOneWithWhereWithoutMutasiInput, Prisma.AnggotaUpdateWithoutMutasiInput>, Prisma.AnggotaUncheckedUpdateWithoutMutasiInput>
 }
 
-export type AnggotaCreateWithoutMemimpinRombonganInput = {
+export type AnggotaCreateWithoutAnggotaKeluargaInput = {
   id?: string
   nama: string
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -728,7 +928,255 @@ export type AnggotaCreateWithoutMemimpinRombonganInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
+  memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaUncheckedCreateWithoutAnggotaKeluargaInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  rombonganId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaCreateOrConnectWithoutAnggotaKeluargaInput = {
+  where: Prisma.AnggotaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutAnggotaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutAnggotaKeluargaInput>
+}
+
+export type AnggotaCreateWithoutKepalaKeluargaInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
+  rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
+  memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaUncheckedCreateWithoutKepalaKeluargaInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  rombonganId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
+  memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaCreateOrConnectWithoutKepalaKeluargaInput = {
+  where: Prisma.AnggotaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput>
+}
+
+export type AnggotaCreateManyKepalaKeluargaInputEnvelope = {
+  data: Prisma.AnggotaCreateManyKepalaKeluargaInput | Prisma.AnggotaCreateManyKepalaKeluargaInput[]
+  skipDuplicates?: boolean
+}
+
+export type AnggotaUpsertWithoutAnggotaKeluargaInput = {
+  update: Prisma.XOR<Prisma.AnggotaUpdateWithoutAnggotaKeluargaInput, Prisma.AnggotaUncheckedUpdateWithoutAnggotaKeluargaInput>
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutAnggotaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutAnggotaKeluargaInput>
+  where?: Prisma.AnggotaWhereInput
+}
+
+export type AnggotaUpdateToOneWithWhereWithoutAnggotaKeluargaInput = {
+  where?: Prisma.AnggotaWhereInput
+  data: Prisma.XOR<Prisma.AnggotaUpdateWithoutAnggotaKeluargaInput, Prisma.AnggotaUncheckedUpdateWithoutAnggotaKeluargaInput>
+}
+
+export type AnggotaUpdateWithoutAnggotaKeluargaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
+  memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaUncheckedUpdateWithoutAnggotaKeluargaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaUpsertWithWhereUniqueWithoutKepalaKeluargaInput = {
+  where: Prisma.AnggotaWhereUniqueInput
+  update: Prisma.XOR<Prisma.AnggotaUpdateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedUpdateWithoutKepalaKeluargaInput>
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedCreateWithoutKepalaKeluargaInput>
+}
+
+export type AnggotaUpdateWithWhereUniqueWithoutKepalaKeluargaInput = {
+  where: Prisma.AnggotaWhereUniqueInput
+  data: Prisma.XOR<Prisma.AnggotaUpdateWithoutKepalaKeluargaInput, Prisma.AnggotaUncheckedUpdateWithoutKepalaKeluargaInput>
+}
+
+export type AnggotaUpdateManyWithWhereWithoutKepalaKeluargaInput = {
+  where: Prisma.AnggotaScalarWhereInput
+  data: Prisma.XOR<Prisma.AnggotaUpdateManyMutationInput, Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaInput>
+}
+
+export type AnggotaScalarWhereInput = {
+  AND?: Prisma.AnggotaScalarWhereInput | Prisma.AnggotaScalarWhereInput[]
+  OR?: Prisma.AnggotaScalarWhereInput[]
+  NOT?: Prisma.AnggotaScalarWhereInput | Prisma.AnggotaScalarWhereInput[]
+  id?: Prisma.StringFilter<"Anggota"> | string
+  nama?: Prisma.StringFilter<"Anggota"> | string
+  noRumah?: Prisma.StringFilter<"Anggota"> | string
+  noHp?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  nik?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  noKk?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  tempatLahir?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  tanggalLahir?: Prisma.DateTimeNullableFilter<"Anggota"> | Date | string | null
+  jenisKelamin?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  agama?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  pekerjaan?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  statusPerkawinan?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  statusAktif?: Prisma.BoolFilter<"Anggota"> | boolean
+  statusKeluarga?: Prisma.StringFilter<"Anggota"> | string
+  kepalaKeluargaId?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  isWajibJimpitan?: Prisma.BoolFilter<"Anggota"> | boolean
+  isWajibRonda?: Prisma.BoolFilter<"Anggota"> | boolean
+  rombonganId?: Prisma.StringNullableFilter<"Anggota"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
+}
+
+export type AnggotaCreateWithoutMemimpinRombonganInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
@@ -743,6 +1191,7 @@ export type AnggotaUncheckedCreateWithoutMemimpinRombonganInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -750,8 +1199,14 @@ export type AnggotaUncheckedCreateWithoutMemimpinRombonganInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
@@ -770,6 +1225,7 @@ export type AnggotaCreateWithoutRombonganInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -777,7 +1233,13 @@ export type AnggotaCreateWithoutRombonganInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
@@ -792,6 +1254,7 @@ export type AnggotaUncheckedCreateWithoutRombonganInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -799,7 +1262,13 @@ export type AnggotaUncheckedCreateWithoutRombonganInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
@@ -835,6 +1304,7 @@ export type AnggotaUpdateWithoutMemimpinRombonganInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -842,7 +1312,13 @@ export type AnggotaUpdateWithoutMemimpinRombonganInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
@@ -857,6 +1333,7 @@ export type AnggotaUncheckedUpdateWithoutMemimpinRombonganInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -864,8 +1341,14 @@ export type AnggotaUncheckedUpdateWithoutMemimpinRombonganInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -889,32 +1372,13 @@ export type AnggotaUpdateManyWithWhereWithoutRombonganInput = {
   data: Prisma.XOR<Prisma.AnggotaUpdateManyMutationInput, Prisma.AnggotaUncheckedUpdateManyWithoutRombonganInput>
 }
 
-export type AnggotaScalarWhereInput = {
-  AND?: Prisma.AnggotaScalarWhereInput | Prisma.AnggotaScalarWhereInput[]
-  OR?: Prisma.AnggotaScalarWhereInput[]
-  NOT?: Prisma.AnggotaScalarWhereInput | Prisma.AnggotaScalarWhereInput[]
-  id?: Prisma.StringFilter<"Anggota"> | string
-  nama?: Prisma.StringFilter<"Anggota"> | string
-  noRumah?: Prisma.StringFilter<"Anggota"> | string
-  noHp?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  nik?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  tempatLahir?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  tanggalLahir?: Prisma.DateTimeNullableFilter<"Anggota"> | Date | string | null
-  jenisKelamin?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  agama?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  pekerjaan?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  statusPerkawinan?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  statusAktif?: Prisma.BoolFilter<"Anggota"> | boolean
-  rombonganId?: Prisma.StringNullableFilter<"Anggota"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Anggota"> | Date | string
-}
-
 export type AnggotaCreateWithoutJadwalInput = {
   id?: string
   nama: string
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -922,7 +1386,13 @@ export type AnggotaCreateWithoutJadwalInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
@@ -937,6 +1407,7 @@ export type AnggotaUncheckedCreateWithoutJadwalInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -944,8 +1415,14 @@ export type AnggotaUncheckedCreateWithoutJadwalInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
@@ -975,6 +1452,7 @@ export type AnggotaUpdateWithoutJadwalInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -982,7 +1460,13 @@ export type AnggotaUpdateWithoutJadwalInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
@@ -997,6 +1481,7 @@ export type AnggotaUncheckedUpdateWithoutJadwalInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1004,8 +1489,14 @@ export type AnggotaUncheckedUpdateWithoutJadwalInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -1019,6 +1510,7 @@ export type AnggotaCreateWithoutHutangPiutangInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1026,7 +1518,13 @@ export type AnggotaCreateWithoutHutangPiutangInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
@@ -1041,6 +1539,7 @@ export type AnggotaUncheckedCreateWithoutHutangPiutangInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1048,8 +1547,14 @@ export type AnggotaUncheckedCreateWithoutHutangPiutangInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
@@ -1079,6 +1584,7 @@ export type AnggotaUpdateWithoutHutangPiutangInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1086,7 +1592,13 @@ export type AnggotaUpdateWithoutHutangPiutangInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
@@ -1101,6 +1613,7 @@ export type AnggotaUncheckedUpdateWithoutHutangPiutangInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1108,8 +1621,14 @@ export type AnggotaUncheckedUpdateWithoutHutangPiutangInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -1123,6 +1642,7 @@ export type AnggotaCreateWithoutPengurusInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1130,7 +1650,13 @@ export type AnggotaCreateWithoutPengurusInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
@@ -1145,6 +1671,7 @@ export type AnggotaUncheckedCreateWithoutPengurusInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1152,8 +1679,14 @@ export type AnggotaUncheckedCreateWithoutPengurusInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
@@ -1183,6 +1716,7 @@ export type AnggotaUpdateWithoutPengurusInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1190,7 +1724,13 @@ export type AnggotaUpdateWithoutPengurusInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
@@ -1205,6 +1745,7 @@ export type AnggotaUncheckedUpdateWithoutPengurusInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1212,8 +1753,14 @@ export type AnggotaUncheckedUpdateWithoutPengurusInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -1227,6 +1774,7 @@ export type AnggotaCreateWithoutSuratPengantarInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1234,7 +1782,13 @@ export type AnggotaCreateWithoutSuratPengantarInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
@@ -1249,6 +1803,7 @@ export type AnggotaUncheckedCreateWithoutSuratPengantarInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1256,8 +1811,14 @@ export type AnggotaUncheckedCreateWithoutSuratPengantarInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
@@ -1287,6 +1848,7 @@ export type AnggotaUpdateWithoutSuratPengantarInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1294,7 +1856,13 @@ export type AnggotaUpdateWithoutSuratPengantarInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
@@ -1309,6 +1877,7 @@ export type AnggotaUncheckedUpdateWithoutSuratPengantarInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1316,8 +1885,14 @@ export type AnggotaUncheckedUpdateWithoutSuratPengantarInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -1331,6 +1906,7 @@ export type AnggotaCreateWithoutMutasiInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1338,7 +1914,13 @@ export type AnggotaCreateWithoutMutasiInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
   rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
   memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
@@ -1353,6 +1935,7 @@ export type AnggotaUncheckedCreateWithoutMutasiInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1360,8 +1943,14 @@ export type AnggotaUncheckedCreateWithoutMutasiInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
   memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
   jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
@@ -1391,6 +1980,7 @@ export type AnggotaUpdateWithoutMutasiInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1398,7 +1988,13 @@ export type AnggotaUpdateWithoutMutasiInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
@@ -1413,6 +2009,7 @@ export type AnggotaUncheckedUpdateWithoutMutasiInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1420,13 +2017,121 @@ export type AnggotaUncheckedUpdateWithoutMutasiInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaCreateManyKepalaKeluargaInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  rombonganId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AnggotaUpdateWithoutKepalaKeluargaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
+  rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
+  memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaUncheckedUpdateWithoutKepalaKeluargaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
+  memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaUncheckedUpdateManyWithoutKepalaKeluargaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AnggotaCreateManyRombonganInput = {
@@ -1435,6 +2140,7 @@ export type AnggotaCreateManyRombonganInput = {
   noRumah: string
   noHp?: string | null
   nik?: string | null
+  noKk?: string | null
   tempatLahir?: string | null
   tanggalLahir?: Date | string | null
   jenisKelamin?: string | null
@@ -1442,7 +2148,12 @@ export type AnggotaCreateManyRombonganInput = {
   pekerjaan?: string | null
   statusPerkawinan?: string | null
   statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type AnggotaUpdateWithoutRombonganInput = {
@@ -1451,6 +2162,7 @@ export type AnggotaUpdateWithoutRombonganInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1458,7 +2170,13 @@ export type AnggotaUpdateWithoutRombonganInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
@@ -1473,6 +2191,7 @@ export type AnggotaUncheckedUpdateWithoutRombonganInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1480,7 +2199,13 @@ export type AnggotaUncheckedUpdateWithoutRombonganInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
   memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
   jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
@@ -1495,6 +2220,7 @@ export type AnggotaUncheckedUpdateManyWithoutRombonganInput = {
   noRumah?: Prisma.StringFieldUpdateOperationsInput | string
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1502,7 +2228,12 @@ export type AnggotaUncheckedUpdateManyWithoutRombonganInput = {
   pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1511,6 +2242,7 @@ export type AnggotaUncheckedUpdateManyWithoutRombonganInput = {
  */
 
 export type AnggotaCountOutputType = {
+  anggotaKeluarga: number
   jadwal: number
   hutangPiutang: number
   pengurus: number
@@ -1519,6 +2251,7 @@ export type AnggotaCountOutputType = {
 }
 
 export type AnggotaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  anggotaKeluarga?: boolean | AnggotaCountOutputTypeCountAnggotaKeluargaArgs
   jadwal?: boolean | AnggotaCountOutputTypeCountJadwalArgs
   hutangPiutang?: boolean | AnggotaCountOutputTypeCountHutangPiutangArgs
   pengurus?: boolean | AnggotaCountOutputTypeCountPengurusArgs
@@ -1534,6 +2267,13 @@ export type AnggotaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the AnggotaCountOutputType
    */
   select?: Prisma.AnggotaCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AnggotaCountOutputType without action
+ */
+export type AnggotaCountOutputTypeCountAnggotaKeluargaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnggotaWhereInput
 }
 
 /**
@@ -1578,6 +2318,7 @@ export type AnggotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   noRumah?: boolean
   noHp?: boolean
   nik?: boolean
+  noKk?: boolean
   tempatLahir?: boolean
   tanggalLahir?: boolean
   jenisKelamin?: boolean
@@ -1585,8 +2326,15 @@ export type AnggotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   pekerjaan?: boolean
   statusPerkawinan?: boolean
   statusAktif?: boolean
+  statusKeluarga?: boolean
+  kepalaKeluargaId?: boolean
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  kepalaKeluarga?: boolean | Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>
+  anggotaKeluarga?: boolean | Prisma.Anggota$anggotaKeluargaArgs<ExtArgs>
   rombongan?: boolean | Prisma.Anggota$rombonganArgs<ExtArgs>
   memimpinRombongan?: boolean | Prisma.Anggota$memimpinRombonganArgs<ExtArgs>
   jadwal?: boolean | Prisma.Anggota$jadwalArgs<ExtArgs>
@@ -1603,6 +2351,7 @@ export type AnggotaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   noRumah?: boolean
   noHp?: boolean
   nik?: boolean
+  noKk?: boolean
   tempatLahir?: boolean
   tanggalLahir?: boolean
   jenisKelamin?: boolean
@@ -1610,8 +2359,14 @@ export type AnggotaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   pekerjaan?: boolean
   statusPerkawinan?: boolean
   statusAktif?: boolean
+  statusKeluarga?: boolean
+  kepalaKeluargaId?: boolean
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  kepalaKeluarga?: boolean | Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>
   rombongan?: boolean | Prisma.Anggota$rombonganArgs<ExtArgs>
 }, ExtArgs["result"]["anggota"]>
 
@@ -1621,6 +2376,7 @@ export type AnggotaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   noRumah?: boolean
   noHp?: boolean
   nik?: boolean
+  noKk?: boolean
   tempatLahir?: boolean
   tanggalLahir?: boolean
   jenisKelamin?: boolean
@@ -1628,8 +2384,14 @@ export type AnggotaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   pekerjaan?: boolean
   statusPerkawinan?: boolean
   statusAktif?: boolean
+  statusKeluarga?: boolean
+  kepalaKeluargaId?: boolean
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
+  kepalaKeluarga?: boolean | Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>
   rombongan?: boolean | Prisma.Anggota$rombonganArgs<ExtArgs>
 }, ExtArgs["result"]["anggota"]>
 
@@ -1639,6 +2401,7 @@ export type AnggotaSelectScalar = {
   noRumah?: boolean
   noHp?: boolean
   nik?: boolean
+  noKk?: boolean
   tempatLahir?: boolean
   tanggalLahir?: boolean
   jenisKelamin?: boolean
@@ -1646,12 +2409,19 @@ export type AnggotaSelectScalar = {
   pekerjaan?: boolean
   statusPerkawinan?: boolean
   statusAktif?: boolean
+  statusKeluarga?: boolean
+  kepalaKeluargaId?: boolean
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
   rombonganId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type AnggotaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "noRumah" | "noHp" | "nik" | "tempatLahir" | "tanggalLahir" | "jenisKelamin" | "agama" | "pekerjaan" | "statusPerkawinan" | "statusAktif" | "rombonganId" | "createdAt", ExtArgs["result"]["anggota"]>
+export type AnggotaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "noRumah" | "noHp" | "nik" | "noKk" | "tempatLahir" | "tanggalLahir" | "jenisKelamin" | "agama" | "pekerjaan" | "statusPerkawinan" | "statusAktif" | "statusKeluarga" | "kepalaKeluargaId" | "isWajibJimpitan" | "isWajibRonda" | "rombonganId" | "createdAt" | "updatedAt", ExtArgs["result"]["anggota"]>
 export type AnggotaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  kepalaKeluarga?: boolean | Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>
+  anggotaKeluarga?: boolean | Prisma.Anggota$anggotaKeluargaArgs<ExtArgs>
   rombongan?: boolean | Prisma.Anggota$rombonganArgs<ExtArgs>
   memimpinRombongan?: boolean | Prisma.Anggota$memimpinRombonganArgs<ExtArgs>
   jadwal?: boolean | Prisma.Anggota$jadwalArgs<ExtArgs>
@@ -1662,15 +2432,19 @@ export type AnggotaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.AnggotaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AnggotaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  kepalaKeluarga?: boolean | Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>
   rombongan?: boolean | Prisma.Anggota$rombonganArgs<ExtArgs>
 }
 export type AnggotaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  kepalaKeluarga?: boolean | Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>
   rombongan?: boolean | Prisma.Anggota$rombonganArgs<ExtArgs>
 }
 
 export type $AnggotaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Anggota"
   objects: {
+    kepalaKeluarga: Prisma.$AnggotaPayload<ExtArgs> | null
+    anggotaKeluarga: Prisma.$AnggotaPayload<ExtArgs>[]
     rombongan: Prisma.$RombonganPayload<ExtArgs> | null
     memimpinRombongan: Prisma.$RombonganPayload<ExtArgs> | null
     jadwal: Prisma.$JadwalPetugasPayload<ExtArgs>[]
@@ -1685,6 +2459,7 @@ export type $AnggotaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     noRumah: string
     noHp: string | null
     nik: string | null
+    noKk: string | null
     tempatLahir: string | null
     tanggalLahir: Date | null
     jenisKelamin: string | null
@@ -1692,8 +2467,13 @@ export type $AnggotaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pekerjaan: string | null
     statusPerkawinan: string | null
     statusAktif: boolean
+    statusKeluarga: string
+    kepalaKeluargaId: string | null
+    isWajibJimpitan: boolean
+    isWajibRonda: boolean
     rombonganId: string | null
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["anggota"]>
   composites: {}
 }
@@ -2088,6 +2868,8 @@ readonly fields: AnggotaFieldRefs;
  */
 export interface Prisma__AnggotaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  kepalaKeluarga<T extends Prisma.Anggota$kepalaKeluargaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$kepalaKeluargaArgs<ExtArgs>>): Prisma.Prisma__AnggotaClient<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  anggotaKeluarga<T extends Prisma.Anggota$anggotaKeluargaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$anggotaKeluargaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rombongan<T extends Prisma.Anggota$rombonganArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$rombonganArgs<ExtArgs>>): Prisma.Prisma__RombonganClient<runtime.Types.Result.GetResult<Prisma.$RombonganPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   memimpinRombongan<T extends Prisma.Anggota$memimpinRombonganArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$memimpinRombonganArgs<ExtArgs>>): Prisma.Prisma__RombonganClient<runtime.Types.Result.GetResult<Prisma.$RombonganPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   jadwal<T extends Prisma.Anggota$jadwalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$jadwalArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JadwalPetugasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2129,6 +2911,7 @@ export interface AnggotaFieldRefs {
   readonly noRumah: Prisma.FieldRef<"Anggota", 'String'>
   readonly noHp: Prisma.FieldRef<"Anggota", 'String'>
   readonly nik: Prisma.FieldRef<"Anggota", 'String'>
+  readonly noKk: Prisma.FieldRef<"Anggota", 'String'>
   readonly tempatLahir: Prisma.FieldRef<"Anggota", 'String'>
   readonly tanggalLahir: Prisma.FieldRef<"Anggota", 'DateTime'>
   readonly jenisKelamin: Prisma.FieldRef<"Anggota", 'String'>
@@ -2136,8 +2919,13 @@ export interface AnggotaFieldRefs {
   readonly pekerjaan: Prisma.FieldRef<"Anggota", 'String'>
   readonly statusPerkawinan: Prisma.FieldRef<"Anggota", 'String'>
   readonly statusAktif: Prisma.FieldRef<"Anggota", 'Boolean'>
+  readonly statusKeluarga: Prisma.FieldRef<"Anggota", 'String'>
+  readonly kepalaKeluargaId: Prisma.FieldRef<"Anggota", 'String'>
+  readonly isWajibJimpitan: Prisma.FieldRef<"Anggota", 'Boolean'>
+  readonly isWajibRonda: Prisma.FieldRef<"Anggota", 'Boolean'>
   readonly rombonganId: Prisma.FieldRef<"Anggota", 'String'>
   readonly createdAt: Prisma.FieldRef<"Anggota", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Anggota", 'DateTime'>
 }
     
 
@@ -2536,6 +3324,49 @@ export type AnggotaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Anggotas to delete.
    */
   limit?: number
+}
+
+/**
+ * Anggota.kepalaKeluarga
+ */
+export type Anggota$kepalaKeluargaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Anggota
+   */
+  select?: Prisma.AnggotaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Anggota
+   */
+  omit?: Prisma.AnggotaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnggotaInclude<ExtArgs> | null
+  where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * Anggota.anggotaKeluarga
+ */
+export type Anggota$anggotaKeluargaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Anggota
+   */
+  select?: Prisma.AnggotaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Anggota
+   */
+  omit?: Prisma.AnggotaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnggotaInclude<ExtArgs> | null
+  where?: Prisma.AnggotaWhereInput
+  orderBy?: Prisma.AnggotaOrderByWithRelationInput | Prisma.AnggotaOrderByWithRelationInput[]
+  cursor?: Prisma.AnggotaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnggotaScalarFieldEnum | Prisma.AnggotaScalarFieldEnum[]
 }
 
 /**

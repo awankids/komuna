@@ -63,6 +63,9 @@ export async function GET(request: Request) {
     });
 
     const totalWargaAktif = await db.anggota.count({ where: { statusAktif: true } });
+    const totalKkAktif = await db.anggota.count({ where: { statusAktif: true, statusKeluarga: 'kepala_keluarga' } });
+    const totalLaki = await db.anggota.count({ where: { statusAktif: true, jenisKelamin: 'Laki-laki' } });
+    const totalPerempuan = await db.anggota.count({ where: { statusAktif: true, jenisKelamin: 'Perempuan' } });
     const deltaNetto = (totalLahir + totalMasuk) - (totalMeninggal + totalKeluar);
 
     // 4. Realisasi Keuangan Kas (Pilar Keuangan 1 Tahun)
@@ -182,7 +185,10 @@ export async function GET(request: Request) {
           totalMasuk,
           totalKeluar,
           deltaNetto,
-          totalWargaAktif
+          totalWargaAktif,
+          totalKkAktif,
+          totalLaki,
+          totalPerempuan
         }
       },
       keuangan: {

@@ -53,6 +53,9 @@ interface LpjData {
       totalKeluar: number;
       deltaNetto: number;
       totalWargaAktif: number;
+      totalKkAktif?: number;
+      totalLaki?: number;
+      totalPerempuan?: number;
     };
   };
   keuangan: {
@@ -587,7 +590,7 @@ _Laporan lengkap dapat dibaca pada lembar pertanggungjawaban resmi RT. Terima ka
                       </div>
 
                       <p className="text-justify leading-relaxed">
-                        Berdasarkan data register kependudukan, total penduduk terdaftar aktif sebanyak <strong>{lpjData.mutasi.summary.totalWargaAktif} jiwa</strong>. Dinamika kependudukan selama tahun {selectedYear} mencatat pertumbuhan bersih penduduk sebesar <strong>{lpjData.mutasi.summary.deltaNetto > 0 ? `+${lpjData.mutasi.summary.deltaNetto}` : lpjData.mutasi.summary.deltaNetto} jiwa</strong>.
+                        Berdasarkan data register kependudukan, total penduduk terdaftar aktif tercatat sebanyak <strong>{lpjData.mutasi.summary.totalWargaAktif} jiwa</strong> yang terhimpun dalam <strong>{lpjData.mutasi.summary.totalKkAktif || '-'} Kepala Keluarga (Rumah Tangga)</strong>{lpjData.mutasi.summary.totalLaki ? ` dengan komposisi ${lpjData.mutasi.summary.totalLaki} warga laki-laki dan ${lpjData.mutasi.summary.totalPerempuan} warga perempuan` : ''}. Dinamika kependudukan selama tahun {selectedYear} mencatat pertumbuhan bersih penduduk sebesar <strong>{lpjData.mutasi.summary.deltaNetto > 0 ? `+${lpjData.mutasi.summary.deltaNetto}` : lpjData.mutasi.summary.deltaNetto} jiwa</strong>.
                       </p>
 
                       {lpjData.mutasi.list.length > 0 && (

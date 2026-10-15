@@ -1810,6 +1810,7 @@ export const AnggotaScalarFieldEnum = {
   noRumah: 'noRumah',
   noHp: 'noHp',
   nik: 'nik',
+  noKk: 'noKk',
   tempatLahir: 'tempatLahir',
   tanggalLahir: 'tanggalLahir',
   jenisKelamin: 'jenisKelamin',
@@ -1817,8 +1818,13 @@ export const AnggotaScalarFieldEnum = {
   pekerjaan: 'pekerjaan',
   statusPerkawinan: 'statusPerkawinan',
   statusAktif: 'statusAktif',
+  statusKeluarga: 'statusKeluarga',
+  kepalaKeluargaId: 'kepalaKeluargaId',
+  isWajibJimpitan: 'isWajibJimpitan',
+  isWajibRonda: 'isWajibRonda',
   rombonganId: 'rombonganId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type AnggotaScalarFieldEnum = (typeof AnggotaScalarFieldEnum)[keyof typeof AnggotaScalarFieldEnum]
