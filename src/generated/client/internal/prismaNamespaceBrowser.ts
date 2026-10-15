@@ -59,7 +59,9 @@ export const ModelName = {
   TransaksiKeuangan: 'TransaksiKeuangan',
   Agenda: 'Agenda',
   Notifikasi: 'Notifikasi',
-  PengaturanAplikasi: 'PengaturanAplikasi'
+  PengaturanAplikasi: 'PengaturanAplikasi',
+  HutangPiutang: 'HutangPiutang',
+  PembayaranHutangPiutang: 'PembayaranHutangPiutang'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -196,6 +198,45 @@ export const PengaturanAplikasiScalarFieldEnum = {
 } as const
 
 export type PengaturanAplikasiScalarFieldEnum = (typeof PengaturanAplikasiScalarFieldEnum)[keyof typeof PengaturanAplikasiScalarFieldEnum]
+
+
+export const HutangPiutangScalarFieldEnum = {
+  id: 'id',
+  tipe: 'tipe',
+  judul: 'judul',
+  namaPihak: 'namaPihak',
+  kontakPihak: 'kontakPihak',
+  anggotaId: 'anggotaId',
+  totalNominal: 'totalNominal',
+  sisaNominal: 'sisaNominal',
+  tanggalMulai: 'tanggalMulai',
+  jatuhTempo: 'jatuhTempo',
+  status: 'status',
+  kategori: 'kategori',
+  catatan: 'catatan',
+  diisiOleh: 'diisiOleh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HutangPiutangScalarFieldEnum = (typeof HutangPiutangScalarFieldEnum)[keyof typeof HutangPiutangScalarFieldEnum]
+
+
+export const PembayaranHutangPiutangScalarFieldEnum = {
+  id: 'id',
+  hutangPiutangId: 'hutangPiutangId',
+  tanggalBayar: 'tanggalBayar',
+  nominalBayar: 'nominalBayar',
+  sisaSebelumnya: 'sisaSebelumnya',
+  sisaSetelahnya: 'sisaSetelahnya',
+  metode: 'metode',
+  catatan: 'catatan',
+  dicatatOleh: 'dicatatOleh',
+  transaksiKasId: 'transaksiKasId',
+  createdAt: 'createdAt'
+} as const
+
+export type PembayaranHutangPiutangScalarFieldEnum = (typeof PembayaranHutangPiutangScalarFieldEnum)[keyof typeof PembayaranHutangPiutangScalarFieldEnum]
 
 
 export const SortOrder = {

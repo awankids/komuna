@@ -272,6 +272,7 @@ export type TransaksiKeuanganWhereInput = {
   syncStatus?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
   syncedAt?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
+  pembayaranHutang?: Prisma.XOR<Prisma.PembayaranHutangPiutangNullableScalarRelationFilter, Prisma.PembayaranHutangPiutangWhereInput> | null
 }
 
 export type TransaksiKeuanganOrderByWithRelationInput = {
@@ -287,6 +288,7 @@ export type TransaksiKeuanganOrderByWithRelationInput = {
   syncStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   syncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangOrderByWithRelationInput
 }
 
 export type TransaksiKeuanganWhereUniqueInput = Prisma.AtLeast<{
@@ -305,6 +307,7 @@ export type TransaksiKeuanganWhereUniqueInput = Prisma.AtLeast<{
   syncStatus?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
   syncedAt?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
+  pembayaranHutang?: Prisma.XOR<Prisma.PembayaranHutangPiutangNullableScalarRelationFilter, Prisma.PembayaranHutangPiutangWhereInput> | null
 }, "id" | "localId">
 
 export type TransaksiKeuanganOrderByWithAggregationInput = {
@@ -358,6 +361,7 @@ export type TransaksiKeuanganCreateInput = {
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
   syncedAt?: Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangCreateNestedOneWithoutTransaksiKasInput
 }
 
 export type TransaksiKeuanganUncheckedCreateInput = {
@@ -373,6 +377,7 @@ export type TransaksiKeuanganUncheckedCreateInput = {
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
   syncedAt?: Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangUncheckedCreateNestedOneWithoutTransaksiKasInput
 }
 
 export type TransaksiKeuanganUpdateInput = {
@@ -388,6 +393,7 @@ export type TransaksiKeuanganUpdateInput = {
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangUpdateOneWithoutTransaksiKasNestedInput
 }
 
 export type TransaksiKeuanganUncheckedUpdateInput = {
@@ -403,6 +409,7 @@ export type TransaksiKeuanganUncheckedUpdateInput = {
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangUncheckedUpdateOneWithoutTransaksiKasNestedInput
 }
 
 export type TransaksiKeuanganCreateManyInput = {
@@ -503,6 +510,103 @@ export type TransaksiKeuanganSumOrderByAggregateInput = {
   nominal?: Prisma.SortOrder
 }
 
+export type TransaksiKeuanganNullableScalarRelationFilter = {
+  is?: Prisma.TransaksiKeuanganWhereInput | null
+  isNot?: Prisma.TransaksiKeuanganWhereInput | null
+}
+
+export type TransaksiKeuanganCreateNestedOneWithoutPembayaranHutangInput = {
+  create?: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput>
+  connectOrCreate?: Prisma.TransaksiKeuanganCreateOrConnectWithoutPembayaranHutangInput
+  connect?: Prisma.TransaksiKeuanganWhereUniqueInput
+}
+
+export type TransaksiKeuanganUpdateOneWithoutPembayaranHutangNestedInput = {
+  create?: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput>
+  connectOrCreate?: Prisma.TransaksiKeuanganCreateOrConnectWithoutPembayaranHutangInput
+  upsert?: Prisma.TransaksiKeuanganUpsertWithoutPembayaranHutangInput
+  disconnect?: Prisma.TransaksiKeuanganWhereInput | boolean
+  delete?: Prisma.TransaksiKeuanganWhereInput | boolean
+  connect?: Prisma.TransaksiKeuanganWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransaksiKeuanganUpdateToOneWithWhereWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUpdateWithoutPembayaranHutangInput>, Prisma.TransaksiKeuanganUncheckedUpdateWithoutPembayaranHutangInput>
+}
+
+export type TransaksiKeuanganCreateWithoutPembayaranHutangInput = {
+  id?: string
+  tanggal: Date | string
+  jenis: string
+  sumber: string
+  kategori?: string | null
+  keterangan: string
+  nominal: number
+  buktiUrl?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+}
+
+export type TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput = {
+  id?: string
+  tanggal: Date | string
+  jenis: string
+  sumber: string
+  kategori?: string | null
+  keterangan: string
+  nominal: number
+  buktiUrl?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+}
+
+export type TransaksiKeuanganCreateOrConnectWithoutPembayaranHutangInput = {
+  where: Prisma.TransaksiKeuanganWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput>
+}
+
+export type TransaksiKeuanganUpsertWithoutPembayaranHutangInput = {
+  update: Prisma.XOR<Prisma.TransaksiKeuanganUpdateWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUncheckedUpdateWithoutPembayaranHutangInput>
+  create: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput>
+  where?: Prisma.TransaksiKeuanganWhereInput
+}
+
+export type TransaksiKeuanganUpdateToOneWithWhereWithoutPembayaranHutangInput = {
+  where?: Prisma.TransaksiKeuanganWhereInput
+  data: Prisma.XOR<Prisma.TransaksiKeuanganUpdateWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUncheckedUpdateWithoutPembayaranHutangInput>
+}
+
+export type TransaksiKeuanganUpdateWithoutPembayaranHutangInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jenis?: Prisma.StringFieldUpdateOperationsInput | string
+  sumber?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TransaksiKeuanganUncheckedUpdateWithoutPembayaranHutangInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jenis?: Prisma.StringFieldUpdateOperationsInput | string
+  sumber?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 
 
 export type TransaksiKeuanganSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -518,6 +622,7 @@ export type TransaksiKeuanganSelect<ExtArgs extends runtime.Types.Extensions.Int
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
+  pembayaranHutang?: boolean | Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs>
 }, ExtArgs["result"]["transaksiKeuangan"]>
 
 export type TransaksiKeuanganSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -566,10 +671,17 @@ export type TransaksiKeuanganSelectScalar = {
 }
 
 export type TransaksiKeuanganOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tanggal" | "jenis" | "sumber" | "kategori" | "keterangan" | "nominal" | "buktiUrl" | "localId" | "syncStatus" | "createdAtLocal" | "syncedAt", ExtArgs["result"]["transaksiKeuangan"]>
+export type TransaksiKeuanganInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pembayaranHutang?: boolean | Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs>
+}
+export type TransaksiKeuanganIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TransaksiKeuanganIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $TransaksiKeuanganPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TransaksiKeuangan"
-  objects: {}
+  objects: {
+    pembayaranHutang: Prisma.$PembayaranHutangPiutangPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tanggal: Date
@@ -977,6 +1089,7 @@ readonly fields: TransaksiKeuanganFieldRefs;
  */
 export interface Prisma__TransaksiKeuanganClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  pembayaranHutang<T extends Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs>>): Prisma.Prisma__PembayaranHutangPiutangClient<runtime.Types.Result.GetResult<Prisma.$PembayaranHutangPiutangPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1035,6 +1148,10 @@ export type TransaksiKeuanganFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  /**
    * Filter, which TransaksiKeuangan to fetch.
    */
   where: Prisma.TransaksiKeuanganWhereUniqueInput
@@ -1053,6 +1170,10 @@ export type TransaksiKeuanganFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  /**
    * Filter, which TransaksiKeuangan to fetch.
    */
   where: Prisma.TransaksiKeuanganWhereUniqueInput
@@ -1070,6 +1191,10 @@ export type TransaksiKeuanganFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the TransaksiKeuangan
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
   /**
    * Filter, which TransaksiKeuangan to fetch.
    */
@@ -1119,6 +1244,10 @@ export type TransaksiKeuanganFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  /**
    * Filter, which TransaksiKeuangan to fetch.
    */
   where?: Prisma.TransaksiKeuanganWhereInput
@@ -1166,6 +1295,10 @@ export type TransaksiKeuanganFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the TransaksiKeuangan
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
   /**
    * Filter, which TransaksiKeuangans to fetch.
    */
@@ -1215,6 +1348,10 @@ export type TransaksiKeuanganCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  /**
    * The data needed to create a TransaksiKeuangan.
    */
   data: Prisma.XOR<Prisma.TransaksiKeuanganCreateInput, Prisma.TransaksiKeuanganUncheckedCreateInput>
@@ -1262,6 +1399,10 @@ export type TransaksiKeuanganUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the TransaksiKeuangan
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
   /**
    * The data needed to update a TransaksiKeuangan.
    */
@@ -1329,6 +1470,10 @@ export type TransaksiKeuanganUpsertArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  /**
    * The filter to search for the TransaksiKeuangan to update in case it exists.
    */
   where: Prisma.TransaksiKeuanganWhereUniqueInput
@@ -1355,6 +1500,10 @@ export type TransaksiKeuanganDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  /**
    * Filter which TransaksiKeuangan to delete.
    */
   where: Prisma.TransaksiKeuanganWhereUniqueInput
@@ -1375,6 +1524,25 @@ export type TransaksiKeuanganDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * TransaksiKeuangan.pembayaranHutang
+ */
+export type TransaksiKeuangan$pembayaranHutangArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PembayaranHutangPiutang
+   */
+  select?: Prisma.PembayaranHutangPiutangSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PembayaranHutangPiutang
+   */
+  omit?: Prisma.PembayaranHutangPiutangOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PembayaranHutangPiutangInclude<ExtArgs> | null
+  where?: Prisma.PembayaranHutangPiutangWhereInput
+}
+
+/**
  * TransaksiKeuangan without action
  */
 export type TransaksiKeuanganDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1386,4 +1554,8 @@ export type TransaksiKeuanganDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the TransaksiKeuangan
    */
   omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
 }

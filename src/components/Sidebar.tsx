@@ -7,6 +7,7 @@ import {
   LayoutDashboard, 
   Coins, 
   Wallet, 
+  ReceiptText,
   Users, 
   CalendarDays,
   Calendar,
@@ -68,6 +69,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       items: [
         { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
         { name: 'Kas RT', icon: Wallet, href: '/kas' },
+        { name: 'Hutang & Piutang', icon: ReceiptText, href: '/hutang-piutang' },
         { name: 'Laporan', icon: FileText, href: '#' },
       ],
     },
@@ -94,6 +96,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       if (activeMenu === 'Jadwal' && name === 'Jadwal Ronda') return true;
       if (activeMenu === 'Agenda' && name === 'Agenda RT') return true;
       if (activeMenu === 'Anggota' && name === 'Data Warga') return true;
+      if (activeMenu === 'HutangPiutang' && name === 'Hutang & Piutang') return true;
     }
     if (href === '/') return pathname === '/';
     if (href === '#') return false;

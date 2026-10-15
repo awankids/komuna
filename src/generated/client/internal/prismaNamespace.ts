@@ -392,7 +392,9 @@ export const ModelName = {
   TransaksiKeuangan: 'TransaksiKeuangan',
   Agenda: 'Agenda',
   Notifikasi: 'Notifikasi',
-  PengaturanAplikasi: 'PengaturanAplikasi'
+  PengaturanAplikasi: 'PengaturanAplikasi',
+  HutangPiutang: 'HutangPiutang',
+  PembayaranHutangPiutang: 'PembayaranHutangPiutang'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1078,6 +1080,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HutangPiutang: {
+      payload: Prisma.$HutangPiutangPayload<ExtArgs>
+      fields: Prisma.HutangPiutangFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HutangPiutangFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HutangPiutangFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>
+        }
+        findFirst: {
+          args: Prisma.HutangPiutangFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HutangPiutangFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>
+        }
+        findMany: {
+          args: Prisma.HutangPiutangFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>[]
+        }
+        create: {
+          args: Prisma.HutangPiutangCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>
+        }
+        createMany: {
+          args: Prisma.HutangPiutangCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HutangPiutangCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>[]
+        }
+        delete: {
+          args: Prisma.HutangPiutangDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>
+        }
+        update: {
+          args: Prisma.HutangPiutangUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>
+        }
+        deleteMany: {
+          args: Prisma.HutangPiutangDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HutangPiutangUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HutangPiutangUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>[]
+        }
+        upsert: {
+          args: Prisma.HutangPiutangUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HutangPiutangPayload>
+        }
+        aggregate: {
+          args: Prisma.HutangPiutangAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHutangPiutang>
+        }
+        groupBy: {
+          args: Prisma.HutangPiutangGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HutangPiutangGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HutangPiutangCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HutangPiutangCountAggregateOutputType> | number
+        }
+      }
+    }
+    PembayaranHutangPiutang: {
+      payload: Prisma.$PembayaranHutangPiutangPayload<ExtArgs>
+      fields: Prisma.PembayaranHutangPiutangFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PembayaranHutangPiutangFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PembayaranHutangPiutangFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>
+        }
+        findFirst: {
+          args: Prisma.PembayaranHutangPiutangFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PembayaranHutangPiutangFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>
+        }
+        findMany: {
+          args: Prisma.PembayaranHutangPiutangFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>[]
+        }
+        create: {
+          args: Prisma.PembayaranHutangPiutangCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>
+        }
+        createMany: {
+          args: Prisma.PembayaranHutangPiutangCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PembayaranHutangPiutangCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>[]
+        }
+        delete: {
+          args: Prisma.PembayaranHutangPiutangDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>
+        }
+        update: {
+          args: Prisma.PembayaranHutangPiutangUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>
+        }
+        deleteMany: {
+          args: Prisma.PembayaranHutangPiutangDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PembayaranHutangPiutangUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PembayaranHutangPiutangUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>[]
+        }
+        upsert: {
+          args: Prisma.PembayaranHutangPiutangUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranHutangPiutangPayload>
+        }
+        aggregate: {
+          args: Prisma.PembayaranHutangPiutangAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePembayaranHutangPiutang>
+        }
+        groupBy: {
+          args: Prisma.PembayaranHutangPiutangGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PembayaranHutangPiutangGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PembayaranHutangPiutangCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PembayaranHutangPiutangCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1235,6 +1385,45 @@ export const PengaturanAplikasiScalarFieldEnum = {
 } as const
 
 export type PengaturanAplikasiScalarFieldEnum = (typeof PengaturanAplikasiScalarFieldEnum)[keyof typeof PengaturanAplikasiScalarFieldEnum]
+
+
+export const HutangPiutangScalarFieldEnum = {
+  id: 'id',
+  tipe: 'tipe',
+  judul: 'judul',
+  namaPihak: 'namaPihak',
+  kontakPihak: 'kontakPihak',
+  anggotaId: 'anggotaId',
+  totalNominal: 'totalNominal',
+  sisaNominal: 'sisaNominal',
+  tanggalMulai: 'tanggalMulai',
+  jatuhTempo: 'jatuhTempo',
+  status: 'status',
+  kategori: 'kategori',
+  catatan: 'catatan',
+  diisiOleh: 'diisiOleh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HutangPiutangScalarFieldEnum = (typeof HutangPiutangScalarFieldEnum)[keyof typeof HutangPiutangScalarFieldEnum]
+
+
+export const PembayaranHutangPiutangScalarFieldEnum = {
+  id: 'id',
+  hutangPiutangId: 'hutangPiutangId',
+  tanggalBayar: 'tanggalBayar',
+  nominalBayar: 'nominalBayar',
+  sisaSebelumnya: 'sisaSebelumnya',
+  sisaSetelahnya: 'sisaSetelahnya',
+  metode: 'metode',
+  catatan: 'catatan',
+  dicatatOleh: 'dicatatOleh',
+  transaksiKasId: 'transaksiKasId',
+  createdAt: 'createdAt'
+} as const
+
+export type PembayaranHutangPiutangScalarFieldEnum = (typeof PembayaranHutangPiutangScalarFieldEnum)[keyof typeof PembayaranHutangPiutangScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1448,6 +1637,8 @@ export type GlobalOmitConfig = {
   agenda?: Prisma.AgendaOmit
   notifikasi?: Prisma.NotifikasiOmit
   pengaturanAplikasi?: Prisma.PengaturanAplikasiOmit
+  hutangPiutang?: Prisma.HutangPiutangOmit
+  pembayaranHutangPiutang?: Prisma.PembayaranHutangPiutangOmit
 }
 
 /* Types for Logging */

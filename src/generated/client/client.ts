@@ -86,3 +86,13 @@ export type Notifikasi = Prisma.NotifikasiModel
  * 
  */
 export type PengaturanAplikasi = Prisma.PengaturanAplikasiModel
+/**
+ * Model HutangPiutang
+ * 
+ */
+export type HutangPiutang = Prisma.HutangPiutangModel
+/**
+ * Model PembayaranHutangPiutang
+ * 
+ */
+export type PembayaranHutangPiutang = Prisma.PembayaranHutangPiutangModel

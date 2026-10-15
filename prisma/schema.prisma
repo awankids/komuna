@@ -28,6 +28,7 @@ model Anggota {
   createdAt         DateTime @default(now())
   
   jadwal            JadwalPetugas[]
+  hutangPiutang     HutangPiutang[]
 }
 
 model Rombongan {
@@ -82,6 +83,8 @@ model TransaksiKeuangan {
   syncStatus     String?   @default("synced") // synced, pending, conflict
   createdAtLocal DateTime?
   syncedAt       DateTime?
+
+  pembayaranHutang PembayaranHutangPiutang?
 }
 
 model Agenda {
@@ -113,4 +116,47 @@ model PengaturanAplikasi {
   tagline        String   @default("Kebersamaan, Terpadu, Transparan")
   targetJimpitan Int      @default(3000000)
   updatedAt      DateTime @updatedAt
+}
+
+model HutangPiutang {
+  id             String                    @id @default(uuid())
+  tipe           String                    // "piutang" (hak RT) | "hutang" (kewajiban RT)
+  judul          String                    // e.g. "Pinjaman Darurat Warga", "Material Gapura Toko Sejahtera"
+  namaPihak      String                    // Nama orang / toko vendor
+  kontakPihak    String?                   // No HP / WhatsApp untuk pengingat
+  anggotaId      String?                   // Relasi opsional jika pihak adalah warga terdaftar
+  anggota        Anggota?                  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  
+  totalNominal   Int                       // Total nilai pinjaman / tagihan
+  sisaNominal    Int                       // Sisa nominal yang belum terbayar
+  tanggalMulai   DateTime                  // Tanggal transaksi terjadi
+  jatuhTempo     DateTime?                 // Tenggat waktu pelunasan (opsional)
+  
+  status         String                    @default("belum_lunas") // "belum_lunas" | "sebagian" | "lunas"
+  kategori       String?                   // "sosial", "pembangunan", "kegiatan", "operasional", "lain-lain"
+  catatan        String?
+  diisiOleh      String                    // Nama admin yang mencatat
+  createdAt      DateTime                  @default(now())
+  updatedAt      DateTime                  @updatedAt
+
+  riwayatBayar   PembayaranHutangPiutang[]
+}
+
+model PembayaranHutangPiutang {
+  id               String              @id @default(uuid())
+  hutangPiutangId  String
+  hutangPiutang    HutangPiutang       @relation(fields: [hutangPiutangId], references: [id], onDelete: Cascade)
+  
+  tanggalBayar     DateTime            @default(now())
+  nominalBayar     Int                 // Jumlah cicilan yang dibayarkan
+  sisaSebelumnya   Int                 // Sisa sebelum pembayaran ini
+  sisaSetelahnya   Int                 // Sisa setelah pembayaran ini
+  metode           String              @default("tunai") // "tunai" | "transfer"
+  catatan          String?
+  dicatatOleh      String
+  
+  // Integrasi ke Kas RT (Opsional terhubung ke TransaksiKeuangan)
+  transaksiKasId   String?             @unique
+  transaksiKas     TransaksiKeuangan?  @relation(fields: [transaksiKasId], references: [id], onDelete: SetNull)
+  createdAt        DateTime            @default(now())
 }
