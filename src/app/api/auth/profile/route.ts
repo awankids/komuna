@@ -51,14 +51,15 @@ export async function PUT(request: Request) {
     const response = NextResponse.json({ success: true });
     
     // Perbarui cookie dengan nama baru
-    response.cookies.set('komuna_session', JSON.stringify({
+    response.cookies.set('komuna_session', encodeURIComponent(JSON.stringify({
       id: updatedUser.id,
       nama: updatedUser.nama,
       role: updatedUser.role,
-    }), {
+    })), {
       path: '/',
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 30, // 30 days
     });
 

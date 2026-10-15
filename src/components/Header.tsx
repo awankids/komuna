@@ -67,10 +67,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
       const sessionCookie = cookies.find(c => c.trim().startsWith('komuna_session='));
       if (sessionCookie) {
         try {
-          const sessionValue = decodeURIComponent(sessionCookie.split('=')[1]);
-          setUserData(JSON.parse(sessionValue));
-        } catch (e) {
-          console.error('Failed to parse session cookie', e);
+          const rawValue = sessionCookie.split('=').slice(1).join('=');
+          const decoded = decodeURIComponent(rawValue);
+          setUserData(JSON.parse(decoded));
+        } catch {
+          try {
+            const rawValue = sessionCookie.split('=').slice(1).join('=');
+            setUserData(JSON.parse(rawValue));
+          } catch (e) {
+            console.error('Failed to parse session cookie', e);
+          }
         }
       }
     };

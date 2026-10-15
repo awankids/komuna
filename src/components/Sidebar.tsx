@@ -164,11 +164,20 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
                     const active = isItemActive(item.href, item.name);
                     const Icon = item.icon;
 
+                    const handleItemClick = (e: React.MouseEvent) => {
+                      if (item.href === '#') {
+                        e.preventDefault();
+                      }
+                      if (onClose) {
+                        onClose();
+                      }
+                    };
+
                     return (
                       <Link
                         key={item.name}
                         href={item.href}
-                        onClick={onClose}
+                        onClick={handleItemClick}
                         className={`relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 group ${
                           active 
                             ? 'bg-[var(--brand-light)]/80 text-[var(--brand-primary)] font-bold shadow-2xs' 

@@ -25,14 +25,17 @@ export async function POST(request: Request) {
       user: { id: user.id, nama: user.nama, email: user.email, role: user.role } 
     });
     
-    response.cookies.set('komuna_session', JSON.stringify({
+    const sessionData = {
       id: user.id,
       nama: user.nama,
       role: user.role,
-    }), {
+    };
+
+    response.cookies.set('komuna_session', encodeURIComponent(JSON.stringify(sessionData)), {
       path: '/',
       httpOnly: false, // Accessible by client-side router for simplicity
       secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 30, // 30 days
     });
     

@@ -67,7 +67,9 @@ export default function LoginPage() {
       if (data.error) {
         setErrorMessage(data.error);
       } else {
-        router.push('/');
+        const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+        const redirectTo = searchParams?.get('redirect');
+        router.push(redirectTo && redirectTo.startsWith('/') ? redirectTo : '/');
       }
     } catch (err) {
       console.error(err);
