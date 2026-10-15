@@ -27,6 +27,7 @@ export function middleware(request: NextRequest) {
 
   // Paths that do not require authentication check
   const isAuthPage = pathname === '/login';
+  const isPublicVerification = pathname.startsWith('/verifikasi-surat');
   const isApiRoute = pathname.startsWith('/api/');
   const isPublicFile = 
     pathname.includes('.') || 
@@ -34,7 +35,7 @@ export function middleware(request: NextRequest) {
     pathname === '/sw.js' ||
     pathname === '/manifest.webmanifest';
 
-  if (isApiRoute || isPublicFile) {
+  if (isApiRoute || isPublicFile || isPublicVerification) {
     return NextResponse.next();
   }
 
