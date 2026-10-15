@@ -28,7 +28,12 @@ import {
   Layers,
   Sparkles,
   Download,
-  Building2
+  Building2,
+  Settings2,
+  ChevronUp,
+  ChevronDown,
+  Save,
+  Edit3
 } from 'lucide-react';
 
 interface AnggotaItem {
@@ -185,6 +190,21 @@ export default function SuratPengantarPage() {
     kodeVerifikasi: 'KOMUNA-' + Math.random().toString(36).substring(2, 9).toUpperCase()
   });
 
+  // Custom Kop & Redaksi State
+  const [isCustomKopOpen, setIsCustomKopOpen] = useState(false);
+  const [kopConfig, setKopConfig] = useState({
+    baris1: '',
+    baris2: '',
+    baris3: '',
+  });
+
+  const [redaksiConfig, setRedaksiConfig] = useState({
+    kalimatPembuka: '',
+    kalimatKeterangan: '',
+    labelKeperluan: 'Maksud / Keperluan Surat:',
+    kalimatPenutup: 'Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.'
+  });
+
   // Filter Arsip
   const [searchArsip, setSearchArsip] = useState('');
   const [filterJenisArsip, setFilterJenisArsip] = useState('all');
@@ -221,6 +241,36 @@ export default function SuratPengantarPage() {
           kotaSurat: json.kotaWilayah || prev.kotaSurat,
           jabatanPenandatangan: `Ketua ${json.namaRt || 'RT 04'}`
         }));
+
+        const defaultKop1 = `PAGUYUBAN RUKUN TETANGGA ${(json.namaRt || 'RT 04').toUpperCase()}`;
+        const defaultKop2 = `KELURAHAN WILAYAH KOTA ${(json.kotaWilayah || 'Semarang').toUpperCase()}`;
+        const defaultKop3 = `Alamat Sekretariat: ${json.namaRt || 'RT 04'}, Kota ${json.kotaWilayah || 'Semarang'}. Kontak Layanan Warga: 0812-3456-7890`;
+
+        const savedKop = localStorage.getItem('komuna_custom_kop');
+        if (savedKop) {
+          try {
+            setKopConfig(JSON.parse(savedKop));
+          } catch (e) {
+            setKopConfig({ baris1: defaultKop1, baris2: defaultKop2, baris3: defaultKop3 });
+          }
+        } else {
+          setKopConfig({ baris1: defaultKop1, baris2: defaultKop2, baris3: defaultKop3 });
+        }
+
+        const savedRedaksi = localStorage.getItem('komuna_custom_redaksi');
+        if (savedRedaksi) {
+          try {
+            setRedaksiConfig(JSON.parse(savedRedaksi));
+          } catch (e) {}
+        } else {
+          setRedaksiConfig(prev => ({
+            ...prev,
+            kalimatPembuka: `Yang bertanda tangan di bawah ini, Pengurus ${json.namaRt || 'RT 04'}, Kota ${json.kotaWilayah || 'Semarang'}, dengan ini menerangkan bahwa:`,
+            kalimatKeterangan: `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${json.namaRt || 'RT 04'}.`,
+            labelKeperluan: 'Maksud / Keperluan Surat:',
+            kalimatPenutup: 'Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.'
+          }));
+        }
       }
 
       if (pengurusRes.ok) {
@@ -265,6 +315,34 @@ export default function SuratPengantarPage() {
         keteranganTambahan: tmpl.keteranganDefault
       }));
     }
+  };
+
+  // Save Custom Kop & Redaksi to LocalStorage
+  const handleSaveCustomKopAndRedaksi = () => {
+    localStorage.setItem('komuna_custom_kop', JSON.stringify(kopConfig));
+    localStorage.setItem('komuna_custom_redaksi', JSON.stringify(redaksiConfig));
+    showToast('Kustomisasi Kop & Redaksi berhasil disimpan ke browser ini', 'success');
+  };
+
+  // Reset Kop & Redaksi to Default
+  const handleResetKopAndRedaksi = () => {
+    const defaultKop1 = `PAGUYUBAN RUKUN TETANGGA ${(appConfig.namaRt || 'RT 04').toUpperCase()}`;
+    const defaultKop2 = `KELURAHAN WILAYAH KOTA ${(appConfig.kotaWilayah || 'Semarang').toUpperCase()}`;
+    const defaultKop3 = `Alamat Sekretariat: ${appConfig.namaRt || 'RT 04'}, Kota ${appConfig.kotaWilayah || 'Semarang'}. Kontak Layanan Warga: 0812-3456-7890`;
+
+    const defKop = { baris1: defaultKop1, baris2: defaultKop2, baris3: defaultKop3 };
+    const defRedaksi = {
+      kalimatPembuka: `Yang bertanda tangan di bawah ini, Pengurus ${appConfig.namaRt || 'RT 04'}, Kota ${appConfig.kotaWilayah || 'Semarang'}, dengan ini menerangkan bahwa:`,
+      kalimatKeterangan: `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${appConfig.namaRt || 'RT 04'}.`,
+      labelKeperluan: 'Maksud / Keperluan Surat:',
+      kalimatPenutup: 'Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.'
+    };
+
+    setKopConfig(defKop);
+    setRedaksiConfig(defRedaksi);
+    localStorage.removeItem('komuna_custom_kop');
+    localStorage.removeItem('komuna_custom_redaksi');
+    showToast('Kop & Redaksi dikembalikan ke pengaturan default');
   };
 
   // Handle Resident Selection
@@ -549,6 +627,174 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                         </button>
                       ))}
                     </div>
+                  </div>
+
+                  {/* Collapsible Custom Kop & Redaksi Accordion */}
+                  <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setIsCustomKopOpen(!isCustomKopOpen)}
+                      className="w-full p-4 sm:p-5 flex items-center justify-between text-left hover:bg-slate-50/70 transition cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="p-2 rounded-xl bg-orange-50 text-[var(--brand-primary)]">
+                          <Settings2 className="w-4 h-4" />
+                        </span>
+                        <div>
+                          <h4 className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-2">
+                            <span>Kustomisasi Kop & Redaksi Kata-Kata</span>
+                            <span className="text-[10px] font-semibold text-[var(--brand-primary)] bg-orange-50 px-2 py-0.5 rounded-full">
+                              Bisa Diedit
+                            </span>
+                          </h4>
+                          <p className="text-[11px] text-slate-400">
+                            Ubah 3 baris Kop Surat RT atau redaksi kalimat surat sesuai kebutuhan lingkungan
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-slate-400 p-1">
+                        {isCustomKopOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      </div>
+                    </button>
+
+                    {isCustomKopOpen && (
+                      <div className="p-5 pt-1 border-t border-slate-100 space-y-4 bg-slate-50/40">
+                        {/* Section A: Kop Surat */}
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                              <Building2 className="w-3.5 h-3.5 text-slate-500" />
+                              Format 3 Baris Kop Surat Resmi
+                            </span>
+                            <span className="text-[10px] text-slate-400">Pratinjau otomatis berubah</span>
+                          </div>
+
+                          <div className="space-y-2">
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Baris 1: Nama Lembaga / RT (Huruf Kapital)
+                              </label>
+                              <input
+                                type="text"
+                                value={kopConfig.baris1}
+                                onChange={(e) => setKopConfig(prev => ({ ...prev, baris1: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                                placeholder="PAGUYUBAN RUKUN TETANGGA RT 04"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Baris 2: Kelurahan / Kecamatan / Wilayah
+                              </label>
+                              <input
+                                type="text"
+                                value={kopConfig.baris2}
+                                onChange={(e) => setKopConfig(prev => ({ ...prev, baris2: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                                placeholder="KELURAHAN WILAYAH KOTA SEMARANG"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Baris 3: Alamat Sekretariat & Kontak Layanan
+                              </label>
+                              <input
+                                type="text"
+                                value={kopConfig.baris3}
+                                onChange={(e) => setKopConfig(prev => ({ ...prev, baris3: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                                placeholder="Alamat Sekretariat: Balai RT 04. Kontak: 0812-..."
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Section B: Redaksi Kata-Kata Isi Surat */}
+                        <div className="space-y-3 pt-3 border-t border-slate-200/60">
+                          <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                            <Edit3 className="w-3.5 h-3.5 text-slate-500" />
+                            Redaksi Kalimat Isi Surat
+                          </span>
+
+                          <div className="space-y-2">
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Kalimat Pembuka
+                              </label>
+                              <textarea
+                                rows={2}
+                                value={redaksiConfig.kalimatPembuka}
+                                onChange={(e) => setRedaksiConfig(prev => ({ ...prev, kalimatPembuka: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] resize-none"
+                                placeholder="Yang bertanda tangan di bawah ini, Pengurus RT..."
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Kalimat Keterangan Status Warga (di bawah tabel)
+                              </label>
+                              <textarea
+                                rows={2}
+                                value={redaksiConfig.kalimatKeterangan}
+                                onChange={(e) => setRedaksiConfig(prev => ({ ...prev, kalimatKeterangan: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] resize-none"
+                                placeholder="Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami..."
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Label Judul Box Keperluan
+                              </label>
+                              <input
+                                type="text"
+                                value={redaksiConfig.labelKeperluan}
+                                onChange={(e) => setRedaksiConfig(prev => ({ ...prev, labelKeperluan: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)]"
+                                placeholder="Maksud / Keperluan Surat:"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-bold text-slate-500 mb-1">
+                                Kalimat Penutup
+                              </label>
+                              <textarea
+                                rows={2}
+                                value={redaksiConfig.kalimatPenutup}
+                                onChange={(e) => setRedaksiConfig(prev => ({ ...prev, kalimatPenutup: e.target.value }))}
+                                className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-none focus:border-[var(--brand-primary)] resize-none"
+                                placeholder="Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan."
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Save & Reset buttons */}
+                        <div className="pt-2 flex items-center justify-between gap-2 border-t border-slate-200/60">
+                          <button
+                            type="button"
+                            onClick={handleResetKopAndRedaksi}
+                            className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
+                            <span>Reset ke Default</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={handleSaveCustomKopAndRedaksi}
+                            className="px-3.5 py-1.5 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold flex items-center gap-1.5 transition shadow-xs cursor-pointer"
+                          >
+                            <Save className="w-3.5 h-3.5" />
+                            <span>Simpan Sebagai Default RT</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Form Builder Card */}
@@ -859,13 +1105,13 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                       {/* Kop Surat Resmi */}
                       <div className="border-b-[3px] border-double border-black pb-3 text-center space-y-0.5">
                         <h2 className="text-base sm:text-lg font-bold tracking-wider uppercase font-sans">
-                          PAGUYUBAN RUKUN TETANGGA {appConfig.namaRt.toUpperCase()}
+                          {kopConfig.baris1 || `PAGUYUBAN RUKUN TETANGGA ${appConfig.namaRt.toUpperCase()}`}
                         </h2>
                         <h3 className="text-sm sm:text-base font-bold tracking-wide uppercase font-sans">
-                          KELURAHAN WILAYAH KOTA {appConfig.kotaWilayah.toUpperCase()}
+                          {kopConfig.baris2 || `KELURAHAN WILAYAH KOTA ${appConfig.kotaWilayah.toUpperCase()}`}
                         </h3>
                         <p className="text-[11px] font-sans text-gray-700 italic">
-                          Alamat Sekretariat: {appConfig.namaRt}, Kota {appConfig.kotaWilayah}. Kontak Layanan Warga: 0812-3456-7890
+                          {kopConfig.baris3 || `Alamat Sekretariat: ${appConfig.namaRt}, Kota ${appConfig.kotaWilayah}. Kontak Layanan Warga: 0812-3456-7890`}
                         </p>
                       </div>
 
@@ -882,7 +1128,7 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                       {/* Kalimat Pembuka */}
                       <div className="space-y-4 text-justify">
                         <p>
-                          Yang bertanda tangan di bawah ini, Pengurus <strong>{appConfig.namaRt}</strong>, Kota {appConfig.kotaWilayah}, dengan ini menerangkan bahwa:
+                          {redaksiConfig.kalimatPembuka || `Yang bertanda tangan di bawah ini, Pengurus ${appConfig.namaRt}, Kota ${appConfig.kotaWilayah}, dengan ini menerangkan bahwa:`}
                         </p>
 
                         {/* Tabel Biodata Pemohon */}
@@ -943,11 +1189,11 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
 
                         {/* Paragraf Keterangan Pokok */}
                         <p className="pt-2">
-                          Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di <strong>{appConfig.namaRt}</strong>.
+                          {redaksiConfig.kalimatKeterangan || `Bahwa orang tersebut di atas adalah benar-benar warga yang bertempat tinggal di lingkungan kami dan tercatat sebagai penduduk di ${appConfig.namaRt}.`}
                         </p>
 
                         <div className="p-3 bg-gray-50 border border-gray-300 rounded font-sans text-xs space-y-1">
-                          <p className="font-bold text-gray-800">Maksud / Keperluan Surat:</p>
+                          <p className="font-bold text-gray-800">{redaksiConfig.labelKeperluan || 'Maksud / Keperluan Surat:'}</p>
                           <p className="italic text-gray-900 leading-relaxed font-serif text-[13px]">
                             "{formData.keperluan}"
                           </p>
@@ -960,7 +1206,7 @@ _Silakan gunakan surat ini sebagaimana mestinya. Terima kasih._`;
                         )}
 
                         <p>
-                          Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.
+                          {redaksiConfig.kalimatPenutup || 'Demikian surat pengantar ini kami buat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya oleh instansi yang bersangkutan.'}
                         </p>
                       </div>
                     </div>
