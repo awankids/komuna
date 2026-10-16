@@ -52,7 +52,7 @@ export default function LoginPage() {
     periodeAktif: '2024 - 2029'
   });
 
-  // 1. Initial Load: LocalStorage email, App Config & System Theme Detection
+  // 1. Initial Load: LocalStorage email, App Config & Strict Light/Dark Mode Check
   useEffect(() => {
     let isMounted = true;
 
@@ -88,25 +88,14 @@ export default function LoginPage() {
     };
     fetchConfig();
 
-    // Check Dark Mode state with OS/System Preference Fallback
+    // Check Dark Mode state strictly from komuna-dark setting (defaulting to pure light mode)
     try {
-      const savedDark = localStorage.getItem('komuna-dark');
-      if (savedDark !== null) {
-        const isDarkActive = savedDark === 'yes';
-        setIsDark(isDarkActive);
-        if (isDarkActive) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+      const isDarkActive = localStorage.getItem('komuna-dark') === 'yes';
+      setIsDark(isDarkActive);
+      if (isDarkActive) {
+        document.documentElement.classList.add('dark');
       } else {
-        const prefersDark = typeof window !== 'undefined' && 
-          window.matchMedia && 
-          window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDark(prefersDark);
-        if (prefersDark) {
-          document.documentElement.classList.add('dark');
-        }
+        document.documentElement.classList.remove('dark');
       }
     } catch {}
 
@@ -196,16 +185,17 @@ export default function LoginPage() {
   }).format(new Date());
 
   return (
-    <main className="flex-1 min-h-screen bg-[#f8fafc] text-slate-800 dark:text-slate-100 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-10 font-sans transition-colors duration-200">
+    <main className="flex-1 min-h-screen bg-[#f8fafc] text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-10 font-sans transition-colors duration-200">
       
       {/* Centered Dual-Zone Layout Container */}
-      <div className="w-full max-w-5xl bg-white rounded-3xl border border-slate-200/90 dark:!border-[#1f2937] shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden grid grid-cols-1 lg:grid-cols-12 transition-all">
+      <div className="w-full max-w-5xl bg-white dark:bg-[#111827] rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden grid grid-cols-1 lg:grid-cols-12 transition-all">
         
         {/* ========================================================
             LEFT COLUMN: Operational RT Showcase & Trust Signals 
-            (Lightweight SVG/Bento, < 4KB, Replaces 548KB image)
+            (Light mode: Clean, bright, soft slate-50 background)
+            (Dark mode: Cohesive dark-900 background)
            ======================================================== */}
-        <div className="lg:col-span-6 bg-slate-50/70 dark:!bg-[#0f172a] p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-200/70 dark:!border-[#1f2937]">
+        <div className="lg:col-span-6 bg-slate-50/70 dark:bg-[#0f172a] p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
           
           {/* Header Brand */}
           <div className="space-y-6">
@@ -235,7 +225,7 @@ export default function LoginPage() {
 
             {/* Headline Text */}
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:!border-emerald-800/40">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/40">
                 <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>{formattedToday}</span>
               </div>
@@ -248,44 +238,44 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* Operational Bento Cards (Elevated Surface with Clear Contrast in Dark & Light) */}
+            {/* Operational Bento Cards (Light Mode: Clean Pure White with Light Borders) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
               
-              <div className="p-3.5 rounded-2xl bg-white dark:!bg-[#1e293b] border border-slate-200/80 dark:!border-[#334155] shadow-xs">
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] shadow-xs">
                 <div className="w-8 h-8 rounded-xl bg-orange-50 text-[var(--brand-primary)] flex items-center justify-center mb-2.5">
                   <TrendingUp className="w-4.5 h-4.5" />
                 </div>
-                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-100">Jimpitan & Kas Digital</h3>
+                <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Jimpitan & Kas Digital</h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                   Catat setoran harian cepat, rekap otomatis, dan cetak LPJ siap saji.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white dark:!bg-[#1e293b] border border-slate-200/80 dark:!border-[#334155] shadow-xs">
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] shadow-xs">
                 <div className="w-8 h-8 rounded-xl bg-sky-50 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-2.5">
                   <HeartHandshake className="w-4.5 h-4.5" />
                 </div>
-                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-100">Gotong Royong & Ronda</h3>
+                <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Gotong Royong & Ronda</h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                   Jadwal rombongan piket transparan dan notifikasi warga terpusat.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white dark:!bg-[#1e293b] border border-slate-200/80 dark:!border-[#334155] shadow-xs">
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] shadow-xs">
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-2.5">
                   <ShieldCheck className="w-4.5 h-4.5" />
                 </div>
-                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-100">Aman & Terisolasi</h3>
+                <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Aman & Terisolasi</h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                   Proteksi password salted scrypt dengan hak akses bertingkat.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white dark:!bg-[#1e293b] border border-slate-200/80 dark:!border-[#334155] shadow-xs">
+              <div className="p-3.5 rounded-2xl bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-[#334155] shadow-xs">
                 <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-2.5">
                   <Building2 className="w-4.5 h-4.5" />
                 </div>
-                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-100">Inventaris & Surat</h3>
+                <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Inventaris & Surat</h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
                   Kelola peminjaman barang RT dan penerbitan surat pengantar resmi.
                 </p>
@@ -295,7 +285,7 @@ export default function LoginPage() {
           </div>
 
           {/* Bottom Security Note */}
-          <div className="mt-6 pt-5 border-t border-slate-200/70 dark:!border-[#1f2937] flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+          <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <div className="flex items-center gap-1.5 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Sistem Aktif & Terlindungi</span>
@@ -307,8 +297,10 @@ export default function LoginPage() {
 
         {/* ========================================================
             RIGHT COLUMN: Interactive Authentication Form
+            (Light mode: Clean white with crisp light borders)
+            (Dark mode: Cohesive dark-900 with slate-800 borders)
            ======================================================== */}
-        <div className="lg:col-span-6 p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+        <div className="lg:col-span-6 bg-white dark:bg-[#111827] p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
           
           <div className="max-w-md w-full mx-auto space-y-6">
             
@@ -325,17 +317,17 @@ export default function LoginPage() {
                   onClick={toggleDarkMode}
                   aria-label={isDark ? "Beralih ke Mode Terang" : "Beralih ke Mode Gelap"}
                   title={isDark ? "Aktifkan Mode Terang" : "Aktifkan Mode Gelap"}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 dark:!bg-[#1f2937] text-slate-700 dark:text-slate-200 hover:text-[var(--brand-primary)] dark:hover:text-[var(--brand-primary)] border border-slate-200 dark:!border-[#374151] transition-all cursor-pointer select-none"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700 transition-all cursor-pointer select-none"
                 >
                   {isDark ? (
                     <>
                       <Sun className="w-3.5 h-3.5 text-amber-400" />
-                      <span>Terang</span>
+                      <span>Mode Terang</span>
                     </>
                   ) : (
                     <>
                       <Moon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
-                      <span>Gelap</span>
+                      <span>Mode Gelap</span>
                     </>
                   )}
                 </button>
@@ -350,7 +342,7 @@ export default function LoginPage() {
               <div 
                 role="alert" 
                 aria-live="assertive"
-                className="bg-red-50 text-red-700 dark:text-red-300 border border-red-200 dark:!border-red-800/60 text-xs font-semibold px-4 py-3 rounded-2xl flex items-start gap-2.5 shadow-xs"
+                className="bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300 border border-red-200 dark:border-red-800/60 text-xs font-semibold px-4 py-3 rounded-2xl flex items-start gap-2.5 shadow-xs"
               >
                 <AlertCircle className="w-4.5 h-4.5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
                 <span className="flex-1 leading-relaxed">{errorMessage}</span>
@@ -367,7 +359,7 @@ export default function LoginPage() {
 
             {/* CapsLock Warning Alert */}
             {isCapsLockOn && (
-              <div className="bg-amber-50 text-amber-800 dark:text-amber-300 border border-amber-200 dark:!border-amber-800/60 text-xs font-medium px-3.5 py-2.5 rounded-xl flex items-center gap-2">
+              <div className="bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 text-xs font-medium px-3.5 py-2.5 rounded-xl flex items-center gap-2">
                 <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                 <span>Perhatian: Tombol <strong>Caps Lock</strong> pada keyboard sedang aktif.</span>
               </div>
@@ -401,7 +393,7 @@ export default function LoginPage() {
                     disabled={isLoading}
                     required
                     aria-invalid={!!errorMessage}
-                    className="w-full pl-10.5 pr-4 py-2.5 bg-slate-50 border border-slate-200 dark:!border-[#374151] rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)] disabled:opacity-60 transition-all"
+                    className="w-full pl-10.5 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)] disabled:opacity-60 transition-all"
                   />
                 </div>
               </div>
@@ -441,7 +433,7 @@ export default function LoginPage() {
                     disabled={isLoading}
                     required
                     aria-invalid={!!errorMessage}
-                    className="w-full pl-10.5 pr-11 py-2.5 bg-slate-50 border border-slate-200 dark:!border-[#374151] rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)] disabled:opacity-60 transition-all"
+                    className="w-full pl-10.5 pr-11 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)] disabled:opacity-60 transition-all"
                   />
                   <button
                     type="button"
@@ -507,7 +499,7 @@ export default function LoginPage() {
                   href="https://wa.me/628978506111?text=Halo%20Admin%2C%20saya%20pengurus%20RT%20ingin%20meminta%20akses%20login%20ke%20aplikasi%20komuna.id"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 px-4 bg-emerald-50 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 border border-emerald-200/80 dark:!border-emerald-800/40 font-semibold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-xs"
+                  className="w-full py-2.5 px-4 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 font-semibold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-xs"
                 >
                   {/* WhatsApp SVG Icon */}
                   <svg className="w-4 h-4 fill-emerald-600 dark:fill-emerald-400 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
@@ -521,7 +513,7 @@ export default function LoginPage() {
             </form>
 
             {/* Footer Trust Signal */}
-            <div className="pt-3 border-t border-slate-100 dark:!border-[#1f2937] text-center">
+            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
               <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 Dilindungi otentikasi aman berlapis • Hak Cipta &copy; {new Date().getFullYear()} {appConfig.namaApp}
               </p>
@@ -541,7 +533,7 @@ export default function LoginPage() {
           onClick={() => setShowHelpModal(false)}
         >
           <div 
-            className="bg-white dark:!bg-[#111827] border border-slate-200 dark:!border-[#1f2937] rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-left"
+            className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl text-left"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -571,7 +563,7 @@ export default function LoginPage() {
               </button>
             </div>
 
-            <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:!bg-[#1e293b] p-4 rounded-2xl border border-slate-200/60 dark:!border-[#334155]">
+            <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-[#1e293b] p-4 rounded-2xl border border-slate-200 dark:border-[#334155]">
               <p>
                 Demi menjaga kerahasiaan dan keamanan data kas warga RT, pengaturan ulang kata sandi atau permohonan akses baru dilakukan langsung melalui verifikasi Pengurus RT setempat.
               </p>
@@ -593,7 +585,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowHelpModal(false)}
-                className="w-full py-2.5 px-4 bg-slate-100 dark:!bg-[#1f2937] hover:bg-slate-200 dark:hover:!bg-[#374151] text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-xs transition-colors cursor-pointer"
+                className="w-full py-2.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-xs transition-colors cursor-pointer"
               >
                 Tutup
               </button>
