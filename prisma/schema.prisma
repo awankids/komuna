@@ -8,11 +8,13 @@ generator client {
 }
 
 model User {
-  id           String @id @default(uuid())
+  id           String   @id @default(uuid())
   nama         String
-  email        String @unique
+  email        String   @unique
+  noHp         String?
   passwordHash String
-  role         String @default("ADMIN") // ADMIN, PETUGAS, WARGA
+  role         String   @default("ADMIN") // SUPER_ADMIN, ADMIN, BENDAHARA, SEKRETARIS, PETUGAS, WARGA
+  statusAktif  Boolean  @default(true)
   createdAt    DateTime @default(now())
 }
 

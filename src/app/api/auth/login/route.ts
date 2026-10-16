@@ -6,23 +6,37 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
     
-    if (!email || !password) {
-      return NextResponse.json({ error: 'Email dan password wajib diisi' }, { status: 400 });
+    const identifier = (email || '').trim();
+    if (!identifier || !password) {
+      return NextResponse.json({ error: 'Email atau Nomor HP serta kata sandi wajib diisi' }, { status: 400 });
     }
     
-    const normalizedEmail = email.trim().toLowerCase();
-    const user = await db.user.findUnique({
-      where: { email: normalizedEmail },
+    const normalized = identifier.toLowerCase();
+    
+    // Allow login via email OR WhatsApp/Phone number with prefix tolerance
+    const user = await db.user.findFirst({
+      where: {
+        OR: [
+          { email: normalized },
+          { noHp: identifier },
+          { noHp: identifier.replace(/^0/, '+62') },
+          { noHp: identifier.replace(/^\+62/, '0') },
+        ],
+      },
     });
     
     if (!user) {
-      return NextResponse.json({ error: 'Email atau kata sandi salah' }, { status: 401 });
+      return NextResponse.json({ error: 'Email/Nomor HP atau kata sandi salah' }, { status: 401 });
+    }
+
+    if (user.statusAktif === false) {
+      return NextResponse.json({ error: 'Akun Anda dinonaktifkan oleh Administrator' }, { status: 403 });
     }
     
     const { valid, needsRehash } = verifyPassword(password, user.passwordHash);
 
     if (!valid) {
-      return NextResponse.json({ error: 'Email atau kata sandi salah' }, { status: 401 });
+      return NextResponse.json({ error: 'Email/Nomor HP atau kata sandi salah' }, { status: 401 });
     }
     
     // Transparently upgrade legacy SHA-256 hash to modern salted scrypt hash

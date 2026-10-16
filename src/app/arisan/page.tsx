@@ -721,7 +721,7 @@ export default function ArisanPage() {
               {/* Main 2 Columns: Spin Wheel & Right Tabs */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Left Area: The Lucky Spin Wheel */}
-                <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 flex flex-col items-center">
+                <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-sm p-4 sm:p-6 flex flex-col items-center">
                   <div className="w-full flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
                     <div className="flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-amber-500" />

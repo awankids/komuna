@@ -735,16 +735,8 @@ export type AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput = {
   connect?: Prisma.AnggotaWhereUniqueInput | Prisma.AnggotaWhereUniqueInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput = {
