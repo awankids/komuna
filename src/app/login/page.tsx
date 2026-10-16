@@ -14,11 +14,9 @@ import {
   Eye,
   EyeOff,
   HelpCircle,
-  KeyRound,
   X,
   Building2,
   Clock,
-  Sparkles,
   ShieldAlert,
   ChevronRight
 } from 'lucide-react';
@@ -118,13 +116,6 @@ export default function LoginPage() {
     if (e.getModifierState) {
       setIsCapsLockOn(e.getModifierState('CapsLock'));
     }
-  };
-
-  // 3. Quick Demo Fill (for reviewer & demo testing)
-  const handleQuickDemo = () => {
-    setEmail('admin@komuna.id');
-    setPassword('admin123');
-    setErrorMessage('');
   };
 
   // 4. Handle Login Submission
@@ -289,22 +280,9 @@ export default function LoginPage() {
             
             {/* Title & Subtitle */}
             <div className="space-y-1 text-left">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                  Masuk ke Aplikasi
-                </h2>
-                
-                {/* Quick Demo Pill */}
-                <button
-                  type="button"
-                  onClick={handleQuickDemo}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-[var(--brand-light)] text-[var(--brand-primary)] border border-[var(--brand-primary)]/25 hover:bg-[var(--brand-primary)]/10 transition-colors cursor-pointer"
-                  title="Klik untuk mengisi data akun demo secara otomatis"
-                >
-                  <KeyRound className="w-3.5 h-3.5" />
-                  <span>Akun Demo</span>
-                </button>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Masuk ke Aplikasi
+              </h2>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                 Silakan masukkan email atau nomor HP pengurus untuk melanjutkan.
               </p>
@@ -538,18 +516,11 @@ export default function LoginPage() {
 
             <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
               <p>
-                Demi menjaga kerahasiaan data kas dan keuangan warga RT, pemulihan kata sandi dilakukan secara terverifikasi melalui Pengurus RT setempat.
+                Demi menjaga kerahasiaan dan keamanan data kas warga RT, pengaturan ulang kata sandi atau permohonan akses baru dilakukan langsung melalui verifikasi Pengurus RT setempat.
               </p>
-              <div className="pt-2 border-t border-slate-200/70 dark:border-slate-700/60 space-y-1.5 font-medium">
-                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
-                  <span><strong>Akun Default Admin Demo:</strong> admin@komuna.id</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-primary)]" />
-                  <span><strong>Kata Sandi Default:</strong> admin123</span>
-                </div>
-              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Silakan hubungi Pengurus RT / Admin Sistem melalui tombol WhatsApp di bawah untuk mendapatkan bantuan akses.
+              </p>
             </div>
 
             <div className="space-y-2 pt-1">
