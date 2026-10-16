@@ -10,23 +10,15 @@ import {
   Plus,
   Users,
   Trophy,
-  Wallet,
   Calendar,
   CheckCircle2,
-  Circle,
   RotateCcw,
   Share2,
-  Trash2,
-  Edit,
   X,
   Search,
   Check,
-  ChevronRight,
   AlertCircle,
-  Phone,
-  Info,
-  Clock,
-  ArrowRight
+  Info
 } from 'lucide-react';
 
 interface AnggotaOption {
@@ -394,7 +386,6 @@ export default function ArisanPage() {
 
     try {
       setIsSaving(true);
-      // Map selected warga to initial participants
       const pesertaList = newKelompokForm.selectedAnggotaIds.map((id) => {
         const found = allAnggota.find((a) => a.id === id);
         return {
@@ -521,64 +512,65 @@ export default function ArisanPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-200">
-      {/* Sidebar */}
+    <div className="flex w-full min-h-screen bg-[#f8fafc] text-slate-800 font-sans antialiased">
+      {/* Sidebar Navigation */}
       <Sidebar activeMenu="Arisan Warga" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 md:pl-64">
+      {/* Main Content Viewport */}
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         {/* Header */}
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
-        {/* Page Content */}
-        <main className="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6 pb-24 md:pb-12">
+        {/* Content Container (Fluid and Consistent with other pages) */}
+        <main className="flex-1 w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12 py-6 md:py-8 space-y-6 md:space-y-7 pb-24 md:pb-16 font-sans">
+          
           {/* Notification Toast */}
           {notification && (
             <div
-              className={`fixed top-4 right-4 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-lg border text-sm transition-all animate-in fade-in slide-in-from-top-3 ${
+              className={`fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl text-xs font-bold text-white transition-all animate-bounce ${
                 notification.type === 'success'
-                  ? 'bg-emerald-50 dark:bg-emerald-950/80 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
-                  : 'bg-rose-50 dark:bg-rose-950/80 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200'
+                  ? 'bg-emerald-600 shadow-emerald-100'
+                  : 'bg-rose-600 shadow-rose-100'
               }`}
             >
               {notification.type === 'success' ? (
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
               ) : (
-                <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
+                <AlertCircle className="w-4 h-4 shrink-0" />
               )}
-              <span className="font-medium">{notification.message}</span>
+              <span>{notification.message}</span>
             </div>
           )}
 
-          {/* Top Title & Action Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="p-1.5 rounded-lg bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-400">
+          {/* Header Section */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-slate-100 p-5 rounded-3xl shadow-sm text-left">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5">
+                <span className="p-2 rounded-xl bg-orange-50 text-[var(--brand-primary)]">
                   <Sparkles className="w-5 h-5" />
                 </span>
-                <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-                  Arisan Komunitas
-                </h1>
+                <div>
+                  <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-800">
+                    Arisan Komunitas Warga
+                  </h1>
+                  <p className="text-xs md:text-sm text-slate-400 font-medium">
+                    Kelola kelompok arisan, pengundian roda putar digital, dan pencatatan iuran transparan antar warga.
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Kelola kelompok arisan, pengundian roda putar digital, dan pencatatan iuran transparan antar warga.
-              </p>
             </div>
 
-            <div className="flex items-center gap-2.5">
-              <button
-                type="button"
-                onClick={() => setIsCreateModalOpen(true)}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium text-sm shadow-sm transition-colors shadow-teal-700/10"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Buat Kelompok Baru</span>
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsCreateModalOpen(true)}
+              className="px-4 py-2.5 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold flex items-center gap-2 transition shadow-sm cursor-pointer self-start sm:self-auto"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Buat Kelompok Baru</span>
+            </button>
           </div>
 
-          {/* Group Selector Pills / Tabs */}
+          {/* Group Selector Pills */}
           {kelompokList.length > 0 ? (
             <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
               {kelompokList.map((k) => {
@@ -588,18 +580,18 @@ export default function ArisanPage() {
                     key={k.id}
                     type="button"
                     onClick={() => setSelectedKelompokId(k.id)}
-                    className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all border ${
+                    className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all border cursor-pointer ${
                       isSelected
-                        ? 'bg-slate-900 text-white dark:bg-teal-600 border-transparent shadow-sm'
-                        : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                        ? 'bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-sm'
+                        : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <span>{k.nama}</span>
                     <span
-                      className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
+                      className={`ml-2 text-[10px] px-2 py-0.5 rounded-full ${
                         isSelected
                           ? 'bg-white/20 text-white'
-                          : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                          : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       {k.totalPeserta} Warga
@@ -609,20 +601,20 @@ export default function ArisanPage() {
               })}
             </div>
           ) : !isLoading ? (
-            <div className="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
-              <div className="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center mx-auto mb-3">
-                <Sparkles className="w-6 h-6" />
+            <div className="p-10 rounded-3xl bg-white border border-slate-100 shadow-sm text-center">
+              <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[var(--brand-primary)] flex items-center justify-center mx-auto mb-3">
+                <Sparkles className="w-7 h-7" />
               </div>
-              <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+              <h3 className="text-base font-bold text-slate-800">
                 Belum Ada Kelompok Arisan
               </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
+              <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
                 Mulai buat kelompok arisan pertama untuk warga RT, bapak-bapak, atau ibu-ibu PKK dengan klik tombol di bawah.
               </p>
               <button
                 type="button"
                 onClick={() => setIsCreateModalOpen(true)}
-                className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium transition-colors"
+                className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold transition shadow-sm cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Buat Kelompok Arisan</span>
@@ -633,105 +625,111 @@ export default function ArisanPage() {
           {/* Active Group Details */}
           {kelompokDetail && (
             <>
-              {/* Bento Grid Metrics */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {/* Metric 1: Putaran Berjalan */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
-                    <span className="text-xs font-medium">Putaran Arisan</span>
-                    <Calendar className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+              {/* 4 Bento Grid Metric Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Metric 1 */}
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-orange-50 text-[var(--brand-primary)]">
+                    <Calendar className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                      {kelompokDetail.stats.totalPutaranSelesai}{' '}
-                      <span className="text-xs font-normal text-slate-400">
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                      Putaran Arisan
+                    </span>
+                    <div className="flex items-baseline gap-1.5">
+                      <h3 className="text-xl font-bold text-slate-800">
+                        {kelompokDetail.stats.totalPutaranSelesai}
+                      </h3>
+                      <span className="text-xs text-slate-500">
                         / {kelompokDetail.stats.totalPeserta} Putaran
                       </span>
                     </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      {kelompokDetail.periodeTipe === 'bulanan' ? 'Setiap Bulan' : 'Setiap Minggu'}
-                    </div>
                   </div>
                 </div>
 
-                {/* Metric 2: Hadiah / Kas per Putaran */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
-                    <span className="text-xs font-medium">Hadiah per Putaran</span>
-                    <Trophy className="w-4 h-4 text-amber-500" />
+                {/* Metric 2 */}
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-amber-50 text-amber-600">
+                    <Trophy className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100">
-                      Rp {kelompokDetail.stats.estimasiHadiah.toLocaleString('id-ID')}
-                    </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      Iuran: Rp {kelompokDetail.nominalIuran.toLocaleString('id-ID')} / warga
-                    </div>
-                  </div>
-                </div>
-
-                {/* Metric 3: Sisa Belum Menang */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
-                    <span className="text-xs font-medium">Sisa di Undian</span>
-                    <Users className="w-4 h-4 text-sky-500" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                      {kelompokDetail.stats.totalBelumMenang}{' '}
-                      <span className="text-xs font-normal text-slate-400">Peserta</span>
-                    </div>
-                    <div className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 font-medium">
-                      {kelompokDetail.stats.totalSudahMenang} orang sudah dapat
-                    </div>
-                  </div>
-                </div>
-
-                {/* Metric 4: Status Siklus & Reset */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-2">
-                    <span className="text-xs font-medium">Status Siklus</span>
-                    <span
-                      className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
-                        kelompokDetail.stats.siklusSelesai
-                          ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300'
-                          : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
-                      }`}
-                    >
-                      {kelompokDetail.stats.siklusSelesai ? 'Selesai' : 'Sedang Berjalan'}
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                      Hadiah per Putaran
                     </span>
+                    <div className="flex items-baseline gap-1.5">
+                      <h3 className="text-xl font-bold text-amber-600">
+                        Rp {kelompokDetail.stats.estimasiHadiah.toLocaleString('id-ID')}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-blue-50 text-blue-600">
+                    <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    {kelompokDetail.stats.siklusSelesai ? (
-                      <button
-                        type="button"
-                        onClick={handleResetSiklus}
-                        className="w-full mt-1 py-1.5 px-3 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800 text-xs font-medium hover:bg-teal-100 transition-colors flex items-center justify-center gap-1.5"
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                      Sisa di Undian
+                    </span>
+                    <div className="flex items-baseline gap-1.5">
+                      <h3 className="text-xl font-bold text-blue-600">
+                        {kelompokDetail.stats.totalBelumMenang}
+                      </h3>
+                      <span className="text-xs text-slate-500">
+                        ({kelompokDetail.stats.totalSudahMenang} Sudah Dapat)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Metric 4 */}
+                <div className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-3.5">
+                  <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-600">
+                    <CheckCircle2 className="w-5 h-5" />
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                      Status Siklus
+                    </span>
+                    <div className="flex items-center justify-between gap-1 mt-0.5">
+                      <span
+                        className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${
+                          kelompokDetail.stats.siklusSelesai
+                            ? 'bg-amber-100 text-amber-800'
+                            : 'bg-emerald-100 text-emerald-800'
+                        }`}
                       >
-                        <RotateCcw className="w-3.5 h-3.5" />
-                        <span>Mulai Siklus Baru</span>
-                      </button>
-                    ) : (
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        Undian putaran berikutnya siap diputar
-                      </div>
-                    )}
+                        {kelompokDetail.stats.siklusSelesai ? 'Selesai' : 'Sedang Berjalan'}
+                      </span>
+                      {kelompokDetail.stats.siklusSelesai && (
+                        <button
+                          type="button"
+                          onClick={handleResetSiklus}
+                          className="text-[11px] text-[var(--brand-primary)] hover:underline font-bold flex items-center gap-1 cursor-pointer"
+                        >
+                          <RotateCcw className="w-3 h-3" />
+                          <span>Reset</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Main Content: Left Column (Spin Wheel) & Right Column (Management/Iuran) */}
+              {/* Main 2 Columns: Spin Wheel & Right Tabs */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Left Area: The Lucky Spin Wheel (7 cols on lg) */}
-                <div className="lg:col-span-7 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 md:p-6 flex flex-col items-center">
-                  <div className="w-full flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+                {/* Left Area: The Lucky Spin Wheel */}
+                <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 flex flex-col items-center">
+                  <div className="w-full flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
                     <div className="flex items-center gap-2">
-                      <Trophy className="w-5 h-5 text-amber-500" />
-                      <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-                        Roda Pengocokan Arisan
+                      <Trophy className="w-4 h-4 text-amber-500" />
+                      <h2 className="text-sm font-bold text-slate-800">
+                        Roda Pengocokan Arisan Digital
                       </h2>
                     </div>
-                    <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
+                    <span className="text-xs px-2.5 py-1 rounded-xl bg-orange-50 text-[var(--brand-primary)] font-bold">
                       Putaran ke-{(kelompokDetail.putaran.length || 0) + 1}
                     </span>
                   </div>
@@ -743,11 +741,11 @@ export default function ArisanPage() {
                     disabled={isSaving}
                   />
 
-                  {/* Active Candidates Preview Tags */}
-                  <div className="w-full mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2 flex items-center justify-between">
-                      <span>Peserta di Roda ({wheelCandidates.length} warga)</span>
-                      <span className="text-[11px] text-teal-600 dark:text-teal-400 font-medium">
+                  {/* Active Candidates Preview */}
+                  <div className="w-full mt-6 pt-4 border-t border-slate-100">
+                    <div className="text-xs font-bold text-slate-600 mb-2 flex items-center justify-between">
+                      <span>Peserta Dalam Roda ({wheelCandidates.length} warga)</span>
+                      <span className="text-[11px] text-emerald-600 font-semibold">
                         Siap Diundi
                       </span>
                     </div>
@@ -755,7 +753,7 @@ export default function ArisanPage() {
                       {wheelCandidates.map((c) => (
                         <span
                           key={c.id}
-                          className="text-xs px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60"
+                          className="text-xs px-2.5 py-1 rounded-xl bg-slate-50 text-slate-700 border border-slate-200"
                         >
                           {c.namaPeserta}
                           {c.nomorSlot && c.nomorSlot > 1 ? ` (#${c.nomorSlot})` : ''}
@@ -763,35 +761,35 @@ export default function ArisanPage() {
                       ))}
                       {wheelCandidates.length === 0 && (
                         <p className="text-xs text-slate-400 italic">
-                          Tidak ada peserta tersisa di siklus ini.
+                          Semua peserta telah menang di siklus ini. Silakan klik reset untuk memulai siklus baru.
                         </p>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* Right Area: Tabs for Iuran Checklist & Peserta List (5 cols on lg) */}
-                <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+                {/* Right Area: Tabs for Iuran Checklist & Peserta List */}
+                <div className="lg:col-span-5 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col overflow-hidden">
                   {/* Right Header Navigation Tabs */}
-                  <div className="flex items-center border-b border-slate-100 dark:border-slate-800 p-2 gap-1 bg-slate-50/50 dark:bg-slate-900/50 rounded-t-2xl">
+                  <div className="flex items-center border-b border-slate-100 p-2 gap-1 bg-slate-50">
                     <button
                       type="button"
                       onClick={() => setActiveSideTab('iuran')}
-                      className={`flex-1 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                      className={`flex-1 py-2 px-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                         activeSideTab === 'iuran'
-                          ? 'bg-white dark:bg-slate-800 text-teal-700 dark:text-teal-300 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                          ? 'bg-white text-slate-800 shadow-xs'
+                          : 'text-slate-400 hover:text-slate-700'
                       }`}
                     >
-                      Iuran Putaran Ini
+                      Iuran Putaran Terakhir
                     </button>
                     <button
                       type="button"
                       onClick={() => setActiveSideTab('peserta')}
-                      className={`flex-1 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                      className={`flex-1 py-2 px-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                         activeSideTab === 'peserta'
-                          ? 'bg-white dark:bg-slate-800 text-teal-700 dark:text-teal-300 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+                          ? 'bg-white text-slate-800 shadow-xs'
+                          : 'text-slate-400 hover:text-slate-700'
                       }`}
                     >
                       Daftar Peserta ({kelompokDetail.peserta.length})
@@ -800,55 +798,55 @@ export default function ArisanPage() {
 
                   {/* Tab 1: Iuran Putaran Terakhir */}
                   {activeSideTab === 'iuran' && (
-                    <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
                         {kelompokDetail.putaran.length > 0 ? (
                           <>
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-4 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
                               <div>
-                                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
                                   Putaran #{kelompokDetail.putaran[0].putaranKe}
                                 </span>
-                                <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                                  Pemenang: {kelompokDetail.putaran[0].namaPemenang}
+                                <div className="text-sm font-bold text-slate-800">
+                                  {kelompokDetail.putaran[0].namaPemenang}
                                 </div>
                               </div>
                               <div className="text-right">
-                                <span className="text-xs text-slate-500 dark:text-slate-400">
+                                <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
                                   Terkumpul
                                 </span>
-                                <div className="text-sm font-bold text-teal-600 dark:text-teal-400">
+                                <div className="text-sm font-bold text-emerald-600">
                                   Rp {kelompokDetail.putaran[0].totalTerkumpul.toLocaleString('id-ID')}
                                 </div>
                               </div>
                             </div>
 
                             {/* Checklist Items */}
-                            <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
+                            <div className="space-y-2 max-h-[340px] overflow-y-auto pr-1">
                               {kelompokDetail.putaran[0].pembayaran.map((p) => {
                                 const isChecked = localIuranState[p.id] ?? p.statusBayar;
                                 return (
                                   <div
                                     key={p.id}
                                     onClick={() => handleToggleIuran(p.id)}
-                                    className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition-colors ${
+                                    className={`p-2.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-colors ${
                                       isChecked
-                                        ? 'bg-teal-50/60 dark:bg-teal-950/20 border-teal-200 dark:border-teal-900'
-                                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50'
+                                        ? 'bg-emerald-50/60 border-emerald-200'
+                                        : 'bg-white border-slate-100 hover:bg-slate-50'
                                     }`}
                                   >
                                     <div className="flex items-center gap-2.5">
                                       <div
-                                        className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
+                                        className={`w-5 h-5 rounded-lg flex items-center justify-center border transition-colors ${
                                           isChecked
-                                            ? 'bg-teal-600 border-teal-600 text-white'
-                                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800'
+                                            ? 'bg-emerald-600 border-emerald-600 text-white'
+                                            : 'border-slate-300 bg-white'
                                         }`}
                                       >
                                         {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                                       </div>
                                       <div>
-                                        <div className="text-xs font-medium text-slate-900 dark:text-slate-100">
+                                        <div className="text-xs font-bold text-slate-800">
                                           {p.peserta.namaPeserta}
                                         </div>
                                         <div className="text-[11px] text-slate-400">
@@ -858,10 +856,10 @@ export default function ArisanPage() {
                                     </div>
 
                                     <span
-                                      className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                                      className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold ${
                                         isChecked
-                                          ? 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200'
-                                          : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                                          ? 'bg-emerald-100 text-emerald-800'
+                                          : 'bg-slate-100 text-slate-500'
                                       }`}
                                     >
                                       {isChecked ? 'Lunas' : 'Belum Setor'}
@@ -872,8 +870,8 @@ export default function ArisanPage() {
                             </div>
                           </>
                         ) : (
-                          <div className="py-12 text-center text-slate-400 text-xs">
-                            <Info className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                          <div className="py-14 text-center text-slate-400 text-xs">
+                            <Info className="w-8 h-8 mx-auto mb-2 opacity-40 text-slate-400" />
                             Belum ada putaran yang dijalankan.
                             <br />
                             Putar roda undian di samping untuk memulai putaran pertama!
@@ -882,12 +880,12 @@ export default function ArisanPage() {
                       </div>
 
                       {kelompokDetail.putaran.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end">
+                        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-end">
                           <button
                             type="button"
                             onClick={handleSaveIuranChanges}
                             disabled={isSaving}
-                            className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-teal-600 dark:hover:bg-teal-700 text-white text-xs font-medium shadow-sm transition-colors"
+                            className="w-full py-2.5 px-4 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold shadow-sm transition-colors cursor-pointer"
                           >
                             Simpan Perubahan Iuran
                           </button>
@@ -898,7 +896,7 @@ export default function ArisanPage() {
 
                   {/* Tab 2: Peserta List */}
                   {activeSideTab === 'peserta' && (
-                    <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div className="p-5 flex-1 flex flex-col justify-between">
                       <div>
                         {/* Search & Add Button */}
                         <div className="flex items-center gap-2 mb-3">
@@ -909,13 +907,13 @@ export default function ArisanPage() {
                               value={searchPesertaQuery}
                               onChange={(e) => setSearchPesertaQuery(e.target.value)}
                               placeholder="Cari peserta..."
-                              className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                              className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                             />
                           </div>
                           <button
                             type="button"
                             onClick={() => setIsAddPesertaModalOpen(true)}
-                            className="p-1.5 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition-colors shrink-0"
+                            className="p-2 rounded-xl bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-hover)] transition-colors shrink-0 cursor-pointer shadow-sm"
                             title="Tambah Peserta"
                           >
                             <Plus className="w-4 h-4" />
@@ -923,18 +921,18 @@ export default function ArisanPage() {
                         </div>
 
                         {/* List of participants */}
-                        <div className="space-y-1.5 max-h-[360px] overflow-y-auto pr-1">
+                        <div className="space-y-1.5 max-h-[340px] overflow-y-auto pr-1">
                           {filteredPeserta.map((p, idx) => (
                             <div
                               key={p.id}
-                              className="p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs hover:bg-slate-50/50 dark:hover:bg-slate-800/40"
+                              className="p-2.5 rounded-2xl border border-slate-100 flex items-center justify-between text-xs hover:bg-slate-50/70 transition-colors"
                             >
                               <div className="flex items-center gap-2.5">
                                 <span className="w-5 text-slate-400 text-right font-mono text-[11px]">
                                   {idx + 1}.
                                 </span>
                                 <div>
-                                  <div className="font-medium text-slate-900 dark:text-slate-100">
+                                  <div className="font-bold text-slate-800">
                                     {p.namaPeserta}
                                     {p.nomorSlot > 1 ? ` (Slot #${p.nomorSlot})` : ''}
                                   </div>
@@ -948,11 +946,11 @@ export default function ArisanPage() {
 
                               <div>
                                 {p.sudahMenang ? (
-                                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-medium">
+                                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">
                                     Sudah Dapat
                                   </span>
                                 ) : (
-                                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 font-medium">
+                                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold">
                                     Belum Dapat
                                   </span>
                                 )}
@@ -962,12 +960,12 @@ export default function ArisanPage() {
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                      <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
                         <span>Total: {kelompokDetail.peserta.length} peserta</span>
                         <button
                           type="button"
                           onClick={() => setIsAddPesertaModalOpen(true)}
-                          className="text-teal-600 dark:text-teal-400 font-medium hover:underline inline-flex items-center gap-1"
+                          className="text-[var(--brand-primary)] font-bold hover:underline inline-flex items-center gap-1 cursor-pointer"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Tambah Peserta</span>
@@ -978,22 +976,22 @@ export default function ArisanPage() {
                 </div>
               </div>
 
-              {/* Bottom Area: History of Rounds (Riwayat Pengundian) */}
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 md:p-6">
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
+              {/* Bottom Area: History of Rounds */}
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 text-left">
+                <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-                    <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+                    <Calendar className="w-4 h-4 text-[var(--brand-primary)]" />
+                    <h2 className="text-sm font-bold text-slate-800">
                       Riwayat Putaran & Pemenang
                     </h2>
                   </div>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-slate-400 font-medium">
                     Total {kelompokDetail.putaran.length} Putaran Telah Terlaksana
                   </span>
                 </div>
 
                 {kelompokDetail.putaran.length > 0 ? (
-                  <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                  <div className="divide-y divide-slate-100">
                     {kelompokDetail.putaran.map((putaran) => {
                       const dateStr = new Date(putaran.tanggalKocok).toLocaleDateString('id-ID', {
                         day: 'numeric',
@@ -1009,17 +1007,17 @@ export default function ArisanPage() {
                           className="py-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm"
                         >
                           <div className="flex items-start gap-3">
-                            <span className="w-8 h-8 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                            <span className="w-8 h-8 rounded-xl bg-orange-50 text-[var(--brand-primary)] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
                               #{putaran.putaranKe}
                             </span>
                             <div>
-                              <div className="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                              <div className="font-bold text-slate-800 flex items-center gap-2">
                                 <span>{putaran.namaPemenang}</span>
                                 <span className="text-xs font-normal text-slate-400">
                                   ({dateStr})
                                 </span>
                               </div>
-                              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                              <div className="text-xs text-slate-400 mt-0.5">
                                 Iuran Terkumpul: Rp {putaran.totalTerkumpul.toLocaleString('id-ID')}{' '}
                                 ({paidCount}/{totalMembers} Warga Lunas)
                               </div>
@@ -1029,7 +1027,7 @@ export default function ArisanPage() {
                           <div className="flex items-center gap-3 sm:self-center self-end">
                             <div className="text-right">
                               <span className="text-xs text-slate-400 block">Dana Diterima</span>
-                              <span className="font-bold text-teal-600 dark:text-teal-400">
+                              <span className="font-bold text-emerald-600">
                                 Rp {putaran.nominalDiterima.toLocaleString('id-ID')}
                               </span>
                             </div>
@@ -1038,7 +1036,7 @@ export default function ArisanPage() {
                               href={getWhatsAppShareUrl(putaran)}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-800 transition-colors"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200 transition-colors cursor-pointer"
                               title="Bagikan ke WhatsApp Warga"
                             >
                               <Share2 className="w-3.5 h-3.5" />
@@ -1060,17 +1058,17 @@ export default function ArisanPage() {
 
           {/* Modal: Konfirmasi Pemenang Undian */}
           {isWinnerModalOpen && pendingWinner && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
-              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-md w-full p-6 text-center space-y-4 animate-in zoom-in-95">
-                <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-500 flex items-center justify-center mx-auto shadow-inner">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-md w-full p-6 text-center space-y-4 animate-in zoom-in-95">
+                <div className="w-16 h-16 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center mx-auto shadow-inner">
                   <Trophy className="w-8 h-8 animate-bounce" />
                 </div>
 
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[var(--brand-primary)]">
                     Pemenang Terpilih!
                   </span>
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
+                  <h3 className="text-2xl font-bold text-slate-800 mt-1">
                     {pendingWinner.namaPeserta}
                   </h3>
                   {pendingWinner.nomorSlot && pendingWinner.nomorSlot > 1 && (
@@ -1078,10 +1076,10 @@ export default function ArisanPage() {
                       Nomor Slot: #{pendingWinner.nomorSlot}
                     </span>
                   )}
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                  <p className="text-xs text-slate-500 mt-2">
                     Berhak menerima total hadiah arisan putaran ini:
                   </p>
-                  <div className="text-xl font-extrabold text-teal-600 dark:text-teal-400 mt-1">
+                  <div className="text-xl font-extrabold text-emerald-600 mt-1">
                     Rp {kelompokDetail?.stats.estimasiHadiah.toLocaleString('id-ID')}
                   </div>
                 </div>
@@ -1091,7 +1089,7 @@ export default function ArisanPage() {
                     type="button"
                     onClick={handleConfirmWinner}
                     disabled={isSaving}
-                    className="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium text-sm transition-colors shadow-md shadow-teal-700/20"
+                    className="w-full py-3 px-4 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold text-xs transition shadow-sm cursor-pointer"
                   >
                     {isSaving ? 'Menyimpan Hasil...' : 'Konfirmasi & Simpan Pemenang'}
                   </button>
@@ -1102,7 +1100,7 @@ export default function ArisanPage() {
                       setPendingWinner(null);
                     }}
                     disabled={isSaving}
-                    className="w-full py-2.5 px-4 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium transition-colors"
+                    className="w-full py-2.5 px-4 rounded-2xl text-slate-500 hover:bg-slate-100 text-xs font-bold transition cursor-pointer"
                   >
                     Batal / Kocok Ulang
                   </button>
@@ -1113,16 +1111,16 @@ export default function ArisanPage() {
 
           {/* Modal: Buat Kelompok Baru */}
           {isCreateModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto text-left">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <h3 className="text-base font-bold text-slate-800">
                     Buat Kelompok Arisan Baru
                   </h3>
                   <button
                     type="button"
                     onClick={() => setIsCreateModalOpen(false)}
-                    className="text-slate-400 hover:text-slate-600"
+                    className="text-slate-400 hover:text-slate-600 cursor-pointer"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -1130,7 +1128,7 @@ export default function ArisanPage() {
 
                 <form onSubmit={handleCreateKelompok} className="space-y-4 text-xs">
                   <div>
-                    <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-slate-700 mb-1">
                       Nama Kelompok Arisan *
                     </label>
                     <input
@@ -1141,13 +1139,13 @@ export default function ArisanPage() {
                         setNewKelompokForm({ ...newKelompokForm, nama: e.target.value })
                       }
                       placeholder="e.g. Arisan Bulanan RT 04, Arisan PKK Anggrek"
-                      className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block font-bold text-slate-700 mb-1">
                         Nominal Iuran / Putaran (Rp) *
                       </label>
                       <input
@@ -1160,11 +1158,11 @@ export default function ArisanPage() {
                             nominalIuran: e.target.value,
                           })
                         }
-                        className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                       />
                     </div>
                     <div>
-                      <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block font-bold text-slate-700 mb-1">
                         Periode Kocokan
                       </label>
                       <select
@@ -1175,7 +1173,7 @@ export default function ArisanPage() {
                             periodeTipe: e.target.value,
                           })
                         }
-                        className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)] cursor-pointer"
                       >
                         <option value="bulanan">Bulanan</option>
                         <option value="dua_mingguan">Dua Mingguan</option>
@@ -1185,7 +1183,7 @@ export default function ArisanPage() {
                   </div>
 
                   <div>
-                    <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-slate-700 mb-1">
                       Keterangan / Catatan (Opsional)
                     </label>
                     <textarea
@@ -1195,14 +1193,14 @@ export default function ArisanPage() {
                         setNewKelompokForm({ ...newKelompokForm, keterangan: e.target.value })
                       }
                       placeholder="e.g. Diundi setiap pertemuan RT malam Minggu Pon"
-                      className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                     />
                   </div>
 
                   {/* Multi-select from existing warga */}
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="font-medium text-slate-700 dark:text-slate-300">
+                      <label className="font-bold text-slate-700">
                         Pilih Peserta Awal dari Data Warga ({newKelompokForm.selectedAnggotaIds.length} dipilih)
                       </label>
                       <button
@@ -1217,7 +1215,7 @@ export default function ArisanPage() {
                             });
                           }
                         }}
-                        className="text-[11px] text-teal-600 hover:underline font-medium"
+                        className="text-[11px] text-[var(--brand-primary)] hover:underline font-bold cursor-pointer"
                       >
                         {newKelompokForm.selectedAnggotaIds.length === allAnggota.length
                           ? 'Batal Semua'
@@ -1225,19 +1223,19 @@ export default function ArisanPage() {
                       </button>
                     </div>
 
-                    <div className="max-h-40 overflow-y-auto border border-slate-200 dark:border-slate-800 rounded-xl p-2 space-y-1 bg-slate-50/50 dark:bg-slate-900/50">
+                    <div className="max-h-40 overflow-y-auto border border-slate-100 rounded-2xl p-2 space-y-1 bg-slate-50">
                       {allAnggota.map((warga) => {
                         const isSelected = newKelompokForm.selectedAnggotaIds.includes(warga.id);
                         return (
                           <label
                             key={warga.id}
-                            className={`flex items-center justify-between p-1.5 rounded-lg cursor-pointer text-xs transition-colors ${
+                            className={`flex items-center justify-between p-2 rounded-xl cursor-pointer text-xs transition-colors ${
                               isSelected
-                                ? 'bg-teal-50 dark:bg-teal-950/40 text-teal-900 dark:text-teal-200'
-                                : 'hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                                ? 'bg-orange-50 text-[var(--brand-primary)] font-bold'
+                                : 'hover:bg-white text-slate-700'
                             }`}
                           >
-                            <span className="font-medium">{warga.nama}</span>
+                            <span>{warga.nama} (Rumah {warga.noRumah})</span>
                             <input
                               type="checkbox"
                               checked={isSelected}
@@ -1259,7 +1257,7 @@ export default function ArisanPage() {
                                   });
                                 }
                               }}
-                              className="rounded text-teal-600 focus:ring-teal-500"
+                              className="rounded text-[var(--brand-primary)] focus:ring-[var(--brand-primary)] cursor-pointer"
                             />
                           </label>
                         );
@@ -1267,18 +1265,18 @@ export default function ArisanPage() {
                     </div>
                   </div>
 
-                  <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800">
+                  <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
                     <button
                       type="button"
                       onClick={() => setIsCreateModalOpen(false)}
-                      className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium"
+                      className="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 text-xs font-bold cursor-pointer"
                     >
                       Batal
                     </button>
                     <button
                       type="submit"
                       disabled={isSaving}
-                      className="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs shadow-sm transition-colors"
+                      className="px-5 py-2.5 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold text-xs shadow-sm transition-colors cursor-pointer"
                     >
                       {isSaving ? 'Menyimpan...' : 'Simpan Kelompok'}
                     </button>
@@ -1290,16 +1288,16 @@ export default function ArisanPage() {
 
           {/* Modal: Tambah Peserta Baru */}
           {isAddPesertaModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl max-w-md w-full p-6 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
+              <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-md w-full p-6 space-y-4 text-left">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <h3 className="text-base font-bold text-slate-800">
                     Tambah Peserta Arisan
                   </h3>
                   <button
                     type="button"
                     onClick={() => setIsAddPesertaModalOpen(false)}
-                    className="text-slate-400 hover:text-slate-600"
+                    className="text-slate-400 hover:text-slate-600 cursor-pointer"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -1307,7 +1305,7 @@ export default function ArisanPage() {
 
                 <form onSubmit={handleAddPeserta} className="space-y-4 text-xs">
                   <div>
-                    <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-slate-700 mb-1">
                       Pilih dari Data Warga RT (Opsional)
                     </label>
                     <select
@@ -1322,7 +1320,7 @@ export default function ArisanPage() {
                           noHp: found?.noHp || '',
                         });
                       }}
-                      className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)] cursor-pointer"
                     >
                       <option value="">-- Masukkan Nama Manual / Bebas --</option>
                       {allAnggota.map((warga) => (
@@ -1334,7 +1332,7 @@ export default function ArisanPage() {
                   </div>
 
                   <div>
-                    <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    <label className="block font-bold text-slate-700 mb-1">
                       Nama Peserta di Arisan *
                     </label>
                     <input
@@ -1345,13 +1343,13 @@ export default function ArisanPage() {
                         setNewPesertaForm({ ...newPesertaForm, namaPeserta: e.target.value })
                       }
                       placeholder="e.g. Bpk. Supardi / Ny. Siti (Slot 2)"
-                      className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block font-bold text-slate-700 mb-1">
                         Nomor Slot / Urutan
                       </label>
                       <input
@@ -1361,11 +1359,11 @@ export default function ArisanPage() {
                         onChange={(e) =>
                           setNewPesertaForm({ ...newPesertaForm, nomorSlot: e.target.value })
                         }
-                        className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                       />
                     </div>
                     <div>
-                      <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                      <label className="block font-bold text-slate-700 mb-1">
                         No. WhatsApp (Opsional)
                       </label>
                       <input
@@ -1375,23 +1373,23 @@ export default function ArisanPage() {
                           setNewPesertaForm({ ...newPesertaForm, noHp: e.target.value })
                         }
                         placeholder="0812xxxx"
-                        className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-teal-500"
+                        className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
                       />
                     </div>
                   </div>
 
-                  <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-slate-800">
+                  <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
                     <button
                       type="button"
                       onClick={() => setIsAddPesertaModalOpen(false)}
-                      className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium"
+                      className="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 text-xs font-bold cursor-pointer"
                     >
                       Batal
                     </button>
                     <button
                       type="submit"
                       disabled={isSaving}
-                      className="px-5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-medium text-xs shadow-sm transition-colors"
+                      className="px-5 py-2.5 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold text-xs shadow-sm transition-colors cursor-pointer"
                     >
                       {isSaving ? 'Menyimpan...' : 'Tambah Peserta'}
                     </button>
