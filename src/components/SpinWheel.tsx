@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Play, RotateCcw, AlertCircle, Sparkles } from 'lucide-react';
+import { Play, RotateCcw, AlertCircle, Sparkles, Lock } from 'lucide-react';
 
 export interface SpinCandidate {
   id: string;
@@ -15,6 +15,7 @@ interface SpinWheelProps {
   candidates: SpinCandidate[];
   onSpinEnd: (winner: SpinCandidate) => void;
   disabled?: boolean;
+  disabledReason?: string;
 }
 
 // Harmonious, festive, and modern color palette
@@ -33,7 +34,12 @@ const SLICE_COLORS = [
   '#0891b2', // Deep Cyan
 ];
 
-export default function SpinWheel({ candidates, onSpinEnd, disabled = false }: SpinWheelProps) {
+export default function SpinWheel({
+  candidates,
+  onSpinEnd,
+  disabled = false,
+  disabledReason,
+}: SpinWheelProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [currentRotation, setCurrentRotation] = useState(0); // in radians
@@ -365,6 +371,8 @@ export default function SpinWheel({ candidates, onSpinEnd, disabled = false }: S
               ? 'bg-slate-200 text-slate-500 cursor-not-allowed shadow-none'
               : candidates.length === 0
               ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200 shadow-none'
+              : disabled
+              ? 'bg-slate-100 text-slate-500 cursor-not-allowed border border-slate-200 shadow-none hover:bg-slate-100'
               : 'bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white active:scale-[0.99] shadow-orange-700/20'
           }`}
         >
@@ -378,18 +386,29 @@ export default function SpinWheel({ candidates, onSpinEnd, disabled = false }: S
               <AlertCircle className="w-4 h-4 text-amber-500" />
               <span>Semua Peserta Sudah Menang</span>
             </>
+          ) : disabled ? (
+            <>
+              <Lock className="w-4 h-4 text-amber-600" />
+              <span>{disabledReason || 'Roda Belum Dapat Diputar'}</span>
+            </>
           ) : (
             <>
               <Play className="w-4 h-4 fill-current" />
-              <span>Putar Roda Arisan ({candidates.length} Peserta)</span>
+              <span>Putar Roda Arisan ({candidates.length} Peserta Siap Undi)</span>
             </>
           )}
         </button>
 
         <p className="text-[11px] text-slate-400 text-center font-medium leading-relaxed">
-          {candidates.length > 0
-            ? 'Hanya peserta yang belum pernah menang di siklus ini yang masuk dalam roda.'
-            : 'Siklus telah selesai. Silakan klik "Mulai Siklus Baru" untuk mengundi kembali.'}
+          {disabled && candidates.length > 0 && disabledReason ? (
+            <span className="text-amber-700 font-semibold bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 block text-[11px]">
+              🔒 {disabledReason}
+            </span>
+          ) : candidates.length > 0 ? (
+            'Hanya peserta yang belum pernah menang di siklus ini yang masuk dalam roda.'
+          ) : (
+            'Siklus telah selesai. Silakan klik "Mulai Siklus Baru" untuk mengundi kembali.'
+          )}
         </p>
       </div>
     </div>

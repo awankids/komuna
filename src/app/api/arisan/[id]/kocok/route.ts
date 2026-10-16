@@ -20,6 +20,8 @@ export async function POST(
       dicatatOleh = 'Pengurus RT',
       kehadiranDanIuranList = [], // Array of { pesertaId, statusKehadiran, statusBayar, metode, catatan }
       sinkronAgendaBerikutnya = true,
+      lokasiBerikutnya,
+      tanggalBerikutnya,
     } = body;
 
     if (!pemenangId) {
@@ -32,7 +34,11 @@ export async function POST(
     const kelompok = await db.kelompokArisan.findUnique({
       where: { id: kelompokId },
       include: {
-        peserta: true,
+        peserta: {
+          include: {
+            anggota: true,
+          },
+        },
         putaran: {
           orderBy: { putaranKe: 'desc' },
           take: 1,
@@ -180,13 +186,31 @@ export async function POST(
         });
       }
 
-      // 5. Automatically schedule next round agenda if requested
-      if (sinkronAgendaBerikutnya && kelompok.hariJawa) {
+      // 5. Automatically schedule next round agenda with WINNER as the next host
+      const winnerHouse = pemenang.anggota?.noRumah
+        ? `Rumah Bpk/Ibu ${pemenang.namaPeserta} (No. ${pemenang.anggota.noRumah})`
+        : `Rumah Bpk/Ibu ${pemenang.namaPeserta}`;
+      const finalNextLocation = (lokasiBerikutnya && lokasiBerikutnya.trim()) || winnerHouse;
+
+      // Update current group meeting location to the new winner's house for upcoming round
+      await tx.kelompokArisan.update({
+        where: { id: kelompokId },
+        data: { lokasiKocok: finalNextLocation },
+      });
+
+      if (sinkronAgendaBerikutnya) {
         try {
-          const nextAgendaDate = findNextWetonDate(
-            kelompok.hariJawa,
-            new Date(new Date(tanggalKocok).getTime() + 86400000 * 2) // from 2 days after current
-          );
+          let nextAgendaDate: Date;
+          if (tanggalBerikutnya) {
+            nextAgendaDate = new Date(tanggalBerikutnya);
+          } else if (kelompok.hariJawa) {
+            nextAgendaDate = findNextWetonDate(
+              kelompok.hariJawa,
+              new Date(new Date(tanggalKocok).getTime() + 86400000 * 2) // from 2 days after current
+            );
+          } else {
+            nextAgendaDate = new Date(new Date(tanggalKocok).getTime() + 86400000 * 30);
+          }
 
           await tx.agenda.create({
             data: {
@@ -194,8 +218,8 @@ export async function POST(
               kategori: 'rapat',
               tanggal: nextAgendaDate,
               waktuMulai: kelompok.waktuKocok || '19:30',
-              lokasi: kelompok.lokasiKocok || `Rumah ${pemenang.namaPeserta}`,
-              keterangan: `Pertemuan rutin selapanan (${kelompok.hariJawa}) dan arisan putaran ke-${nextPutaranKe + 1}. Tuan rumah: Bpk/Ibu ${pemenang.namaPeserta}.`,
+              lokasi: finalNextLocation,
+              keterangan: `Pertemuan rutin arisan putaran ke-${nextPutaranKe + 1} (${kelompok.hariJawa || 'Bulanan'}). Tuan Rumah: Bpk/Ibu ${pemenang.namaPeserta}.`,
               status: 'terjadwal',
             },
           });

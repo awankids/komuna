@@ -37,6 +37,10 @@ import {
   ArrowRight,
   BookmarkPlus,
   Trash2,
+  Lock,
+  ChevronDown,
+  ChevronUp,
+  Home,
 } from 'lucide-react';
 
 interface AnggotaOption {
@@ -184,8 +188,12 @@ export default function ArisanPage() {
 
   // Filter for Iuran & Kehadiran checklist
   const [iuranFilter, setIuranFilter] = useState<
-    'semua' | 'tidak_berangkat_belum_bayar' | 'tidak_berangkat' | 'belum_bayar' | 'lunas'
+    'semua' | 'tidak_berangkat_belum_bayar' | 'tidak_berangkat' | 'belum_bayar' | 'lunas' | 'punya_tunggakan_lalu'
   >('semua');
+
+  // Gating & verification states
+  const [isAbsensiConfirmed, setIsAbsensiConfirmed] = useState(false);
+  const [expandedPutaranId, setExpandedPutaranId] = useState<string | null>(null);
 
   // Search filter for participant list
   const [searchPesertaQuery, setSearchPesertaQuery] = useState('');
@@ -239,6 +247,8 @@ export default function ArisanPage() {
     agendaId: '',
     statusTalangan: 'tidak_ditalangi', // "tidak_ditalangi" | "ditalangi_kas"
     sinkronAgendaBerikutnya: true,
+    lokasiBerikutnya: '',
+    tanggalBerikutnya: '',
     catatan: '',
   });
 
@@ -348,7 +358,7 @@ export default function ArisanPage() {
   };
 
   // Fetch single kelompok details
-  const fetchKelompokDetail = async (id: string) => {
+  const fetchKelompokDetail = async (id: string, preserveLocalState: boolean = false) => {
     try {
       const res = await fetch(`/api/arisan/${id}`);
       const json = await res.json();
@@ -368,26 +378,8 @@ export default function ArisanPage() {
           status: json.data.status || 'aktif',
         });
 
-        // Pre-fill local iuran & kehadiran checklist state from latest putaran
-        const latestPutaran = json.data.putaran[0];
-        if (latestPutaran && latestPutaran.pembayaran && latestPutaran.pembayaran.length > 0) {
-          const map: Record<
-            string,
-            { statusBayar: boolean; statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir'; catatan?: string }
-          > = {};
-          latestPutaran.pembayaran.forEach((p: PembayaranItem) => {
-            map[p.id] = {
-              statusBayar: p.statusBayar,
-              statusKehadiran: p.statusKehadiran || 'hadir',
-              catatan: p.catatan || '',
-            };
-          });
-          setLocalIuranState(map);
-          setLocalTalanganMode(
-            (latestPutaran.statusTalangan as 'tidak_ditalangi' | 'ditalangi_kas') || 'tidak_ditalangi'
-          );
-        } else {
-          // Inisialisasi presensi awal untuk peserta kelompok baru / putaran ke-1
+        // Selalu inisialisasi lembar presensi & iuran segar untuk persiapan putaran berikutnya
+        if (!preserveLocalState) {
           const map: Record<
             string,
             { statusBayar: boolean; statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir'; catatan?: string }
@@ -403,6 +395,7 @@ export default function ArisanPage() {
           }
           setLocalIuranState(map);
           setLocalTalanganMode('tidak_ditalangi');
+          setIsAbsensiConfirmed(false);
         }
       }
     } catch (err) {
@@ -489,6 +482,52 @@ export default function ArisanPage() {
     );
   }, [kelompokDetail, searchPesertaQuery]);
 
+  // Tunggakan peserta dari seluruh putaran sebelumnya yang belum lunas
+  const tunggakanByPesertaId = useMemo(() => {
+    const map = new Map<
+      string,
+      Array<{
+        putaranKe: number;
+        tanggalKocok: string;
+        nominal: number;
+        pembayaranId: string;
+        putaranId: string;
+      }>
+    >();
+
+    if (!kelompokDetail || !kelompokDetail.putaran) return map;
+
+    kelompokDetail.putaran.forEach((putaran) => {
+      if (Array.isArray(putaran.pembayaran)) {
+        putaran.pembayaran.forEach((pem) => {
+          if (!pem.statusBayar) {
+            const list = map.get(pem.pesertaId) || [];
+            list.push({
+              putaranKe: putaran.putaranKe,
+              tanggalKocok: putaran.tanggalKocok,
+              nominal: pem.nominal,
+              pembayaranId: pem.id,
+              putaranId: putaran.id,
+            });
+            map.set(pem.pesertaId, list);
+          }
+        });
+      }
+    });
+
+    return map;
+  }, [kelompokDetail]);
+
+  const totalSemuaTunggakan = useMemo(() => {
+    let sum = 0;
+    tunggakanByPesertaId.forEach((list) => {
+      list.forEach((item) => {
+        sum += item.nominal;
+      });
+    });
+    return sum;
+  }, [tunggakanByPesertaId]);
+
   interface UnifiedIuranRow {
     rowKey: string;
     pesertaId: string;
@@ -499,38 +538,26 @@ export default function ArisanPage() {
     statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir';
     statusBayar: boolean;
     sudahMenang?: boolean;
+    tunggakanLalu: Array<{
+      putaranKe: number;
+      tanggalKocok: string;
+      nominal: number;
+      pembayaranId: string;
+      putaranId: string;
+    }>;
   }
 
+  // Baris presensi & iuran peserta untuk persiapan putaran berjalan
   const unifiedIuranRows: UnifiedIuranRow[] = useMemo(() => {
-    if (!kelompokDetail) return [];
+    if (!kelompokDetail || !kelompokDetail.peserta) return [];
 
-    const latest = kelompokDetail.putaran[0];
-    if (latest && latest.pembayaran && latest.pembayaran.length > 0) {
-      return latest.pembayaran.map((p) => {
-        const state = localIuranState[p.id] || {
-          statusBayar: p.statusBayar,
-          statusKehadiran: p.statusKehadiran || 'hadir',
-        };
-        return {
-          rowKey: p.id,
-          pesertaId: p.pesertaId,
-          namaPeserta: p.peserta.namaPeserta,
-          noRumah: (p.peserta as any).anggota?.noRumah,
-          noHp: p.peserta.noHp,
-          nominal: p.nominal || kelompokDetail.nominalIuran,
-          statusKehadiran: state.statusKehadiran,
-          statusBayar: state.statusBayar,
-          sudahMenang: p.peserta.sudahMenang,
-        };
-      });
-    }
-
-    // Persiapan Putaran #1 (atau belum ada putaran tersimpan)
     return kelompokDetail.peserta.map((peserta) => {
       const state = localIuranState[peserta.id] || {
         statusBayar: false,
         statusKehadiran: 'hadir',
       };
+      const tunggakanLalu = tunggakanByPesertaId.get(peserta.id) || [];
+
       return {
         rowKey: peserta.id,
         pesertaId: peserta.id,
@@ -541,11 +568,12 @@ export default function ArisanPage() {
         statusKehadiran: state.statusKehadiran,
         statusBayar: state.statusBayar,
         sudahMenang: peserta.sudahMenang,
+        tunggakanLalu,
       };
     });
-  }, [kelompokDetail, localIuranState]);
+  }, [kelompokDetail, localIuranState, tunggakanByPesertaId]);
 
-  // Real-time calculation of active/latest putaran finance from local checklist
+  // Real-time calculation of active putaran finance & attendance
   const latestPutaranStats = useMemo(() => {
     if (!kelompokDetail) {
       return {
@@ -556,6 +584,8 @@ export default function ArisanPage() {
         paidCount: 0,
         unpaidCount: 0,
         hadirCount: 0,
+        izinCount: 0,
+        tidakHadirCount: 0,
         absenCount: 0,
         absenDanNunggakCount: 0,
       };
@@ -565,7 +595,8 @@ export default function ArisanPage() {
     let totalTerkumpul = 0;
     let paidCount = 0;
     let hadirCount = 0;
-    let absenCount = 0;
+    let izinCount = 0;
+    let tidakHadirCount = 0;
     let absenDanNunggakCount = 0;
 
     unifiedIuranRows.forEach((r) => {
@@ -576,14 +607,16 @@ export default function ArisanPage() {
 
       if (r.statusKehadiran === 'hadir') {
         hadirCount++;
+      } else if (r.statusKehadiran === 'izin') {
+        izinCount++;
+        if (!r.statusBayar) absenDanNunggakCount++;
       } else {
-        absenCount++;
-        if (!r.statusBayar) {
-          absenDanNunggakCount++;
-        }
+        tidakHadirCount++;
+        if (!r.statusBayar) absenDanNunggakCount++;
       }
     });
 
+    const absenCount = izinCount + tidakHadirCount;
     const unpaidCount = unifiedIuranRows.length - paidCount;
     const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
     const nominalDiserahkan =
@@ -597,14 +630,131 @@ export default function ArisanPage() {
       paidCount,
       unpaidCount,
       hadirCount,
+      izinCount,
+      tidakHadirCount,
       absenCount,
       absenDanNunggakCount,
     };
   }, [kelompokDetail, unifiedIuranRows, localTalanganMode]);
 
+  // Gating & Kondisi Kesiapan Roda Putar
+  const isIuranComplete = useMemo(() => {
+    if (!kelompokDetail || kelompokDetail.peserta.length === 0) return false;
+    return latestPutaranStats.nominalKurang === 0 || localTalanganMode === 'ditalangi_kas';
+  }, [kelompokDetail, latestPutaranStats.nominalKurang, localTalanganMode]);
+
+  const isReadyToSpin = useMemo(() => {
+    if (!kelompokDetail || kelompokDetail.peserta.length === 0) return false;
+    if (wheelCandidates.length === 0) return false;
+    return isAbsensiConfirmed && isIuranComplete;
+  }, [kelompokDetail, wheelCandidates.length, isAbsensiConfirmed, isIuranComplete]);
+
+  const spinDisabledReason = useMemo(() => {
+    if (!kelompokDetail || kelompokDetail.peserta.length === 0) {
+      return 'Tambahkan peserta terlebih dahulu';
+    }
+    if (wheelCandidates.length === 0) {
+      return 'Semua peserta sudah menang (Siklus Selesai)';
+    }
+    if (!isAbsensiConfirmed) {
+      return 'Absensi belum dikonfirmasi (Tandai kehadiran & klik "Konfirmasi Absensi Selesai")';
+    }
+    if (!isIuranComplete) {
+      return `Uang iuran kurang Rp ${latestPutaranStats.nominalKurang.toLocaleString('id-ID')} (Lengkapi atau Aktifkan Talangan Kas RT)`;
+    }
+    return undefined;
+  }, [
+    kelompokDetail,
+    wheelCandidates.length,
+    isAbsensiConfirmed,
+    isIuranComplete,
+    latestPutaranStats.nominalKurang,
+  ]);
+
+  // Quick actions: Tandai Semua Hadir
+  const handleMarkAllHadir = () => {
+    setLocalIuranState((prev) => {
+      const next = { ...prev };
+      unifiedIuranRows.forEach((r) => {
+        const cur = next[r.rowKey] || { statusBayar: r.statusBayar, statusKehadiran: 'hadir' };
+        next[r.rowKey] = { ...cur, statusKehadiran: 'hadir' };
+      });
+      return next;
+    });
+    setIsAbsensiConfirmed(true);
+    showToast('Seluruh peserta ditandai Hadir & Absensi terverifikasi', 'success');
+  };
+
+  // Quick actions: Tandai Semua Lunas
+  const handleMarkAllLunas = () => {
+    setLocalIuranState((prev) => {
+      const next = { ...prev };
+      unifiedIuranRows.forEach((r) => {
+        const cur = next[r.rowKey] || { statusBayar: false, statusKehadiran: r.statusKehadiran };
+        next[r.rowKey] = { ...cur, statusBayar: true };
+      });
+      return next;
+    });
+    showToast('Seluruh peserta ditandai Lunas iuran arisan', 'success');
+  };
+
+  // Reset Lembar Kerja Presensi untuk pertemuan ini
+  const handleResetLembarPresensi = () => {
+    if (!kelompokDetail) return;
+    const isOk = window.confirm(
+      'Reset lembar presensi & iuran untuk persiapan pertemuan ini?\n\nSemua peserta akan kembali ke status belum bayar dan siap diabsen ulang.'
+    );
+    if (!isOk) return;
+
+    const freshMap: Record<
+      string,
+      { statusBayar: boolean; statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir'; catatan?: string }
+    > = {};
+    kelompokDetail.peserta.forEach((p) => {
+      freshMap[p.id] = { statusBayar: false, statusKehadiran: 'hadir', catatan: '' };
+    });
+    setLocalIuranState(freshMap);
+    setLocalTalanganMode('tidak_ditalangi');
+    setIsAbsensiConfirmed(false);
+    showToast('Lembar presensi telah di-reset untuk pertemuan baru', 'success');
+  };
+
+  // Lunasi tunggakan dari putaran sebelumnya
+  const handlePayArrears = async (pembayaranId: string, putaranId: string) => {
+    if (!selectedKelompokId) return;
+    try {
+      setIsSaving(true);
+      const res = await fetch(`/api/arisan/${selectedKelompokId}/iuran`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          putaranId,
+          pembayaranId,
+          statusBayar: true,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast('Tunggakan putaran lalu berhasil dilunasi', 'success');
+        await fetchKelompokDetail(selectedKelompokId, true);
+        await fetchKelompokList(selectedKelompokId);
+      } else {
+        showToast(json.error || 'Gagal melunasi tunggakan', 'error');
+      }
+    } catch (err) {
+      console.error('Error paying arrears:', err);
+      showToast('Terjadi kesalahan saat melunasi tunggakan', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   // Filtered Iuran items based on iuranFilter tab
   const filteredIuranItems = useMemo(() => {
     return unifiedIuranRows.filter((r) => {
+      if (iuranFilter === 'punya_tunggakan_lalu') {
+        return r.tunggakanLalu.length > 0;
+      }
       if (iuranFilter === 'tidak_berangkat_belum_bayar') {
         return r.statusKehadiran !== 'hadir' && !r.statusBayar;
       }
@@ -621,18 +771,37 @@ export default function ArisanPage() {
     });
   }, [unifiedIuranRows, iuranFilter]);
 
-  // When spin finishes, open the confirmation dialog with automatic weton calculation
+  // When spin finishes, open the confirmation dialog with automatic weton and host calculation
   const handleSpinEnd = (winner: SpinCandidate) => {
     setPendingWinner(winner);
     const today = new Date();
     const todayDateStr = today.toISOString().split('T')[0];
     const todayHariJawa = getHariJawa(todayDateStr);
+
+    const winnerData = kelompokDetail?.peserta.find((p) => p.id === winner.id);
+    const noRumah = winnerData?.anggota?.noRumah;
+    const defaultHostLocation = `Rumah Bpk/Ibu ${winner.namaPeserta}${
+      noRumah ? ` (No. ${noRumah})` : ''
+    }`;
+
+    let nextMeetingDateStr = '';
+    try {
+      const nextDate = kelompokDetail?.hariJawa
+        ? findNextWetonDate(kelompokDetail.hariJawa, new Date(today.getTime() + 86400000 * 2))
+        : new Date(today.getTime() + 86400000 * 30);
+      nextMeetingDateStr = nextDate.toISOString().split('T')[0];
+    } catch {
+      nextMeetingDateStr = '';
+    }
+
     setWinnerConfigForm({
       tanggalKocok: todayDateStr,
       hariJawa: kelompokDetail?.hariJawa || todayHariJawa,
       agendaId: upcomingAgendas.length > 0 ? upcomingAgendas[0].id : '',
       statusTalangan: localTalanganMode,
       sinkronAgendaBerikutnya: kelompokDetail?.autoSinkronAgenda ?? true,
+      lokasiBerikutnya: defaultHostLocation,
+      tanggalBerikutnya: nextMeetingDateStr,
       catatan: `Undian putaran ke-${(kelompokDetail?.putaran.length || 0) + 1}`,
     });
     setIsWinnerModalOpen(true);
@@ -661,6 +830,8 @@ export default function ArisanPage() {
           statusTalangan: localTalanganMode,
           kehadiranDanIuranList,
           sinkronAgendaBerikutnya: winnerConfigForm.sinkronAgendaBerikutnya,
+          lokasiBerikutnya: winnerConfigForm.lokasiBerikutnya,
+          tanggalBerikutnya: winnerConfigForm.tanggalBerikutnya,
           catatan: winnerConfigForm.catatan,
         }),
       });
@@ -670,7 +841,9 @@ export default function ArisanPage() {
         showToast(json.message, 'success');
         setIsWinnerModalOpen(false);
         setPendingWinner(null);
-        await fetchKelompokDetail(selectedKelompokId);
+
+        // Fetch detail, which will reset presensi for the next round
+        await fetchKelompokDetail(selectedKelompokId, false);
         await fetchKelompokList(selectedKelompokId);
         await fetchUpcomingAgendas();
       } else {
@@ -1423,11 +1596,153 @@ export default function ArisanPage() {
                     </span>
                   </div>
 
+                  {/* SOP Stepper Status Card: Gating Indicator */}
+                  <div className="w-full mb-5 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-4 h-4 text-amber-500" />
+                        <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                          SOP Kocokan Arisan RT (Putaran #{(kelompokDetail.putaran.length || 0) + 1})
+                        </span>
+                      </div>
+                      <span
+                        className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 ${
+                          isReadyToSpin
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : 'bg-amber-100 text-amber-800'
+                        }`}
+                      >
+                        {isReadyToSpin ? (
+                          <>
+                            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                            <span>Siap Diputar</span>
+                          </>
+                        ) : (
+                          <>
+                            <Lock className="w-3 h-3 text-amber-600" />
+                            <span>Prasyarat Belum Lengkap</span>
+                          </>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                      {/* Step 1: Absensi */}
+                      <div
+                        className={`p-3 rounded-xl border transition ${
+                          isAbsensiConfirmed
+                            ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
+                            : 'bg-white border-slate-200 text-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="font-bold flex items-center gap-1.5">
+                            <UserCheck
+                              className={`w-3.5 h-3.5 ${
+                                isAbsensiConfirmed ? 'text-emerald-600' : 'text-slate-400'
+                              }`}
+                            />
+                            1. Absensi Warga
+                          </span>
+                          {isAbsensiConfirmed ? (
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md">
+                              Terverifikasi
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded-md">
+                              Wajib Dicek
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-500 mb-2">
+                          {latestPutaranStats.hadirCount} Berangkat • {latestPutaranStats.absenCount} Tidak Hadir
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setIsAbsensiConfirmed(!isAbsensiConfirmed)}
+                            className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition cursor-pointer ${
+                              isAbsensiConfirmed
+                                ? 'bg-emerald-600 text-white border-emerald-600'
+                                : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
+                            }`}
+                          >
+                            {isAbsensiConfirmed ? '✓ Absensi Selesai' : 'Konfirmasi Absensi Selesai'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleMarkAllHadir}
+                            className="text-[10px] font-medium text-[var(--brand-primary)] hover:underline cursor-pointer"
+                          >
+                            Semua Hadir
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Step 2: Penyerahan Uang Iuran */}
+                      <div
+                        className={`p-3 rounded-xl border transition ${
+                          isIuranComplete
+                            ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
+                            : 'bg-white border-slate-200 text-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="font-bold flex items-center gap-1.5">
+                            <Coins
+                              className={`w-3.5 h-3.5 ${
+                                isIuranComplete ? 'text-emerald-600' : 'text-slate-400'
+                              }`}
+                            />
+                            2. Penyerahan Iuran
+                          </span>
+                          {isIuranComplete ? (
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md">
+                              {localTalanganMode === 'ditalangi_kas' ? 'Ditalangi Kas' : 'Lengkap 100%'}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-bold text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded-md">
+                              Kurang Uang
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-500 mb-2">
+                          Terkumpul: <strong>Rp {latestPutaranStats.totalTerkumpul.toLocaleString('id-ID')}</strong>
+                          {latestPutaranStats.nominalKurang > 0 && (
+                            <span className="text-rose-600">
+                              {' '}
+                              (Kurang Rp {latestPutaranStats.nominalKurang.toLocaleString('id-ID')})
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {latestPutaranStats.nominalKurang > 0 && localTalanganMode !== 'ditalangi_kas' ? (
+                            <button
+                              type="button"
+                              onClick={() => setLocalTalanganMode('ditalangi_kas')}
+                              className="text-[10px] font-bold px-2 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 cursor-pointer"
+                            >
+                              Aktifkan Talangan Kas RT
+                            </button>
+                          ) : null}
+                          <button
+                            type="button"
+                            onClick={handleMarkAllLunas}
+                            className="text-[10px] font-medium text-[var(--brand-primary)] hover:underline cursor-pointer"
+                          >
+                            Semua Lunas
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Interactive Wheel (Strictly Circular 1:1) */}
                   <SpinWheel
                     candidates={wheelCandidates}
                     onSpinEnd={handleSpinEnd}
-                    disabled={isSaving}
+                    disabled={isSaving || !isReadyToSpin}
+                    disabledReason={spinDisabledReason}
                   />
 
                   {/* Active Candidates Preview */}
@@ -1492,19 +1807,28 @@ export default function ArisanPage() {
                         {kelompokDetail.peserta.length > 0 ? (
                           <>
                             {/* Round Info & Attendance summary */}
-                            <div className="mb-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-xs space-y-1.5">
+                            <div className="mb-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-xs space-y-2">
                               <div className="flex items-center justify-between">
-                                <span className="font-bold text-slate-800">
-                                  {kelompokDetail.putaran.length > 0
-                                    ? `Putaran #${kelompokDetail.putaran[0].putaranKe} - ${kelompokDetail.putaran[0].namaPemenang}`
-                                    : `Putaran #1 (Persiapan Pertemuan & Kocokan)`}
-                                </span>
-                                <span className="text-slate-400 font-medium">
-                                  {kelompokDetail.putaran[0]?.hariJawa || kelompokDetail.hariJawa || 'Pertemuan RT'}
-                                </span>
+                                <div>
+                                  <span className="font-bold text-slate-800 text-xs block">
+                                    Persiapan Putaran #{(kelompokDetail.putaran.length || 0) + 1}
+                                  </span>
+                                  <span className="text-[10px] text-slate-400">
+                                    {kelompokDetail.hariJawa || 'Pertemuan RT'} • Lokasi: {kelompokDetail.lokasiKocok || 'Balai RT'}
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={handleResetLembarPresensi}
+                                  className="text-[10px] text-slate-500 hover:text-slate-800 flex items-center gap-1 font-semibold px-2 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 transition cursor-pointer"
+                                  title="Reset status kehadiran dan bayar untuk persiapan pertemuan ini"
+                                >
+                                  <RotateCcw className="w-3 h-3 text-slate-400" />
+                                  <span>Reset Lembar</span>
+                                </button>
                               </div>
 
-                              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200/60">
+                              <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-200/60">
                                 <span className="px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px]">
                                   {latestPutaranStats.hadirCount} Berangkat
                                 </span>
@@ -1512,7 +1836,7 @@ export default function ArisanPage() {
                                   {latestPutaranStats.absenCount} Tidak Berangkat
                                 </span>
                                 <span className="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800 font-bold text-[10px]">
-                                  {latestPutaranStats.absenDanNunggakCount} Absen & Belum Bayar
+                                  {latestPutaranStats.absenDanNunggakCount} Absen & Nunggak
                                 </span>
                               </div>
                             </div>
@@ -1530,6 +1854,20 @@ export default function ArisanPage() {
                               >
                                 Semua ({unifiedIuranRows.length})
                               </button>
+
+                              {unifiedIuranRows.filter((r) => r.tunggakanLalu.length > 0).length > 0 && (
+                                <button
+                                  type="button"
+                                  onClick={() => setIuranFilter('punya_tunggakan_lalu')}
+                                  className={`px-2.5 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap cursor-pointer transition ${
+                                    iuranFilter === 'punya_tunggakan_lalu'
+                                      ? 'bg-rose-700 text-white'
+                                      : 'bg-rose-100 text-rose-800 hover:bg-rose-200'
+                                  }`}
+                                >
+                                  Nunggak Lalu ({unifiedIuranRows.filter((r) => r.tunggakanLalu.length > 0).length})
+                                </button>
+                              )}
 
                               <button
                                 type="button"
@@ -1585,6 +1923,10 @@ export default function ArisanPage() {
                               {filteredIuranItems.map((p) => {
                                 const isAbsenAndUnpaid =
                                   p.statusKehadiran !== 'hadir' && !p.statusBayar;
+                                const totalTunggakanLalu = p.tunggakanLalu.reduce(
+                                  (sum, it) => sum + it.nominal,
+                                  0
+                                );
 
                                 return (
                                   <div
@@ -1600,10 +1942,15 @@ export default function ArisanPage() {
                                     <div className="flex items-center justify-between gap-2">
                                       {/* Left: Participant Name & House */}
                                       <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-1.5 flex-wrap">
                                           <span className="text-xs font-bold text-slate-800 truncate">
                                             {p.namaPeserta}
                                           </span>
+                                          {p.sudahMenang && (
+                                            <span className="text-[9px] px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-800 font-bold shrink-0">
+                                              Sudah Dapat
+                                            </span>
+                                          )}
                                           {isAbsenAndUnpaid && (
                                             <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-rose-200 text-rose-800 font-bold shrink-0">
                                               Absen & Nunggak
@@ -1661,6 +2008,34 @@ export default function ArisanPage() {
                                         </button>
                                       </div>
                                     </div>
+
+                                    {/* Tunggakan Lalu Alert & Settle Action */}
+                                    {totalTunggakanLalu > 0 && (
+                                      <div className="mt-2 pt-1.5 border-t border-slate-200/60 flex items-center justify-between text-[10px]">
+                                        <span className="text-rose-700 font-bold flex items-center gap-1">
+                                          <AlertTriangle className="w-3 h-3 text-rose-500 shrink-0" />
+                                          <span>
+                                            Nunggak Lalu: Rp {totalTunggakanLalu.toLocaleString('id-ID')}
+                                          </span>
+                                          <span className="font-normal text-rose-500">
+                                            ({p.tunggakanLalu.map((t) => `#${t.putaranKe}`).join(', ')})
+                                          </span>
+                                        </span>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            handlePayArrears(
+                                              p.tunggakanLalu[0].pembayaranId,
+                                              p.tunggakanLalu[0].putaranId
+                                            )
+                                          }
+                                          disabled={isSaving}
+                                          className="px-2 py-0.5 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-800 font-bold transition cursor-pointer"
+                                        >
+                                          Lunasi Tagihan
+                                        </button>
+                                      </div>
+                                    )}
                                   </div>
                                 );
                               })}
@@ -1826,65 +2201,200 @@ export default function ArisanPage() {
                       return (
                         <div
                           key={putaran.id}
-                          className="py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm"
+                          className="py-4 space-y-2 text-sm"
                         >
-                          <div className="flex items-start gap-3">
-                            <span className="w-9 h-9 rounded-2xl bg-orange-50 text-[var(--brand-primary)] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
-                              #{putaran.putaranKe}
-                            </span>
-                            <div>
-                              <div className="font-bold text-slate-800 flex items-center gap-2">
-                                <span>{putaran.namaPemenang}</span>
-                                {putaran.hariJawa && (
-                                  <span className="text-xs px-2 py-0.5 rounded-md bg-orange-50 text-[var(--brand-primary)] font-medium">
-                                    {putaran.hariJawa}
-                                  </span>
-                                )}
-                                <span className="text-xs font-normal text-slate-400">
-                                  ({dateStr})
-                                </span>
-                              </div>
-
-                              <div className="text-xs text-slate-500 mt-1 flex flex-wrap items-center gap-2">
-                                <span>
-                                  Iuran Terkumpul: <strong>Rp {putaran.totalTerkumpul.toLocaleString('id-ID')}</strong> ({paidCount}/{totalMembers} Lunas)
-                                </span>
-                                {putaran.nominalKurang > 0 && (
-                                  <span className="text-rose-600 font-semibold">
-                                    • Kurang: Rp {putaran.nominalKurang.toLocaleString('id-ID')}
-                                  </span>
-                                )}
-                                <span>
-                                  • {totalMembers - absentCount} Hadir ({absentCount} Absen)
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-3 md:self-center self-end">
-                            <div className="text-right">
-                              <span className="text-xs text-slate-400 block">Dana Diterima Pemenang</span>
-                              <span className="font-bold text-emerald-600 text-base">
-                                Rp {putaran.nominalDiserahkan.toLocaleString('id-ID')}
+                          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                            <div className="flex items-start gap-3">
+                              <span className="w-9 h-9 rounded-2xl bg-orange-50 text-[var(--brand-primary)] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                                #{putaran.putaranKe}
                               </span>
-                              {putaran.statusTalangan === 'ditalangi_kas' && (
-                                <span className="text-[10px] text-blue-600 font-bold block">
-                                  (Ditalangi Kas)
-                                </span>
-                              )}
+                              <div>
+                                <div className="font-bold text-slate-800 flex items-center gap-2">
+                                  <span>{putaran.namaPemenang}</span>
+                                  {putaran.hariJawa && (
+                                    <span className="text-xs px-2 py-0.5 rounded-md bg-orange-50 text-[var(--brand-primary)] font-medium">
+                                      {putaran.hariJawa}
+                                    </span>
+                                  )}
+                                  <span className="text-xs font-normal text-slate-400">
+                                    ({dateStr})
+                                  </span>
+                                </div>
+
+                                <div className="text-xs text-slate-500 mt-1 flex flex-wrap items-center gap-2">
+                                  <span>
+                                    Iuran Terkumpul: <strong>Rp {putaran.totalTerkumpul.toLocaleString('id-ID')}</strong> ({paidCount}/{totalMembers} Lunas)
+                                  </span>
+                                  {putaran.nominalKurang > 0 && (
+                                    <span className="text-rose-600 font-semibold">
+                                      • Kurang: Rp {putaran.nominalKurang.toLocaleString('id-ID')}
+                                    </span>
+                                  )}
+                                  <span>
+                                    • {totalMembers - absentCount} Hadir ({absentCount} Absen)
+                                  </span>
+                                </div>
+                              </div>
                             </div>
 
-                            <a
-                              href={getWhatsAppShareUrl(putaran)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200 transition-colors cursor-pointer"
-                              title="Bagikan Rekap & Pemenang ke WhatsApp Warga"
-                            >
-                              <Share2 className="w-3.5 h-3.5" />
-                              <span>Share WA</span>
-                            </a>
+                            <div className="flex items-center gap-3 md:self-center self-end">
+                              <div className="text-right">
+                                <span className="text-xs text-slate-400 block">Dana Diterima Pemenang</span>
+                                <span className="font-bold text-emerald-600 text-base">
+                                  Rp {putaran.nominalDiserahkan.toLocaleString('id-ID')}
+                                </span>
+                                {putaran.statusTalangan === 'ditalangi_kas' && (
+                                  <span className="text-[10px] text-blue-600 font-bold block">
+                                    (Ditalangi Kas)
+                                  </span>
+                                )}
+                              </div>
+
+                              <a
+                                href={getWhatsAppShareUrl(putaran)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200 transition-colors cursor-pointer"
+                                title="Bagikan Rekap & Pemenang ke WhatsApp Warga"
+                              >
+                                <Share2 className="w-3.5 h-3.5" />
+                                <span>Share WA</span>
+                              </a>
+                            </div>
                           </div>
+
+                          {/* Accordion Toggle: Rincian Kehadiran & Tunggakan */}
+                          <div className="pt-2 flex items-center justify-between border-t border-slate-100">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setExpandedPutaranId(
+                                  expandedPutaranId === putaran.id ? null : putaran.id
+                                )
+                              }
+                              className="text-xs font-bold text-[var(--brand-primary)] hover:underline flex items-center gap-1 cursor-pointer"
+                            >
+                              <span>
+                                {expandedPutaranId === putaran.id
+                                  ? 'Tutup Rincian Putaran'
+                                  : 'Lihat Rincian Kehadiran & Tunggakan'}
+                              </span>
+                              {expandedPutaranId === putaran.id ? (
+                                <ChevronUp className="w-3.5 h-3.5" />
+                              ) : (
+                                <ChevronDown className="w-3.5 h-3.5" />
+                              )}
+                            </button>
+
+                            {putaran.agenda?.lokasi && (
+                              <span className="text-[11px] text-slate-500">
+                                Tuan Rumah: <strong>{putaran.agenda.lokasi}</strong>
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Expanded Details: Absent List & Unpaid List */}
+                          {expandedPutaranId === putaran.id && (
+                            <div className="mt-2 p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3 animate-in fade-in">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                                {/* Kolom 1: Daftar Yang Tidak Berangkat / Izin */}
+                                <div className="bg-white p-3 rounded-xl border border-slate-100 space-y-1.5">
+                                  <div className="font-bold text-slate-800 flex items-center justify-between pb-1 border-b border-slate-100">
+                                    <span className="flex items-center gap-1.5 text-amber-700">
+                                      <UserX className="w-3.5 h-3.5" />
+                                      <span>Warga Tidak Berangkat / Izin</span>
+                                    </span>
+                                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-800">
+                                      {putaran.pembayaran.filter((p) => p.statusKehadiran !== 'hadir').length} Orang
+                                    </span>
+                                  </div>
+                                  <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
+                                    {putaran.pembayaran
+                                      .filter((p) => p.statusKehadiran !== 'hadir')
+                                      .map((p) => (
+                                        <div
+                                          key={p.id}
+                                          className="flex items-center justify-between py-1 text-[11px] border-b border-slate-50"
+                                        >
+                                          <div>
+                                            <span className="font-medium text-slate-800">
+                                              {p.peserta.namaPeserta}
+                                            </span>
+                                            <span
+                                              className={`ml-1.5 text-[9px] px-1 py-0.2 rounded font-bold ${
+                                                p.statusKehadiran === 'izin'
+                                                  ? 'bg-blue-50 text-blue-700'
+                                                  : 'bg-rose-50 text-rose-700'
+                                              }`}
+                                            >
+                                              {p.statusKehadiran === 'izin' ? 'Izin' : 'Tidak Hadir'}
+                                            </span>
+                                          </div>
+                                          <span
+                                            className={`text-[10px] font-bold ${
+                                              p.statusBayar ? 'text-emerald-600' : 'text-rose-600'
+                                            }`}
+                                          >
+                                            {p.statusBayar ? '✓ Lunas' : 'Belum Bayar'}
+                                          </span>
+                                        </div>
+                                      ))}
+                                    {putaran.pembayaran.filter((p) => p.statusKehadiran !== 'hadir').length === 0 && (
+                                      <p className="text-slate-400 italic text-[11px] py-1">
+                                        Seluruh warga hadir lengkap pada putaran ini.
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Kolom 2: Daftar Tunggakan Iuran & Tombol Pelunasan */}
+                                <div className="bg-white p-3 rounded-xl border border-slate-100 space-y-1.5">
+                                  <div className="font-bold text-slate-800 flex items-center justify-between pb-1 border-b border-slate-100">
+                                    <span className="flex items-center gap-1.5 text-rose-700">
+                                      <AlertCircle className="w-3.5 h-3.5" />
+                                      <span>Daftar Tunggakan (Siap Ditagih)</span>
+                                    </span>
+                                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-50 text-rose-800">
+                                      {putaran.pembayaran.filter((p) => !p.statusBayar).length} Orang
+                                    </span>
+                                  </div>
+                                  <div className="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                                    {putaran.pembayaran
+                                      .filter((p) => !p.statusBayar)
+                                      .map((p) => (
+                                        <div
+                                          key={p.id}
+                                          className="flex items-center justify-between py-1 text-[11px] border-b border-slate-50"
+                                        >
+                                          <div>
+                                            <span className="font-medium text-slate-800">
+                                              {p.peserta.namaPeserta}
+                                            </span>
+                                            <div className="text-[10px] text-rose-600 font-bold">
+                                              Rp {p.nominal.toLocaleString('id-ID')}
+                                            </div>
+                                          </div>
+                                          <button
+                                            type="button"
+                                            onClick={() => handlePayArrears(p.id, putaran.id)}
+                                            disabled={isSaving}
+                                            className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-[10px] font-bold transition cursor-pointer"
+                                          >
+                                            Tandai Lunas
+                                          </button>
+                                        </div>
+                                      ))}
+                                    {putaran.pembayaran.filter((p) => !p.statusBayar).length === 0 && (
+                                      <p className="text-emerald-600 font-medium text-[11px] py-1 flex items-center gap-1">
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                                        <span>Seluruh iuran putaran ini telah lunas 100%.</span>
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -2049,7 +2559,55 @@ export default function ArisanPage() {
                     </div>
                   </div>
 
-                  <label className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
+                  {/* Penugasan Pemenang sebagai Tuan Rumah Agenda Arisan/Rapat Berikutnya */}
+                  <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs space-y-2.5">
+                    <div className="flex items-center gap-2 text-amber-900 font-bold">
+                      <Home className="w-4 h-4 text-amber-600 shrink-0" />
+                      <span>Tuan Rumah Rapat & Arisan RT Berikutnya</span>
+                    </div>
+                    <p className="text-[11px] text-amber-800 leading-relaxed">
+                      Sesuai tata tertib arisan RT, pemenang putaran ini (
+                      <strong>{pendingWinner.namaPeserta}</strong>) resmi menjadi{' '}
+                      <strong>Tuan Rumah</strong> untuk agenda rapat & arisan RT putaran berikutnya!
+                    </p>
+
+                    <div className="space-y-1">
+                      <label className="block text-[11px] font-bold text-slate-700">
+                        Lokasi Pertemuan Berikutnya (Rumah Tuan Rumah):
+                      </label>
+                      <input
+                        type="text"
+                        value={winnerConfigForm.lokasiBerikutnya}
+                        onChange={(e) =>
+                          setWinnerConfigForm({
+                            ...winnerConfigForm,
+                            lokasiBerikutnya: e.target.value,
+                          })
+                        }
+                        placeholder="Rumah Bpk/Ibu Pemenang"
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-amber-200 bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="block text-[11px] font-bold text-slate-700">
+                        Tanggal Pertemuan Berikutnya (Siklus Selapanan):
+                      </label>
+                      <input
+                        type="date"
+                        value={winnerConfigForm.tanggalBerikutnya}
+                        onChange={(e) =>
+                          setWinnerConfigForm({
+                            ...winnerConfigForm,
+                            tanggalBerikutnya: e.target.value,
+                          })
+                        }
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-amber-200 bg-white focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+                      />
+                    </div>
+                  </div>
+
+                  <label className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={winnerConfigForm.sinkronAgendaBerikutnya}
@@ -2062,7 +2620,7 @@ export default function ArisanPage() {
                       className="rounded text-[var(--brand-primary)] focus:ring-[var(--brand-primary)]"
                     />
                     <span className="text-slate-700 font-medium">
-                      Otomatis jadwalkan putaran berikutnya (selapanan/35 hari lagi) ke Agenda RT
+                      Otomatis masukkan jadwal ke Agenda Rapat RT di rumah pemenang
                     </span>
                   </label>
                 </div>
