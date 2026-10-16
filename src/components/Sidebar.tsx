@@ -17,7 +17,8 @@ import {
   X,
   ShieldCheck,
   FileCheck,
-  Package
+  Package,
+  Sparkles
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -83,6 +84,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       items: [
         { name: 'Jadwal Ronda', icon: CalendarDays, href: '/jadwal' },
         { name: 'Agenda RT', icon: Calendar, href: '/agenda' },
+        { name: 'Arisan Warga', icon: Sparkles, href: '/arisan' },
       ],
     },
     {
@@ -224,8 +226,13 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
           {/* Logout Button */}
           <button
             type="button"
-            onClick={() => {
-              document.cookie = 'komuna_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+            onClick={async () => {
+              try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+              } catch (e) {
+                console.error('Logout error:', e);
+              }
+              document.cookie = 'komuna_user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
               window.location.href = '/login';
             }}
             className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-red-500 hover:bg-red-50/70 transition-all duration-150 cursor-pointer group text-left"

@@ -401,7 +401,11 @@ export const ModelName = {
   ProgramKerja: 'ProgramKerja',
   InventarisAset: 'InventarisAset',
   PeminjamanAset: 'PeminjamanAset',
-  EvaluasiTahunan: 'EvaluasiTahunan'
+  EvaluasiTahunan: 'EvaluasiTahunan',
+  KelompokArisan: 'KelompokArisan',
+  PesertaArisan: 'PesertaArisan',
+  PutaranArisan: 'PutaranArisan',
+  PembayaranIuranArisan: 'PembayaranIuranArisan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan"
+    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1753,6 +1757,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    KelompokArisan: {
+      payload: Prisma.$KelompokArisanPayload<ExtArgs>
+      fields: Prisma.KelompokArisanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.KelompokArisanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.KelompokArisanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>
+        }
+        findFirst: {
+          args: Prisma.KelompokArisanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.KelompokArisanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>
+        }
+        findMany: {
+          args: Prisma.KelompokArisanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>[]
+        }
+        create: {
+          args: Prisma.KelompokArisanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>
+        }
+        createMany: {
+          args: Prisma.KelompokArisanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.KelompokArisanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>[]
+        }
+        delete: {
+          args: Prisma.KelompokArisanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>
+        }
+        update: {
+          args: Prisma.KelompokArisanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>
+        }
+        deleteMany: {
+          args: Prisma.KelompokArisanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.KelompokArisanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.KelompokArisanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>[]
+        }
+        upsert: {
+          args: Prisma.KelompokArisanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KelompokArisanPayload>
+        }
+        aggregate: {
+          args: Prisma.KelompokArisanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateKelompokArisan>
+        }
+        groupBy: {
+          args: Prisma.KelompokArisanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.KelompokArisanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.KelompokArisanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.KelompokArisanCountAggregateOutputType> | number
+        }
+      }
+    }
+    PesertaArisan: {
+      payload: Prisma.$PesertaArisanPayload<ExtArgs>
+      fields: Prisma.PesertaArisanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PesertaArisanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PesertaArisanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>
+        }
+        findFirst: {
+          args: Prisma.PesertaArisanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PesertaArisanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>
+        }
+        findMany: {
+          args: Prisma.PesertaArisanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>[]
+        }
+        create: {
+          args: Prisma.PesertaArisanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>
+        }
+        createMany: {
+          args: Prisma.PesertaArisanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PesertaArisanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>[]
+        }
+        delete: {
+          args: Prisma.PesertaArisanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>
+        }
+        update: {
+          args: Prisma.PesertaArisanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>
+        }
+        deleteMany: {
+          args: Prisma.PesertaArisanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PesertaArisanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PesertaArisanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>[]
+        }
+        upsert: {
+          args: Prisma.PesertaArisanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PesertaArisanPayload>
+        }
+        aggregate: {
+          args: Prisma.PesertaArisanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePesertaArisan>
+        }
+        groupBy: {
+          args: Prisma.PesertaArisanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PesertaArisanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PesertaArisanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PesertaArisanCountAggregateOutputType> | number
+        }
+      }
+    }
+    PutaranArisan: {
+      payload: Prisma.$PutaranArisanPayload<ExtArgs>
+      fields: Prisma.PutaranArisanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PutaranArisanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PutaranArisanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>
+        }
+        findFirst: {
+          args: Prisma.PutaranArisanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PutaranArisanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>
+        }
+        findMany: {
+          args: Prisma.PutaranArisanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>[]
+        }
+        create: {
+          args: Prisma.PutaranArisanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>
+        }
+        createMany: {
+          args: Prisma.PutaranArisanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PutaranArisanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>[]
+        }
+        delete: {
+          args: Prisma.PutaranArisanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>
+        }
+        update: {
+          args: Prisma.PutaranArisanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>
+        }
+        deleteMany: {
+          args: Prisma.PutaranArisanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PutaranArisanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PutaranArisanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>[]
+        }
+        upsert: {
+          args: Prisma.PutaranArisanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PutaranArisanPayload>
+        }
+        aggregate: {
+          args: Prisma.PutaranArisanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePutaranArisan>
+        }
+        groupBy: {
+          args: Prisma.PutaranArisanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PutaranArisanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PutaranArisanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PutaranArisanCountAggregateOutputType> | number
+        }
+      }
+    }
+    PembayaranIuranArisan: {
+      payload: Prisma.$PembayaranIuranArisanPayload<ExtArgs>
+      fields: Prisma.PembayaranIuranArisanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PembayaranIuranArisanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PembayaranIuranArisanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>
+        }
+        findFirst: {
+          args: Prisma.PembayaranIuranArisanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PembayaranIuranArisanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>
+        }
+        findMany: {
+          args: Prisma.PembayaranIuranArisanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>[]
+        }
+        create: {
+          args: Prisma.PembayaranIuranArisanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>
+        }
+        createMany: {
+          args: Prisma.PembayaranIuranArisanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PembayaranIuranArisanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>[]
+        }
+        delete: {
+          args: Prisma.PembayaranIuranArisanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>
+        }
+        update: {
+          args: Prisma.PembayaranIuranArisanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>
+        }
+        deleteMany: {
+          args: Prisma.PembayaranIuranArisanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PembayaranIuranArisanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PembayaranIuranArisanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>[]
+        }
+        upsert: {
+          args: Prisma.PembayaranIuranArisanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PembayaranIuranArisanPayload>
+        }
+        aggregate: {
+          args: Prisma.PembayaranIuranArisanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePembayaranIuranArisan>
+        }
+        groupBy: {
+          args: Prisma.PembayaranIuranArisanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PembayaranIuranArisanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PembayaranIuranArisanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PembayaranIuranArisanCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2110,6 +2410,68 @@ export const EvaluasiTahunanScalarFieldEnum = {
 export type EvaluasiTahunanScalarFieldEnum = (typeof EvaluasiTahunanScalarFieldEnum)[keyof typeof EvaluasiTahunanScalarFieldEnum]
 
 
+export const KelompokArisanScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  nominalIuran: 'nominalIuran',
+  periodeTipe: 'periodeTipe',
+  tanggalMulai: 'tanggalMulai',
+  status: 'status',
+  keterangan: 'keterangan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KelompokArisanScalarFieldEnum = (typeof KelompokArisanScalarFieldEnum)[keyof typeof KelompokArisanScalarFieldEnum]
+
+
+export const PesertaArisanScalarFieldEnum = {
+  id: 'id',
+  kelompokId: 'kelompokId',
+  anggotaId: 'anggotaId',
+  namaPeserta: 'namaPeserta',
+  nomorSlot: 'nomorSlot',
+  noHp: 'noHp',
+  sudahMenang: 'sudahMenang',
+  tanggalMenang: 'tanggalMenang',
+  createdAt: 'createdAt'
+} as const
+
+export type PesertaArisanScalarFieldEnum = (typeof PesertaArisanScalarFieldEnum)[keyof typeof PesertaArisanScalarFieldEnum]
+
+
+export const PutaranArisanScalarFieldEnum = {
+  id: 'id',
+  kelompokId: 'kelompokId',
+  putaranKe: 'putaranKe',
+  tanggalKocok: 'tanggalKocok',
+  totalTerkumpul: 'totalTerkumpul',
+  pemenangId: 'pemenangId',
+  namaPemenang: 'namaPemenang',
+  nominalDiterima: 'nominalDiterima',
+  status: 'status',
+  catatan: 'catatan',
+  dicatatOleh: 'dicatatOleh',
+  createdAt: 'createdAt'
+} as const
+
+export type PutaranArisanScalarFieldEnum = (typeof PutaranArisanScalarFieldEnum)[keyof typeof PutaranArisanScalarFieldEnum]
+
+
+export const PembayaranIuranArisanScalarFieldEnum = {
+  id: 'id',
+  putaranId: 'putaranId',
+  pesertaId: 'pesertaId',
+  statusBayar: 'statusBayar',
+  tanggalBayar: 'tanggalBayar',
+  nominal: 'nominal',
+  metode: 'metode',
+  catatan: 'catatan'
+} as const
+
+export type PembayaranIuranArisanScalarFieldEnum = (typeof PembayaranIuranArisanScalarFieldEnum)[keyof typeof PembayaranIuranArisanScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2330,6 +2692,10 @@ export type GlobalOmitConfig = {
   inventarisAset?: Prisma.InventarisAsetOmit
   peminjamanAset?: Prisma.PeminjamanAsetOmit
   evaluasiTahunan?: Prisma.EvaluasiTahunanOmit
+  kelompokArisan?: Prisma.KelompokArisanOmit
+  pesertaArisan?: Prisma.PesertaArisanOmit
+  putaranArisan?: Prisma.PutaranArisanOmit
+  pembayaranIuranArisan?: Prisma.PembayaranIuranArisanOmit
 }
 
 /* Types for Logging */

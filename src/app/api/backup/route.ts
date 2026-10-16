@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getServerSession } from '@/lib/auth';
 
 export async function GET() {
   try {
+    const session = await getServerSession();
+    if (!session || (session.role !== 'ADMIN' && session.role !== 'SUPER_ADMIN')) {
+      return NextResponse.json({ error: 'Akses ditolak: Operasi backup hanya dapat dilakukan oleh Admin' }, { status: 403 });
+    }
+
     const users = await db.user.findMany();
     const rombongan = await db.rombongan.findMany();
     const anggota = await db.anggota.findMany();
@@ -41,6 +47,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession();
+    if (!session || (session.role !== 'ADMIN' && session.role !== 'SUPER_ADMIN')) {
+      return NextResponse.json({ error: 'Akses ditolak: Operasi restore hanya dapat dilakukan oleh Admin' }, { status: 403 });
+    }
+
     const body = await request.json();
     if (!body || !body.data || body.version !== '1.0.0') {
       return NextResponse.json({ error: 'Format file backup tidak valid' }, { status: 400 });

@@ -52,6 +52,7 @@ model Anggota {
   pengurus          PengurusRT[]
   suratPengantar    SuratPengantar[]
   mutasi            MutasiWarga[]
+  pesertaArisan     PesertaArisan[]
 }
 
 model Rombongan {
@@ -342,5 +343,79 @@ model EvaluasiTahunan {
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 }
+
+// 5. Modul Arisan Warga & Pengocokan Roda Putar
+model KelompokArisan {
+  id              String          @id @default(uuid())
+  nama            String          // e.g. "Arisan Bulanan RT 04", "Arisan PKK"
+  nominalIuran    Int             // Nominal per putaran, misal Rp 50.000
+  periodeTipe     String          @default("bulanan") // "mingguan", "bulanan", "dua_mingguan"
+  tanggalMulai    DateTime        @default(now())
+  status          String          @default("aktif") // "aktif", "selesai"
+  keterangan      String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  peserta         PesertaArisan[]
+  putaran         PutaranArisan[]
+}
+
+model PesertaArisan {
+  id               String          @id @default(uuid())
+  kelompokId       String
+  kelompok         KelompokArisan  @relation(fields: [kelompokId], references: [id], onDelete: Cascade)
+  
+  anggotaId        String?
+  anggota          Anggota?        @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  
+  namaPeserta      String          // Nama warga / custom slot
+  nomorSlot        Int             @default(1)
+  noHp             String?
+  
+  sudahMenang      Boolean         @default(false)
+  tanggalMenang    DateTime?
+
+  pemenangPutaran  PutaranArisan[] @relation("PemenangPutaran")
+  pembayaran       PembayaranIuranArisan[]
+  createdAt        DateTime        @default(now())
+}
+
+model PutaranArisan {
+  id               String          @id @default(uuid())
+  kelompokId       String
+  kelompok         KelompokArisan  @relation(fields: [kelompokId], references: [id], onDelete: Cascade)
+  
+  putaranKe        Int             // 1, 2, 3 ...
+  tanggalKocok     DateTime        @default(now())
+  totalTerkumpul   Int             @default(0)
+  
+  pemenangId       String?
+  pemenang         PesertaArisan?  @relation("PemenangPutaran", fields: [pemenangId], references: [id], onDelete: SetNull)
+  namaPemenang     String?
+  nominalDiterima  Int             @default(0)
+  
+  status           String          @default("terlaksana")
+  catatan          String?
+  dicatatOleh      String          @default("Admin RT")
+  
+  pembayaran       PembayaranIuranArisan[]
+  createdAt        DateTime        @default(now())
+}
+
+model PembayaranIuranArisan {
+  id               String          @id @default(uuid())
+  putaranId        String
+  putaran          PutaranArisan   @relation(fields: [putaranId], references: [id], onDelete: Cascade)
+  
+  pesertaId        String
+  peserta          PesertaArisan   @relation(fields: [pesertaId], references: [id], onDelete: Cascade)
+  
+  statusBayar      Boolean         @default(false)
+  tanggalBayar     DateTime?
+  nominal          Int             @default(0)
+  metode           String          @default("tunai") // "tunai" | "transfer"
+  catatan          String?
+}
+
 
 

@@ -60,24 +60,41 @@ export default function Header({ onMenuClick }: HeaderProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Fetch session from cookie
+  // Fetch session from display cookie and profile API
   useEffect(() => {
-    const getSession = () => {
+    const getSession = async () => {
+      // 1. Try reading client display cookie `komuna_user`
       const cookies = document.cookie.split(';');
-      const sessionCookie = cookies.find(c => c.trim().startsWith('komuna_session='));
-      if (sessionCookie) {
+      const userCookie = cookies.find(c => c.trim().startsWith('komuna_user='));
+      if (userCookie) {
         try {
-          const rawValue = sessionCookie.split('=').slice(1).join('=');
+          const rawValue = userCookie.split('=').slice(1).join('=');
           const decoded = decodeURIComponent(rawValue);
           setUserData(JSON.parse(decoded));
-        } catch {
+        } catch {}
+      } else {
+        // Legacy fallback
+        const sessionCookie = cookies.find(c => c.trim().startsWith('komuna_session='));
+        if (sessionCookie) {
           try {
             const rawValue = sessionCookie.split('=').slice(1).join('=');
-            setUserData(JSON.parse(rawValue));
-          } catch (e) {
-            console.error('Failed to parse session cookie', e);
+            const decoded = decodeURIComponent(rawValue);
+            setUserData(JSON.parse(decoded));
+          } catch {}
+        }
+      }
+
+      // 2. Sync with profile API
+      try {
+        const res = await fetch('/api/auth/profile');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.nama) {
+            setUserData({ nama: data.nama, role: data.role });
           }
         }
+      } catch (e) {
+        // graceful fallback
       }
     };
     

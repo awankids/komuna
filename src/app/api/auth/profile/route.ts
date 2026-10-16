@@ -1,93 +1,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import * as crypto from 'crypto';
-import { cookies } from 'next/headers';
+import { 
+  getServerSession, 
+  verifyPassword, 
+  hashPassword, 
+  setSessionCookies 
+} from '@/lib/auth';
 
-export async function PUT(request: Request) {
+export async function GET() {
   try {
-    const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get('komuna_session');
-    
-    if (!sessionCookie) {
+    const session = await getServerSession();
+    if (!session || !session.id) {
       return NextResponse.json({ error: 'Tidak ada sesi aktif' }, { status: 401 });
-    }
-
-    const session = JSON.parse(decodeURIComponent(sessionCookie.value));
-    const userId = session.id;
-
-    if (!userId) {
-      return NextResponse.json({ error: 'Sesi tidak valid' }, { status: 401 });
-    }
-
-    const body = await request.json();
-    const { nama, passwordLama, passwordBaru } = body;
-
-    if (!nama || nama.trim() === '') {
-      return NextResponse.json({ error: 'Nama tidak boleh kosong' }, { status: 400 });
-    }
-
-    const user = await db.user.findUnique({ where: { id: userId } });
-    if (!user) {
-      return NextResponse.json({ error: 'Pengguna tidak ditemukan' }, { status: 404 });
-    }
-
-    let updateData: any = { nama: nama.trim() };
-
-    // Jika ingin mengganti password
-    if (passwordLama && passwordBaru) {
-      const oldHash = crypto.createHash('sha256').update(passwordLama).digest('hex');
-      if (user.passwordHash !== oldHash) {
-        return NextResponse.json({ error: 'Password lama salah' }, { status: 400 });
-      }
-      const newHash = crypto.createHash('sha256').update(passwordBaru).digest('hex');
-      updateData.passwordHash = newHash;
-    }
-
-    const updatedUser = await db.user.update({
-      where: { id: userId },
-      data: updateData
-    });
-
-    const response = NextResponse.json({ success: true });
-    
-    // Perbarui cookie dengan nama baru
-    response.cookies.set('komuna_session', encodeURIComponent(JSON.stringify({
-      id: updatedUser.id,
-      nama: updatedUser.nama,
-      role: updatedUser.role,
-    })), {
-      path: '/',
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-    });
-
-    return response;
-  } catch (error: any) {
-    console.error('Profile update error:', error);
-    return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 });
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get('komuna_session');
-    
-    if (!sessionCookie) {
-      return NextResponse.json({ error: 'Tidak ada sesi aktif' }, { status: 401 });
-    }
-
-    const session = JSON.parse(decodeURIComponent(sessionCookie.value));
-    const userId = session.id;
-
-    if (!userId) {
-      return NextResponse.json({ error: 'Sesi tidak valid' }, { status: 401 });
     }
 
     const user = await db.user.findUnique({ 
-      where: { id: userId },
+      where: { id: session.id },
       select: { id: true, nama: true, email: true, role: true, createdAt: true }
     });
     
@@ -99,5 +27,72 @@ export async function GET(request: Request) {
   } catch (error: any) {
     console.error('Profile fetch error:', error);
     return NextResponse.json({ error: 'Terjadi kesalahan server' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const session = await getServerSession();
+    if (!session || !session.id) {
+      return NextResponse.json({ error: 'Tidak ada sesi aktif' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { nama, passwordLama, passwordBaru } = body;
+
+    if (!nama || nama.trim() === '') {
+      return NextResponse.json({ error: 'Nama tidak boleh kosong' }, { status: 400 });
+    }
+
+    const user = await db.user.findUnique({ where: { id: session.id } });
+    if (!user) {
+      return NextResponse.json({ error: 'Pengguna tidak ditemukan' }, { status: 404 });
+    }
+
+    let updateData: any = { nama: nama.trim() };
+
+    // Jika ingin mengganti kata sandi
+    if (passwordBaru) {
+      if (!passwordLama) {
+        return NextResponse.json({ error: 'Kata sandi lama wajib diisi' }, { status: 400 });
+      }
+
+      const { valid } = verifyPassword(passwordLama, user.passwordHash);
+      if (!valid) {
+        return NextResponse.json({ error: 'Kata sandi lama salah' }, { status: 400 });
+      }
+
+      if (passwordBaru.length < 6) {
+        return NextResponse.json({ error: 'Kata sandi baru minimal 6 karakter' }, { status: 400 });
+      }
+
+      updateData.passwordHash = hashPassword(passwordBaru);
+    }
+
+    const updatedUser = await db.user.update({
+      where: { id: session.id },
+      data: updateData,
+    });
+
+    // Refresh secure cookies with updated name
+    await setSessionCookies({
+      id: updatedUser.id,
+      nama: updatedUser.nama,
+      email: updatedUser.email,
+      role: updatedUser.role,
+    });
+
+    return NextResponse.json({ 
+      success: true, 
+      user: {
+        id: updatedUser.id,
+        nama: updatedUser.nama,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      }
+    });
+  } catch (error: any) {
+    console.error('Profile update error:', error);
+    return NextResponse.json({ error: 'Terjadi kesalahan server saat memperbarui profil' }, { status: 500 });
   }
 }

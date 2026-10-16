@@ -131,3 +131,23 @@ export type PeminjamanAset = Prisma.PeminjamanAsetModel
  * 
  */
 export type EvaluasiTahunan = Prisma.EvaluasiTahunanModel
+/**
+ * Model KelompokArisan
+ * 
+ */
+export type KelompokArisan = Prisma.KelompokArisanModel
+/**
+ * Model PesertaArisan
+ * 
+ */
+export type PesertaArisan = Prisma.PesertaArisanModel
+/**
+ * Model PutaranArisan
+ * 
+ */
+export type PutaranArisan = Prisma.PutaranArisanModel
+/**
+ * Model PembayaranIuranArisan
+ * 
+ */
+export type PembayaranIuranArisan = Prisma.PembayaranIuranArisanModel

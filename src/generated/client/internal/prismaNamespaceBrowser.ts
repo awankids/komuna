@@ -68,7 +68,11 @@ export const ModelName = {
   ProgramKerja: 'ProgramKerja',
   InventarisAset: 'InventarisAset',
   PeminjamanAset: 'PeminjamanAset',
-  EvaluasiTahunan: 'EvaluasiTahunan'
+  EvaluasiTahunan: 'EvaluasiTahunan',
+  KelompokArisan: 'KelompokArisan',
+  PesertaArisan: 'PesertaArisan',
+  PutaranArisan: 'PutaranArisan',
+  PembayaranIuranArisan: 'PembayaranIuranArisan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -403,6 +407,68 @@ export const EvaluasiTahunanScalarFieldEnum = {
 } as const
 
 export type EvaluasiTahunanScalarFieldEnum = (typeof EvaluasiTahunanScalarFieldEnum)[keyof typeof EvaluasiTahunanScalarFieldEnum]
+
+
+export const KelompokArisanScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  nominalIuran: 'nominalIuran',
+  periodeTipe: 'periodeTipe',
+  tanggalMulai: 'tanggalMulai',
+  status: 'status',
+  keterangan: 'keterangan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KelompokArisanScalarFieldEnum = (typeof KelompokArisanScalarFieldEnum)[keyof typeof KelompokArisanScalarFieldEnum]
+
+
+export const PesertaArisanScalarFieldEnum = {
+  id: 'id',
+  kelompokId: 'kelompokId',
+  anggotaId: 'anggotaId',
+  namaPeserta: 'namaPeserta',
+  nomorSlot: 'nomorSlot',
+  noHp: 'noHp',
+  sudahMenang: 'sudahMenang',
+  tanggalMenang: 'tanggalMenang',
+  createdAt: 'createdAt'
+} as const
+
+export type PesertaArisanScalarFieldEnum = (typeof PesertaArisanScalarFieldEnum)[keyof typeof PesertaArisanScalarFieldEnum]
+
+
+export const PutaranArisanScalarFieldEnum = {
+  id: 'id',
+  kelompokId: 'kelompokId',
+  putaranKe: 'putaranKe',
+  tanggalKocok: 'tanggalKocok',
+  totalTerkumpul: 'totalTerkumpul',
+  pemenangId: 'pemenangId',
+  namaPemenang: 'namaPemenang',
+  nominalDiterima: 'nominalDiterima',
+  status: 'status',
+  catatan: 'catatan',
+  dicatatOleh: 'dicatatOleh',
+  createdAt: 'createdAt'
+} as const
+
+export type PutaranArisanScalarFieldEnum = (typeof PutaranArisanScalarFieldEnum)[keyof typeof PutaranArisanScalarFieldEnum]
+
+
+export const PembayaranIuranArisanScalarFieldEnum = {
+  id: 'id',
+  putaranId: 'putaranId',
+  pesertaId: 'pesertaId',
+  statusBayar: 'statusBayar',
+  tanggalBayar: 'tanggalBayar',
+  nominal: 'nominal',
+  metode: 'metode',
+  catatan: 'catatan'
+} as const
+
+export type PembayaranIuranArisanScalarFieldEnum = (typeof PembayaranIuranArisanScalarFieldEnum)[keyof typeof PembayaranIuranArisanScalarFieldEnum]
 
 
 export const SortOrder = {

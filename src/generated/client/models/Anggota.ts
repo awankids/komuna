@@ -311,6 +311,7 @@ export type AnggotaWhereInput = {
   pengurus?: Prisma.PengurusRTListRelationFilter
   suratPengantar?: Prisma.SuratPengantarListRelationFilter
   mutasi?: Prisma.MutasiWargaListRelationFilter
+  pesertaArisan?: Prisma.PesertaArisanListRelationFilter
 }
 
 export type AnggotaOrderByWithRelationInput = {
@@ -343,6 +344,7 @@ export type AnggotaOrderByWithRelationInput = {
   pengurus?: Prisma.PengurusRTOrderByRelationAggregateInput
   suratPengantar?: Prisma.SuratPengantarOrderByRelationAggregateInput
   mutasi?: Prisma.MutasiWargaOrderByRelationAggregateInput
+  pesertaArisan?: Prisma.PesertaArisanOrderByRelationAggregateInput
 }
 
 export type AnggotaWhereUniqueInput = Prisma.AtLeast<{
@@ -378,6 +380,7 @@ export type AnggotaWhereUniqueInput = Prisma.AtLeast<{
   pengurus?: Prisma.PengurusRTListRelationFilter
   suratPengantar?: Prisma.SuratPengantarListRelationFilter
   mutasi?: Prisma.MutasiWargaListRelationFilter
+  pesertaArisan?: Prisma.PesertaArisanListRelationFilter
 }, "id">
 
 export type AnggotaOrderByWithAggregationInput = {
@@ -460,6 +463,7 @@ export type AnggotaCreateInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateInput = {
@@ -490,6 +494,7 @@ export type AnggotaUncheckedCreateInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUpdateInput = {
@@ -520,6 +525,7 @@ export type AnggotaUpdateInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateInput = {
@@ -550,6 +556,7 @@ export type AnggotaUncheckedUpdateInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateManyInput = {
@@ -914,6 +921,22 @@ export type AnggotaUpdateOneWithoutMutasiNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AnggotaUpdateToOneWithWhereWithoutMutasiInput, Prisma.AnggotaUpdateWithoutMutasiInput>, Prisma.AnggotaUncheckedUpdateWithoutMutasiInput>
 }
 
+export type AnggotaCreateNestedOneWithoutPesertaArisanInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutPesertaArisanInput, Prisma.AnggotaUncheckedCreateWithoutPesertaArisanInput>
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutPesertaArisanInput
+  connect?: Prisma.AnggotaWhereUniqueInput
+}
+
+export type AnggotaUpdateOneWithoutPesertaArisanNestedInput = {
+  create?: Prisma.XOR<Prisma.AnggotaCreateWithoutPesertaArisanInput, Prisma.AnggotaUncheckedCreateWithoutPesertaArisanInput>
+  connectOrCreate?: Prisma.AnggotaCreateOrConnectWithoutPesertaArisanInput
+  upsert?: Prisma.AnggotaUpsertWithoutPesertaArisanInput
+  disconnect?: Prisma.AnggotaWhereInput | boolean
+  delete?: Prisma.AnggotaWhereInput | boolean
+  connect?: Prisma.AnggotaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AnggotaUpdateToOneWithWhereWithoutPesertaArisanInput, Prisma.AnggotaUpdateWithoutPesertaArisanInput>, Prisma.AnggotaUncheckedUpdateWithoutPesertaArisanInput>
+}
+
 export type AnggotaCreateWithoutAnggotaKeluargaInput = {
   id?: string
   nama: string
@@ -941,6 +964,7 @@ export type AnggotaCreateWithoutAnggotaKeluargaInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutAnggotaKeluargaInput = {
@@ -970,6 +994,7 @@ export type AnggotaUncheckedCreateWithoutAnggotaKeluargaInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutAnggotaKeluargaInput = {
@@ -1004,6 +1029,7 @@ export type AnggotaCreateWithoutKepalaKeluargaInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutKepalaKeluargaInput = {
@@ -1033,6 +1059,7 @@ export type AnggotaUncheckedCreateWithoutKepalaKeluargaInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutKepalaKeluargaInput = {
@@ -1083,6 +1110,7 @@ export type AnggotaUpdateWithoutAnggotaKeluargaInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutAnggotaKeluargaInput = {
@@ -1112,6 +1140,7 @@ export type AnggotaUncheckedUpdateWithoutAnggotaKeluargaInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUpsertWithWhereUniqueWithoutKepalaKeluargaInput = {
@@ -1183,6 +1212,7 @@ export type AnggotaCreateWithoutMemimpinRombonganInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutMemimpinRombonganInput = {
@@ -1212,6 +1242,7 @@ export type AnggotaUncheckedCreateWithoutMemimpinRombonganInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutMemimpinRombonganInput = {
@@ -1246,6 +1277,7 @@ export type AnggotaCreateWithoutRombonganInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutRombonganInput = {
@@ -1275,6 +1307,7 @@ export type AnggotaUncheckedCreateWithoutRombonganInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutRombonganInput = {
@@ -1325,6 +1358,7 @@ export type AnggotaUpdateWithoutMemimpinRombonganInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutMemimpinRombonganInput = {
@@ -1354,6 +1388,7 @@ export type AnggotaUncheckedUpdateWithoutMemimpinRombonganInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUpsertWithWhereUniqueWithoutRombonganInput = {
@@ -1399,6 +1434,7 @@ export type AnggotaCreateWithoutJadwalInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutJadwalInput = {
@@ -1428,6 +1464,7 @@ export type AnggotaUncheckedCreateWithoutJadwalInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutJadwalInput = {
@@ -1473,6 +1510,7 @@ export type AnggotaUpdateWithoutJadwalInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutJadwalInput = {
@@ -1502,6 +1540,7 @@ export type AnggotaUncheckedUpdateWithoutJadwalInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateWithoutHutangPiutangInput = {
@@ -1531,6 +1570,7 @@ export type AnggotaCreateWithoutHutangPiutangInput = {
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutHutangPiutangInput = {
@@ -1560,6 +1600,7 @@ export type AnggotaUncheckedCreateWithoutHutangPiutangInput = {
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutHutangPiutangInput = {
@@ -1605,6 +1646,7 @@ export type AnggotaUpdateWithoutHutangPiutangInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutHutangPiutangInput = {
@@ -1634,6 +1676,7 @@ export type AnggotaUncheckedUpdateWithoutHutangPiutangInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateWithoutPengurusInput = {
@@ -1663,6 +1706,7 @@ export type AnggotaCreateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutPengurusInput = {
@@ -1692,6 +1736,7 @@ export type AnggotaUncheckedCreateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutPengurusInput = {
@@ -1737,6 +1782,7 @@ export type AnggotaUpdateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutPengurusInput = {
@@ -1766,6 +1812,7 @@ export type AnggotaUncheckedUpdateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateWithoutSuratPengantarInput = {
@@ -1795,6 +1842,7 @@ export type AnggotaCreateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutSuratPengantarInput = {
@@ -1824,6 +1872,7 @@ export type AnggotaUncheckedCreateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutSuratPengantarInput = {
@@ -1869,6 +1918,7 @@ export type AnggotaUpdateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutSuratPengantarInput = {
@@ -1898,6 +1948,7 @@ export type AnggotaUncheckedUpdateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateWithoutMutasiInput = {
@@ -1927,6 +1978,7 @@ export type AnggotaCreateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaUncheckedCreateWithoutMutasiInput = {
@@ -1956,6 +2008,7 @@ export type AnggotaUncheckedCreateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
   pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
   suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutAnggotaInput
 }
 
 export type AnggotaCreateOrConnectWithoutMutasiInput = {
@@ -2001,6 +2054,7 @@ export type AnggotaUpdateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutMutasiInput = {
@@ -2030,6 +2084,143 @@ export type AnggotaUncheckedUpdateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaCreateWithoutPesertaArisanInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  kepalaKeluarga?: Prisma.AnggotaCreateNestedOneWithoutAnggotaKeluargaInput
+  anggotaKeluarga?: Prisma.AnggotaCreateNestedManyWithoutKepalaKeluargaInput
+  rombongan?: Prisma.RombonganCreateNestedOneWithoutAnggotaInput
+  memimpinRombongan?: Prisma.RombonganCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutAnggotaInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutAnggotaInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaUncheckedCreateWithoutPesertaArisanInput = {
+  id?: string
+  nama: string
+  noRumah: string
+  noHp?: string | null
+  nik?: string | null
+  noKk?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  statusAktif?: boolean
+  statusKeluarga?: string
+  kepalaKeluargaId?: string | null
+  isWajibJimpitan?: boolean
+  isWajibRonda?: boolean
+  rombonganId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKepalaKeluargaInput
+  memimpinRombongan?: Prisma.RombonganUncheckedCreateNestedOneWithoutKetuaInput
+  jadwal?: Prisma.JadwalPetugasUncheckedCreateNestedManyWithoutAnggotaInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutAnggotaInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutAnggotaInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutAnggotaInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutAnggotaInput
+}
+
+export type AnggotaCreateOrConnectWithoutPesertaArisanInput = {
+  where: Prisma.AnggotaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutPesertaArisanInput, Prisma.AnggotaUncheckedCreateWithoutPesertaArisanInput>
+}
+
+export type AnggotaUpsertWithoutPesertaArisanInput = {
+  update: Prisma.XOR<Prisma.AnggotaUpdateWithoutPesertaArisanInput, Prisma.AnggotaUncheckedUpdateWithoutPesertaArisanInput>
+  create: Prisma.XOR<Prisma.AnggotaCreateWithoutPesertaArisanInput, Prisma.AnggotaUncheckedCreateWithoutPesertaArisanInput>
+  where?: Prisma.AnggotaWhereInput
+}
+
+export type AnggotaUpdateToOneWithWhereWithoutPesertaArisanInput = {
+  where?: Prisma.AnggotaWhereInput
+  data: Prisma.XOR<Prisma.AnggotaUpdateWithoutPesertaArisanInput, Prisma.AnggotaUncheckedUpdateWithoutPesertaArisanInput>
+}
+
+export type AnggotaUpdateWithoutPesertaArisanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kepalaKeluarga?: Prisma.AnggotaUpdateOneWithoutAnggotaKeluargaNestedInput
+  anggotaKeluarga?: Prisma.AnggotaUpdateManyWithoutKepalaKeluargaNestedInput
+  rombongan?: Prisma.RombonganUpdateOneWithoutAnggotaNestedInput
+  memimpinRombongan?: Prisma.RombonganUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+}
+
+export type AnggotaUncheckedUpdateWithoutPesertaArisanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  noRumah?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statusKeluarga?: Prisma.StringFieldUpdateOperationsInput | string
+  kepalaKeluargaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isWajibJimpitan?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isWajibRonda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rombonganId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggotaKeluarga?: Prisma.AnggotaUncheckedUpdateManyWithoutKepalaKeluargaNestedInput
+  memimpinRombongan?: Prisma.RombonganUncheckedUpdateOneWithoutKetuaNestedInput
+  jadwal?: Prisma.JadwalPetugasUncheckedUpdateManyWithoutAnggotaNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaCreateManyKepalaKeluargaInput = {
@@ -2081,6 +2272,7 @@ export type AnggotaUpdateWithoutKepalaKeluargaInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutKepalaKeluargaInput = {
@@ -2110,6 +2302,7 @@ export type AnggotaUncheckedUpdateWithoutKepalaKeluargaInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateManyWithoutKepalaKeluargaInput = {
@@ -2183,6 +2376,7 @@ export type AnggotaUpdateWithoutRombonganInput = {
   pengurus?: Prisma.PengurusRTUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateWithoutRombonganInput = {
@@ -2212,6 +2406,7 @@ export type AnggotaUncheckedUpdateWithoutRombonganInput = {
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput
+  pesertaArisan?: Prisma.PesertaArisanUncheckedUpdateManyWithoutAnggotaNestedInput
 }
 
 export type AnggotaUncheckedUpdateManyWithoutRombonganInput = {
@@ -2248,6 +2443,7 @@ export type AnggotaCountOutputType = {
   pengurus: number
   suratPengantar: number
   mutasi: number
+  pesertaArisan: number
 }
 
 export type AnggotaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2257,6 +2453,7 @@ export type AnggotaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   pengurus?: boolean | AnggotaCountOutputTypeCountPengurusArgs
   suratPengantar?: boolean | AnggotaCountOutputTypeCountSuratPengantarArgs
   mutasi?: boolean | AnggotaCountOutputTypeCountMutasiArgs
+  pesertaArisan?: boolean | AnggotaCountOutputTypeCountPesertaArisanArgs
 }
 
 /**
@@ -2311,6 +2508,13 @@ export type AnggotaCountOutputTypeCountMutasiArgs<ExtArgs extends runtime.Types.
   where?: Prisma.MutasiWargaWhereInput
 }
 
+/**
+ * AnggotaCountOutputType without action
+ */
+export type AnggotaCountOutputTypeCountPesertaArisanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PesertaArisanWhereInput
+}
+
 
 export type AnggotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2342,6 +2546,7 @@ export type AnggotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   pengurus?: boolean | Prisma.Anggota$pengurusArgs<ExtArgs>
   suratPengantar?: boolean | Prisma.Anggota$suratPengantarArgs<ExtArgs>
   mutasi?: boolean | Prisma.Anggota$mutasiArgs<ExtArgs>
+  pesertaArisan?: boolean | Prisma.Anggota$pesertaArisanArgs<ExtArgs>
   _count?: boolean | Prisma.AnggotaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["anggota"]>
 
@@ -2429,6 +2634,7 @@ export type AnggotaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   pengurus?: boolean | Prisma.Anggota$pengurusArgs<ExtArgs>
   suratPengantar?: boolean | Prisma.Anggota$suratPengantarArgs<ExtArgs>
   mutasi?: boolean | Prisma.Anggota$mutasiArgs<ExtArgs>
+  pesertaArisan?: boolean | Prisma.Anggota$pesertaArisanArgs<ExtArgs>
   _count?: boolean | Prisma.AnggotaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AnggotaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2452,6 +2658,7 @@ export type $AnggotaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pengurus: Prisma.$PengurusRTPayload<ExtArgs>[]
     suratPengantar: Prisma.$SuratPengantarPayload<ExtArgs>[]
     mutasi: Prisma.$MutasiWargaPayload<ExtArgs>[]
+    pesertaArisan: Prisma.$PesertaArisanPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2877,6 +3084,7 @@ export interface Prisma__AnggotaClient<T, Null = never, ExtArgs extends runtime.
   pengurus<T extends Prisma.Anggota$pengurusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$pengurusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengurusRTPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   suratPengantar<T extends Prisma.Anggota$suratPengantarArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$suratPengantarArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SuratPengantarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   mutasi<T extends Prisma.Anggota$mutasiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$mutasiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MutasiWargaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pesertaArisan<T extends Prisma.Anggota$pesertaArisanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Anggota$pesertaArisanArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PesertaArisanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3525,6 +3733,30 @@ export type Anggota$mutasiArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.MutasiWargaScalarFieldEnum | Prisma.MutasiWargaScalarFieldEnum[]
+}
+
+/**
+ * Anggota.pesertaArisan
+ */
+export type Anggota$pesertaArisanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PesertaArisan
+   */
+  select?: Prisma.PesertaArisanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PesertaArisan
+   */
+  omit?: Prisma.PesertaArisanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PesertaArisanInclude<ExtArgs> | null
+  where?: Prisma.PesertaArisanWhereInput
+  orderBy?: Prisma.PesertaArisanOrderByWithRelationInput | Prisma.PesertaArisanOrderByWithRelationInput[]
+  cursor?: Prisma.PesertaArisanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PesertaArisanScalarFieldEnum | Prisma.PesertaArisanScalarFieldEnum[]
 }
 
 /**
