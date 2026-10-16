@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getWeton, findNextWetonDate } from '@/lib/javanese-date';
 
 export async function POST(
   request: Request,
@@ -10,11 +11,15 @@ export async function POST(
     const body = await request.json();
     const {
       pemenangId,
-      nominalDiterima,
-      catatan,
       tanggalKocok = new Date().toISOString(),
+      hariJawa,
+      agendaId,
+      statusTalangan = 'tidak_ditalangi', // "tidak_ditalangi" | "ditalangi_kas"
+      nominalDiserahkan: customDiserahkan,
+      catatan,
       dicatatOleh = 'Pengurus RT',
-      pembayaranStatus = [], // optional array of { pesertaId, statusBayar }
+      kehadiranDanIuranList = [], // Array of { pesertaId, statusKehadiran, statusBayar, metode, catatan }
+      sinkronAgendaBerikutnya = true,
     } = body;
 
     if (!pemenangId) {
@@ -54,14 +59,78 @@ export async function POST(
     const latestPutaranNumber = kelompok.putaran.length > 0 ? kelompok.putaran[0].putaranKe : 0;
     const nextPutaranKe = latestPutaranNumber + 1;
 
-    const totalHadiah =
-      nominalDiterima !== undefined
-        ? Number(nominalDiterima)
-        : kelompok.peserta.length * kelompok.nominalIuran;
+    // Determine Hari Jawa (Weton)
+    const computedWeton = getWeton(new Date(tanggalKocok));
+    const finalHariJawa =
+      hariJawa?.trim() ||
+      kelompok.hariJawa ||
+      `${computedWeton.malamWeton} (${computedWeton.wetonMasehi})`;
+
+    // Calculate Finances
+    const totalTarget = kelompok.peserta.length * kelompok.nominalIuran;
+
+    // Map presence and payments
+    const detailMap = new Map<
+      string,
+      {
+        statusKehadiran: string;
+        statusBayar: boolean;
+        metode: string;
+        catatan?: string;
+      }
+    >();
+
+    if (Array.isArray(kehadiranDanIuranList)) {
+      kehadiranDanIuranList.forEach((item: any) => {
+        if (item.pesertaId) {
+          detailMap.set(item.pesertaId, {
+            statusKehadiran: item.statusKehadiran || 'hadir',
+            statusBayar: Boolean(item.statusBayar),
+            metode: item.metode || 'tunai',
+            catatan: item.catatan || null,
+          });
+        }
+      });
+    }
+
+    let totalTerkumpul = 0;
+    const pembayaranRows = kelompok.peserta.map((p) => {
+      const detail = detailMap.get(p.id) || {
+        statusKehadiran: 'hadir',
+        statusBayar: false,
+        metode: 'tunai',
+        catatan: undefined,
+      };
+
+      if (detail.statusBayar) {
+        totalTerkumpul += kelompok.nominalIuran;
+      }
+
+      return {
+        pesertaId: p.id,
+        statusKehadiran: detail.statusKehadiran,
+        statusBayar: detail.statusBayar,
+        tanggalBayar: detail.statusBayar ? new Date(tanggalKocok) : null,
+        nominal: kelompok.nominalIuran,
+        metode: detail.metode,
+        catatan: detail.catatan || null,
+      };
+    });
+
+    const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
+    let finalDiserahkan = totalTerkumpul;
+    let nominalTalangan = 0;
+
+    if (statusTalangan === 'ditalangi_kas') {
+      finalDiserahkan = totalTarget;
+      nominalTalangan = nominalKurang;
+    } else if (customDiserahkan !== undefined && !isNaN(Number(customDiserahkan))) {
+      finalDiserahkan = Number(customDiserahkan);
+    }
 
     // Execute in Prisma transaction
     const result = await db.$transaction(async (tx) => {
-      // 1. Update Peserta: set sudahMenang = true
+      // 1. Mark winner as won
       await tx.pesertaArisan.update({
         where: { id: pemenangId },
         data: {
@@ -70,54 +139,69 @@ export async function POST(
         },
       });
 
-      // 2. Create PutaranArisan
+      // 2. Create PutaranArisan with detailed finance and agenda linkage
       const newPutaran = await tx.putaranArisan.create({
         data: {
           kelompokId,
           putaranKe: nextPutaranKe,
           tanggalKocok: new Date(tanggalKocok),
+          hariJawa: finalHariJawa,
+          agendaId: agendaId || null,
+          totalTarget,
+          totalTerkumpul,
+          nominalDiserahkan: finalDiserahkan,
+          nominalKurang,
+          statusTalangan,
+          nominalTalangan,
           pemenangId,
           namaPemenang: pemenang.namaPeserta,
-          nominalDiterima: totalHadiah,
-          totalTerkumpul: 0,
+          nominalDiterima: finalDiserahkan,
           status: 'terlaksana',
           catatan: catatan?.trim() || null,
           dicatatOleh,
         },
       });
 
-      // 3. Generate initial PembayaranIuranArisan rows for all participants
-      const statusMap = new Map<string, boolean>();
-      if (Array.isArray(pembayaranStatus)) {
-        pembayaranStatus.forEach((ps: any) => {
-          if (ps.pesertaId) statusMap.set(ps.pesertaId, Boolean(ps.statusBayar));
+      // 3. Batch create PembayaranIuranArisan
+      const rowsWithPutaranId = pembayaranRows.map((r) => ({
+        ...r,
+        putaranId: newPutaran.id,
+      }));
+
+      await tx.pembayaranIuranArisan.createMany({
+        data: rowsWithPutaranId,
+      });
+
+      // 4. Update existing agenda if linked to completed
+      if (agendaId) {
+        await tx.agenda.update({
+          where: { id: agendaId },
+          data: { status: 'selesai' },
         });
       }
 
-      let totalTerkumpul = 0;
-      const pembayaranRows = kelompok.peserta.map((p) => {
-        const isPaid = statusMap.get(p.id) ?? false;
-        if (isPaid) totalTerkumpul += kelompok.nominalIuran;
-        return {
-          putaranId: newPutaran.id,
-          pesertaId: p.id,
-          nominal: kelompok.nominalIuran,
-          statusBayar: isPaid,
-          tanggalBayar: isPaid ? new Date(tanggalKocok) : null,
-          metode: 'tunai',
-        };
-      });
+      // 5. Automatically schedule next round agenda if requested
+      if (sinkronAgendaBerikutnya && kelompok.hariJawa) {
+        try {
+          const nextAgendaDate = findNextWetonDate(
+            kelompok.hariJawa,
+            new Date(new Date(tanggalKocok).getTime() + 86400000 * 2) // from 2 days after current
+          );
 
-      await tx.pembayaranIuranArisan.createMany({
-        data: pembayaranRows,
-      });
-
-      // Update totalTerkumpul if any were pre-paid
-      if (totalTerkumpul > 0) {
-        await tx.putaranArisan.update({
-          where: { id: newPutaran.id },
-          data: { totalTerkumpul },
-        });
+          await tx.agenda.create({
+            data: {
+              judul: `Rapat Rutin & Kocokan Arisan: ${kelompok.nama} (#${nextPutaranKe + 1})`,
+              kategori: 'rapat',
+              tanggal: nextAgendaDate,
+              waktuMulai: kelompok.waktuKocok || '19:30',
+              lokasi: kelompok.lokasiKocok || `Rumah ${pemenang.namaPeserta}`,
+              keterangan: `Pertemuan rutin selapanan (${kelompok.hariJawa}) dan arisan putaran ke-${nextPutaranKe + 1}. Tuan rumah: Bpk/Ibu ${pemenang.namaPeserta}.`,
+              status: 'terjadwal',
+            },
+          });
+        } catch (agendaErr) {
+          console.warn('Gagal sinkron agenda berikutnya:', agendaErr);
+        }
       }
 
       return newPutaran;

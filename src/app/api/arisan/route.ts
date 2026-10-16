@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { findNextWetonDate } from '@/lib/javanese-date';
 
 export async function GET(request: Request) {
   try {
@@ -34,9 +35,14 @@ export async function GET(request: Request) {
             id: true,
             putaranKe: true,
             tanggalKocok: true,
+            hariJawa: true,
             namaPemenang: true,
             nominalDiterima: true,
+            totalTarget: true,
             totalTerkumpul: true,
+            nominalDiserahkan: true,
+            nominalKurang: true,
+            statusTalangan: true,
           },
         },
         _count: {
@@ -59,6 +65,10 @@ export async function GET(request: Request) {
         nama: k.nama,
         nominalIuran: k.nominalIuran,
         periodeTipe: k.periodeTipe,
+        hariJawa: k.hariJawa,
+        waktuKocok: k.waktuKocok,
+        lokasiKocok: k.lokasiKocok,
+        autoSinkronAgenda: k.autoSinkronAgenda,
         tanggalMulai: k.tanggalMulai,
         status: k.status,
         keterangan: k.keterangan,
@@ -85,7 +95,18 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { nama, nominalIuran, periodeTipe = 'bulanan', keterangan, tanggalMulai, pesertaList = [] } = body;
+    const {
+      nama,
+      nominalIuran,
+      periodeTipe = 'bulanan',
+      hariJawa,
+      waktuKocok = '19:30',
+      lokasiKocok = 'Balai Pertemuan RT',
+      autoSinkronAgenda = true,
+      keterangan,
+      tanggalMulai,
+      pesertaList = [],
+    } = body;
 
     if (!nama || !nama.trim()) {
       return NextResponse.json(
@@ -107,6 +128,10 @@ export async function POST(request: Request) {
         nama: nama.trim(),
         nominalIuran: nominal,
         periodeTipe: periodeTipe || 'bulanan',
+        hariJawa: hariJawa?.trim() || null,
+        waktuKocok: waktuKocok?.trim() || null,
+        lokasiKocok: lokasiKocok?.trim() || null,
+        autoSinkronAgenda: Boolean(autoSinkronAgenda),
         keterangan: keterangan?.trim() || null,
         tanggalMulai: tanggalMulai ? new Date(tanggalMulai) : new Date(),
         status: 'aktif',
@@ -124,6 +149,26 @@ export async function POST(request: Request) {
         peserta: true,
       },
     });
+
+    // Otomatis sinkronkan pertemuan pertama ke Agenda RT jika diaktifkan
+    if (autoSinkronAgenda && hariJawa) {
+      try {
+        const nextAgendaDate = findNextWetonDate(hariJawa);
+        await db.agenda.create({
+          data: {
+            judul: `Rapat Rutin & Kocokan Arisan: ${newKelompok.nama}`,
+            kategori: 'rapat',
+            tanggal: nextAgendaDate,
+            waktuMulai: waktuKocok || '19:30',
+            lokasi: lokasiKocok || 'Balai RT',
+            keterangan: `Pertemuan rutin warga (${hariJawa}) dan pengundian arisan kelompok ${newKelompok.nama}.`,
+            status: 'terjadwal',
+          },
+        });
+      } catch (agendaErr) {
+        console.warn('Gagal membuat agenda otomatis:', agendaErr);
+      }
+    }
 
     return NextResponse.json({ success: true, data: newKelompok }, { status: 201 });
   } catch (error: any) {

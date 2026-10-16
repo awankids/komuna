@@ -28,13 +28,21 @@ export type AggregatePutaranArisan = {
 
 export type PutaranArisanAvgAggregateOutputType = {
   putaranKe: number | null
+  totalTarget: number | null
   totalTerkumpul: number | null
+  nominalDiserahkan: number | null
+  nominalKurang: number | null
+  nominalTalangan: number | null
   nominalDiterima: number | null
 }
 
 export type PutaranArisanSumAggregateOutputType = {
   putaranKe: number | null
+  totalTarget: number | null
   totalTerkumpul: number | null
+  nominalDiserahkan: number | null
+  nominalKurang: number | null
+  nominalTalangan: number | null
   nominalDiterima: number | null
 }
 
@@ -43,7 +51,14 @@ export type PutaranArisanMinAggregateOutputType = {
   kelompokId: string | null
   putaranKe: number | null
   tanggalKocok: Date | null
+  hariJawa: string | null
+  agendaId: string | null
+  totalTarget: number | null
   totalTerkumpul: number | null
+  nominalDiserahkan: number | null
+  nominalKurang: number | null
+  statusTalangan: string | null
+  nominalTalangan: number | null
   pemenangId: string | null
   namaPemenang: string | null
   nominalDiterima: number | null
@@ -58,7 +73,14 @@ export type PutaranArisanMaxAggregateOutputType = {
   kelompokId: string | null
   putaranKe: number | null
   tanggalKocok: Date | null
+  hariJawa: string | null
+  agendaId: string | null
+  totalTarget: number | null
   totalTerkumpul: number | null
+  nominalDiserahkan: number | null
+  nominalKurang: number | null
+  statusTalangan: string | null
+  nominalTalangan: number | null
   pemenangId: string | null
   namaPemenang: string | null
   nominalDiterima: number | null
@@ -73,7 +95,14 @@ export type PutaranArisanCountAggregateOutputType = {
   kelompokId: number
   putaranKe: number
   tanggalKocok: number
+  hariJawa: number
+  agendaId: number
+  totalTarget: number
   totalTerkumpul: number
+  nominalDiserahkan: number
+  nominalKurang: number
+  statusTalangan: number
+  nominalTalangan: number
   pemenangId: number
   namaPemenang: number
   nominalDiterima: number
@@ -87,13 +116,21 @@ export type PutaranArisanCountAggregateOutputType = {
 
 export type PutaranArisanAvgAggregateInputType = {
   putaranKe?: true
+  totalTarget?: true
   totalTerkumpul?: true
+  nominalDiserahkan?: true
+  nominalKurang?: true
+  nominalTalangan?: true
   nominalDiterima?: true
 }
 
 export type PutaranArisanSumAggregateInputType = {
   putaranKe?: true
+  totalTarget?: true
   totalTerkumpul?: true
+  nominalDiserahkan?: true
+  nominalKurang?: true
+  nominalTalangan?: true
   nominalDiterima?: true
 }
 
@@ -102,7 +139,14 @@ export type PutaranArisanMinAggregateInputType = {
   kelompokId?: true
   putaranKe?: true
   tanggalKocok?: true
+  hariJawa?: true
+  agendaId?: true
+  totalTarget?: true
   totalTerkumpul?: true
+  nominalDiserahkan?: true
+  nominalKurang?: true
+  statusTalangan?: true
+  nominalTalangan?: true
   pemenangId?: true
   namaPemenang?: true
   nominalDiterima?: true
@@ -117,7 +161,14 @@ export type PutaranArisanMaxAggregateInputType = {
   kelompokId?: true
   putaranKe?: true
   tanggalKocok?: true
+  hariJawa?: true
+  agendaId?: true
+  totalTarget?: true
   totalTerkumpul?: true
+  nominalDiserahkan?: true
+  nominalKurang?: true
+  statusTalangan?: true
+  nominalTalangan?: true
   pemenangId?: true
   namaPemenang?: true
   nominalDiterima?: true
@@ -132,7 +183,14 @@ export type PutaranArisanCountAggregateInputType = {
   kelompokId?: true
   putaranKe?: true
   tanggalKocok?: true
+  hariJawa?: true
+  agendaId?: true
+  totalTarget?: true
   totalTerkumpul?: true
+  nominalDiserahkan?: true
+  nominalKurang?: true
+  statusTalangan?: true
+  nominalTalangan?: true
   pemenangId?: true
   namaPemenang?: true
   nominalDiterima?: true
@@ -234,7 +292,14 @@ export type PutaranArisanGroupByOutputType = {
   kelompokId: string
   putaranKe: number
   tanggalKocok: Date
+  hariJawa: string | null
+  agendaId: string | null
+  totalTarget: number
   totalTerkumpul: number
+  nominalDiserahkan: number
+  nominalKurang: number
+  statusTalangan: string
+  nominalTalangan: number
   pemenangId: string | null
   namaPemenang: string | null
   nominalDiterima: number
@@ -272,7 +337,14 @@ export type PutaranArisanWhereInput = {
   kelompokId?: Prisma.StringFilter<"PutaranArisan"> | string
   putaranKe?: Prisma.IntFilter<"PutaranArisan"> | number
   tanggalKocok?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
+  hariJawa?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  agendaId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  totalTarget?: Prisma.IntFilter<"PutaranArisan"> | number
   totalTerkumpul?: Prisma.IntFilter<"PutaranArisan"> | number
+  nominalDiserahkan?: Prisma.IntFilter<"PutaranArisan"> | number
+  nominalKurang?: Prisma.IntFilter<"PutaranArisan"> | number
+  statusTalangan?: Prisma.StringFilter<"PutaranArisan"> | string
+  nominalTalangan?: Prisma.IntFilter<"PutaranArisan"> | number
   pemenangId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
   namaPemenang?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
   nominalDiterima?: Prisma.IntFilter<"PutaranArisan"> | number
@@ -281,6 +353,7 @@ export type PutaranArisanWhereInput = {
   dicatatOleh?: Prisma.StringFilter<"PutaranArisan"> | string
   createdAt?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
   kelompok?: Prisma.XOR<Prisma.KelompokArisanScalarRelationFilter, Prisma.KelompokArisanWhereInput>
+  agenda?: Prisma.XOR<Prisma.AgendaNullableScalarRelationFilter, Prisma.AgendaWhereInput> | null
   pemenang?: Prisma.XOR<Prisma.PesertaArisanNullableScalarRelationFilter, Prisma.PesertaArisanWhereInput> | null
   pembayaran?: Prisma.PembayaranIuranArisanListRelationFilter
 }
@@ -290,7 +363,14 @@ export type PutaranArisanOrderByWithRelationInput = {
   kelompokId?: Prisma.SortOrder
   putaranKe?: Prisma.SortOrder
   tanggalKocok?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrderInput | Prisma.SortOrder
+  agendaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  statusTalangan?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   pemenangId?: Prisma.SortOrderInput | Prisma.SortOrder
   namaPemenang?: Prisma.SortOrderInput | Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
@@ -299,6 +379,7 @@ export type PutaranArisanOrderByWithRelationInput = {
   dicatatOleh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   kelompok?: Prisma.KelompokArisanOrderByWithRelationInput
+  agenda?: Prisma.AgendaOrderByWithRelationInput
   pemenang?: Prisma.PesertaArisanOrderByWithRelationInput
   pembayaran?: Prisma.PembayaranIuranArisanOrderByRelationAggregateInput
 }
@@ -311,7 +392,14 @@ export type PutaranArisanWhereUniqueInput = Prisma.AtLeast<{
   kelompokId?: Prisma.StringFilter<"PutaranArisan"> | string
   putaranKe?: Prisma.IntFilter<"PutaranArisan"> | number
   tanggalKocok?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
+  hariJawa?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  agendaId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  totalTarget?: Prisma.IntFilter<"PutaranArisan"> | number
   totalTerkumpul?: Prisma.IntFilter<"PutaranArisan"> | number
+  nominalDiserahkan?: Prisma.IntFilter<"PutaranArisan"> | number
+  nominalKurang?: Prisma.IntFilter<"PutaranArisan"> | number
+  statusTalangan?: Prisma.StringFilter<"PutaranArisan"> | string
+  nominalTalangan?: Prisma.IntFilter<"PutaranArisan"> | number
   pemenangId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
   namaPemenang?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
   nominalDiterima?: Prisma.IntFilter<"PutaranArisan"> | number
@@ -320,6 +408,7 @@ export type PutaranArisanWhereUniqueInput = Prisma.AtLeast<{
   dicatatOleh?: Prisma.StringFilter<"PutaranArisan"> | string
   createdAt?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
   kelompok?: Prisma.XOR<Prisma.KelompokArisanScalarRelationFilter, Prisma.KelompokArisanWhereInput>
+  agenda?: Prisma.XOR<Prisma.AgendaNullableScalarRelationFilter, Prisma.AgendaWhereInput> | null
   pemenang?: Prisma.XOR<Prisma.PesertaArisanNullableScalarRelationFilter, Prisma.PesertaArisanWhereInput> | null
   pembayaran?: Prisma.PembayaranIuranArisanListRelationFilter
 }, "id">
@@ -329,7 +418,14 @@ export type PutaranArisanOrderByWithAggregationInput = {
   kelompokId?: Prisma.SortOrder
   putaranKe?: Prisma.SortOrder
   tanggalKocok?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrderInput | Prisma.SortOrder
+  agendaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  statusTalangan?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   pemenangId?: Prisma.SortOrderInput | Prisma.SortOrder
   namaPemenang?: Prisma.SortOrderInput | Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
@@ -352,7 +448,14 @@ export type PutaranArisanScalarWhereWithAggregatesInput = {
   kelompokId?: Prisma.StringWithAggregatesFilter<"PutaranArisan"> | string
   putaranKe?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
   tanggalKocok?: Prisma.DateTimeWithAggregatesFilter<"PutaranArisan"> | Date | string
+  hariJawa?: Prisma.StringNullableWithAggregatesFilter<"PutaranArisan"> | string | null
+  agendaId?: Prisma.StringNullableWithAggregatesFilter<"PutaranArisan"> | string | null
+  totalTarget?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
   totalTerkumpul?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
+  nominalDiserahkan?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
+  nominalKurang?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
+  statusTalangan?: Prisma.StringWithAggregatesFilter<"PutaranArisan"> | string
+  nominalTalangan?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
   pemenangId?: Prisma.StringNullableWithAggregatesFilter<"PutaranArisan"> | string | null
   namaPemenang?: Prisma.StringNullableWithAggregatesFilter<"PutaranArisan"> | string | null
   nominalDiterima?: Prisma.IntWithAggregatesFilter<"PutaranArisan"> | number
@@ -366,7 +469,13 @@ export type PutaranArisanCreateInput = {
   id?: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   namaPemenang?: string | null
   nominalDiterima?: number
   status?: string
@@ -374,6 +483,7 @@ export type PutaranArisanCreateInput = {
   dicatatOleh?: string
   createdAt?: Date | string
   kelompok: Prisma.KelompokArisanCreateNestedOneWithoutPutaranInput
+  agenda?: Prisma.AgendaCreateNestedOneWithoutPutaranArisanInput
   pemenang?: Prisma.PesertaArisanCreateNestedOneWithoutPemenangPutaranInput
   pembayaran?: Prisma.PembayaranIuranArisanCreateNestedManyWithoutPutaranInput
 }
@@ -383,7 +493,14 @@ export type PutaranArisanUncheckedCreateInput = {
   kelompokId: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   pemenangId?: string | null
   namaPemenang?: string | null
   nominalDiterima?: number
@@ -398,7 +515,13 @@ export type PutaranArisanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -406,6 +529,7 @@ export type PutaranArisanUpdateInput = {
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   kelompok?: Prisma.KelompokArisanUpdateOneRequiredWithoutPutaranNestedInput
+  agenda?: Prisma.AgendaUpdateOneWithoutPutaranArisanNestedInput
   pemenang?: Prisma.PesertaArisanUpdateOneWithoutPemenangPutaranNestedInput
   pembayaran?: Prisma.PembayaranIuranArisanUpdateManyWithoutPutaranNestedInput
 }
@@ -415,7 +539,14 @@ export type PutaranArisanUncheckedUpdateInput = {
   kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
@@ -431,7 +562,14 @@ export type PutaranArisanCreateManyInput = {
   kelompokId: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   pemenangId?: string | null
   namaPemenang?: string | null
   nominalDiterima?: number
@@ -445,7 +583,13 @@ export type PutaranArisanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -459,7 +603,14 @@ export type PutaranArisanUncheckedUpdateManyInput = {
   kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
@@ -484,7 +635,14 @@ export type PutaranArisanCountOrderByAggregateInput = {
   kelompokId?: Prisma.SortOrder
   putaranKe?: Prisma.SortOrder
   tanggalKocok?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrder
+  agendaId?: Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  statusTalangan?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   pemenangId?: Prisma.SortOrder
   namaPemenang?: Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
@@ -496,7 +654,11 @@ export type PutaranArisanCountOrderByAggregateInput = {
 
 export type PutaranArisanAvgOrderByAggregateInput = {
   putaranKe?: Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
 }
 
@@ -505,7 +667,14 @@ export type PutaranArisanMaxOrderByAggregateInput = {
   kelompokId?: Prisma.SortOrder
   putaranKe?: Prisma.SortOrder
   tanggalKocok?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrder
+  agendaId?: Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  statusTalangan?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   pemenangId?: Prisma.SortOrder
   namaPemenang?: Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
@@ -520,7 +689,14 @@ export type PutaranArisanMinOrderByAggregateInput = {
   kelompokId?: Prisma.SortOrder
   putaranKe?: Prisma.SortOrder
   tanggalKocok?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrder
+  agendaId?: Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  statusTalangan?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   pemenangId?: Prisma.SortOrder
   namaPemenang?: Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
@@ -532,13 +708,59 @@ export type PutaranArisanMinOrderByAggregateInput = {
 
 export type PutaranArisanSumOrderByAggregateInput = {
   putaranKe?: Prisma.SortOrder
+  totalTarget?: Prisma.SortOrder
   totalTerkumpul?: Prisma.SortOrder
+  nominalDiserahkan?: Prisma.SortOrder
+  nominalKurang?: Prisma.SortOrder
+  nominalTalangan?: Prisma.SortOrder
   nominalDiterima?: Prisma.SortOrder
 }
 
 export type PutaranArisanScalarRelationFilter = {
   is?: Prisma.PutaranArisanWhereInput
   isNot?: Prisma.PutaranArisanWhereInput
+}
+
+export type PutaranArisanCreateNestedManyWithoutAgendaInput = {
+  create?: Prisma.XOR<Prisma.PutaranArisanCreateWithoutAgendaInput, Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput> | Prisma.PutaranArisanCreateWithoutAgendaInput[] | Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput[]
+  connectOrCreate?: Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput | Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput[]
+  createMany?: Prisma.PutaranArisanCreateManyAgendaInputEnvelope
+  connect?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+}
+
+export type PutaranArisanUncheckedCreateNestedManyWithoutAgendaInput = {
+  create?: Prisma.XOR<Prisma.PutaranArisanCreateWithoutAgendaInput, Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput> | Prisma.PutaranArisanCreateWithoutAgendaInput[] | Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput[]
+  connectOrCreate?: Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput | Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput[]
+  createMany?: Prisma.PutaranArisanCreateManyAgendaInputEnvelope
+  connect?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+}
+
+export type PutaranArisanUpdateManyWithoutAgendaNestedInput = {
+  create?: Prisma.XOR<Prisma.PutaranArisanCreateWithoutAgendaInput, Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput> | Prisma.PutaranArisanCreateWithoutAgendaInput[] | Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput[]
+  connectOrCreate?: Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput | Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput[]
+  upsert?: Prisma.PutaranArisanUpsertWithWhereUniqueWithoutAgendaInput | Prisma.PutaranArisanUpsertWithWhereUniqueWithoutAgendaInput[]
+  createMany?: Prisma.PutaranArisanCreateManyAgendaInputEnvelope
+  set?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  disconnect?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  delete?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  connect?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  update?: Prisma.PutaranArisanUpdateWithWhereUniqueWithoutAgendaInput | Prisma.PutaranArisanUpdateWithWhereUniqueWithoutAgendaInput[]
+  updateMany?: Prisma.PutaranArisanUpdateManyWithWhereWithoutAgendaInput | Prisma.PutaranArisanUpdateManyWithWhereWithoutAgendaInput[]
+  deleteMany?: Prisma.PutaranArisanScalarWhereInput | Prisma.PutaranArisanScalarWhereInput[]
+}
+
+export type PutaranArisanUncheckedUpdateManyWithoutAgendaNestedInput = {
+  create?: Prisma.XOR<Prisma.PutaranArisanCreateWithoutAgendaInput, Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput> | Prisma.PutaranArisanCreateWithoutAgendaInput[] | Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput[]
+  connectOrCreate?: Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput | Prisma.PutaranArisanCreateOrConnectWithoutAgendaInput[]
+  upsert?: Prisma.PutaranArisanUpsertWithWhereUniqueWithoutAgendaInput | Prisma.PutaranArisanUpsertWithWhereUniqueWithoutAgendaInput[]
+  createMany?: Prisma.PutaranArisanCreateManyAgendaInputEnvelope
+  set?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  disconnect?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  delete?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  connect?: Prisma.PutaranArisanWhereUniqueInput | Prisma.PutaranArisanWhereUniqueInput[]
+  update?: Prisma.PutaranArisanUpdateWithWhereUniqueWithoutAgendaInput | Prisma.PutaranArisanUpdateWithWhereUniqueWithoutAgendaInput[]
+  updateMany?: Prisma.PutaranArisanUpdateManyWithWhereWithoutAgendaInput | Prisma.PutaranArisanUpdateManyWithWhereWithoutAgendaInput[]
+  deleteMany?: Prisma.PutaranArisanScalarWhereInput | Prisma.PutaranArisanScalarWhereInput[]
 }
 
 export type PutaranArisanCreateNestedManyWithoutKelompokInput = {
@@ -639,17 +861,119 @@ export type PutaranArisanUpdateOneRequiredWithoutPembayaranNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PutaranArisanUpdateToOneWithWhereWithoutPembayaranInput, Prisma.PutaranArisanUpdateWithoutPembayaranInput>, Prisma.PutaranArisanUncheckedUpdateWithoutPembayaranInput>
 }
 
-export type PutaranArisanCreateWithoutKelompokInput = {
+export type PutaranArisanCreateWithoutAgendaInput = {
   id?: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   namaPemenang?: string | null
   nominalDiterima?: number
   status?: string
   catatan?: string | null
   dicatatOleh?: string
   createdAt?: Date | string
+  kelompok: Prisma.KelompokArisanCreateNestedOneWithoutPutaranInput
+  pemenang?: Prisma.PesertaArisanCreateNestedOneWithoutPemenangPutaranInput
+  pembayaran?: Prisma.PembayaranIuranArisanCreateNestedManyWithoutPutaranInput
+}
+
+export type PutaranArisanUncheckedCreateWithoutAgendaInput = {
+  id?: string
+  kelompokId: string
+  putaranKe: number
+  tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
+  totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
+  pemenangId?: string | null
+  namaPemenang?: string | null
+  nominalDiterima?: number
+  status?: string
+  catatan?: string | null
+  dicatatOleh?: string
+  createdAt?: Date | string
+  pembayaran?: Prisma.PembayaranIuranArisanUncheckedCreateNestedManyWithoutPutaranInput
+}
+
+export type PutaranArisanCreateOrConnectWithoutAgendaInput = {
+  where: Prisma.PutaranArisanWhereUniqueInput
+  create: Prisma.XOR<Prisma.PutaranArisanCreateWithoutAgendaInput, Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput>
+}
+
+export type PutaranArisanCreateManyAgendaInputEnvelope = {
+  data: Prisma.PutaranArisanCreateManyAgendaInput | Prisma.PutaranArisanCreateManyAgendaInput[]
+  skipDuplicates?: boolean
+}
+
+export type PutaranArisanUpsertWithWhereUniqueWithoutAgendaInput = {
+  where: Prisma.PutaranArisanWhereUniqueInput
+  update: Prisma.XOR<Prisma.PutaranArisanUpdateWithoutAgendaInput, Prisma.PutaranArisanUncheckedUpdateWithoutAgendaInput>
+  create: Prisma.XOR<Prisma.PutaranArisanCreateWithoutAgendaInput, Prisma.PutaranArisanUncheckedCreateWithoutAgendaInput>
+}
+
+export type PutaranArisanUpdateWithWhereUniqueWithoutAgendaInput = {
+  where: Prisma.PutaranArisanWhereUniqueInput
+  data: Prisma.XOR<Prisma.PutaranArisanUpdateWithoutAgendaInput, Prisma.PutaranArisanUncheckedUpdateWithoutAgendaInput>
+}
+
+export type PutaranArisanUpdateManyWithWhereWithoutAgendaInput = {
+  where: Prisma.PutaranArisanScalarWhereInput
+  data: Prisma.XOR<Prisma.PutaranArisanUpdateManyMutationInput, Prisma.PutaranArisanUncheckedUpdateManyWithoutAgendaInput>
+}
+
+export type PutaranArisanScalarWhereInput = {
+  AND?: Prisma.PutaranArisanScalarWhereInput | Prisma.PutaranArisanScalarWhereInput[]
+  OR?: Prisma.PutaranArisanScalarWhereInput[]
+  NOT?: Prisma.PutaranArisanScalarWhereInput | Prisma.PutaranArisanScalarWhereInput[]
+  id?: Prisma.StringFilter<"PutaranArisan"> | string
+  kelompokId?: Prisma.StringFilter<"PutaranArisan"> | string
+  putaranKe?: Prisma.IntFilter<"PutaranArisan"> | number
+  tanggalKocok?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
+  hariJawa?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  agendaId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  totalTarget?: Prisma.IntFilter<"PutaranArisan"> | number
+  totalTerkumpul?: Prisma.IntFilter<"PutaranArisan"> | number
+  nominalDiserahkan?: Prisma.IntFilter<"PutaranArisan"> | number
+  nominalKurang?: Prisma.IntFilter<"PutaranArisan"> | number
+  statusTalangan?: Prisma.StringFilter<"PutaranArisan"> | string
+  nominalTalangan?: Prisma.IntFilter<"PutaranArisan"> | number
+  pemenangId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  namaPemenang?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  nominalDiterima?: Prisma.IntFilter<"PutaranArisan"> | number
+  status?: Prisma.StringFilter<"PutaranArisan"> | string
+  catatan?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
+  dicatatOleh?: Prisma.StringFilter<"PutaranArisan"> | string
+  createdAt?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
+}
+
+export type PutaranArisanCreateWithoutKelompokInput = {
+  id?: string
+  putaranKe: number
+  tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
+  totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
+  namaPemenang?: string | null
+  nominalDiterima?: number
+  status?: string
+  catatan?: string | null
+  dicatatOleh?: string
+  createdAt?: Date | string
+  agenda?: Prisma.AgendaCreateNestedOneWithoutPutaranArisanInput
   pemenang?: Prisma.PesertaArisanCreateNestedOneWithoutPemenangPutaranInput
   pembayaran?: Prisma.PembayaranIuranArisanCreateNestedManyWithoutPutaranInput
 }
@@ -658,7 +982,14 @@ export type PutaranArisanUncheckedCreateWithoutKelompokInput = {
   id?: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   pemenangId?: string | null
   namaPemenang?: string | null
   nominalDiterima?: number
@@ -695,29 +1026,17 @@ export type PutaranArisanUpdateManyWithWhereWithoutKelompokInput = {
   data: Prisma.XOR<Prisma.PutaranArisanUpdateManyMutationInput, Prisma.PutaranArisanUncheckedUpdateManyWithoutKelompokInput>
 }
 
-export type PutaranArisanScalarWhereInput = {
-  AND?: Prisma.PutaranArisanScalarWhereInput | Prisma.PutaranArisanScalarWhereInput[]
-  OR?: Prisma.PutaranArisanScalarWhereInput[]
-  NOT?: Prisma.PutaranArisanScalarWhereInput | Prisma.PutaranArisanScalarWhereInput[]
-  id?: Prisma.StringFilter<"PutaranArisan"> | string
-  kelompokId?: Prisma.StringFilter<"PutaranArisan"> | string
-  putaranKe?: Prisma.IntFilter<"PutaranArisan"> | number
-  tanggalKocok?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
-  totalTerkumpul?: Prisma.IntFilter<"PutaranArisan"> | number
-  pemenangId?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
-  namaPemenang?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
-  nominalDiterima?: Prisma.IntFilter<"PutaranArisan"> | number
-  status?: Prisma.StringFilter<"PutaranArisan"> | string
-  catatan?: Prisma.StringNullableFilter<"PutaranArisan"> | string | null
-  dicatatOleh?: Prisma.StringFilter<"PutaranArisan"> | string
-  createdAt?: Prisma.DateTimeFilter<"PutaranArisan"> | Date | string
-}
-
 export type PutaranArisanCreateWithoutPemenangInput = {
   id?: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   namaPemenang?: string | null
   nominalDiterima?: number
   status?: string
@@ -725,6 +1044,7 @@ export type PutaranArisanCreateWithoutPemenangInput = {
   dicatatOleh?: string
   createdAt?: Date | string
   kelompok: Prisma.KelompokArisanCreateNestedOneWithoutPutaranInput
+  agenda?: Prisma.AgendaCreateNestedOneWithoutPutaranArisanInput
   pembayaran?: Prisma.PembayaranIuranArisanCreateNestedManyWithoutPutaranInput
 }
 
@@ -733,7 +1053,14 @@ export type PutaranArisanUncheckedCreateWithoutPemenangInput = {
   kelompokId: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   namaPemenang?: string | null
   nominalDiterima?: number
   status?: string
@@ -773,7 +1100,13 @@ export type PutaranArisanCreateWithoutPembayaranInput = {
   id?: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   namaPemenang?: string | null
   nominalDiterima?: number
   status?: string
@@ -781,6 +1114,7 @@ export type PutaranArisanCreateWithoutPembayaranInput = {
   dicatatOleh?: string
   createdAt?: Date | string
   kelompok: Prisma.KelompokArisanCreateNestedOneWithoutPutaranInput
+  agenda?: Prisma.AgendaCreateNestedOneWithoutPutaranArisanInput
   pemenang?: Prisma.PesertaArisanCreateNestedOneWithoutPemenangPutaranInput
 }
 
@@ -789,7 +1123,14 @@ export type PutaranArisanUncheckedCreateWithoutPembayaranInput = {
   kelompokId: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   pemenangId?: string | null
   namaPemenang?: string | null
   nominalDiterima?: number
@@ -819,7 +1160,13 @@ export type PutaranArisanUpdateWithoutPembayaranInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -827,6 +1174,7 @@ export type PutaranArisanUpdateWithoutPembayaranInput = {
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   kelompok?: Prisma.KelompokArisanUpdateOneRequiredWithoutPutaranNestedInput
+  agenda?: Prisma.AgendaUpdateOneWithoutPutaranArisanNestedInput
   pemenang?: Prisma.PesertaArisanUpdateOneWithoutPemenangPutaranNestedInput
 }
 
@@ -835,7 +1183,100 @@ export type PutaranArisanUncheckedUpdateWithoutPembayaranInput = {
   kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
+  pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PutaranArisanCreateManyAgendaInput = {
+  id?: string
+  kelompokId: string
+  putaranKe: number
+  tanggalKocok?: Date | string
+  hariJawa?: string | null
+  totalTarget?: number
+  totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
+  pemenangId?: string | null
+  namaPemenang?: string | null
+  nominalDiterima?: number
+  status?: string
+  catatan?: string | null
+  dicatatOleh?: string
+  createdAt?: Date | string
+}
+
+export type PutaranArisanUpdateWithoutAgendaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
+  tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
+  totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
+  namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  kelompok?: Prisma.KelompokArisanUpdateOneRequiredWithoutPutaranNestedInput
+  pemenang?: Prisma.PesertaArisanUpdateOneWithoutPemenangPutaranNestedInput
+  pembayaran?: Prisma.PembayaranIuranArisanUpdateManyWithoutPutaranNestedInput
+}
+
+export type PutaranArisanUncheckedUpdateWithoutAgendaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
+  putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
+  tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
+  totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
+  pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pembayaran?: Prisma.PembayaranIuranArisanUncheckedUpdateManyWithoutPutaranNestedInput
+}
+
+export type PutaranArisanUncheckedUpdateManyWithoutAgendaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
+  putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
+  tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
+  totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
@@ -849,7 +1290,14 @@ export type PutaranArisanCreateManyKelompokInput = {
   id?: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   pemenangId?: string | null
   namaPemenang?: string | null
   nominalDiterima?: number
@@ -863,13 +1311,20 @@ export type PutaranArisanUpdateWithoutKelompokInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  agenda?: Prisma.AgendaUpdateOneWithoutPutaranArisanNestedInput
   pemenang?: Prisma.PesertaArisanUpdateOneWithoutPemenangPutaranNestedInput
   pembayaran?: Prisma.PembayaranIuranArisanUpdateManyWithoutPutaranNestedInput
 }
@@ -878,7 +1333,14 @@ export type PutaranArisanUncheckedUpdateWithoutKelompokInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
@@ -893,7 +1355,14 @@ export type PutaranArisanUncheckedUpdateManyWithoutKelompokInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   pemenangId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
@@ -908,7 +1377,14 @@ export type PutaranArisanCreateManyPemenangInput = {
   kelompokId: string
   putaranKe: number
   tanggalKocok?: Date | string
+  hariJawa?: string | null
+  agendaId?: string | null
+  totalTarget?: number
   totalTerkumpul?: number
+  nominalDiserahkan?: number
+  nominalKurang?: number
+  statusTalangan?: string
+  nominalTalangan?: number
   namaPemenang?: string | null
   nominalDiterima?: number
   status?: string
@@ -921,7 +1397,13 @@ export type PutaranArisanUpdateWithoutPemenangInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -929,6 +1411,7 @@ export type PutaranArisanUpdateWithoutPemenangInput = {
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   kelompok?: Prisma.KelompokArisanUpdateOneRequiredWithoutPutaranNestedInput
+  agenda?: Prisma.AgendaUpdateOneWithoutPutaranArisanNestedInput
   pembayaran?: Prisma.PembayaranIuranArisanUpdateManyWithoutPutaranNestedInput
 }
 
@@ -937,7 +1420,14 @@ export type PutaranArisanUncheckedUpdateWithoutPemenangInput = {
   kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -952,7 +1442,14 @@ export type PutaranArisanUncheckedUpdateManyWithoutPemenangInput = {
   kelompokId?: Prisma.StringFieldUpdateOperationsInput | string
   putaranKe?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalKocok?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agendaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalTarget?: Prisma.IntFieldUpdateOperationsInput | number
   totalTerkumpul?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalDiserahkan?: Prisma.IntFieldUpdateOperationsInput | number
+  nominalKurang?: Prisma.IntFieldUpdateOperationsInput | number
+  statusTalangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalTalangan?: Prisma.IntFieldUpdateOperationsInput | number
   namaPemenang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   nominalDiterima?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -997,7 +1494,14 @@ export type PutaranArisanSelect<ExtArgs extends runtime.Types.Extensions.Interna
   kelompokId?: boolean
   putaranKe?: boolean
   tanggalKocok?: boolean
+  hariJawa?: boolean
+  agendaId?: boolean
+  totalTarget?: boolean
   totalTerkumpul?: boolean
+  nominalDiserahkan?: boolean
+  nominalKurang?: boolean
+  statusTalangan?: boolean
+  nominalTalangan?: boolean
   pemenangId?: boolean
   namaPemenang?: boolean
   nominalDiterima?: boolean
@@ -1006,6 +1510,7 @@ export type PutaranArisanSelect<ExtArgs extends runtime.Types.Extensions.Interna
   dicatatOleh?: boolean
   createdAt?: boolean
   kelompok?: boolean | Prisma.KelompokArisanDefaultArgs<ExtArgs>
+  agenda?: boolean | Prisma.PutaranArisan$agendaArgs<ExtArgs>
   pemenang?: boolean | Prisma.PutaranArisan$pemenangArgs<ExtArgs>
   pembayaran?: boolean | Prisma.PutaranArisan$pembayaranArgs<ExtArgs>
   _count?: boolean | Prisma.PutaranArisanCountOutputTypeDefaultArgs<ExtArgs>
@@ -1016,7 +1521,14 @@ export type PutaranArisanSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   kelompokId?: boolean
   putaranKe?: boolean
   tanggalKocok?: boolean
+  hariJawa?: boolean
+  agendaId?: boolean
+  totalTarget?: boolean
   totalTerkumpul?: boolean
+  nominalDiserahkan?: boolean
+  nominalKurang?: boolean
+  statusTalangan?: boolean
+  nominalTalangan?: boolean
   pemenangId?: boolean
   namaPemenang?: boolean
   nominalDiterima?: boolean
@@ -1025,6 +1537,7 @@ export type PutaranArisanSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   dicatatOleh?: boolean
   createdAt?: boolean
   kelompok?: boolean | Prisma.KelompokArisanDefaultArgs<ExtArgs>
+  agenda?: boolean | Prisma.PutaranArisan$agendaArgs<ExtArgs>
   pemenang?: boolean | Prisma.PutaranArisan$pemenangArgs<ExtArgs>
 }, ExtArgs["result"]["putaranArisan"]>
 
@@ -1033,7 +1546,14 @@ export type PutaranArisanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   kelompokId?: boolean
   putaranKe?: boolean
   tanggalKocok?: boolean
+  hariJawa?: boolean
+  agendaId?: boolean
+  totalTarget?: boolean
   totalTerkumpul?: boolean
+  nominalDiserahkan?: boolean
+  nominalKurang?: boolean
+  statusTalangan?: boolean
+  nominalTalangan?: boolean
   pemenangId?: boolean
   namaPemenang?: boolean
   nominalDiterima?: boolean
@@ -1042,6 +1562,7 @@ export type PutaranArisanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   dicatatOleh?: boolean
   createdAt?: boolean
   kelompok?: boolean | Prisma.KelompokArisanDefaultArgs<ExtArgs>
+  agenda?: boolean | Prisma.PutaranArisan$agendaArgs<ExtArgs>
   pemenang?: boolean | Prisma.PutaranArisan$pemenangArgs<ExtArgs>
 }, ExtArgs["result"]["putaranArisan"]>
 
@@ -1050,7 +1571,14 @@ export type PutaranArisanSelectScalar = {
   kelompokId?: boolean
   putaranKe?: boolean
   tanggalKocok?: boolean
+  hariJawa?: boolean
+  agendaId?: boolean
+  totalTarget?: boolean
   totalTerkumpul?: boolean
+  nominalDiserahkan?: boolean
+  nominalKurang?: boolean
+  statusTalangan?: boolean
+  nominalTalangan?: boolean
   pemenangId?: boolean
   namaPemenang?: boolean
   nominalDiterima?: boolean
@@ -1060,19 +1588,22 @@ export type PutaranArisanSelectScalar = {
   createdAt?: boolean
 }
 
-export type PutaranArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "kelompokId" | "putaranKe" | "tanggalKocok" | "totalTerkumpul" | "pemenangId" | "namaPemenang" | "nominalDiterima" | "status" | "catatan" | "dicatatOleh" | "createdAt", ExtArgs["result"]["putaranArisan"]>
+export type PutaranArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "kelompokId" | "putaranKe" | "tanggalKocok" | "hariJawa" | "agendaId" | "totalTarget" | "totalTerkumpul" | "nominalDiserahkan" | "nominalKurang" | "statusTalangan" | "nominalTalangan" | "pemenangId" | "namaPemenang" | "nominalDiterima" | "status" | "catatan" | "dicatatOleh" | "createdAt", ExtArgs["result"]["putaranArisan"]>
 export type PutaranArisanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   kelompok?: boolean | Prisma.KelompokArisanDefaultArgs<ExtArgs>
+  agenda?: boolean | Prisma.PutaranArisan$agendaArgs<ExtArgs>
   pemenang?: boolean | Prisma.PutaranArisan$pemenangArgs<ExtArgs>
   pembayaran?: boolean | Prisma.PutaranArisan$pembayaranArgs<ExtArgs>
   _count?: boolean | Prisma.PutaranArisanCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PutaranArisanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   kelompok?: boolean | Prisma.KelompokArisanDefaultArgs<ExtArgs>
+  agenda?: boolean | Prisma.PutaranArisan$agendaArgs<ExtArgs>
   pemenang?: boolean | Prisma.PutaranArisan$pemenangArgs<ExtArgs>
 }
 export type PutaranArisanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   kelompok?: boolean | Prisma.KelompokArisanDefaultArgs<ExtArgs>
+  agenda?: boolean | Prisma.PutaranArisan$agendaArgs<ExtArgs>
   pemenang?: boolean | Prisma.PutaranArisan$pemenangArgs<ExtArgs>
 }
 
@@ -1080,6 +1611,7 @@ export type $PutaranArisanPayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "PutaranArisan"
   objects: {
     kelompok: Prisma.$KelompokArisanPayload<ExtArgs>
+    agenda: Prisma.$AgendaPayload<ExtArgs> | null
     pemenang: Prisma.$PesertaArisanPayload<ExtArgs> | null
     pembayaran: Prisma.$PembayaranIuranArisanPayload<ExtArgs>[]
   }
@@ -1088,7 +1620,14 @@ export type $PutaranArisanPayload<ExtArgs extends runtime.Types.Extensions.Inter
     kelompokId: string
     putaranKe: number
     tanggalKocok: Date
+    hariJawa: string | null
+    agendaId: string | null
+    totalTarget: number
     totalTerkumpul: number
+    nominalDiserahkan: number
+    nominalKurang: number
+    statusTalangan: string
+    nominalTalangan: number
     pemenangId: string | null
     namaPemenang: string | null
     nominalDiterima: number
@@ -1491,6 +2030,7 @@ readonly fields: PutaranArisanFieldRefs;
 export interface Prisma__PutaranArisanClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   kelompok<T extends Prisma.KelompokArisanDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.KelompokArisanDefaultArgs<ExtArgs>>): Prisma.Prisma__KelompokArisanClient<runtime.Types.Result.GetResult<Prisma.$KelompokArisanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  agenda<T extends Prisma.PutaranArisan$agendaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PutaranArisan$agendaArgs<ExtArgs>>): Prisma.Prisma__AgendaClient<runtime.Types.Result.GetResult<Prisma.$AgendaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pemenang<T extends Prisma.PutaranArisan$pemenangArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PutaranArisan$pemenangArgs<ExtArgs>>): Prisma.Prisma__PesertaArisanClient<runtime.Types.Result.GetResult<Prisma.$PesertaArisanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pembayaran<T extends Prisma.PutaranArisan$pembayaranArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PutaranArisan$pembayaranArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PembayaranIuranArisanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1526,7 +2066,14 @@ export interface PutaranArisanFieldRefs {
   readonly kelompokId: Prisma.FieldRef<"PutaranArisan", 'String'>
   readonly putaranKe: Prisma.FieldRef<"PutaranArisan", 'Int'>
   readonly tanggalKocok: Prisma.FieldRef<"PutaranArisan", 'DateTime'>
+  readonly hariJawa: Prisma.FieldRef<"PutaranArisan", 'String'>
+  readonly agendaId: Prisma.FieldRef<"PutaranArisan", 'String'>
+  readonly totalTarget: Prisma.FieldRef<"PutaranArisan", 'Int'>
   readonly totalTerkumpul: Prisma.FieldRef<"PutaranArisan", 'Int'>
+  readonly nominalDiserahkan: Prisma.FieldRef<"PutaranArisan", 'Int'>
+  readonly nominalKurang: Prisma.FieldRef<"PutaranArisan", 'Int'>
+  readonly statusTalangan: Prisma.FieldRef<"PutaranArisan", 'String'>
+  readonly nominalTalangan: Prisma.FieldRef<"PutaranArisan", 'Int'>
   readonly pemenangId: Prisma.FieldRef<"PutaranArisan", 'String'>
   readonly namaPemenang: Prisma.FieldRef<"PutaranArisan", 'String'>
   readonly nominalDiterima: Prisma.FieldRef<"PutaranArisan", 'Int'>
@@ -1932,6 +2479,25 @@ export type PutaranArisanDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many PutaranArisans to delete.
    */
   limit?: number
+}
+
+/**
+ * PutaranArisan.agenda
+ */
+export type PutaranArisan$agendaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Agenda
+   */
+  select?: Prisma.AgendaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Agenda
+   */
+  omit?: Prisma.AgendaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AgendaInclude<ExtArgs> | null
+  where?: Prisma.AgendaWhereInput
 }
 
 /**

@@ -289,7 +289,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               </span>
               <span className="text-[11px] text-slate-400 font-medium">
                 {userData?.role === 'SUPER_ADMIN' ? 'Super Admin' :
-                 userData?.role === 'ADMIN' ? 'Ketua RT' :
+                 userData?.role === 'ADMIN' ? 'Administrator' :
                  userData?.role === 'BENDAHARA' ? 'Bendahara' :
                  userData?.role === 'SEKRETARIS' ? 'Sekretaris' :
                  userData?.role === 'PETUGAS' ? 'Petugas RT' :
@@ -307,7 +307,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <span className="text-sm font-bold text-slate-800 block capitalize">{userData?.nama || 'Memuat...'}</span>
                 <span className="text-[10px] text-slate-400 font-medium block">
                   {userData?.role === 'SUPER_ADMIN' ? 'Super Admin' :
-                   userData?.role === 'ADMIN' ? 'Ketua RT' :
+                   userData?.role === 'ADMIN' ? 'Administrator' :
                    userData?.role === 'BENDAHARA' ? 'Bendahara' :
                    userData?.role === 'SEKRETARIS' ? 'Sekretaris' :
                    userData?.role === 'PETUGAS' ? 'Petugas RT' :

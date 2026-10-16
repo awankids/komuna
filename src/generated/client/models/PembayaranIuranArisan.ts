@@ -38,6 +38,7 @@ export type PembayaranIuranArisanMinAggregateOutputType = {
   id: string | null
   putaranId: string | null
   pesertaId: string | null
+  statusKehadiran: string | null
   statusBayar: boolean | null
   tanggalBayar: Date | null
   nominal: number | null
@@ -49,6 +50,7 @@ export type PembayaranIuranArisanMaxAggregateOutputType = {
   id: string | null
   putaranId: string | null
   pesertaId: string | null
+  statusKehadiran: string | null
   statusBayar: boolean | null
   tanggalBayar: Date | null
   nominal: number | null
@@ -60,6 +62,7 @@ export type PembayaranIuranArisanCountAggregateOutputType = {
   id: number
   putaranId: number
   pesertaId: number
+  statusKehadiran: number
   statusBayar: number
   tanggalBayar: number
   nominal: number
@@ -81,6 +84,7 @@ export type PembayaranIuranArisanMinAggregateInputType = {
   id?: true
   putaranId?: true
   pesertaId?: true
+  statusKehadiran?: true
   statusBayar?: true
   tanggalBayar?: true
   nominal?: true
@@ -92,6 +96,7 @@ export type PembayaranIuranArisanMaxAggregateInputType = {
   id?: true
   putaranId?: true
   pesertaId?: true
+  statusKehadiran?: true
   statusBayar?: true
   tanggalBayar?: true
   nominal?: true
@@ -103,6 +108,7 @@ export type PembayaranIuranArisanCountAggregateInputType = {
   id?: true
   putaranId?: true
   pesertaId?: true
+  statusKehadiran?: true
   statusBayar?: true
   tanggalBayar?: true
   nominal?: true
@@ -201,6 +207,7 @@ export type PembayaranIuranArisanGroupByOutputType = {
   id: string
   putaranId: string
   pesertaId: string
+  statusKehadiran: string
   statusBayar: boolean
   tanggalBayar: Date | null
   nominal: number
@@ -235,6 +242,7 @@ export type PembayaranIuranArisanWhereInput = {
   id?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   putaranId?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   pesertaId?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
+  statusKehadiran?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   statusBayar?: Prisma.BoolFilter<"PembayaranIuranArisan"> | boolean
   tanggalBayar?: Prisma.DateTimeNullableFilter<"PembayaranIuranArisan"> | Date | string | null
   nominal?: Prisma.IntFilter<"PembayaranIuranArisan"> | number
@@ -248,6 +256,7 @@ export type PembayaranIuranArisanOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   putaranId?: Prisma.SortOrder
   pesertaId?: Prisma.SortOrder
+  statusKehadiran?: Prisma.SortOrder
   statusBayar?: Prisma.SortOrder
   tanggalBayar?: Prisma.SortOrderInput | Prisma.SortOrder
   nominal?: Prisma.SortOrder
@@ -264,6 +273,7 @@ export type PembayaranIuranArisanWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PembayaranIuranArisanWhereInput | Prisma.PembayaranIuranArisanWhereInput[]
   putaranId?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   pesertaId?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
+  statusKehadiran?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   statusBayar?: Prisma.BoolFilter<"PembayaranIuranArisan"> | boolean
   tanggalBayar?: Prisma.DateTimeNullableFilter<"PembayaranIuranArisan"> | Date | string | null
   nominal?: Prisma.IntFilter<"PembayaranIuranArisan"> | number
@@ -277,6 +287,7 @@ export type PembayaranIuranArisanOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   putaranId?: Prisma.SortOrder
   pesertaId?: Prisma.SortOrder
+  statusKehadiran?: Prisma.SortOrder
   statusBayar?: Prisma.SortOrder
   tanggalBayar?: Prisma.SortOrderInput | Prisma.SortOrder
   nominal?: Prisma.SortOrder
@@ -296,6 +307,7 @@ export type PembayaranIuranArisanScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"PembayaranIuranArisan"> | string
   putaranId?: Prisma.StringWithAggregatesFilter<"PembayaranIuranArisan"> | string
   pesertaId?: Prisma.StringWithAggregatesFilter<"PembayaranIuranArisan"> | string
+  statusKehadiran?: Prisma.StringWithAggregatesFilter<"PembayaranIuranArisan"> | string
   statusBayar?: Prisma.BoolWithAggregatesFilter<"PembayaranIuranArisan"> | boolean
   tanggalBayar?: Prisma.DateTimeNullableWithAggregatesFilter<"PembayaranIuranArisan"> | Date | string | null
   nominal?: Prisma.IntWithAggregatesFilter<"PembayaranIuranArisan"> | number
@@ -305,6 +317,7 @@ export type PembayaranIuranArisanScalarWhereWithAggregatesInput = {
 
 export type PembayaranIuranArisanCreateInput = {
   id?: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -318,6 +331,7 @@ export type PembayaranIuranArisanUncheckedCreateInput = {
   id?: string
   putaranId: string
   pesertaId: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -327,6 +341,7 @@ export type PembayaranIuranArisanUncheckedCreateInput = {
 
 export type PembayaranIuranArisanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -340,6 +355,7 @@ export type PembayaranIuranArisanUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranId?: Prisma.StringFieldUpdateOperationsInput | string
   pesertaId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -351,6 +367,7 @@ export type PembayaranIuranArisanCreateManyInput = {
   id?: string
   putaranId: string
   pesertaId: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -360,6 +377,7 @@ export type PembayaranIuranArisanCreateManyInput = {
 
 export type PembayaranIuranArisanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -371,6 +389,7 @@ export type PembayaranIuranArisanUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranId?: Prisma.StringFieldUpdateOperationsInput | string
   pesertaId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -392,6 +411,7 @@ export type PembayaranIuranArisanCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   putaranId?: Prisma.SortOrder
   pesertaId?: Prisma.SortOrder
+  statusKehadiran?: Prisma.SortOrder
   statusBayar?: Prisma.SortOrder
   tanggalBayar?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
@@ -407,6 +427,7 @@ export type PembayaranIuranArisanMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   putaranId?: Prisma.SortOrder
   pesertaId?: Prisma.SortOrder
+  statusKehadiran?: Prisma.SortOrder
   statusBayar?: Prisma.SortOrder
   tanggalBayar?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
@@ -418,6 +439,7 @@ export type PembayaranIuranArisanMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   putaranId?: Prisma.SortOrder
   pesertaId?: Prisma.SortOrder
+  statusKehadiran?: Prisma.SortOrder
   statusBayar?: Prisma.SortOrder
   tanggalBayar?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
@@ -515,6 +537,7 @@ export type PembayaranIuranArisanUncheckedUpdateManyWithoutPutaranNestedInput = 
 
 export type PembayaranIuranArisanCreateWithoutPesertaInput = {
   id?: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -526,6 +549,7 @@ export type PembayaranIuranArisanCreateWithoutPesertaInput = {
 export type PembayaranIuranArisanUncheckedCreateWithoutPesertaInput = {
   id?: string
   putaranId: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -566,6 +590,7 @@ export type PembayaranIuranArisanScalarWhereInput = {
   id?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   putaranId?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   pesertaId?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
+  statusKehadiran?: Prisma.StringFilter<"PembayaranIuranArisan"> | string
   statusBayar?: Prisma.BoolFilter<"PembayaranIuranArisan"> | boolean
   tanggalBayar?: Prisma.DateTimeNullableFilter<"PembayaranIuranArisan"> | Date | string | null
   nominal?: Prisma.IntFilter<"PembayaranIuranArisan"> | number
@@ -575,6 +600,7 @@ export type PembayaranIuranArisanScalarWhereInput = {
 
 export type PembayaranIuranArisanCreateWithoutPutaranInput = {
   id?: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -586,6 +612,7 @@ export type PembayaranIuranArisanCreateWithoutPutaranInput = {
 export type PembayaranIuranArisanUncheckedCreateWithoutPutaranInput = {
   id?: string
   pesertaId: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -622,6 +649,7 @@ export type PembayaranIuranArisanUpdateManyWithWhereWithoutPutaranInput = {
 export type PembayaranIuranArisanCreateManyPesertaInput = {
   id?: string
   putaranId: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -631,6 +659,7 @@ export type PembayaranIuranArisanCreateManyPesertaInput = {
 
 export type PembayaranIuranArisanUpdateWithoutPesertaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -642,6 +671,7 @@ export type PembayaranIuranArisanUpdateWithoutPesertaInput = {
 export type PembayaranIuranArisanUncheckedUpdateWithoutPesertaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -652,6 +682,7 @@ export type PembayaranIuranArisanUncheckedUpdateWithoutPesertaInput = {
 export type PembayaranIuranArisanUncheckedUpdateManyWithoutPesertaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   putaranId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -662,6 +693,7 @@ export type PembayaranIuranArisanUncheckedUpdateManyWithoutPesertaInput = {
 export type PembayaranIuranArisanCreateManyPutaranInput = {
   id?: string
   pesertaId: string
+  statusKehadiran?: string
   statusBayar?: boolean
   tanggalBayar?: Date | string | null
   nominal?: number
@@ -671,6 +703,7 @@ export type PembayaranIuranArisanCreateManyPutaranInput = {
 
 export type PembayaranIuranArisanUpdateWithoutPutaranInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -682,6 +715,7 @@ export type PembayaranIuranArisanUpdateWithoutPutaranInput = {
 export type PembayaranIuranArisanUncheckedUpdateWithoutPutaranInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   pesertaId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -692,6 +726,7 @@ export type PembayaranIuranArisanUncheckedUpdateWithoutPutaranInput = {
 export type PembayaranIuranArisanUncheckedUpdateManyWithoutPutaranInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   pesertaId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusKehadiran?: Prisma.StringFieldUpdateOperationsInput | string
   statusBayar?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalBayar?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
@@ -705,6 +740,7 @@ export type PembayaranIuranArisanSelect<ExtArgs extends runtime.Types.Extensions
   id?: boolean
   putaranId?: boolean
   pesertaId?: boolean
+  statusKehadiran?: boolean
   statusBayar?: boolean
   tanggalBayar?: boolean
   nominal?: boolean
@@ -718,6 +754,7 @@ export type PembayaranIuranArisanSelectCreateManyAndReturn<ExtArgs extends runti
   id?: boolean
   putaranId?: boolean
   pesertaId?: boolean
+  statusKehadiran?: boolean
   statusBayar?: boolean
   tanggalBayar?: boolean
   nominal?: boolean
@@ -731,6 +768,7 @@ export type PembayaranIuranArisanSelectUpdateManyAndReturn<ExtArgs extends runti
   id?: boolean
   putaranId?: boolean
   pesertaId?: boolean
+  statusKehadiran?: boolean
   statusBayar?: boolean
   tanggalBayar?: boolean
   nominal?: boolean
@@ -744,6 +782,7 @@ export type PembayaranIuranArisanSelectScalar = {
   id?: boolean
   putaranId?: boolean
   pesertaId?: boolean
+  statusKehadiran?: boolean
   statusBayar?: boolean
   tanggalBayar?: boolean
   nominal?: boolean
@@ -751,7 +790,7 @@ export type PembayaranIuranArisanSelectScalar = {
   catatan?: boolean
 }
 
-export type PembayaranIuranArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "putaranId" | "pesertaId" | "statusBayar" | "tanggalBayar" | "nominal" | "metode" | "catatan", ExtArgs["result"]["pembayaranIuranArisan"]>
+export type PembayaranIuranArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "putaranId" | "pesertaId" | "statusKehadiran" | "statusBayar" | "tanggalBayar" | "nominal" | "metode" | "catatan", ExtArgs["result"]["pembayaranIuranArisan"]>
 export type PembayaranIuranArisanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   putaran?: boolean | Prisma.PutaranArisanDefaultArgs<ExtArgs>
   peserta?: boolean | Prisma.PesertaArisanDefaultArgs<ExtArgs>
@@ -775,6 +814,7 @@ export type $PembayaranIuranArisanPayload<ExtArgs extends runtime.Types.Extensio
     id: string
     putaranId: string
     pesertaId: string
+    statusKehadiran: string
     statusBayar: boolean
     tanggalBayar: Date | null
     nominal: number
@@ -1208,6 +1248,7 @@ export interface PembayaranIuranArisanFieldRefs {
   readonly id: Prisma.FieldRef<"PembayaranIuranArisan", 'String'>
   readonly putaranId: Prisma.FieldRef<"PembayaranIuranArisan", 'String'>
   readonly pesertaId: Prisma.FieldRef<"PembayaranIuranArisan", 'String'>
+  readonly statusKehadiran: Prisma.FieldRef<"PembayaranIuranArisan", 'String'>
   readonly statusBayar: Prisma.FieldRef<"PembayaranIuranArisan", 'Boolean'>
   readonly tanggalBayar: Prisma.FieldRef<"PembayaranIuranArisan", 'DateTime'>
   readonly nominal: Prisma.FieldRef<"PembayaranIuranArisan", 'Int'>

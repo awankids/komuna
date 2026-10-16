@@ -31,7 +31,7 @@ interface SidebarProps {
 
 const ROLE_BADGES: Record<string, { label: string; bg: string }> = {
   SUPER_ADMIN: { label: 'Super Admin', bg: 'bg-purple-50 text-purple-700 border-purple-200' },
-  ADMIN: { label: 'Ketua RT', bg: 'bg-sky-50 text-sky-700 border-sky-200' },
+  ADMIN: { label: 'Administrator', bg: 'bg-sky-50 text-sky-700 border-sky-200' },
   BENDAHARA: { label: 'Bendahara', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
   SEKRETARIS: { label: 'Sekretaris', bg: 'bg-amber-50 text-amber-700 border-amber-200' },
   PETUGAS: { label: 'Petugas RT', bg: 'bg-indigo-50 text-indigo-700 border-indigo-200' },

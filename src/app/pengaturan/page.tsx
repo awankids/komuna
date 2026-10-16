@@ -444,7 +444,7 @@ export default function PengaturanPage() {
   const getRoleLabel = (role: string) => {
     switch (role) {
       case 'SUPER_ADMIN':
-        return 'Super Admin (Ketua RT)';
+        return 'Super Admin';
       case 'ADMIN':
         return 'Administrator';
       case 'BENDAHARA':
@@ -1757,8 +1757,8 @@ export default function PengaturanPage() {
                         <option value="PETUGAS">PETUGAS (Ronda Malam & Jimpitan)</option>
                         <option value="BENDAHARA">BENDAHARA (Kas, Jimpitan & Laporan)</option>
                         <option value="SEKRETARIS">SEKRETARIS (Warga, Surat & Aset)</option>
-                        <option value="ADMIN">ADMIN (Administrator RT)</option>
-                        <option value="SUPER_ADMIN">SUPER_ADMIN (Ketua RT / Full Access)</option>
+                        <option value="ADMIN">ADMIN (Administrator)</option>
+                        <option value="SUPER_ADMIN">SUPER_ADMIN (Super Admin / Full Access)</option>
                         <option value="WARGA">WARGA (Portal Warga Mandiri)</option>
                       </select>
                     </div>
@@ -1861,8 +1861,8 @@ export default function PengaturanPage() {
                         <option value="PETUGAS">PETUGAS (Ronda Malam & Jimpitan)</option>
                         <option value="BENDAHARA">BENDAHARA (Kas, Jimpitan & Laporan)</option>
                         <option value="SEKRETARIS">SEKRETARIS (Warga, Surat & Aset)</option>
-                        <option value="ADMIN">ADMIN (Administrator RT)</option>
-                        <option value="SUPER_ADMIN">SUPER_ADMIN (Ketua RT / Full Access)</option>
+                        <option value="ADMIN">ADMIN (Administrator)</option>
+                        <option value="SUPER_ADMIN">SUPER_ADMIN (Super Admin / Full Access)</option>
                         <option value="WARGA">WARGA (Portal Warga Mandiri)</option>
                       </select>
                     </div>

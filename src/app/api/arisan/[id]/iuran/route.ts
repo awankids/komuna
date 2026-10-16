@@ -8,7 +8,17 @@ export async function PATCH(
   try {
     const { id: kelompokId } = await params;
     const body = await request.json();
-    const { putaranId, pembayaranId, statusBayar, metode, pembayaranList } = body;
+    const {
+      putaranId,
+      pembayaranId,
+      statusBayar,
+      statusKehadiran,
+      metode,
+      catatan,
+      pembayaranList,
+      statusTalangan,
+      nominalDiserahkan: customDiserahkan,
+    } = body;
 
     if (!putaranId) {
       return NextResponse.json(
@@ -21,38 +31,98 @@ export async function PATCH(
       // Bulk update
       for (const item of pembayaranList) {
         if (!item.id) continue;
+        const updateData: any = {};
+        if (item.statusBayar !== undefined) {
+          updateData.statusBayar = Boolean(item.statusBayar);
+          updateData.tanggalBayar = item.statusBayar ? new Date() : null;
+        }
+        if (item.statusKehadiran !== undefined) {
+          updateData.statusKehadiran = item.statusKehadiran;
+        }
+        if (item.metode !== undefined) {
+          updateData.metode = item.metode || 'tunai';
+        }
+        if (item.catatan !== undefined) {
+          updateData.catatan = item.catatan || null;
+        }
+
         await db.pembayaranIuranArisan.update({
           where: { id: item.id },
-          data: {
-            statusBayar: Boolean(item.statusBayar),
-            tanggalBayar: item.statusBayar ? new Date() : null,
-            metode: item.metode || 'tunai',
-          },
+          data: updateData,
         });
       }
     } else if (pembayaranId) {
       // Single update
+      const updateData: any = {};
+      if (statusBayar !== undefined) {
+        updateData.statusBayar = Boolean(statusBayar);
+        updateData.tanggalBayar = statusBayar ? new Date() : null;
+      }
+      if (statusKehadiran !== undefined) {
+        updateData.statusKehadiran = statusKehadiran;
+      }
+      if (metode !== undefined) {
+        updateData.metode = metode || 'tunai';
+      }
+      if (catatan !== undefined) {
+        updateData.catatan = catatan || null;
+      }
+
       await db.pembayaranIuranArisan.update({
         where: { id: pembayaranId },
-        data: {
-          statusBayar: Boolean(statusBayar),
-          tanggalBayar: statusBayar ? new Date() : null,
-          metode: metode || 'tunai',
-        },
+        data: updateData,
       });
     }
 
-    // Recalculate totalTerkumpul for this putaran
+    // Get current putaran details
+    const putaran = await db.putaranArisan.findUnique({
+      where: { id: putaranId },
+      include: {
+        kelompok: {
+          include: { peserta: true },
+        },
+      },
+    });
+
+    if (!putaran) {
+      return NextResponse.json(
+        { success: false, error: 'Putaran arisan tidak ditemukan' },
+        { status: 404 }
+      );
+    }
+
+    // Recalculate totalTerkumpul
     const allPaid = await db.pembayaranIuranArisan.findMany({
       where: { putaranId, statusBayar: true },
       select: { nominal: true },
     });
 
+    const totalTarget = putaran.totalTarget || (putaran.kelompok.peserta.length * putaran.kelompok.nominalIuran);
     const totalTerkumpul = allPaid.reduce((acc, curr) => acc + curr.nominal, 0);
+    const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
+
+    const currentTalangan = statusTalangan || putaran.statusTalangan;
+    let finalDiserahkan = totalTerkumpul;
+    let nominalTalangan = 0;
+
+    if (currentTalangan === 'ditalangi_kas') {
+      finalDiserahkan = totalTarget;
+      nominalTalangan = nominalKurang;
+    } else if (customDiserahkan !== undefined && !isNaN(Number(customDiserahkan))) {
+      finalDiserahkan = Number(customDiserahkan);
+    }
 
     const updatedPutaran = await db.putaranArisan.update({
       where: { id: putaranId },
-      data: { totalTerkumpul },
+      data: {
+        totalTarget,
+        totalTerkumpul,
+        nominalKurang,
+        nominalDiserahkan: finalDiserahkan,
+        nominalTalangan,
+        nominalDiterima: finalDiserahkan,
+        statusTalangan: currentTalangan,
+      },
       include: {
         pembayaran: {
           include: { peserta: true },
@@ -63,7 +133,7 @@ export async function PATCH(
 
     return NextResponse.json({
       success: true,
-      message: 'Status pembayaran iuran berhasil diperbarui',
+      message: 'Status kehadiran dan pembayaran iuran berhasil diperbarui',
       data: updatedPutaran,
     });
   } catch (error: any) {

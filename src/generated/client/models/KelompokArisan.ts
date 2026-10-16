@@ -39,6 +39,10 @@ export type KelompokArisanMinAggregateOutputType = {
   nama: string | null
   nominalIuran: number | null
   periodeTipe: string | null
+  hariJawa: string | null
+  waktuKocok: string | null
+  lokasiKocok: string | null
+  autoSinkronAgenda: boolean | null
   tanggalMulai: Date | null
   status: string | null
   keterangan: string | null
@@ -51,6 +55,10 @@ export type KelompokArisanMaxAggregateOutputType = {
   nama: string | null
   nominalIuran: number | null
   periodeTipe: string | null
+  hariJawa: string | null
+  waktuKocok: string | null
+  lokasiKocok: string | null
+  autoSinkronAgenda: boolean | null
   tanggalMulai: Date | null
   status: string | null
   keterangan: string | null
@@ -63,6 +71,10 @@ export type KelompokArisanCountAggregateOutputType = {
   nama: number
   nominalIuran: number
   periodeTipe: number
+  hariJawa: number
+  waktuKocok: number
+  lokasiKocok: number
+  autoSinkronAgenda: number
   tanggalMulai: number
   status: number
   keterangan: number
@@ -85,6 +97,10 @@ export type KelompokArisanMinAggregateInputType = {
   nama?: true
   nominalIuran?: true
   periodeTipe?: true
+  hariJawa?: true
+  waktuKocok?: true
+  lokasiKocok?: true
+  autoSinkronAgenda?: true
   tanggalMulai?: true
   status?: true
   keterangan?: true
@@ -97,6 +113,10 @@ export type KelompokArisanMaxAggregateInputType = {
   nama?: true
   nominalIuran?: true
   periodeTipe?: true
+  hariJawa?: true
+  waktuKocok?: true
+  lokasiKocok?: true
+  autoSinkronAgenda?: true
   tanggalMulai?: true
   status?: true
   keterangan?: true
@@ -109,6 +129,10 @@ export type KelompokArisanCountAggregateInputType = {
   nama?: true
   nominalIuran?: true
   periodeTipe?: true
+  hariJawa?: true
+  waktuKocok?: true
+  lokasiKocok?: true
+  autoSinkronAgenda?: true
   tanggalMulai?: true
   status?: true
   keterangan?: true
@@ -208,6 +232,10 @@ export type KelompokArisanGroupByOutputType = {
   nama: string
   nominalIuran: number
   periodeTipe: string
+  hariJawa: string | null
+  waktuKocok: string | null
+  lokasiKocok: string | null
+  autoSinkronAgenda: boolean
   tanggalMulai: Date
   status: string
   keterangan: string | null
@@ -243,6 +271,10 @@ export type KelompokArisanWhereInput = {
   nama?: Prisma.StringFilter<"KelompokArisan"> | string
   nominalIuran?: Prisma.IntFilter<"KelompokArisan"> | number
   periodeTipe?: Prisma.StringFilter<"KelompokArisan"> | string
+  hariJawa?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  waktuKocok?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  lokasiKocok?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  autoSinkronAgenda?: Prisma.BoolFilter<"KelompokArisan"> | boolean
   tanggalMulai?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
   status?: Prisma.StringFilter<"KelompokArisan"> | string
   keterangan?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
@@ -257,6 +289,10 @@ export type KelompokArisanOrderByWithRelationInput = {
   nama?: Prisma.SortOrder
   nominalIuran?: Prisma.SortOrder
   periodeTipe?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrderInput | Prisma.SortOrder
+  waktuKocok?: Prisma.SortOrderInput | Prisma.SortOrder
+  lokasiKocok?: Prisma.SortOrderInput | Prisma.SortOrder
+  autoSinkronAgenda?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -274,6 +310,10 @@ export type KelompokArisanWhereUniqueInput = Prisma.AtLeast<{
   nama?: Prisma.StringFilter<"KelompokArisan"> | string
   nominalIuran?: Prisma.IntFilter<"KelompokArisan"> | number
   periodeTipe?: Prisma.StringFilter<"KelompokArisan"> | string
+  hariJawa?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  waktuKocok?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  lokasiKocok?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  autoSinkronAgenda?: Prisma.BoolFilter<"KelompokArisan"> | boolean
   tanggalMulai?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
   status?: Prisma.StringFilter<"KelompokArisan"> | string
   keterangan?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
@@ -288,6 +328,10 @@ export type KelompokArisanOrderByWithAggregationInput = {
   nama?: Prisma.SortOrder
   nominalIuran?: Prisma.SortOrder
   periodeTipe?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrderInput | Prisma.SortOrder
+  waktuKocok?: Prisma.SortOrderInput | Prisma.SortOrder
+  lokasiKocok?: Prisma.SortOrderInput | Prisma.SortOrder
+  autoSinkronAgenda?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -308,6 +352,10 @@ export type KelompokArisanScalarWhereWithAggregatesInput = {
   nama?: Prisma.StringWithAggregatesFilter<"KelompokArisan"> | string
   nominalIuran?: Prisma.IntWithAggregatesFilter<"KelompokArisan"> | number
   periodeTipe?: Prisma.StringWithAggregatesFilter<"KelompokArisan"> | string
+  hariJawa?: Prisma.StringNullableWithAggregatesFilter<"KelompokArisan"> | string | null
+  waktuKocok?: Prisma.StringNullableWithAggregatesFilter<"KelompokArisan"> | string | null
+  lokasiKocok?: Prisma.StringNullableWithAggregatesFilter<"KelompokArisan"> | string | null
+  autoSinkronAgenda?: Prisma.BoolWithAggregatesFilter<"KelompokArisan"> | boolean
   tanggalMulai?: Prisma.DateTimeWithAggregatesFilter<"KelompokArisan"> | Date | string
   status?: Prisma.StringWithAggregatesFilter<"KelompokArisan"> | string
   keterangan?: Prisma.StringNullableWithAggregatesFilter<"KelompokArisan"> | string | null
@@ -320,6 +368,10 @@ export type KelompokArisanCreateInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -334,6 +386,10 @@ export type KelompokArisanUncheckedCreateInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -348,6 +404,10 @@ export type KelompokArisanUpdateInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -362,6 +422,10 @@ export type KelompokArisanUncheckedUpdateInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -376,6 +440,10 @@ export type KelompokArisanCreateManyInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -388,6 +456,10 @@ export type KelompokArisanUpdateManyMutationInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -400,6 +472,10 @@ export type KelompokArisanUncheckedUpdateManyInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -412,6 +488,10 @@ export type KelompokArisanCountOrderByAggregateInput = {
   nama?: Prisma.SortOrder
   nominalIuran?: Prisma.SortOrder
   periodeTipe?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrder
+  waktuKocok?: Prisma.SortOrder
+  lokasiKocok?: Prisma.SortOrder
+  autoSinkronAgenda?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
@@ -428,6 +508,10 @@ export type KelompokArisanMaxOrderByAggregateInput = {
   nama?: Prisma.SortOrder
   nominalIuran?: Prisma.SortOrder
   periodeTipe?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrder
+  waktuKocok?: Prisma.SortOrder
+  lokasiKocok?: Prisma.SortOrder
+  autoSinkronAgenda?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
@@ -440,6 +524,10 @@ export type KelompokArisanMinOrderByAggregateInput = {
   nama?: Prisma.SortOrder
   nominalIuran?: Prisma.SortOrder
   periodeTipe?: Prisma.SortOrder
+  hariJawa?: Prisma.SortOrder
+  waktuKocok?: Prisma.SortOrder
+  lokasiKocok?: Prisma.SortOrder
+  autoSinkronAgenda?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
@@ -489,6 +577,10 @@ export type KelompokArisanCreateWithoutPesertaInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -502,6 +594,10 @@ export type KelompokArisanUncheckedCreateWithoutPesertaInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -531,6 +627,10 @@ export type KelompokArisanUpdateWithoutPesertaInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -544,6 +644,10 @@ export type KelompokArisanUncheckedUpdateWithoutPesertaInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -557,6 +661,10 @@ export type KelompokArisanCreateWithoutPutaranInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -570,6 +678,10 @@ export type KelompokArisanUncheckedCreateWithoutPutaranInput = {
   nama: string
   nominalIuran: number
   periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
@@ -599,6 +711,10 @@ export type KelompokArisanUpdateWithoutPutaranInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -612,6 +728,10 @@ export type KelompokArisanUncheckedUpdateWithoutPutaranInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
   periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -665,6 +785,10 @@ export type KelompokArisanSelect<ExtArgs extends runtime.Types.Extensions.Intern
   nama?: boolean
   nominalIuran?: boolean
   periodeTipe?: boolean
+  hariJawa?: boolean
+  waktuKocok?: boolean
+  lokasiKocok?: boolean
+  autoSinkronAgenda?: boolean
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
@@ -680,6 +804,10 @@ export type KelompokArisanSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   nama?: boolean
   nominalIuran?: boolean
   periodeTipe?: boolean
+  hariJawa?: boolean
+  waktuKocok?: boolean
+  lokasiKocok?: boolean
+  autoSinkronAgenda?: boolean
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
@@ -692,6 +820,10 @@ export type KelompokArisanSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   nama?: boolean
   nominalIuran?: boolean
   periodeTipe?: boolean
+  hariJawa?: boolean
+  waktuKocok?: boolean
+  lokasiKocok?: boolean
+  autoSinkronAgenda?: boolean
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
@@ -704,6 +836,10 @@ export type KelompokArisanSelectScalar = {
   nama?: boolean
   nominalIuran?: boolean
   periodeTipe?: boolean
+  hariJawa?: boolean
+  waktuKocok?: boolean
+  lokasiKocok?: boolean
+  autoSinkronAgenda?: boolean
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
@@ -711,7 +847,7 @@ export type KelompokArisanSelectScalar = {
   updatedAt?: boolean
 }
 
-export type KelompokArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "nominalIuran" | "periodeTipe" | "tanggalMulai" | "status" | "keterangan" | "createdAt" | "updatedAt", ExtArgs["result"]["kelompokArisan"]>
+export type KelompokArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "nominalIuran" | "periodeTipe" | "hariJawa" | "waktuKocok" | "lokasiKocok" | "autoSinkronAgenda" | "tanggalMulai" | "status" | "keterangan" | "createdAt" | "updatedAt", ExtArgs["result"]["kelompokArisan"]>
 export type KelompokArisanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   peserta?: boolean | Prisma.KelompokArisan$pesertaArgs<ExtArgs>
   putaran?: boolean | Prisma.KelompokArisan$putaranArgs<ExtArgs>
@@ -731,6 +867,10 @@ export type $KelompokArisanPayload<ExtArgs extends runtime.Types.Extensions.Inte
     nama: string
     nominalIuran: number
     periodeTipe: string
+    hariJawa: string | null
+    waktuKocok: string | null
+    lokasiKocok: string | null
+    autoSinkronAgenda: boolean
     tanggalMulai: Date
     status: string
     keterangan: string | null
@@ -1165,6 +1305,10 @@ export interface KelompokArisanFieldRefs {
   readonly nama: Prisma.FieldRef<"KelompokArisan", 'String'>
   readonly nominalIuran: Prisma.FieldRef<"KelompokArisan", 'Int'>
   readonly periodeTipe: Prisma.FieldRef<"KelompokArisan", 'String'>
+  readonly hariJawa: Prisma.FieldRef<"KelompokArisan", 'String'>
+  readonly waktuKocok: Prisma.FieldRef<"KelompokArisan", 'String'>
+  readonly lokasiKocok: Prisma.FieldRef<"KelompokArisan", 'String'>
+  readonly autoSinkronAgenda: Prisma.FieldRef<"KelompokArisan", 'Boolean'>
   readonly tanggalMulai: Prisma.FieldRef<"KelompokArisan", 'DateTime'>
   readonly status: Prisma.FieldRef<"KelompokArisan", 'String'>
   readonly keterangan: Prisma.FieldRef<"KelompokArisan", 'String'>

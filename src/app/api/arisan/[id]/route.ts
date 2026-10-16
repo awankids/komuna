@@ -28,6 +28,15 @@ export async function GET(
           orderBy: { putaranKe: 'desc' },
           include: {
             pemenang: true,
+            agenda: {
+              select: {
+                id: true,
+                judul: true,
+                tanggal: true,
+                lokasi: true,
+                status: true,
+              },
+            },
             pembayaran: {
               include: {
                 peserta: true,
@@ -87,7 +96,17 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { nama, nominalIuran, periodeTipe, status, keterangan } = body;
+    const {
+      nama,
+      nominalIuran,
+      periodeTipe,
+      hariJawa,
+      waktuKocok,
+      lokasiKocok,
+      autoSinkronAgenda,
+      status,
+      keterangan,
+    } = body;
 
     const existing = await db.kelompokArisan.findUnique({ where: { id } });
     if (!existing) {
@@ -101,6 +120,10 @@ export async function PUT(
     if (nama !== undefined) updateData.nama = nama.trim();
     if (nominalIuran !== undefined) updateData.nominalIuran = Number(nominalIuran);
     if (periodeTipe !== undefined) updateData.periodeTipe = periodeTipe;
+    if (hariJawa !== undefined) updateData.hariJawa = hariJawa?.trim() || null;
+    if (waktuKocok !== undefined) updateData.waktuKocok = waktuKocok?.trim() || null;
+    if (lokasiKocok !== undefined) updateData.lokasiKocok = lokasiKocok?.trim() || null;
+    if (autoSinkronAgenda !== undefined) updateData.autoSinkronAgenda = Boolean(autoSinkronAgenda);
     if (status !== undefined) updateData.status = status;
     if (keterangan !== undefined) updateData.keterangan = keterangan?.trim() || null;
 
