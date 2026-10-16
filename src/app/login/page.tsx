@@ -18,7 +18,9 @@ import {
   Building2,
   Clock,
   ShieldAlert,
-  ChevronRight
+  ChevronRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface AppConfig {
@@ -39,6 +41,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
+  const [isDark, setIsDark] = useState(false);
   
   const router = useRouter();
 
@@ -100,12 +103,37 @@ export default function LoginPage() {
     };
     updateClock();
 
+    // Check Dark Mode state
+    try {
+      const savedDark = localStorage.getItem('komuna-dark') === 'yes' || document.documentElement.classList.contains('dark');
+      setIsDark(savedDark);
+      if (savedDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch {}
+
     return () => {
       isMounted = false;
     };
   }, []);
 
-  // 2. CapsLock Detection
+  // 2. Dark / Light Mode Toggle
+  const toggleDarkMode = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    try {
+      localStorage.setItem('komuna-dark', nextDark ? 'yes' : 'no');
+      if (nextDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch {}
+  };
+
+  // 3. CapsLock Detection
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.getModifierState) {
       setIsCapsLockOn(e.getModifierState('CapsLock'));
@@ -162,8 +190,31 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex-1 min-h-screen bg-[#f8fafc] dark:bg-[#0b0f19] text-slate-800 dark:text-slate-100 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-10 font-sans transition-colors duration-200">
+    <main className="relative flex-1 min-h-screen bg-[#f8fafc] dark:bg-[#0b0f19] text-slate-800 dark:text-slate-100 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-10 font-sans transition-colors duration-200">
       
+      {/* Theme Switcher Toggle (Light / Dark Mode) */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-8 z-30">
+        <button
+          type="button"
+          onClick={toggleDarkMode}
+          aria-label={isDark ? "Beralih ke mode terang" : "Beralih ke mode gelap"}
+          title={isDark ? "Beralih ke mode terang" : "Beralih ke mode gelap"}
+          className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xs border border-slate-200/90 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-[var(--brand-primary)]/40 hover:text-[var(--brand-primary)] dark:hover:text-[var(--brand-primary)] shadow-sm hover:shadow transition-all cursor-pointer text-xs font-semibold select-none"
+        >
+          {isDark ? (
+            <>
+              <Sun className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>Mode Terang</span>
+            </>
+          ) : (
+            <>
+              <Moon className="w-4 h-4 text-slate-600 dark:text-slate-300 shrink-0" />
+              <span>Mode Gelap</span>
+            </>
+          )}
+        </button>
+      </div>
+
       {/* Centered Dual-Zone Layout Container */}
       <div className="w-full max-w-5xl bg-white dark:bg-[#111827] rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden grid grid-cols-1 lg:grid-cols-12 transition-all">
         
@@ -319,19 +370,19 @@ export default function LoginPage() {
             {/* Login Form */}
             <form onSubmit={handleLogin} className="space-y-4.5 text-left">
               
-              {/* Field 1: Email / Username */}
+              {/* Field 1: Email / Nomor HP */}
               <div className="space-y-1.5">
                 <label 
                   htmlFor="login-email" 
                   className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide"
                 >
-                  Alamat Email / Akun
+                  Email atau Nomor HP / WA
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-400 dark:text-slate-500 pointer-events-none" />
                   <input
                     id="login-email"
-                    type="email"
+                    type="text"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -339,8 +390,8 @@ export default function LoginPage() {
                     }}
                     onKeyDown={handleKeyDown}
                     onKeyUp={handleKeyUp}
-                    placeholder="nama@komuna.id"
-                    autoComplete="email"
+                    placeholder="nama@komuna.id atau 0812xxxx"
+                    autoComplete="username"
                     disabled={isLoading}
                     required
                     aria-invalid={!!errorMessage}
