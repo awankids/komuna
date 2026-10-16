@@ -6,7 +6,10 @@ import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
 import SpinWheel, { SpinCandidate } from '@/components/SpinWheel';
 import {
-  POPULAR_HARI_JAWA_OPTIONS,
+  HARI_LIST,
+  PASARAN_LIST,
+  getHariJawa,
+  getPasaran,
   getWeton,
   findNextWetonDate,
 } from '@/lib/javanese-date';
@@ -199,7 +202,7 @@ export default function ArisanPage() {
     nama: '',
     nominalIuran: '50000',
     periodeTipe: 'bulanan',
-    hariJawa: 'Malam Minggu Pon',
+    hariJawa: 'Minggu Pon',
     waktuKocok: '19:30',
     lokasiKocok: 'Balai Pertemuan RT',
     autoSinkronAgenda: true,
@@ -212,7 +215,7 @@ export default function ArisanPage() {
     nama: '',
     nominalIuran: '50000',
     periodeTipe: 'bulanan',
-    hariJawa: '',
+    hariJawa: 'Minggu Pon',
     waktuKocok: '19:30',
     lokasiKocok: 'Balai Pertemuan RT',
     autoSinkronAgenda: true,
@@ -237,6 +240,60 @@ export default function ArisanPage() {
     sinkronAgendaBerikutnya: true,
     catatan: '',
   });
+
+  // Helper memisahkan Hari dan Pasaran dari string hariJawa (e.g. "Minggu Pon")
+  const parseHariPasaran = (hjStr: string | null | undefined) => {
+    if (!hjStr) return { hari: 'Minggu', pasaran: 'Pon' };
+    const clean = hjStr.replace(/^malam\s+/i, '').trim();
+    const parts = clean.split(' ');
+    const hari = HARI_LIST.find((h) => h.toLowerCase() === parts[0]?.toLowerCase()) || 'Minggu';
+    const pasaran = PASARAN_LIST.find((p) => p.toLowerCase() === parts[1]?.toLowerCase()) || 'Pon';
+    return { hari, pasaran };
+  };
+
+  const editKelompokHari = useMemo(() => {
+    return parseHariPasaran(editKelompokForm.hariJawa).hari;
+  }, [editKelompokForm.hariJawa]);
+
+  const editKelompokPasaran = useMemo(() => {
+    return parseHariPasaran(editKelompokForm.hariJawa).pasaran;
+  }, [editKelompokForm.hariJawa]);
+
+  const nextEditMeetingFormatted = useMemo(() => {
+    try {
+      const d = findNextWetonDate(editKelompokForm.hariJawa || 'Minggu Pon');
+      return d.toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch {
+      return '';
+    }
+  }, [editKelompokForm.hariJawa]);
+
+  const newKelompokHari = useMemo(() => {
+    return parseHariPasaran(newKelompokForm.hariJawa).hari;
+  }, [newKelompokForm.hariJawa]);
+
+  const newKelompokPasaran = useMemo(() => {
+    return parseHariPasaran(newKelompokForm.hariJawa).pasaran;
+  }, [newKelompokForm.hariJawa]);
+
+  const nextNewMeetingFormatted = useMemo(() => {
+    try {
+      const d = findNextWetonDate(newKelompokForm.hariJawa || 'Minggu Pon');
+      return d.toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch {
+      return '';
+    }
+  }, [newKelompokForm.hariJawa]);
 
   // Local state for Iuran & Kehadiran checklist changes in active putaran
   const [localIuranState, setLocalIuranState] = useState<
@@ -302,7 +359,7 @@ export default function ArisanPage() {
           nama: json.data.nama,
           nominalIuran: String(json.data.nominalIuran),
           periodeTipe: json.data.periodeTipe || 'bulanan',
-          hariJawa: json.data.hariJawa || '',
+          hariJawa: json.data.hariJawa || 'Minggu Pon',
           waktuKocok: json.data.waktuKocok || '19:30',
           lokasiKocok: json.data.lokasiKocok || 'Balai RT',
           autoSinkronAgenda: json.data.autoSinkronAgenda ?? true,
@@ -511,10 +568,11 @@ export default function ArisanPage() {
   const handleSpinEnd = (winner: SpinCandidate) => {
     setPendingWinner(winner);
     const today = new Date();
-    const wetonInfo = getWeton(today);
+    const todayDateStr = today.toISOString().split('T')[0];
+    const todayHariJawa = getHariJawa(todayDateStr);
     setWinnerConfigForm({
-      tanggalKocok: today.toISOString().split('T')[0],
-      hariJawa: kelompokDetail?.hariJawa || `${wetonInfo.malamWeton} (${wetonInfo.wetonMasehi})`,
+      tanggalKocok: todayDateStr,
+      hariJawa: kelompokDetail?.hariJawa || todayHariJawa,
       agendaId: upcomingAgendas.length > 0 ? upcomingAgendas[0].id : '',
       statusTalangan: 'tidak_ditalangi',
       sinkronAgendaBerikutnya: kelompokDetail?.autoSinkronAgenda ?? true,
@@ -1082,10 +1140,15 @@ export default function ArisanPage() {
                 <div className="flex flex-wrap items-center gap-3 md:gap-6">
                   <div className="flex items-center gap-1.5 text-slate-700">
                     <Calendar className="w-4 h-4 text-[var(--brand-primary)]" />
-                    <span className="font-semibold text-slate-400">Jadwal Hari Jawa:</span>
+                    <span className="font-semibold text-slate-400">Jadwal Kalender RT:</span>
                     <span className="font-bold text-slate-900">
                       {kelompokDetail.hariJawa || 'Belum diatur'}
                     </span>
+                    {kelompokDetail.hariJawa && (
+                      <span className="text-[10px] text-slate-600 bg-white px-2 py-0.5 rounded-lg border border-slate-200 font-medium">
+                        Berikutnya: {findNextWetonDate(kelompokDetail.hariJawa).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-1.5 text-slate-700">
@@ -1106,6 +1169,14 @@ export default function ArisanPage() {
                 </div>
 
                 <div className="flex items-center gap-2">
+                  <a
+                    href="/agenda"
+                    className="text-[11px] px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold flex items-center gap-1.5 transition shadow-2xs"
+                  >
+                    <Calendar className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
+                    <span>Kalender Agenda RT</span>
+                    <ArrowRight className="w-3 h-3 text-slate-400" />
+                  </a>
                   <span
                     className={`text-[10px] px-2.5 py-1 rounded-full font-bold ${
                       kelompokDetail.autoSinkronAgenda
@@ -1113,7 +1184,7 @@ export default function ArisanPage() {
                         : 'bg-slate-100 text-slate-500'
                     }`}
                   >
-                    {kelompokDetail.autoSinkronAgenda ? 'Sinkron Kalender Agenda: Aktif' : 'Sinkron Kalender: Manual'}
+                    {kelompokDetail.autoSinkronAgenda ? 'Auto-Sync: Aktif' : 'Sync: Manual'}
                   </span>
                 </div>
               </div>
@@ -1754,11 +1825,11 @@ export default function ArisanPage() {
                         value={winnerConfigForm.tanggalKocok}
                         onChange={(e) => {
                           const newDate = e.target.value;
-                          const weton = getWeton(new Date(newDate));
+                          const hj = getHariJawa(newDate);
                           setWinnerConfigForm({
                             ...winnerConfigForm,
                             tanggalKocok: newDate,
-                            hariJawa: `${weton.malamWeton} (${weton.wetonMasehi})`,
+                            hariJawa: hj,
                           });
                         }}
                         className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none"
@@ -1766,35 +1837,48 @@ export default function ArisanPage() {
                     </div>
                     <div>
                       <label className="block font-bold text-slate-700 mb-1">
-                        Hari Jawa (Weton)
+                        Hari Jawa (Kalender RT)
                       </label>
-                      <input
-                        type="text"
-                        value={winnerConfigForm.hariJawa}
-                        onChange={(e) =>
-                          setWinnerConfigForm({ ...winnerConfigForm, hariJawa: e.target.value })
-                        }
-                        placeholder="e.g. Malam Minggu Pon"
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none"
-                      />
+                      <div className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-100 text-slate-800 font-bold flex items-center justify-between">
+                        <span>{winnerConfigForm.hariJawa || getHariJawa(winnerConfigForm.tanggalKocok)}</span>
+                        <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-0.5">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Kalender RT
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   <div>
                     <label className="block font-bold text-slate-700 mb-1">
-                      Hubungkan ke Agenda Rapat RT (Opsional)
+                      Hubungkan ke Agenda Rapat RT (dari Kalender)
                     </label>
                     <select
                       value={winnerConfigForm.agendaId}
-                      onChange={(e) =>
-                        setWinnerConfigForm({ ...winnerConfigForm, agendaId: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const agId = e.target.value;
+                        const ag = upcomingAgendas.find((a) => a.id === agId);
+                        if (ag) {
+                          const dateStr = new Date(ag.tanggal).toISOString().split('T')[0];
+                          setWinnerConfigForm({
+                            ...winnerConfigForm,
+                            agendaId: agId,
+                            tanggalKocok: dateStr,
+                            hariJawa: getHariJawa(dateStr),
+                          });
+                        } else {
+                          setWinnerConfigForm({
+                            ...winnerConfigForm,
+                            agendaId: '',
+                          });
+                        }
+                      }}
                       className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none cursor-pointer"
                     >
-                      <option value="">-- Tidak Terhubung ke Agenda Tertentu --</option>
+                      <option value="">-- Bebas / Tidak Terhubung ke Agenda Tertentu --</option>
                       {upcomingAgendas.map((ag) => (
                         <option key={ag.id} value={ag.id}>
-                          {ag.judul} ({new Date(ag.tanggal).toLocaleDateString('id-ID')})
+                          {ag.judul} • {getHariJawa(ag.tanggal)}, {new Date(ag.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </option>
                       ))}
                     </select>
@@ -1970,40 +2054,106 @@ export default function ArisanPage() {
                     </div>
                   </div>
 
-                  {/* Hari Jawa / Weton Setting */}
-                  <div>
-                    <label className="block font-bold text-slate-700 mb-1">
-                      Hari Jawa / Weton Rapat Rutin
-                    </label>
-                    <div className="flex gap-2">
-                      <select
-                        value={POPULAR_HARI_JAWA_OPTIONS.includes(editKelompokForm.hariJawa) ? editKelompokForm.hariJawa : 'custom'}
-                        onChange={(e) => {
-                          if (e.target.value !== 'custom') {
-                            setEditKelompokForm({ ...editKelompokForm, hariJawa: e.target.value });
-                          }
-                        }}
-                        className="flex-1 px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none cursor-pointer"
-                      >
-                        <option value="">-- Pilih Hari Jawa Populer --</option>
-                        {POPULAR_HARI_JAWA_OPTIONS.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                        <option value="custom">Kustom / Ketik Manual</option>
-                      </select>
+                  {/* Pengaturan Hari Jawa (Weton & Pasaran) disesuaikan dengan Kalender Agenda RT */}
+                  <div className="p-3.5 rounded-2xl bg-orange-50/60 border border-orange-100/90 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4 text-[var(--brand-primary)]" />
+                        <span>Hari Jawa & Jadwal Pertemuan (Kalender Agenda RT)</span>
+                      </label>
+                      <span className="text-[10px] text-orange-700 font-bold bg-white px-2 py-0.5 rounded-full border border-orange-200">
+                        Sinkron Kalender RT
+                      </span>
                     </div>
 
-                    <input
-                      type="text"
-                      value={editKelompokForm.hariJawa}
-                      onChange={(e) =>
-                        setEditKelompokForm({ ...editKelompokForm, hariJawa: e.target.value })
-                      }
-                      placeholder="e.g. Malam Minggu Pon / Minggu Pahing"
-                      className="w-full mt-1.5 px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none"
-                    />
+                    {/* Quick sync dari agenda kalender jika ada */}
+                    {upcomingAgendas.length > 0 && (
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                          Sesuaikan dari Agenda Rapat di Kalender RT (Opsional):
+                        </label>
+                        <select
+                          value=""
+                          onChange={(e) => {
+                            const agId = e.target.value;
+                            const ag = upcomingAgendas.find((a) => a.id === agId);
+                            if (ag) {
+                              const hj = getHariJawa(ag.tanggal);
+                              setEditKelompokForm({
+                                ...editKelompokForm,
+                                hariJawa: hj,
+                                waktuKocok: ag.waktuMulai || editKelompokForm.waktuKocok || '19:30',
+                                lokasiKocok: ag.lokasi || editKelompokForm.lokasiKocok || 'Balai RT',
+                              });
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none cursor-pointer"
+                        >
+                          <option value="">-- Pilih Rapat dari Kalender Agenda RT --</option>
+                          {upcomingAgendas.map((ag) => (
+                            <option key={ag.id} value={ag.id}>
+                              {ag.judul} • {getHariJawa(ag.tanggal)}, {new Date(ag.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} {ag.waktuMulai ? `(${ag.waktuMulai})` : ''}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* Pilih Hari & Pasaran Sesuai Kalender RT */}
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Pilih Hari & Pasaran Sesuai Kalender Agenda RT:
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-semibold mb-0.5 block">Hari</label>
+                          <select
+                            value={editKelompokHari}
+                            onChange={(e) => {
+                              const newHj = `${e.target.value} ${editKelompokPasaran}`;
+                              setEditKelompokForm({ ...editKelompokForm, hariJawa: newHj });
+                            }}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none cursor-pointer"
+                          >
+                            {HARI_LIST.map((h) => (
+                              <option key={h} value={h}>
+                                {h}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-semibold mb-0.5 block">Pasaran Kalender RT</label>
+                          <select
+                            value={editKelompokPasaran}
+                            onChange={(e) => {
+                              const newHj = `${editKelompokHari} ${e.target.value}`;
+                              setEditKelompokForm({ ...editKelompokForm, hariJawa: newHj });
+                            }}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none cursor-pointer"
+                          >
+                            {PASARAN_LIST.map((p) => (
+                              <option key={p} value={p}>
+                                {p}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Preview info tanggal */}
+                    <div className="p-2.5 rounded-xl bg-white border border-orange-100 flex items-center justify-between gap-2 text-[11px]">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                        <span className="text-slate-600">
+                          Sesuai Kalender RT: <strong className="text-slate-900">{editKelompokForm.hariJawa || 'Minggu Pon'}</strong>
+                        </span>
+                      </div>
+                      <span className="text-slate-500 font-medium text-[10px]">
+                        Pertemuan berikutnya: <strong>{nextEditMeetingFormatted}</strong>
+                      </span>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
@@ -2153,24 +2303,106 @@ export default function ArisanPage() {
                     </div>
                   </div>
 
-                  {/* Hari Jawa Setting */}
-                  <div>
-                    <label className="block font-bold text-slate-700 mb-1">
-                      Hari Jawa / Weton Pelaksanaan Rapat
-                    </label>
-                    <select
-                      value={newKelompokForm.hariJawa}
-                      onChange={(e) =>
-                        setNewKelompokForm({ ...newKelompokForm, hariJawa: e.target.value })
-                      }
-                      className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none cursor-pointer"
-                    >
-                      {POPULAR_HARI_JAWA_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
+                  {/* Pengaturan Hari Jawa (Weton & Pasaran) disesuaikan dengan Kalender Agenda RT */}
+                  <div className="p-3.5 rounded-2xl bg-orange-50/60 border border-orange-100/90 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4 text-[var(--brand-primary)]" />
+                        <span>Hari Jawa & Jadwal Pertemuan (Kalender Agenda RT)</span>
+                      </label>
+                      <span className="text-[10px] text-orange-700 font-bold bg-white px-2 py-0.5 rounded-full border border-orange-200">
+                        Sinkron Kalender RT
+                      </span>
+                    </div>
+
+                    {/* Quick sync dari agenda kalender jika ada */}
+                    {upcomingAgendas.length > 0 && (
+                      <div>
+                        <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                          Sesuaikan dari Agenda Rapat di Kalender RT (Opsional):
+                        </label>
+                        <select
+                          value=""
+                          onChange={(e) => {
+                            const agId = e.target.value;
+                            const ag = upcomingAgendas.find((a) => a.id === agId);
+                            if (ag) {
+                              const hj = getHariJawa(ag.tanggal);
+                              setNewKelompokForm({
+                                ...newKelompokForm,
+                                hariJawa: hj,
+                                waktuKocok: ag.waktuMulai || newKelompokForm.waktuKocok || '19:30',
+                                lokasiKocok: ag.lokasi || newKelompokForm.lokasiKocok || 'Balai RT',
+                              });
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none cursor-pointer"
+                        >
+                          <option value="">-- Pilih Rapat dari Kalender Agenda RT --</option>
+                          {upcomingAgendas.map((ag) => (
+                            <option key={ag.id} value={ag.id}>
+                              {ag.judul} • {getHariJawa(ag.tanggal)}, {new Date(ag.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} {ag.waktuMulai ? `(${ag.waktuMulai})` : ''}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* Pilih Hari & Pasaran Sesuai Kalender RT */}
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Pilih Hari & Pasaran Sesuai Kalender Agenda RT:
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-semibold mb-0.5 block">Hari</label>
+                          <select
+                            value={newKelompokHari}
+                            onChange={(e) => {
+                              const newHj = `${e.target.value} ${newKelompokPasaran}`;
+                              setNewKelompokForm({ ...newKelompokForm, hariJawa: newHj });
+                            }}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none cursor-pointer"
+                          >
+                            {HARI_LIST.map((h) => (
+                              <option key={h} value={h}>
+                                {h}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="text-[10px] text-slate-500 font-semibold mb-0.5 block">Pasaran Kalender RT</label>
+                          <select
+                            value={newKelompokPasaran}
+                            onChange={(e) => {
+                              const newHj = `${newKelompokHari} ${e.target.value}`;
+                              setNewKelompokForm({ ...newKelompokForm, hariJawa: newHj });
+                            }}
+                            className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none cursor-pointer"
+                          >
+                            {PASARAN_LIST.map((p) => (
+                              <option key={p} value={p}>
+                                {p}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Preview info tanggal */}
+                    <div className="p-2.5 rounded-xl bg-white border border-orange-100 flex items-center justify-between gap-2 text-[11px]">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                        <span className="text-slate-600">
+                          Sesuai Kalender RT: <strong className="text-slate-900">{newKelompokForm.hariJawa || 'Minggu Pon'}</strong>
+                        </span>
+                      </div>
+                      <span className="text-slate-500 font-medium text-[10px]">
+                        Pertemuan berikutnya: <strong>{nextNewMeetingFormatted}</strong>
+                      </span>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">

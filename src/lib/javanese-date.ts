@@ -1,4 +1,4 @@
-// Helper Penentuan Hari & Pasaran Jawa (Weton) dan Kalender Selapanan RT
+// Helper Penentuan Hari & Pasaran Jawa (Weton) yang diselaraskan 100% dengan Kalender Agenda RT
 
 export const PASARAN_LIST = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'] as const;
 export type PasaranType = typeof PASARAN_LIST[number];
@@ -12,111 +12,145 @@ export const HARI_LIST = [
   'Jumat',
   'Sabtu',
 ] as const;
+export type HariType = typeof HARI_LIST[number];
 
-// 1 Jan 1970 UTC was Kamis Wage.
-// In our array index matching: 
-// [Wage, Kliwon, Legi, Pahing, Pon]
-const PASARAN_EPOCH_OFFSET = 0;
-const PASARAN_CYCLE = ['Wage', 'Kliwon', 'Legi', 'Pahing', 'Pon'] as const;
-
+// Daftar kombinasi populer untuk kompatibilitas
 export const POPULAR_HARI_JAWA_OPTIONS = [
-  'Malam Minggu Pon',
-  'Malam Minggu Wage',
-  'Malam Minggu Kliwon',
-  'Malam Minggu Legi',
-  'Malam Minggu Pahing',
-  'Malam Jumat Kliwon',
-  'Malam Jumat Pon',
-  'Malam Jumat Wage',
-  'Malam Jumat Legi',
-  'Malam Jumat Pahing',
-  'Malam Sabtu Kliwon',
-  'Malam Sabtu Wage',
-  'Malam Senin Pon',
-  'Malam Kamis Pahing',
   'Minggu Pon',
-  'Minggu Pahing',
   'Minggu Wage',
   'Minggu Kliwon',
+  'Minggu Legi',
+  'Minggu Pahing',
+  'Jumat Kliwon',
+  'Jumat Legi',
+  'Jumat Pon',
+  'Jumat Wage',
+  'Jumat Pahing',
   'Sabtu Kliwon',
   'Sabtu Wage',
-  'Jumat Kliwon',
+  'Sabtu Legi',
+  'Sabtu Pahing',
+  'Sabtu Pon',
   'Senin Legi',
+  'Senin Pon',
+  'Kamis Wage',
+  'Kamis Pahing',
   'Rabu Pon',
 ];
 
 /**
- * Menghitung Pasaran & Weton dari tanggal Masehi
+ * Menghitung Pasaran Jawa persis sesuai algoritma Kalender Agenda RT
+ * Referensi: 17 Agustus 1945 = Legi
  */
-export function getWeton(inputDate: Date | string): {
+export function getPasaran(dateInput: Date | string | null | undefined): string {
+  if (!dateInput) return '';
+  const dateStr =
+    typeof dateInput === 'string'
+      ? dateInput.split('T')[0]
+      : dateInput.toISOString().split('T')[0];
+
+  const pasaranNames = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
+  const reference = new Date(Date.UTC(1945, 7, 17)); // Aug 17, 1945 = Legi
+  const date = new Date(`${dateStr}T00:00:00Z`);
+  const diffDays = Math.floor((date.getTime() - reference.getTime()) / (1000 * 60 * 60 * 24));
+  const index = ((diffDays % 5) + 5) % 5;
+  return pasaranNames[index];
+}
+
+/**
+ * Menghitung Hari Jawa (Nama Hari + Pasaran) persis seperti pada Kalender Agenda RT
+ * Contoh: "Minggu Pon", "Jumat Legi", "Sabtu Kliwon"
+ */
+export function getHariJawa(dateInput: Date | string | null | undefined): string {
+  if (!dateInput) return '';
+  const dateStr =
+    typeof dateInput === 'string'
+      ? dateInput.split('T')[0]
+      : dateInput.toISOString().split('T')[0];
+
+  const parts = dateStr.split('-').map(Number);
+  if (parts.length !== 3) return '';
+  const [y, m, d] = parts;
+  const localDate = new Date(y, m - 1, d);
+  const dayName = HARI_LIST[localDate.getDay()];
+  const pasaran = getPasaran(dateStr);
+  return `${dayName} ${pasaran}`;
+}
+
+/**
+ * Info Weton lengkap untuk komponen arisan & agenda
+ */
+export function getWeton(dateInput: Date | string | null | undefined): {
   dayName: string;
   pasaran: string;
-  wetonMasehi: string; // e.g. "Sabtu Pahing"
-  malamWeton: string;  // e.g. "Malam Minggu Pon" (karena malam hari dimulai maghrib)
+  hariJawa: string;
+  wetonMasehi: string;
+  malamWeton: string;
   displayLabel: string;
 } {
-  const d = new Date(inputDate);
-  const year = d.getFullYear();
-  const month = d.getMonth();
-  const day = d.getDate();
+  if (!dateInput) {
+    return {
+      dayName: '',
+      pasaran: '',
+      hariJawa: '',
+      wetonMasehi: '',
+      malamWeton: '',
+      displayLabel: '',
+    };
+  }
 
-  // UTC midnight for accurate day difference
-  const utcDate = Date.UTC(year, month, day);
-  const daysSinceEpoch = Math.floor(utcDate / 86400000);
-
-  const pasaranIndex = ((daysSinceEpoch % 5) + 5) % 5;
-  const pasaran = PASARAN_CYCLE[pasaranIndex];
-  const dayIndex = d.getDay();
-  const dayName = HARI_LIST[dayIndex];
-
-  // Malam Minggu adalah Sabtu malam (menjelang Minggu)
-  // Malam hari Jawa berikutnya:
-  const nextDayIndex = (dayIndex + 1) % 7;
-  const nextPasaranIndex = (pasaranIndex + 1) % 5;
-  const nextDayName = HARI_LIST[nextDayIndex];
-  const nextPasaran = PASARAN_CYCLE[nextPasaranIndex];
-
-  const wetonMasehi = `${dayName} ${pasaran}`;
-  const malamWeton = `Malam ${nextDayName} ${nextPasaran}`;
+  const hariJawa = getHariJawa(dateInput);
+  const pasaran = getPasaran(dateInput);
+  const dateStr =
+    typeof dateInput === 'string'
+      ? dateInput.split('T')[0]
+      : dateInput.toISOString().split('T')[0];
+  const parts = dateStr.split('-').map(Number);
+  const dayName = parts.length === 3 ? HARI_LIST[new Date(parts[0], parts[1] - 1, parts[2]).getDay()] : '';
 
   return {
     dayName,
     pasaran,
-    wetonMasehi,
-    malamWeton,
-    displayLabel: `${wetonMasehi} (${malamWeton})`,
+    hariJawa,
+    wetonMasehi: hariJawa,
+    malamWeton: `Malam ${hariJawa}`,
+    displayLabel: hariJawa,
   };
 }
 
 /**
- * Mencari tanggal Masehi terdekat berikutnya untuk Weton / Hari Jawa tertentu
+ * Mencari tanggal berikutnya yang memiliki Hari Jawa tertentu sesuai Kalender Agenda RT
  * Siklus Selapanan = 35 hari
  */
-export function findNextWetonDate(wetonString: string, fromDate: Date = new Date()): Date {
-  const target = wetonString.trim().toLowerCase();
-  const start = new Date(fromDate);
-  start.setHours(0, 0, 0, 0);
+export function findNextWetonDate(targetHariJawa: string, fromDate: Date = new Date()): Date {
+  if (!targetHariJawa) {
+    const fallback = new Date(fromDate);
+    fallback.setDate(fallback.getDate() + 35);
+    return fallback;
+  }
 
-  // Scan up to 70 days forward (2 selapanan)
-  for (let i = 0; i <= 70; i++) {
+  // Bersihkan kata "Malam" jika ada untuk pencocokan ke nama hari kalender RT
+  const cleanTarget = targetHariJawa
+    .replace(/^malam\s+/i, '')
+    .trim()
+    .toLowerCase();
+
+  const start = new Date(fromDate);
+  start.setHours(12, 0, 0, 0); // gunakan midday agar aman dari offset timezone
+
+  // Scan hingga 35 hari ke depan (siklus selapanan penuh)
+  for (let i = 0; i <= 35; i++) {
     const candidate = new Date(start);
     candidate.setDate(start.getDate() + i);
+    const hj = getHariJawa(candidate).toLowerCase();
 
-    const info = getWeton(candidate);
-    
-    // Check match for either direct weton or malam weton
-    if (
-      info.wetonMasehi.toLowerCase() === target ||
-      info.malamWeton.toLowerCase() === target ||
-      target.includes(info.wetonMasehi.toLowerCase()) ||
-      target.includes(info.malamWeton.toLowerCase())
-    ) {
+    if (hj === cleanTarget || cleanTarget.includes(hj) || hj.includes(cleanTarget)) {
       return candidate;
     }
   }
 
-  // Fallback: return 30 days from now
+  // Fallback 35 hari ke depan
   const fallback = new Date(fromDate);
-  fallback.setDate(fallback.getDate() + 30);
+  fallback.setDate(fallback.getDate() + 35);
   return fallback;
 }
