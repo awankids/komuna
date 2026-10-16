@@ -287,8 +287,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
               <span className="text-sm font-bold text-slate-800 leading-tight group-hover:text-[var(--brand-primary)] transition-colors duration-200 capitalize">
                 {userData?.nama || 'Memuat...'}
               </span>
-              <span className="text-[11px] text-slate-400 font-medium capitalize">
-                {userData?.role || 'Admin'}
+              <span className="text-[11px] text-slate-400 font-medium">
+                {userData?.role === 'SUPER_ADMIN' ? 'Super Admin' :
+                 userData?.role === 'ADMIN' ? 'Ketua RT' :
+                 userData?.role === 'BENDAHARA' ? 'Bendahara' :
+                 userData?.role === 'SEKRETARIS' ? 'Sekretaris' :
+                 userData?.role === 'PETUGAS' ? 'Petugas RT' :
+                 userData?.role === 'WARGA' ? 'Warga' :
+                 (userData?.role || 'Pengguna')}
               </span>
             </div>
             <ChevronDown className={`w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
@@ -299,7 +305,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
               <div className="px-4 py-3 border-b border-slate-50 block sm:hidden">
                 <span className="text-sm font-bold text-slate-800 block capitalize">{userData?.nama || 'Memuat...'}</span>
-                <span className="text-[10px] text-slate-400 font-medium block capitalize">{userData?.role || 'Admin'}</span>
+                <span className="text-[10px] text-slate-400 font-medium block">
+                  {userData?.role === 'SUPER_ADMIN' ? 'Super Admin' :
+                   userData?.role === 'ADMIN' ? 'Ketua RT' :
+                   userData?.role === 'BENDAHARA' ? 'Bendahara' :
+                   userData?.role === 'SEKRETARIS' ? 'Sekretaris' :
+                   userData?.role === 'PETUGAS' ? 'Petugas RT' :
+                   userData?.role === 'WARGA' ? 'Warga' :
+                   (userData?.role || 'Pengguna')}
+                </span>
               </div>
               <div className="p-2 space-y-1">
                 <Link 
@@ -310,14 +324,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <User className="w-4 h-4" />
                   Profil Saya
                 </Link>
-                <Link 
-                  href="/pengaturan" 
-                  onClick={() => setIsProfileOpen(false)}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors"
-                >
-                  <Settings className="w-4 h-4" />
-                  Pengaturan
-                </Link>
+                {((userData?.role || '').toUpperCase() === 'SUPER_ADMIN' || (userData?.role || '').toUpperCase() === 'ADMIN') && (
+                  <Link 
+                    href="/pengaturan" 
+                    onClick={() => setIsProfileOpen(false)}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-50 rounded-xl transition-colors"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Pengaturan
+                  </Link>
+                )}
               </div>
               <div className="p-2 border-t border-slate-50">
                 <button 

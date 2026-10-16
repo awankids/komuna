@@ -244,6 +244,16 @@ export default function DashboardPage() {
     isMountedRef.current = true;
     fetchData();
     fetchAppConfig();
+
+    // Check for unauthorized redirect flag from RBAC guard
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('unauthorized') === '1') {
+        triggerToast('Akses dibatasi: Anda tidak memiliki izin peran untuk halaman tersebut.', 'error');
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+    }
+
     window.addEventListener('komuna_config_updated', fetchAppConfig);
     return () => { 
       isMountedRef.current = false; 

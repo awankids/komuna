@@ -7,8 +7,13 @@ import {
   Coins, 
   Plus, 
   Wallet, 
-  FileText 
+  FileText,
+  FileCheck,
+  Users,
+  CalendarDays,
+  Package
 } from 'lucide-react';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 interface MobileNavBarProps {
   onQuickActionClick?: () => void;
@@ -17,14 +22,54 @@ interface MobileNavBarProps {
 export default function MobileNavBar({ onQuickActionClick }: MobileNavBarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { role } = useCurrentUser();
 
-  const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, href: '/' },
-    { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
-    { name: 'Input', icon: Plus, href: '#', isCenter: true },
-    { name: 'Kas RT', icon: Wallet, href: '/kas' },
-    { name: 'Laporan', icon: FileText, href: '/laporan' }
-  ];
+  const navItems = React.useMemo(() => {
+    const baseFirst = [
+      { name: 'Dashboard', icon: LayoutDashboard, href: '/' },
+      { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
+      { name: 'Input', icon: Plus, href: '#', isCenter: true },
+    ];
+
+    if (role === 'BENDAHARA') {
+      return [
+        ...baseFirst,
+        { name: 'Kas RT', icon: Wallet, href: '/kas' },
+        { name: 'Laporan', icon: FileText, href: '/laporan' },
+      ];
+    }
+
+    if (role === 'SEKRETARIS') {
+      return [
+        ...baseFirst,
+        { name: 'Surat', icon: FileCheck, href: '/surat' },
+        { name: 'Warga', icon: Users, href: '/anggota' },
+      ];
+    }
+
+    if (role === 'PETUGAS') {
+      return [
+        ...baseFirst,
+        { name: 'Ronda', icon: CalendarDays, href: '/jadwal' },
+        { name: 'Inventaris', icon: Package, href: '/inventaris' },
+      ];
+    }
+
+    if (role === 'WARGA') {
+      return [
+        ...baseFirst,
+        { name: 'Surat', icon: FileCheck, href: '/surat' },
+        { name: 'Ronda', icon: CalendarDays, href: '/jadwal' },
+      ];
+    }
+
+    // Default for ADMIN and SUPER_ADMIN
+    return [
+      ...baseFirst,
+      { name: 'Kas RT', icon: Wallet, href: '/kas' },
+      { name: 'Laporan', icon: FileText, href: '/laporan' },
+    ];
+  }, [role]);
 
   const handleNavClick = (item: typeof navItems[0]) => {
     if (item.isCenter) {

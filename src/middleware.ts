@@ -1,33 +1,56 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { AUTH_COOKIE_NAME, verifySessionToken } from '@/lib/auth-token';
+import { AUTH_COOKIE_NAME, verifySessionToken, type SessionUser } from '@/lib/auth-token';
 
-async function hasValidSession(request: NextRequest): Promise<boolean> {
+async function getSessionUser(request: NextRequest): Promise<SessionUser | null> {
   const sessionCookie = request.cookies.get(AUTH_COOKIE_NAME);
   if (!sessionCookie || !sessionCookie.value) {
-    return false;
+    return null;
   }
 
   // 1. Verify signed cryptographic token
   const verifiedUser = await verifySessionToken(sessionCookie.value);
   if (verifiedUser) {
-    return true;
+    return verifiedUser;
   }
 
   // 2. Legacy unencrypted session fallback (seamless transition)
   try {
     const decoded = decodeURIComponent(sessionCookie.value);
     const parsed = JSON.parse(decoded);
-    return Boolean(parsed && (parsed.id || parsed.nama));
+    if (parsed && (parsed.id || parsed.nama)) {
+      return {
+        id: parsed.id || 'legacy',
+        nama: parsed.nama || 'Pengguna',
+        email: parsed.email || '',
+        role: (parsed.role || 'ADMIN').toUpperCase(),
+      };
+    }
   } catch {
     try {
       const parsed = JSON.parse(sessionCookie.value);
-      return Boolean(parsed && (parsed.id || parsed.nama));
+      if (parsed && (parsed.id || parsed.nama)) {
+        return {
+          id: parsed.id || 'legacy',
+          nama: parsed.nama || 'Pengguna',
+          email: parsed.email || '',
+          role: (parsed.role || 'ADMIN').toUpperCase(),
+        };
+      }
     } catch {
-      return false;
+      return null;
     }
   }
+  return null;
 }
+
+const RBAC_PAGE_RESTRICTIONS: { prefix: string; roles: string[] }[] = [
+  { prefix: '/pengaturan', roles: ['SUPER_ADMIN', 'ADMIN'] },
+  { prefix: '/kas', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
+  { prefix: '/hutang-piutang', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
+  { prefix: '/anggota', roles: ['SUPER_ADMIN', 'ADMIN', 'SEKRETARIS'] },
+  { prefix: '/laporan', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA', 'SEKRETARIS'] },
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -57,7 +80,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const isAuthenticated = await hasValidSession(request);
+  const sessionUser = await getSessionUser(request);
+  const isAuthenticated = Boolean(sessionUser);
 
   // If this is an API route and not authenticated, return 401 JSON
   if (pathname.startsWith('/api/')) {
@@ -67,6 +91,23 @@ export async function middleware(request: NextRequest) {
         { status: 401 }
       );
     }
+
+    // Role-based authorization for API endpoints
+    const userRole = (sessionUser?.role || 'WARGA').toUpperCase();
+    if (userRole !== 'SUPER_ADMIN') {
+      const isRestrictedAdminApi = 
+        pathname.startsWith('/api/users') || 
+        pathname.startsWith('/api/backup') || 
+        (pathname === '/api/config' && request.method !== 'GET');
+
+      if (isRestrictedAdminApi && userRole !== 'ADMIN') {
+        return NextResponse.json(
+          { error: 'Forbidden: Anda tidak memiliki hak akses untuk tindakan ini' },
+          { status: 403 }
+        );
+      }
+    }
+
     return NextResponse.next();
   }
 
@@ -84,6 +125,22 @@ export async function middleware(request: NextRequest) {
     const redirectParam = request.nextUrl.searchParams.get('redirect');
     const targetUrl = new URL(redirectParam && redirectParam.startsWith('/') ? redirectParam : '/', request.url);
     return NextResponse.redirect(targetUrl);
+  }
+
+  // Role-based authorization for Page routes
+  if (isAuthenticated && sessionUser) {
+    const userRole = (sessionUser.role || 'WARGA').toUpperCase();
+    if (userRole !== 'SUPER_ADMIN' && userRole !== 'ADMIN') {
+      const restrictedMatch = RBAC_PAGE_RESTRICTIONS.find(
+        rule => pathname === rule.prefix || pathname.startsWith(rule.prefix + '/')
+      );
+
+      if (restrictedMatch && !restrictedMatch.roles.includes(userRole)) {
+        const redirectUrl = new URL('/', request.url);
+        redirectUrl.searchParams.set('unauthorized', '1');
+        return NextResponse.redirect(redirectUrl);
+      }
+    }
   }
 
   return NextResponse.next();

@@ -21,14 +21,26 @@ import {
   Sparkles
 } from 'lucide-react';
 
+import { useCurrentUser } from '@/hooks/useCurrentUser';
+
 interface SidebarProps {
   activeMenu?: string;
   isOpen?: boolean;
   onClose?: () => void;
 }
 
+const ROLE_BADGES: Record<string, { label: string; bg: string }> = {
+  SUPER_ADMIN: { label: 'Super Admin', bg: 'bg-purple-50 text-purple-700 border-purple-200' },
+  ADMIN: { label: 'Ketua RT', bg: 'bg-sky-50 text-sky-700 border-sky-200' },
+  BENDAHARA: { label: 'Bendahara', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  SEKRETARIS: { label: 'Sekretaris', bg: 'bg-amber-50 text-amber-700 border-amber-200' },
+  PETUGAS: { label: 'Petugas RT', bg: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+  WARGA: { label: 'Warga', bg: 'bg-slate-100 text-slate-600 border-slate-200' },
+};
+
 export default function Sidebar({ activeMenu, isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const { user, role, hasRole } = useCurrentUser();
 
   const [appConfig, setAppConfig] = React.useState({
     namaApp: 'komuna.id',
@@ -72,11 +84,11 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       title: 'Operasional RT',
       items: [
         { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
-        { name: 'Kas RT', icon: Wallet, href: '/kas' },
-        { name: 'Hutang & Piutang', icon: ReceiptText, href: '/hutang-piutang' },
+        { name: 'Kas RT', icon: Wallet, href: '/kas', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
+        { name: 'Hutang & Piutang', icon: ReceiptText, href: '/hutang-piutang', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
         { name: 'Inventaris RT', icon: Package, href: '/inventaris' },
         { name: 'Surat Pengantar', icon: FileCheck, href: '/surat' },
-        { name: 'Laporan', icon: FileText, href: '/laporan' },
+        { name: 'Laporan', icon: FileText, href: '/laporan', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA', 'SEKRETARIS'] },
       ],
     },
     {
@@ -84,18 +96,28 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       items: [
         { name: 'Jadwal Ronda', icon: CalendarDays, href: '/jadwal' },
         { name: 'Agenda RT', icon: Calendar, href: '/agenda' },
-        { name: 'Arisan Warga', icon: Sparkles, href: '/arisan' },
+        { name: 'Arisan Warga', icon: Sparkles, href: '/arisan', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA', 'SEKRETARIS', 'WARGA'] },
       ],
     },
     {
       title: 'Manajemen',
       items: [
-        { name: 'Data Warga', icon: Users, href: '/anggota' },
+        { name: 'Data Warga', icon: Users, href: '/anggota', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'SEKRETARIS'] },
         { name: 'Susunan Pengurus', icon: ShieldCheck, href: '/pengurus' },
-        { name: 'Pengaturan', icon: Settings, href: '/pengaturan' },
+        { name: 'Pengaturan', icon: Settings, href: '/pengaturan', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
       ],
     },
   ];
+
+  const filteredSections = menuSections
+    .map(section => ({
+      ...section,
+      items: section.items.filter(item => {
+        if (!item.allowedRoles) return true;
+        return hasRole(...item.allowedRoles);
+      })
+    }))
+    .filter(section => section.items.length > 0);
 
   // Check if link is currently active
   const isItemActive = (href: string, name: string) => {
@@ -169,7 +191,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
 
           {/* Sectioned Menu List */}
           <nav className="p-3.5 space-y-5 text-left flex-1">
-            {menuSections.map((section, sectionIdx) => (
+            {filteredSections.map((section, sectionIdx) => (
               <div key={sectionIdx} className="space-y-1">
                 <h3 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
                   {section.title}
@@ -220,9 +242,23 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
 
         </div>
 
-        {/* Bottom Section: Logout & Sync Indicator */}
-        <div className="p-3.5 border-t border-slate-100 space-y-3 bg-white">
-          
+        {/* Bottom Section: User Info, Logout & Sync Indicator */}
+        <div className="p-3.5 border-t border-slate-100 space-y-2.5 bg-white">
+          {/* Active User Card */}
+          {user && (
+            <div className="p-2.5 rounded-xl bg-slate-50/80 border border-slate-100 flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-[var(--brand-primary)]/10 text-[var(--brand-primary)] flex items-center justify-center font-bold text-xs shrink-0">
+                {user.nama ? user.nama.charAt(0).toUpperCase() : 'U'}
+              </div>
+              <div className="min-w-0 flex-1 text-left">
+                <p className="text-xs font-bold text-slate-800 truncate leading-tight">{user.nama}</p>
+                <span className={`inline-block mt-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded-md border ${ROLE_BADGES[role]?.bg || 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                  {ROLE_BADGES[role]?.label || role}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Logout Button */}
           <button
             type="button"
@@ -235,7 +271,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
               document.cookie = 'komuna_user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
               window.location.href = '/login';
             }}
-            className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-red-500 hover:bg-red-50/70 transition-all duration-150 cursor-pointer group text-left"
+            className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-semibold text-red-500 hover:bg-red-50/70 transition-all duration-150 cursor-pointer group text-left"
           >
             <LogOut className="w-4 h-4 text-red-400 group-hover:text-red-600 shrink-0" />
             <span>Keluar Aplikasi</span>
