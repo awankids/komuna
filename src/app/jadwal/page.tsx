@@ -18,10 +18,23 @@ import {
   HelpCircle,
   RotateCw,
   Edit,
-  Flag
+  Flag,
+  Users,
+  UserCheck,
+  UserMinus,
+  UserPlus,
+  ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
 import { getIndonesianHoliday } from '@/lib/holidays';
+
+interface RombonganMember {
+  id: string;
+  nama: string;
+  noRumah?: string;
+  noHp?: string | null;
+  statusKeluarga?: string;
+}
 
 interface Rombongan {
   id: string;
@@ -30,7 +43,16 @@ interface Rombongan {
   hariPiket: number | null;
   ketuaNama: string;
   activeMemberCount: number;
-  activeMembers: { id: string; nama: string }[];
+  activeMembers: RombonganMember[];
+}
+
+interface WargaOption {
+  id: string;
+  nama: string;
+  noRumah: string;
+  statusKeluarga?: string;
+  rombonganId?: string | null;
+  rombongan?: { id: string; nama: string } | null;
 }
 
 interface Anggota {
@@ -82,6 +104,17 @@ export default function JadwalPage() {
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isMountedRef = useRef(true);
 
+  // Modal Kelola Rombongan & Anggota
+  const [isRombonganModalOpen, setIsRombonganModalOpen] = useState(false);
+  const [editingRombongan, setEditingRombongan] = useState<Rombongan | null>(null);
+  const [romFormNama, setRomFormNama] = useState('');
+  const [romFormHariPiket, setRomFormHariPiket] = useState<string>('none');
+  const [romFormKetuaId, setRomFormKetuaId] = useState<string>('none');
+  const [selectedNewAnggotaId, setSelectedNewAnggotaId] = useState<string>('');
+  const [allWargaList, setAllWargaList] = useState<WargaOption[]>([]);
+  const [isUpdatingMember, setIsUpdatingMember] = useState(false);
+  const [isSavingRombongan, setIsSavingRombongan] = useState(false);
+
   // Dynamic today date relative to chosen timezone
   const getTodayStr = () => {
     let tz = 'Asia/Jakarta';
@@ -126,6 +159,13 @@ export default function JadwalPage() {
       const loadedRombongan: Rombongan[] = dataRom.error ? [] : dataRom;
       setRombonganList(loadedRombongan);
 
+      // 3. Fetch all active citizens for group assignment dropdown
+      const resAng = await fetch('/api/anggota');
+      const dataAng = await resAng.json();
+      if (isMountedRef.current && Array.isArray(dataAng)) {
+        setAllWargaList(dataAng.filter((a: any) => a.statusAktif));
+      }
+
       // Check if any rombongan has hariPiket assigned
       const hasAssignedGroups = loadedRombongan.some(r => r.hariPiket && r.hariPiket > 0);
 
@@ -166,6 +206,150 @@ export default function JadwalPage() {
     fetchData();
     return () => { isMountedRef.current = false; };
   }, [selectedMonth, selectedYear]);
+
+  // Modal Handlers: Open Edit / Add
+  const handleOpenEditRombongan = (rom: Rombongan) => {
+    setEditingRombongan(rom);
+    setRomFormNama(rom.nama);
+    setRomFormHariPiket(rom.hariPiket ? String(rom.hariPiket) : 'none');
+    setRomFormKetuaId(rom.ketuaId || 'none');
+    setSelectedNewAnggotaId('');
+    setIsRombonganModalOpen(true);
+  };
+
+  const handleOpenAddRombongan = () => {
+    setEditingRombongan(null);
+    setRomFormNama('');
+    setRomFormHariPiket('none');
+    setRomFormKetuaId('none');
+    setSelectedNewAnggotaId('');
+    setIsRombonganModalOpen(true);
+  };
+
+  const handleAddMemberToRombongan = async () => {
+    if (!editingRombongan || !selectedNewAnggotaId) return;
+    setIsUpdatingMember(true);
+    try {
+      const res = await fetch('/api/rombongan', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editingRombongan.id,
+          addAnggotaId: selectedNewAnggotaId
+        })
+      });
+      if (res.ok) {
+        const updatedRom = await res.json();
+        setEditingRombongan(updatedRom);
+        setSelectedNewAnggotaId('');
+        triggerToast('Anggota berhasil ditambahkan ke rombongan', 'success');
+        fetchData();
+      } else {
+        triggerToast('Gagal menambahkan anggota ke rombongan', 'error');
+      }
+    } catch (e) {
+      console.error(e);
+      triggerToast('Terjadi kesalahan jaringan', 'error');
+    } finally {
+      setIsUpdatingMember(false);
+    }
+  };
+
+  const handleRemoveMemberFromRombongan = async (anggotaId: string) => {
+    if (!editingRombongan) return;
+    setIsUpdatingMember(true);
+    try {
+      const res = await fetch('/api/rombongan', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: editingRombongan.id,
+          removeAnggotaId: anggotaId
+        })
+      });
+      if (res.ok) {
+        const updatedRom = await res.json();
+        setEditingRombongan(updatedRom);
+        if (romFormKetuaId === anggotaId) {
+          setRomFormKetuaId('none');
+        }
+        triggerToast('Anggota dikeluarkan dari rombongan', 'success');
+        fetchData();
+      } else {
+        triggerToast('Gagal mengeluarkan anggota dari rombongan', 'error');
+      }
+    } catch (e) {
+      console.error(e);
+      triggerToast('Terjadi kesalahan jaringan', 'error');
+    } finally {
+      setIsUpdatingMember(false);
+    }
+  };
+
+  const handleSaveRombongan = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!romFormNama.trim()) {
+      triggerToast('Nama rombongan wajib diisi', 'error');
+      return;
+    }
+    setIsSavingRombongan(true);
+    try {
+      if (editingRombongan) {
+        const res = await fetch('/api/rombongan', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: editingRombongan.id,
+            nama: romFormNama.trim(),
+            hariPiket: romFormHariPiket,
+            ketuaId: romFormKetuaId
+          })
+        });
+        if (res.ok) {
+          triggerToast('Data rombongan berhasil diperbarui', 'success');
+          setIsRombonganModalOpen(false);
+          fetchData();
+        } else {
+          const errData = await res.json();
+          triggerToast(errData.error || 'Gagal menyimpan rombongan', 'error');
+        }
+      } else {
+        const res = await fetch('/api/rombongan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nama: romFormNama.trim()
+          })
+        });
+        if (res.ok) {
+          const newRom = await res.json();
+          if (romFormHariPiket !== 'none' || romFormKetuaId !== 'none') {
+            await fetch('/api/rombongan', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                id: newRom.id,
+                nama: newRom.nama,
+                hariPiket: romFormHariPiket,
+                ketuaId: romFormKetuaId
+              })
+            });
+          }
+          triggerToast('Rombongan baru berhasil dibuat', 'success');
+          setIsRombonganModalOpen(false);
+          fetchData();
+        } else {
+          const errData = await res.json();
+          triggerToast(errData.error || 'Gagal menambahkan rombongan', 'error');
+        }
+      }
+    } catch (e) {
+      console.error(e);
+      triggerToast('Terjadi kesalahan saat menyimpan data', 'error');
+    } finally {
+      setIsSavingRombongan(false);
+    }
+  };
 
   // Handle assigning Rombongan to weekday
   const handleAssignGroupToDay = async (dayVal: number, groupId: string) => {
@@ -466,8 +650,9 @@ export default function JadwalPage() {
 
               {/* Kelola Rombongan Link */}
               <Link 
-                href="/anggota"
+                href="/anggota?tab=rombongan"
                 className="px-4 py-2.5 border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all text-xs font-bold text-slate-600 flex items-center gap-1.5"
+                title="Kelola data rombongan di menu kependudukan"
               >
                 <Settings className="w-4 h-4 text-slate-400" />
                 <span>Kelola Rombongan</span>
@@ -684,13 +869,14 @@ export default function JadwalPage() {
             <div className="flex items-center justify-between">
               <h3 className="text-md font-bold text-slate-850 tracking-tight">Daftar Rombongan</h3>
               
-              <Link 
-                href="/anggota"
-                className="px-4 py-2 border border-[var(--brand-primary)] text-[var(--brand-primary)] font-bold rounded-2xl hover:bg-[var(--brand-light)] transition-all flex items-center gap-1.5 text-xs"
+              <button 
+                type="button"
+                onClick={handleOpenAddRombongan}
+                className="px-4 py-2 border border-[var(--brand-primary)] text-[var(--brand-primary)] font-bold rounded-2xl hover:bg-[var(--brand-light)] transition-all flex items-center gap-1.5 text-xs cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Tambah Rombongan</span>
-              </Link>
+              </button>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -737,14 +923,24 @@ export default function JadwalPage() {
                       )}
                     </div>
 
-                    {/* Edit button */}
-                    <div className="border-t border-slate-50 pt-3 mt-3">
-                      <Link 
-                        href="/anggota"
-                        className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-500 font-bold rounded-xl text-[10px] flex items-center justify-center gap-1.5 transition-colors"
+                    {/* Action buttons: Atur Anggota & Lihat KK */}
+                    <div className="grid grid-cols-2 gap-2 border-t border-slate-50 pt-3 mt-3">
+                      <button 
+                        type="button"
+                        onClick={() => handleOpenEditRombongan(rom)}
+                        className="w-full py-2 bg-[var(--brand-light)] hover:bg-orange-100 text-[var(--brand-primary)] font-bold rounded-xl text-[10px] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                        title="Atur jadwal, ketua, dan anggota rombongan ini"
                       >
                         <Edit className="w-3.5 h-3.5" />
-                        <span>Edit Rombongan</span>
+                        <span>Atur Anggota</span>
+                      </button>
+                      <Link 
+                        href={`/anggota?tab=kk&rombonganId=${rom.id}`}
+                        className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold rounded-xl text-[10px] flex items-center justify-center gap-1.5 transition-colors text-center"
+                        title="Buka daftar Kartu Keluarga rombongan ini"
+                      >
+                        <Users className="w-3.5 h-3.5 text-slate-400" />
+                        <span>Lihat KK</span>
                       </Link>
                     </div>
 
@@ -784,6 +980,235 @@ export default function JadwalPage() {
           </div>
 
         </main>
+
+        {/* Modal Kelola Rombongan & Anggota */}
+        {isRombonganModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in duration-200">
+            <div 
+              className="bg-white rounded-3xl w-full max-w-xl max-h-[90vh] shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in zoom-in-95 duration-200 text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-orange-50 text-[var(--brand-primary)] flex items-center justify-center shrink-0">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-extrabold text-slate-800">
+                      {editingRombongan ? `Kelola ${editingRombongan.nama}` : 'Tambah Rombongan Baru'}
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium">
+                      Atur nama rombongan, hari piket, ketua, dan anggota ronda
+                    </p>
+                  </div>
+                </div>
+                <button 
+                  type="button"
+                  onClick={() => setIsRombonganModalOpen(false)}
+                  className="p-2 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-xl transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-5 overflow-y-auto space-y-5 text-left flex-1">
+                
+                {/* Shortcut Banner to Data Warga / KK */}
+                {editingRombongan && (
+                  <div className="p-3 bg-blue-50/70 border border-blue-200/60 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2 text-blue-900 font-medium">
+                      <Info className="w-4 h-4 text-blue-600 shrink-0" />
+                      <span>Ingin melihat detail berkas Kartu Keluarga rombongan ini?</span>
+                    </div>
+                    <Link 
+                      href={`/anggota?tab=kk&rombonganId=${editingRombongan.id}`}
+                      className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-[11px] shrink-0 transition-colors inline-flex items-center gap-1.5"
+                    >
+                      <span>Buka Data KK</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </Link>
+                  </div>
+                )}
+
+                {/* Form Metadata: Nama, Hari Piket, Ketua */}
+                <form id="rom-meta-form" onSubmit={handleSaveRombongan} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1 sm:col-span-2">
+                      <label className="text-xs font-bold text-slate-600">Nama Rombongan</label>
+                      <input 
+                        type="text"
+                        value={romFormNama}
+                        onChange={(e) => setRomFormNama(e.target.value)}
+                        placeholder="Contoh: ROMBONGAN 1 - MLM SELASA"
+                        required
+                        className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)]"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-600">Hari Piket Ronda</label>
+                      <select
+                        value={romFormHariPiket}
+                        onChange={(e) => setRomFormHariPiket(e.target.value)}
+                        className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 cursor-pointer"
+                      >
+                        <option value="none">Belum Ditentukan</option>
+                        <option value="1">Senin</option>
+                        <option value="2">Selasa</option>
+                        <option value="3">Rabu</option>
+                        <option value="4">Kamis</option>
+                        <option value="5">Jumat</option>
+                        <option value="6">Sabtu</option>
+                        <option value="7">Minggu</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-600">Ketua Rombongan</label>
+                      <select
+                        value={romFormKetuaId}
+                        onChange={(e) => setRomFormKetuaId(e.target.value)}
+                        className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 cursor-pointer"
+                      >
+                        <option value="none">Belum Ditentukan</option>
+                        {(editingRombongan?.activeMembers || []).map((m) => (
+                          <option key={m.id} value={m.id}>
+                            {m.nama} {m.noRumah ? `(No. ${m.noRumah})` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </form>
+
+                {/* Members Management (Only if editing an existing group) */}
+                {editingRombongan ? (
+                  <div className="space-y-3 pt-3 border-t border-slate-100">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                          Daftar Anggota Ronda ({editingRombongan.activeMembers.length})
+                        </h4>
+                        <p className="text-[11px] text-slate-400">
+                          Warga yang dijadwalkan piket jimpitan & ronda pada rombongan ini
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Add Member Row */}
+                    <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex flex-col sm:flex-row gap-2 items-center">
+                      <select 
+                        value={selectedNewAnggotaId}
+                        onChange={(e) => setSelectedNewAnggotaId(e.target.value)}
+                        className="w-full sm:flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none cursor-pointer"
+                      >
+                        <option value="">-- Pilih Warga / Kepala Keluarga --</option>
+                        {allWargaList
+                          .filter(w => !editingRombongan.activeMembers.some(m => m.id === w.id))
+                          .map(w => {
+                            const statusRom = w.rombongan?.nama 
+                              ? `(Saat ini: ${w.rombongan.nama})` 
+                              : '(Belum ada rombongan)';
+                            return (
+                              <option key={w.id} value={w.id}>
+                                {w.nama} - No. {w.noRumah || '-'} {statusRom}
+                              </option>
+                            );
+                          })}
+                      </select>
+                      <button
+                        type="button"
+                        disabled={!selectedNewAnggotaId || isUpdatingMember}
+                        onClick={handleAddMemberToRombongan}
+                        className="w-full sm:w-auto px-4 py-2 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] disabled:opacity-50 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shrink-0"
+                      >
+                        <UserPlus className="w-3.5 h-3.5" />
+                        <span>{isUpdatingMember ? 'Menambahkan...' : 'Tambahkan'}</span>
+                      </button>
+                    </div>
+
+                    {/* Current Member List */}
+                    <div className="space-y-1.5 max-h-[180px] overflow-y-auto pr-1">
+                      {editingRombongan.activeMembers.length === 0 ? (
+                        <div className="p-4 text-center text-xs text-slate-400 border border-dashed border-slate-200 rounded-2xl">
+                          Belum ada anggota di rombongan ini. Pilih warga di atas untuk menambahkan.
+                        </div>
+                      ) : (
+                        editingRombongan.activeMembers.map((m, idx) => {
+                          const isLeader = editingRombongan.ketuaId === m.id;
+                          return (
+                            <div 
+                              key={m.id}
+                              className="p-2.5 bg-white border border-slate-100 hover:border-slate-200 rounded-xl flex items-center justify-between gap-3 text-xs transition-colors shadow-2xs"
+                            >
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <span className="w-5 text-center text-slate-400 font-bold text-[11px]">{idx + 1}.</span>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="font-bold text-slate-800 truncate">{m.nama}</span>
+                                    {isLeader && (
+                                      <span className="px-1.5 py-0.2 bg-amber-50 text-amber-700 font-bold text-[9px] rounded-md border border-amber-200">
+                                        Ketua
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className="text-[10px] text-slate-400 font-medium block">
+                                    Rumah: {m.noRumah || '-'} {m.statusKeluarga ? `• ${m.statusKeluarga.replace('_', ' ')}` : ''}
+                                  </span>
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                disabled={isUpdatingMember}
+                                onClick={() => handleRemoveMemberFromRombongan(m.id)}
+                                className="px-2.5 py-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors text-[11px] font-semibold flex items-center gap-1 cursor-pointer shrink-0"
+                                title="Keluarkan dari rombongan ini"
+                              >
+                                <UserMinus className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Keluarkan</span>
+                              </button>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-3 bg-amber-50/70 border border-amber-200/60 rounded-2xl text-xs text-amber-800">
+                    <p className="font-semibold">Catatan:</p>
+                    <p className="text-[11px] text-amber-700 mt-0.5">
+                      Setelah rombongan baru disimpan, Anda dapat langsung menambahkan anggota warga ke dalamnya.
+                    </p>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-2.5">
+                <button 
+                  type="button"
+                  onClick={() => setIsRombonganModalOpen(false)}
+                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                >
+                  Tutup
+                </button>
+                <button 
+                  type="submit"
+                  form="rom-meta-form"
+                  disabled={isSavingRombongan}
+                  className="px-5 py-2 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] disabled:opacity-50 text-white rounded-xl text-xs font-bold transition-all shadow-sm cursor-pointer"
+                >
+                  {isSavingRombongan ? 'Menyimpan...' : 'Simpan Perubahan'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Mobile Navigation Bar */}
         <MobileNavBar />
       </div>

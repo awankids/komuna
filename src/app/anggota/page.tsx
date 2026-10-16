@@ -290,6 +290,20 @@ export default function AnggotaPage() {
 
   useEffect(() => {
     isMountedRef.current = true;
+
+    // Check URL parameters if present (deep linking from jadwal or other pages)
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab');
+      if (tabParam === 'kk' || tabParam === 'jiwa' || tabParam === 'rombongan' || tabParam === 'mutasi') {
+        setActiveTab(tabParam);
+      }
+      const rombonganParam = params.get('rombonganId');
+      if (rombonganParam) {
+        setSelectedRombonganFilter(rombonganParam);
+      }
+    }
+
     fetchData();
     return () => {
       isMountedRef.current = false;
@@ -733,9 +747,12 @@ export default function AnggotaPage() {
 
       if (selectedRombonganFilter !== 'all') {
         if (selectedRombonganFilter === 'none') {
-          if (kk.rombonganId) return false;
+          const hasRombongan = Boolean(kk.rombonganId || (kk.anggotaKeluarga || []).some(m => m.rombonganId));
+          if (hasRombongan) return false;
         } else {
-          if (kk.rombonganId !== selectedRombonganFilter) return false;
+          const inRombongan = kk.rombonganId === selectedRombonganFilter || 
+                              (kk.anggotaKeluarga || []).some(m => m.rombonganId === selectedRombonganFilter);
+          if (!inRombongan) return false;
         }
       }
 
@@ -1029,17 +1046,31 @@ export default function AnggotaPage() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                  <select
-                    value={selectedRombonganFilter}
-                    onChange={(e) => setSelectedRombonganFilter(e.target.value)}
-                    className="bg-[#f8fafc] border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-2xl focus:outline-none cursor-pointer"
-                  >
-                    <option value="all">Semua Rombongan</option>
-                    {rombonganList.map((rom) => (
-                      <option key={rom.id} value={rom.id}>{rom.nama}</option>
-                    ))}
-                    <option value="none">Tanpa Rombongan</option>
-                  </select>
+                  <div className="flex items-center gap-1.5">
+                    <select
+                      value={selectedRombonganFilter}
+                      onChange={(e) => setSelectedRombonganFilter(e.target.value)}
+                      className="bg-[#f8fafc] border border-slate-200 text-xs font-bold text-slate-700 px-3 py-2 rounded-2xl focus:outline-none cursor-pointer"
+                    >
+                      <option value="all">Semua Rombongan</option>
+                      {rombonganList.map((rom) => (
+                        <option key={rom.id} value={rom.id}>{rom.nama}</option>
+                      ))}
+                      <option value="none">Tanpa Rombongan</option>
+                    </select>
+
+                    {selectedRombonganFilter !== 'all' && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedRombonganFilter('all')}
+                        className="px-2.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold rounded-2xl flex items-center gap-1 border border-amber-200 transition-colors cursor-pointer"
+                        title="Reset Filter Rombongan"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        <span>Reset</span>
+                      </button>
+                    )}
+                  </div>
 
                   <button
                     onClick={handleExpandAll}
@@ -1583,6 +1614,18 @@ export default function AnggotaPage() {
                             </option>
                           ))}
                         </select>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveTab('kk');
+                            setSelectedRombonganFilter(rom.id);
+                          }}
+                          className="mt-3 w-full py-1.5 px-3 bg-slate-50 hover:bg-[var(--brand-light)] border border-slate-200 hover:border-[var(--brand-primary)] text-slate-700 hover:text-[var(--brand-primary)] text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                        >
+                          <Users className="w-3.5 h-3.5" />
+                          <span>Lihat KK ({rom.activeMemberCount} Anggota)</span>
+                        </button>
                       </div>
                     </div>
                   );

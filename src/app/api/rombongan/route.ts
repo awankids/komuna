@@ -24,7 +24,13 @@ export async function GET() {
       ketuaNoRumah: rom.ketua?.noRumah || '',
       activeMemberCount: rom.anggota.length,
       // also return list of all active members in this group to choose leader from
-      activeMembers: rom.anggota.map(a => ({ id: a.id, nama: a.nama }))
+      activeMembers: rom.anggota.map(a => ({ 
+        id: a.id, 
+        nama: a.nama,
+        noRumah: a.noRumah,
+        noHp: a.noHp,
+        statusKeluarga: a.statusKeluarga
+      }))
     }));
 
     return NextResponse.json(formatted);
@@ -116,24 +122,54 @@ async function regenerateSchedules(yearNum: number, monthNum: number) {
   }
 }
 
-// PUT update Rombongan (name or leader assignment)
+// PUT update Rombongan (name, leader assignment, schedule day, and add/remove members)
 export async function PUT(request: Request) {
   try {
-    const { id, nama, ketuaId, hariPiket } = await request.json();
-    if (!id || !nama) {
-      return NextResponse.json({ error: 'ID dan Nama rombongan wajib diisi' }, { status: 400 });
+    const { id, nama, ketuaId, hariPiket, addAnggotaId, removeAnggotaId } = await request.json();
+    if (!id) {
+      return NextResponse.json({ error: 'ID rombongan wajib diisi' }, { status: 400 });
     }
 
-    // Check if name is already taken by another group
-    const duplicate = await db.rombongan.findFirst({
-      where: {
-        nama,
-        NOT: { id }
-      }
-    });
+    // 1. Handle adding an anggota to this rombongan
+    if (addAnggotaId) {
+      await db.anggota.update({
+        where: { id: addAnggotaId },
+        data: { rombonganId: id, isWajibRonda: true }
+      });
+    }
 
-    if (duplicate) {
-      return NextResponse.json({ error: 'Nama rombongan sudah digunakan' }, { status: 400 });
+    // 2. Handle removing an anggota from this rombongan
+    if (removeAnggotaId) {
+      await db.anggota.update({
+        where: { id: removeAnggotaId },
+        data: { rombonganId: null }
+      });
+      // If the removed member was the ketua, clear ketuaId
+      const currentRom = await db.rombongan.findUnique({ where: { id } });
+      if (currentRom?.ketuaId === removeAnggotaId) {
+        await db.rombongan.update({
+          where: { id },
+          data: { ketuaId: null }
+        });
+      }
+    }
+
+    // 3. Handle updating metadata (nama, ketuaId, hariPiket) if provided
+    const dataToUpdate: any = {};
+
+    if (nama) {
+      // Check if name is already taken by another group
+      const duplicate = await db.rombongan.findFirst({
+        where: {
+          nama,
+          NOT: { id }
+        }
+      });
+
+      if (duplicate) {
+        return NextResponse.json({ error: 'Nama rombongan sudah digunakan' }, { status: 400 });
+      }
+      dataToUpdate.nama = nama;
     }
 
     // If day is assigned, clear it from other groups first to maintain 1-to-1 weekday assignment mapping
@@ -148,8 +184,6 @@ export async function PUT(request: Request) {
       });
     }
 
-    // Update dynamically so undefined fields are not wiped
-    const dataToUpdate: any = { nama };
     if (ketuaId !== undefined) {
       dataToUpdate.ketuaId = ketuaId === 'none' ? null : (ketuaId || null);
     }
@@ -157,10 +191,12 @@ export async function PUT(request: Request) {
       dataToUpdate.hariPiket = hariPiket === 'none' ? null : (hariPiket ? parseInt(hariPiket, 10) : null);
     }
 
-    const updated = await db.rombongan.update({
-      where: { id },
-      data: dataToUpdate
-    });
+    if (Object.keys(dataToUpdate).length > 0) {
+      await db.rombongan.update({
+        where: { id },
+        data: dataToUpdate
+      });
+    }
 
     // Auto-regenerate schedules for current month & year if hariPiket was updated
     if (hariPiket !== undefined) {
@@ -168,7 +204,39 @@ export async function PUT(request: Request) {
       await regenerateSchedules(now.getFullYear(), now.getMonth());
     }
 
-    return NextResponse.json(updated);
+    // Return the fresh full formatted rombongan
+    const fresh = await db.rombongan.findUnique({
+      where: { id },
+      include: {
+        ketua: true,
+        anggota: {
+          where: { statusAktif: true }
+        }
+      }
+    });
+
+    if (!fresh) {
+      return NextResponse.json({ error: 'Rombongan tidak ditemukan' }, { status: 404 });
+    }
+
+    const formatted = {
+      id: fresh.id,
+      nama: fresh.nama,
+      ketuaId: fresh.ketuaId,
+      hariPiket: fresh.hariPiket,
+      ketuaNama: fresh.ketua?.nama || 'Belum Ditentukan',
+      ketuaNoRumah: fresh.ketua?.noRumah || '',
+      activeMemberCount: fresh.anggota.length,
+      activeMembers: fresh.anggota.map(a => ({ 
+        id: a.id, 
+        nama: a.nama,
+        noRumah: a.noRumah,
+        noHp: a.noHp,
+        statusKeluarga: a.statusKeluarga
+      }))
+    };
+
+    return NextResponse.json(formatted);
   } catch (error: any) {
     console.error('Error updating rombongan:', error);
     return NextResponse.json({ error: 'Gagal memperbarui rombongan' }, { status: 500 });
