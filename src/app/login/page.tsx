@@ -88,8 +88,12 @@ export default function LoginPage() {
     };
     fetchConfig();
 
-    // Check Dark Mode state strictly from komuna-dark setting (defaulting to pure light mode)
+    // Check Dark Mode state strictly from komuna-dark setting (with auto-migration to light mode default)
     try {
+      if (localStorage.getItem('komuna_theme_v2_clean') !== 'yes') {
+        localStorage.setItem('komuna-dark', 'no');
+        localStorage.setItem('komuna_theme_v2_clean', 'yes');
+      }
       const isDarkActive = localStorage.getItem('komuna-dark') === 'yes';
       setIsDark(isDarkActive);
       if (isDarkActive) {
@@ -104,13 +108,13 @@ export default function LoginPage() {
     };
   }, []);
 
-  // 2. Dark / Light Mode Toggle
-  const toggleDarkMode = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
+  // 2. Explicit Dark / Light Mode Switcher
+  const setDarkMode = (active: boolean) => {
+    setIsDark(active);
     try {
-      localStorage.setItem('komuna-dark', nextDark ? 'yes' : 'no');
-      if (nextDark) {
+      localStorage.setItem('komuna-dark', active ? 'yes' : 'no');
+      localStorage.setItem('komuna_theme_v2_clean', 'yes');
+      if (active) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
@@ -309,26 +313,41 @@ export default function LoginPage() {
                   Masuk ke Aplikasi
                 </h2>
                 
-                {/* Integrated Seamless Theme Switcher */}
-                <button
-                  type="button"
-                  onClick={toggleDarkMode}
-                  aria-label={isDark ? "Klik untuk beralih ke Mode Terang" : "Klik untuk beralih ke Mode Gelap"}
-                  title={isDark ? "Klik untuk beralih ke Mode Terang" : "Klik untuk beralih ke Mode Gelap"}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700 transition-all cursor-pointer select-none shrink-0"
+                {/* Integrated Seamless 2-State Theme Switcher */}
+                <div 
+                  role="group" 
+                  aria-label="Pilihan Tema Tampilan"
+                  className="inline-flex items-center p-0.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs font-semibold select-none shadow-xs shrink-0"
                 >
-                  {isDark ? (
-                    <>
-                      <Moon className="w-3.5 h-3.5 text-indigo-400" />
-                      <span>Mode Gelap</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sun className="w-3.5 h-3.5 text-amber-500" />
-                      <span>Mode Terang</span>
-                    </>
-                  )}
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setDarkMode(false)}
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                      !isDark 
+                        ? 'bg-white text-slate-900 shadow-xs border border-slate-200/90 font-bold' 
+                        : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 border border-transparent'
+                    }`}
+                    aria-pressed={!isDark}
+                    title="Aktifkan Mode Terang"
+                  >
+                    <Sun className={`w-3.5 h-3.5 ${!isDark ? 'text-amber-500' : 'text-slate-400'}`} />
+                    <span>Terang</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDarkMode(true)}
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full transition-all cursor-pointer ${
+                      isDark 
+                        ? 'bg-[#1e293b] text-white shadow-xs border border-slate-600 font-bold' 
+                        : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 border border-transparent'
+                    }`}
+                    aria-pressed={isDark}
+                    title="Aktifkan Mode Gelap"
+                  >
+                    <Moon className={`w-3.5 h-3.5 ${isDark ? 'text-indigo-400' : 'text-slate-400'}`} />
+                    <span>Gelap</span>
+                  </button>
+                </div>
               </div>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                 Silakan masukkan email atau nomor HP pengurus untuk melanjutkan.

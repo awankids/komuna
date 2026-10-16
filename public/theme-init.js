@@ -1,6 +1,12 @@
 // Komuna Theme & Appearance Initializer (Anti-FOUC)
 (function() {
   try {
+    // Migration: One-time reset of legacy dark mode stuck in localStorage from previous OS dark query
+    if (localStorage.getItem('komuna_theme_v2_clean') !== 'yes') {
+      localStorage.setItem('komuna-dark', 'no');
+      localStorage.setItem('komuna_theme_v2_clean', 'yes');
+    }
+
     var theme = localStorage.getItem('komuna-theme') || 'orange';
     var isDark = localStorage.getItem('komuna-dark') === 'yes';
     var font = localStorage.getItem('komuna-font') || 'outfit';
