@@ -35,7 +35,8 @@ import {
   Coins,
   AlertTriangle,
   ArrowRight,
-  BookmarkPlus
+  BookmarkPlus,
+  Trash2,
 } from 'lucide-react';
 
 interface AnggotaOption {
@@ -369,7 +370,7 @@ export default function ArisanPage() {
 
         // Pre-fill local iuran & kehadiran checklist state from latest putaran
         const latestPutaran = json.data.putaran[0];
-        if (latestPutaran && latestPutaran.pembayaran) {
+        if (latestPutaran && latestPutaran.pembayaran && latestPutaran.pembayaran.length > 0) {
           const map: Record<
             string,
             { statusBayar: boolean; statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir'; catatan?: string }
@@ -386,7 +387,22 @@ export default function ArisanPage() {
             (latestPutaran.statusTalangan as 'tidak_ditalangi' | 'ditalangi_kas') || 'tidak_ditalangi'
           );
         } else {
-          setLocalIuranState({});
+          // Inisialisasi presensi awal untuk peserta kelompok baru / putaran ke-1
+          const map: Record<
+            string,
+            { statusBayar: boolean; statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir'; catatan?: string }
+          > = {};
+          if (Array.isArray(json.data.peserta)) {
+            json.data.peserta.forEach((peserta: any) => {
+              map[peserta.id] = {
+                statusBayar: false,
+                statusKehadiran: 'hadir',
+                catatan: '',
+              };
+            });
+          }
+          setLocalIuranState(map);
+          setLocalTalanganMode('tidak_ditalangi');
         }
       }
     } catch (err) {
@@ -473,10 +489,65 @@ export default function ArisanPage() {
     );
   }, [kelompokDetail, searchPesertaQuery]);
 
-  // Real-time calculation of latest putaran finance from local checklist
+  interface UnifiedIuranRow {
+    rowKey: string;
+    pesertaId: string;
+    namaPeserta: string;
+    noRumah?: string | null;
+    noHp?: string | null;
+    nominal: number;
+    statusKehadiran: 'hadir' | 'izin' | 'tidak_hadir';
+    statusBayar: boolean;
+    sudahMenang?: boolean;
+  }
+
+  const unifiedIuranRows: UnifiedIuranRow[] = useMemo(() => {
+    if (!kelompokDetail) return [];
+
+    const latest = kelompokDetail.putaran[0];
+    if (latest && latest.pembayaran && latest.pembayaran.length > 0) {
+      return latest.pembayaran.map((p) => {
+        const state = localIuranState[p.id] || {
+          statusBayar: p.statusBayar,
+          statusKehadiran: p.statusKehadiran || 'hadir',
+        };
+        return {
+          rowKey: p.id,
+          pesertaId: p.pesertaId,
+          namaPeserta: p.peserta.namaPeserta,
+          noRumah: (p.peserta as any).anggota?.noRumah,
+          noHp: p.peserta.noHp,
+          nominal: p.nominal || kelompokDetail.nominalIuran,
+          statusKehadiran: state.statusKehadiran,
+          statusBayar: state.statusBayar,
+          sudahMenang: p.peserta.sudahMenang,
+        };
+      });
+    }
+
+    // Persiapan Putaran #1 (atau belum ada putaran tersimpan)
+    return kelompokDetail.peserta.map((peserta) => {
+      const state = localIuranState[peserta.id] || {
+        statusBayar: false,
+        statusKehadiran: 'hadir',
+      };
+      return {
+        rowKey: peserta.id,
+        pesertaId: peserta.id,
+        namaPeserta: peserta.namaPeserta,
+        noRumah: peserta.anggota?.noRumah,
+        noHp: peserta.noHp,
+        nominal: kelompokDetail.nominalIuran,
+        statusKehadiran: state.statusKehadiran,
+        statusBayar: state.statusBayar,
+        sudahMenang: peserta.sudahMenang,
+      };
+    });
+  }, [kelompokDetail, localIuranState]);
+
+  // Real-time calculation of active/latest putaran finance from local checklist
   const latestPutaranStats = useMemo(() => {
-    const latest = kelompokDetail?.putaran[0];
-    if (!latest || !kelompokDetail) {
+    if (!kelompokDetail) {
       return {
         totalTarget: 0,
         totalTerkumpul: 0,
@@ -490,36 +561,30 @@ export default function ArisanPage() {
       };
     }
 
-    const totalTarget =
-      latest.totalTarget || kelompokDetail.peserta.length * kelompokDetail.nominalIuran;
+    const totalTarget = kelompokDetail.peserta.length * kelompokDetail.nominalIuran;
     let totalTerkumpul = 0;
     let paidCount = 0;
     let hadirCount = 0;
     let absenCount = 0;
     let absenDanNunggakCount = 0;
 
-    latest.pembayaran.forEach((p) => {
-      const state = localIuranState[p.id] || {
-        statusBayar: p.statusBayar,
-        statusKehadiran: p.statusKehadiran,
-      };
-
-      if (state.statusBayar) {
-        totalTerkumpul += p.nominal;
+    unifiedIuranRows.forEach((r) => {
+      if (r.statusBayar) {
+        totalTerkumpul += r.nominal;
         paidCount++;
       }
 
-      if (state.statusKehadiran === 'hadir') {
+      if (r.statusKehadiran === 'hadir') {
         hadirCount++;
       } else {
         absenCount++;
-        if (!state.statusBayar) {
+        if (!r.statusBayar) {
           absenDanNunggakCount++;
         }
       }
     });
 
-    const unpaidCount = latest.pembayaran.length - paidCount;
+    const unpaidCount = unifiedIuranRows.length - paidCount;
     const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
     const nominalDiserahkan =
       localTalanganMode === 'ditalangi_kas' ? totalTarget : totalTerkumpul;
@@ -535,34 +600,26 @@ export default function ArisanPage() {
       absenCount,
       absenDanNunggakCount,
     };
-  }, [kelompokDetail, localIuranState, localTalanganMode]);
+  }, [kelompokDetail, unifiedIuranRows, localTalanganMode]);
 
   // Filtered Iuran items based on iuranFilter tab
   const filteredIuranItems = useMemo(() => {
-    const latest = kelompokDetail?.putaran[0];
-    if (!latest || !latest.pembayaran) return [];
-
-    return latest.pembayaran.filter((p) => {
-      const state = localIuranState[p.id] || {
-        statusBayar: p.statusBayar,
-        statusKehadiran: p.statusKehadiran,
-      };
-
+    return unifiedIuranRows.filter((r) => {
       if (iuranFilter === 'tidak_berangkat_belum_bayar') {
-        return state.statusKehadiran !== 'hadir' && !state.statusBayar;
+        return r.statusKehadiran !== 'hadir' && !r.statusBayar;
       }
       if (iuranFilter === 'tidak_berangkat') {
-        return state.statusKehadiran !== 'hadir';
+        return r.statusKehadiran !== 'hadir';
       }
       if (iuranFilter === 'belum_bayar') {
-        return !state.statusBayar;
+        return !r.statusBayar;
       }
       if (iuranFilter === 'lunas') {
-        return state.statusBayar;
+        return r.statusBayar;
       }
       return true; // semua
     });
-  }, [kelompokDetail, localIuranState, iuranFilter]);
+  }, [unifiedIuranRows, iuranFilter]);
 
   // When spin finishes, open the confirmation dialog with automatic weton calculation
   const handleSpinEnd = (winner: SpinCandidate) => {
@@ -574,7 +631,7 @@ export default function ArisanPage() {
       tanggalKocok: todayDateStr,
       hariJawa: kelompokDetail?.hariJawa || todayHariJawa,
       agendaId: upcomingAgendas.length > 0 ? upcomingAgendas[0].id : '',
-      statusTalangan: 'tidak_ditalangi',
+      statusTalangan: localTalanganMode,
       sinkronAgendaBerikutnya: kelompokDetail?.autoSinkronAgenda ?? true,
       catatan: `Undian putaran ke-${(kelompokDetail?.putaran.length || 0) + 1}`,
     });
@@ -587,6 +644,12 @@ export default function ArisanPage() {
 
     try {
       setIsSaving(true);
+      const kehadiranDanIuranList = unifiedIuranRows.map((r) => ({
+        pesertaId: r.pesertaId,
+        statusKehadiran: r.statusKehadiran,
+        statusBayar: r.statusBayar,
+      }));
+
       const res = await fetch(`/api/arisan/${selectedKelompokId}/kocok`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -595,7 +658,8 @@ export default function ArisanPage() {
           tanggalKocok: winnerConfigForm.tanggalKocok,
           hariJawa: winnerConfigForm.hariJawa,
           agendaId: winnerConfigForm.agendaId || null,
-          statusTalangan: winnerConfigForm.statusTalangan,
+          statusTalangan: localTalanganMode,
+          kehadiranDanIuranList,
           sinkronAgendaBerikutnya: winnerConfigForm.sinkronAgendaBerikutnya,
           catatan: winnerConfigForm.catatan,
         }),
@@ -615,6 +679,37 @@ export default function ArisanPage() {
     } catch (err: any) {
       console.error('Error confirming winner:', err);
       showToast('Terjadi kesalahan koneksi', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Delete Kelompok Arisan
+  const handleDeleteKelompok = async () => {
+    if (!kelompokDetail) return;
+    const isConfirmed = window.confirm(
+      `Hapus kelompok arisan "${kelompokDetail.nama}"?\n\nTindakan ini permanen. Seluruh data peserta, putaran, presensi kehadiran, dan riwayat iuran akan dihapus.`
+    );
+    if (!isConfirmed) return;
+
+    try {
+      setIsSaving(true);
+      const res = await fetch(`/api/arisan/${kelompokDetail.id}`, {
+        method: 'DELETE',
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        showToast(`Kelompok arisan "${kelompokDetail.nama}" berhasil dihapus`, 'success');
+        setIsEditKelompokModalOpen(false);
+        setSelectedKelompokId(null);
+        setKelompokDetail(null);
+        await fetchKelompokList();
+      } else {
+        showToast(json.error || 'Gagal menghapus kelompok arisan', 'error');
+      }
+    } catch (err) {
+      console.error('Error deleting kelompok:', err);
+      showToast('Terjadi kesalahan saat menghapus kelompok', 'error');
     } finally {
       setIsSaving(false);
     }
@@ -1059,6 +1154,17 @@ export default function ArisanPage() {
                     <Settings className="w-4 h-4 text-slate-500" />
                     <span>Pengaturan Kelompok</span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={handleDeleteKelompok}
+                    disabled={isSaving}
+                    className="px-3.5 py-2.5 rounded-2xl border border-rose-200 hover:bg-rose-50 text-rose-600 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+                    title="Hapus kelompok arisan ini"
+                  >
+                    <Trash2 className="w-4 h-4 text-rose-500" />
+                    <span>Hapus Kelompok</span>
+                  </button>
                 </>
               )}
 
@@ -1383,16 +1489,18 @@ export default function ArisanPage() {
                   {activeSideTab === 'iuran' && (
                     <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
                       <div>
-                        {kelompokDetail.putaran.length > 0 ? (
+                        {kelompokDetail.peserta.length > 0 ? (
                           <>
                             {/* Round Info & Attendance summary */}
                             <div className="mb-3 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-xs space-y-1.5">
                               <div className="flex items-center justify-between">
                                 <span className="font-bold text-slate-800">
-                                  Putaran #{kelompokDetail.putaran[0].putaranKe} - {kelompokDetail.putaran[0].namaPemenang}
+                                  {kelompokDetail.putaran.length > 0
+                                    ? `Putaran #${kelompokDetail.putaran[0].putaranKe} - ${kelompokDetail.putaran[0].namaPemenang}`
+                                    : `Putaran #1 (Persiapan Pertemuan & Kocokan)`}
                                 </span>
                                 <span className="text-slate-400 font-medium">
-                                  {kelompokDetail.putaran[0].hariJawa || 'Pertemuan RT'}
+                                  {kelompokDetail.putaran[0]?.hariJawa || kelompokDetail.hariJawa || 'Pertemuan RT'}
                                 </span>
                               </div>
 
@@ -1420,7 +1528,7 @@ export default function ArisanPage() {
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 }`}
                               >
-                                Semua ({kelompokDetail.putaran[0].pembayaran.length})
+                                Semua ({unifiedIuranRows.length})
                               </button>
 
                               <button
@@ -1475,20 +1583,16 @@ export default function ArisanPage() {
                             {/* Checklist & Attendance Items */}
                             <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
                               {filteredIuranItems.map((p) => {
-                                const state = localIuranState[p.id] || {
-                                  statusBayar: p.statusBayar,
-                                  statusKehadiran: p.statusKehadiran,
-                                };
                                 const isAbsenAndUnpaid =
-                                  state.statusKehadiran !== 'hadir' && !state.statusBayar;
+                                  p.statusKehadiran !== 'hadir' && !p.statusBayar;
 
                                 return (
                                   <div
-                                    key={p.id}
+                                    key={p.rowKey}
                                     className={`p-2.5 rounded-2xl border transition-colors ${
                                       isAbsenAndUnpaid
                                         ? 'bg-rose-50/70 border-rose-200'
-                                        : state.statusBayar
+                                        : p.statusBayar
                                         ? 'bg-emerald-50/60 border-emerald-200'
                                         : 'bg-white border-slate-100'
                                     }`}
@@ -1498,7 +1602,7 @@ export default function ArisanPage() {
                                       <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2">
                                           <span className="text-xs font-bold text-slate-800 truncate">
-                                            {p.peserta.namaPeserta}
+                                            {p.namaPeserta}
                                           </span>
                                           {isAbsenAndUnpaid && (
                                             <span className="text-[9px] px-1.5 py-0.5 rounded-md bg-rose-200 text-rose-800 font-bold shrink-0">
@@ -1508,7 +1612,7 @@ export default function ArisanPage() {
                                         </div>
                                         <div className="text-[11px] text-slate-400">
                                           Rp {p.nominal.toLocaleString('id-ID')}
-                                          {p.peserta.anggota?.noRumah ? ` • Rumah ${p.peserta.anggota.noRumah}` : ''}
+                                          {p.noRumah ? ` • Rumah ${p.noRumah}` : ''}
                                         </div>
                                       </div>
 
@@ -1516,17 +1620,17 @@ export default function ArisanPage() {
                                       <div className="flex items-center gap-1.5 shrink-0">
                                         {/* Presence Selector */}
                                         <select
-                                          value={state.statusKehadiran}
+                                          value={p.statusKehadiran}
                                           onChange={(e) =>
                                             handleChangeKehadiran(
-                                              p.id,
+                                              p.rowKey,
                                               e.target.value as 'hadir' | 'izin' | 'tidak_hadir'
                                             )
                                           }
                                           className={`text-[10px] font-bold px-2 py-1 rounded-xl border focus:outline-none cursor-pointer ${
-                                            state.statusKehadiran === 'hadir'
+                                            p.statusKehadiran === 'hadir'
                                               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                                              : state.statusKehadiran === 'izin'
+                                              : p.statusKehadiran === 'izin'
                                               ? 'bg-blue-50 text-blue-800 border-blue-200'
                                               : 'bg-rose-100 text-rose-800 border-rose-300'
                                           }`}
@@ -1539,14 +1643,14 @@ export default function ArisanPage() {
                                         {/* Payment Button Toggle */}
                                         <button
                                           type="button"
-                                          onClick={() => handleToggleIuranStatus(p.id)}
+                                          onClick={() => handleToggleIuranStatus(p.rowKey)}
                                           className={`text-[10px] font-bold px-2.5 py-1 rounded-xl border flex items-center gap-1 cursor-pointer transition ${
-                                            state.statusBayar
+                                            p.statusBayar
                                               ? 'bg-emerald-600 text-white border-emerald-600'
                                               : 'bg-white text-slate-500 border-slate-300 hover:bg-slate-50'
                                           }`}
                                         >
-                                          {state.statusBayar ? (
+                                          {p.statusBayar ? (
                                             <>
                                               <Check className="w-3 h-3 stroke-[3]" />
                                               <span>Lunas</span>
@@ -1564,15 +1668,15 @@ export default function ArisanPage() {
                           </>
                         ) : (
                           <div className="py-14 text-center text-slate-400 text-xs">
-                            <Info className="w-8 h-8 mx-auto mb-2 opacity-40 text-slate-400" />
-                            Belum ada putaran yang dijalankan.
+                            <Users className="w-8 h-8 mx-auto mb-2 opacity-40 text-slate-400" />
+                            Belum ada peserta dalam kelompok arisan ini.
                             <br />
-                            Putar roda undian di samping untuk memulai putaran pertama!
+                            Tambahkan peserta terlebih dahulu untuk mencatat presensi & iuran.
                           </div>
                         )}
                       </div>
 
-                      {kelompokDetail.putaran.length > 0 && (
+                      {kelompokDetail.peserta.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-slate-100 space-y-2.5">
                           {/* Talangan Toggle Switch */}
                           <label className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs cursor-pointer">
@@ -1600,7 +1704,9 @@ export default function ArisanPage() {
                             disabled={isSaving}
                             className="w-full py-2.5 px-4 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white text-xs font-bold shadow-sm transition-colors cursor-pointer"
                           >
-                            Simpan Perubahan Kehadiran & Iuran
+                            {kelompokDetail.putaran.length > 0
+                              ? 'Simpan Perubahan Kehadiran & Iuran'
+                              : 'Simpan Kesiapan Presensi & Iuran'}
                           </button>
                         </div>
                       )}
@@ -2209,21 +2315,33 @@ export default function ArisanPage() {
                     </span>
                   </label>
 
-                  <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                     <button
                       type="button"
-                      onClick={() => setIsEditKelompokModalOpen(false)}
-                      className="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 text-xs font-bold cursor-pointer"
-                    >
-                      Batal
-                    </button>
-                    <button
-                      type="submit"
+                      onClick={handleDeleteKelompok}
                       disabled={isSaving}
-                      className="px-5 py-2.5 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold text-xs shadow-sm transition-colors cursor-pointer"
+                      className="px-3.5 py-2 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
                     >
-                      {isSaving ? 'Menyimpan...' : 'Simpan Pengaturan'}
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Hapus Kelompok</span>
                     </button>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsEditKelompokModalOpen(false)}
+                        className="px-4 py-2 rounded-xl text-slate-500 hover:bg-slate-100 text-xs font-bold cursor-pointer"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isSaving}
+                        className="px-5 py-2.5 rounded-2xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold text-xs shadow-sm transition-colors cursor-pointer"
+                      >
+                        {isSaving ? 'Menyimpan...' : 'Simpan Pengaturan'}
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>
