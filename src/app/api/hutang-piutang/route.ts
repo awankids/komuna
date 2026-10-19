@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { db, Prisma } from '@/lib/db';
 import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 // GET all hutang & piutang records with summary statistics
@@ -16,8 +16,8 @@ export async function GET(request: Request) {
     const q = searchParams.get('q'); // search query
     const sort = searchParams.get('sort') || 'jatuhTempo'; // "jatuhTempo" | "nominalDesc" | "terbaru"
 
-    // Base query filter
-    const where: any = {
+    // Base query filter with strict typing
+    const where: Prisma.HutangPiutangWhereInput = {
       komunitasId: tenant.komunitasId,
     };
 
@@ -39,10 +39,9 @@ export async function GET(request: Request) {
       ];
     }
 
-    // Determine ordering
-    let orderBy: any = { createdAt: 'desc' };
+    // Determine ordering with strict typing
+    let orderBy: Prisma.HutangPiutangOrderByWithRelationInput | Prisma.HutangPiutangOrderByWithRelationInput[] = { createdAt: 'desc' };
     if (sort === 'jatuhTempo') {
-      // Prioritize items with jatuh tempo, nulls last
       orderBy = [{ jatuhTempo: 'asc' }, { createdAt: 'desc' }];
     } else if (sort === 'nominalDesc') {
       orderBy = { sisaNominal: 'desc' };
@@ -50,39 +49,39 @@ export async function GET(request: Request) {
       orderBy = { createdAt: 'desc' };
     }
 
-    // 1. Fetch filtered items
-    const items = await db.hutangPiutang.findMany({
-      where,
-      include: {
-        anggota: {
-          select: {
-            id: true,
-            nama: true,
-            noRumah: true,
-            noHp: true,
+    // Parallel fetch: filtered items + all records for KPI metrics
+    const [items, allRecords] = await Promise.all([
+      db.hutangPiutang.findMany({
+        where,
+        include: {
+          anggota: {
+            select: {
+              id: true,
+              nama: true,
+              noRumah: true,
+              noHp: true,
+            },
+          },
+          riwayatBayar: {
+            orderBy: { tanggalBayar: 'desc' },
           },
         },
-        riwayatBayar: {
-          orderBy: { tanggalBayar: 'desc' },
+        orderBy,
+      }),
+      db.hutangPiutang.findMany({
+        where: {
+          komunitasId: tenant.komunitasId,
         },
-      },
-      orderBy,
-    });
-
-    // 2. Fetch all active items for global KPI calculation (regardless of filter)
-    const allRecords = await db.hutangPiutang.findMany({
-      where: {
-        komunitasId: tenant.komunitasId,
-      },
-      select: {
-        id: true,
-        tipe: true,
-        status: true,
-        totalNominal: true,
-        sisaNominal: true,
-        jatuhTempo: true,
-      },
-    });
+        select: {
+          id: true,
+          tipe: true,
+          status: true,
+          totalNominal: true,
+          sisaNominal: true,
+          jatuhTempo: true,
+        },
+      }),
+    ]);
 
     const now = new Date();
     const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -171,7 +170,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const nominalInt = parseInt(totalNominal, 10);
+    // Safe number parsing (handles dot separators e.g. "500.000")
+    const cleanNumStr = String(totalNominal).replace(/\D/g, '');
+    const nominalInt = parseInt(cleanNumStr, 10);
     if (isNaN(nominalInt) || nominalInt <= 0) {
       return NextResponse.json(
         { error: 'Nominal harus berupa angka valid lebih dari 0' },
@@ -180,9 +181,16 @@ export async function POST(request: Request) {
     }
 
     const startDate = new Date(tanggalMulai);
-    const dueDate = jatuhTempo ? new Date(jatuhTempo) : null;
+    if (isNaN(startDate.getTime())) {
+      return NextResponse.json({ error: 'Format tanggal mulai tidak valid' }, { status: 400 });
+    }
 
-    // Use a transaction if we also need to record to Kas RT
+    const dueDate = jatuhTempo ? new Date(jatuhTempo) : null;
+    if (dueDate && isNaN(dueDate.getTime())) {
+      return NextResponse.json({ error: 'Format tanggal jatuh tempo tidak valid' }, { status: 400 });
+    }
+
+    // Atomic transaction: Hutang/Piutang + optional Kas RT record + Notification
     const result = await db.$transaction(async (tx) => {
       // 1. Create HutangPiutang record
       const created = await tx.hutangPiutang.create({
@@ -235,7 +243,7 @@ export async function POST(request: Request) {
         }
       }
 
-      // 3. Create Notification
+      // 3. Create Notification scoped strictly to tenant
       const labelTipe = tipe === 'piutang' ? 'Piutang Warga' : 'Kewajiban Hutang';
       await tx.notifikasi.create({
         data: {

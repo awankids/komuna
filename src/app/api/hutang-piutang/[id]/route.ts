@@ -81,7 +81,7 @@ export async function PUT(request: Request, context: RouteContext) {
         namaPihak: namaPihak ? namaPihak.trim() : existing.namaPihak,
         kontakPihak: kontakPihak !== undefined ? (kontakPihak ? kontakPihak.trim() : null) : existing.kontakPihak,
         anggotaId: anggotaId !== undefined ? (anggotaId && anggotaId !== 'none' ? anggotaId : null) : existing.anggotaId,
-        jatuhTempo: jatuhTempo ? new Date(jatuhTempo) : null,
+        jatuhTempo: jatuhTempo ? (isNaN(new Date(jatuhTempo).getTime()) ? null : new Date(jatuhTempo)) : null,
         kategori: kategori || existing.kategori,
         catatan: catatan !== undefined ? (catatan ? catatan.trim() : null) : existing.catatan,
       },

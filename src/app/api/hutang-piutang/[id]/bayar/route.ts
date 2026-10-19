@@ -24,10 +24,19 @@ export async function POST(request: Request, context: RouteContext) {
       return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
     }
 
-    const bayarInt = parseInt(nominalBayar, 10);
+    const cleanBayarStr = String(nominalBayar).replace(/\D/g, '');
+    const bayarInt = parseInt(cleanBayarStr, 10);
     if (isNaN(bayarInt) || bayarInt <= 0) {
       return NextResponse.json(
         { error: 'Nominal pembayaran harus berupa angka lebih dari 0' },
+        { status: 400 }
+      );
+    }
+
+    const payDate = new Date(tanggalBayar);
+    if (isNaN(payDate.getTime())) {
+      return NextResponse.json(
+        { error: 'Format tanggal pembayaran tidak valid' },
         { status: 400 }
       );
     }

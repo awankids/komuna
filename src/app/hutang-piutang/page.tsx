@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
@@ -29,9 +29,7 @@ import {
   Check,
   ChevronDown,
   Info,
-  HelpCircle,
   ExternalLink,
-  Percent,
 } from 'lucide-react';
 
 interface AnggotaOption {
@@ -108,7 +106,18 @@ export default function HutangPiutangPage() {
     namaRt: '',
   });
 
-  const fetchAppConfig = async () => {
+  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Safe Nominal Parser (fixes dot-separator parsing bug e.g. "500.000" => 500000)
+  const parseNominalInput = (val: string | number | null | undefined): number => {
+    if (!val) return 0;
+    if (typeof val === 'number') return isNaN(val) ? 0 : Math.max(0, Math.round(val));
+    const clean = String(val).replace(/\D/g, '');
+    return parseInt(clean, 10) || 0;
+  };
+
+  const fetchAppConfig = useCallback(async () => {
     if (typeof window === 'undefined') return;
     const cached = localStorage.getItem('komuna_app_config');
     if (cached) {
@@ -127,7 +136,7 @@ export default function HutangPiutangPage() {
     } catch (e) {
       console.error('Failed to fetch app config', e);
     }
-  };
+  }, []);
 
   // Filter & Search states
   const [filterTipe, setFilterTipe] = useState<'semua' | 'piutang' | 'hutang'>('semua');
@@ -180,13 +189,14 @@ export default function HutangPiutangPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Helper Toast
-  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+  // Helper Toast with cleanup timer
+  const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     setToast({ message, type });
-    setTimeout(() => {
+    toastTimerRef.current = setTimeout(() => {
       setToast(null);
     }, 3500);
-  };
+  }, []);
 
   // Helper Currency
   const formatRp = (num: number) => {
@@ -256,8 +266,14 @@ export default function HutangPiutangPage() {
     };
   };
 
-  // Fetch Data
+  // Fetch Data with AbortController to prevent overlapping race conditions
   const fetchData = useCallback(async () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setIsLoading(true);
     try {
       const queryParams = new URLSearchParams();
@@ -266,7 +282,9 @@ export default function HutangPiutangPage() {
       if (searchQuery.trim()) queryParams.append('q', searchQuery.trim());
       queryParams.append('sort', sortOption);
 
-      const res = await fetch(`/api/hutang-piutang?${queryParams.toString()}`);
+      const res = await fetch(`/api/hutang-piutang?${queryParams.toString()}`, {
+        signal: controller.signal,
+      });
       if (res.ok) {
         const json = await res.json();
         setItems(json.data || []);
@@ -276,13 +294,14 @@ export default function HutangPiutangPage() {
       } else {
         showToast('Gagal memuat data hutang dan piutang', 'error');
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.name === 'AbortError') return;
       console.error(e);
       showToast('Terjadi kesalahan jaringan saat memuat data', 'error');
     } finally {
       setIsLoading(false);
     }
-  }, [filterTipe, filterStatus, searchQuery, sortOption]);
+  }, [filterTipe, filterStatus, searchQuery, sortOption, showToast]);
 
   // Fetch Anggota for dropdown
   useEffect(() => {
@@ -290,22 +309,30 @@ export default function HutangPiutangPage() {
   }, [fetchData]);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchAnggota = async () => {
       try {
         const res = await fetch('/api/anggota');
-        if (res.ok) {
+        if (res.ok && isMounted) {
           const data = await res.json();
           setAnggotaList(data || []);
         }
       } catch (e) {
-        console.error('Error fetching anggota list:', e);
+        if (isMounted) console.error('Error fetching anggota list:', e);
       }
     };
+
     fetchAnggota();
     fetchAppConfig();
     window.addEventListener('komuna_config_updated', fetchAppConfig);
-    return () => window.removeEventListener('komuna_config_updated', fetchAppConfig);
-  }, []);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('komuna_config_updated', fetchAppConfig);
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+      if (abortControllerRef.current) abortControllerRef.current.abort();
+    };
+  }, [fetchAppConfig]);
 
   // Quick WhatsApp message generator
   const openWhatsAppModal = (item: HutangPiutangItem) => {
@@ -377,8 +404,11 @@ export default function HutangPiutangPage() {
   // Handle Form Submit (Add or Edit)
   const handleSubmitAddEdit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.judul.trim() || !formData.namaPihak.trim() || !formData.totalNominal) {
-      showToast('Harap lengkapi judul, nama pihak, dan nominal', 'error');
+    if (isSubmitting) return;
+
+    const nominal = parseNominalInput(formData.totalNominal);
+    if (!formData.judul.trim() || !formData.namaPihak.trim() || nominal <= 0) {
+      showToast('Harap lengkapi judul, nama pihak, dan nominal yang valid (> 0)', 'error');
       return;
     }
 
@@ -415,7 +445,7 @@ export default function HutangPiutangPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ...formData,
-            totalNominal: parseInt(formData.totalNominal, 10),
+            totalNominal: nominal,
             jatuhTempo: formData.jatuhTempo || null,
           }),
         });
@@ -440,11 +470,11 @@ export default function HutangPiutangPage() {
   // Handle Pay Submit
   const handleSubmitPay = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!payingItem) return;
+    if (isSubmitting || !payingItem) return;
 
-    const nominal = parseInt(payFormData.nominalBayar, 10);
-    if (isNaN(nominal) || nominal <= 0) {
-      showToast('Nominal pembayaran tidak valid', 'error');
+    const nominal = parseNominalInput(payFormData.nominalBayar);
+    if (nominal <= 0) {
+      showToast('Nominal pembayaran harus berupa angka lebih dari 0', 'error');
       return;
     }
 
@@ -485,7 +515,7 @@ export default function HutangPiutangPage() {
 
   // Handle Delete
   const handleDelete = async () => {
-    if (!deleteConfirmItem) return;
+    if (isSubmitting || !deleteConfirmItem) return;
     setIsSubmitting(true);
     try {
       const res = await fetch(`/api/hutang-piutang/${deleteConfirmItem.id}`, {
@@ -507,7 +537,18 @@ export default function HutangPiutangPage() {
     }
   };
 
-  // Export CSV
+  // Helper sanitize for CSV to prevent Formula Injection & handle quotes
+  const sanitizeForCSV = (val: string | number | null | undefined): string => {
+    if (val === null || val === undefined) return '""';
+    let str = String(val).replace(/"/g, '""');
+    // Prevent CSV Formula Injection in Excel (=, +, -, @, \t, \r)
+    if (/^[=+\-@\t\r]/.test(str)) {
+      str = `'${str}`;
+    }
+    return `"${str}"`;
+  };
+
+  // Export CSV with memory cleanup
   const handleExportCSV = () => {
     if (items.length === 0) {
       showToast('Tidak ada data untuk diekspor', 'error');
@@ -516,7 +557,7 @@ export default function HutangPiutangPage() {
 
     let csvContent = '\uFEFF'; // UTF-8 BOM
     csvContent += 'sep=;\r\n';
-    csvContent += `LAPORAN HUTANG & PIUTANG ${(appConfig.namaRt || 'RT').toUpperCase()}\r\n`;
+    csvContent += `LAPORAN HUTANG & PIUTANG ${sanitizeForCSV((appConfig.namaRt || 'RT').toUpperCase())}\r\n`;
     csvContent += `Tanggal Ekspor:;${new Date().toLocaleDateString('id-ID')}\r\n`;
     csvContent += `Total Piutang Aktif;${summary.totalPiutangAktif}\r\n`;
     csvContent += `Total Hutang Aktif;${summary.totalHutangAktif}\r\n`;
@@ -527,18 +568,19 @@ export default function HutangPiutangPage() {
     items.forEach((item, idx) => {
       const tipeLabel = item.tipe === 'piutang' ? 'Piutang (Hak RT)' : 'Hutang (Kewajiban RT)';
       const statusLabel = item.status === 'lunas' ? 'Lunas' : item.status === 'sebagian' ? 'Dicicil' : 'Belum Lunas';
-      csvContent += `${idx + 1};"${tipeLabel}";"${item.judul}";"${item.namaPihak}";"${item.kontakPihak || '-'}";${item.totalNominal};${item.sisaNominal};"${formatDate(item.tanggalMulai)}";"${formatDate(item.jatuhTempo)}";"${statusLabel}";"${item.kategori || '-'}";"${item.catatan || '-'}"\r\n`;
+      csvContent += `${idx + 1};${sanitizeForCSV(tipeLabel)};${sanitizeForCSV(item.judul)};${sanitizeForCSV(item.namaPihak)};${sanitizeForCSV(item.kontakPihak || '-')};${item.totalNominal};${item.sisaNominal};${sanitizeForCSV(formatDate(item.tanggalMulai))};${sanitizeForCSV(formatDate(item.jatuhTempo))};${sanitizeForCSV(statusLabel)};${sanitizeForCSV(item.kategori || '-')};${sanitizeForCSV(item.catatan || '-')}\r\n`;
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    const sanitizedRt = (appConfig.namaRt || 'RT').replace(/\s+/g, '_');
+    const sanitizedRt = (appConfig.namaRt || 'RT').replace(/[^a-zA-Z0-9]/g, '_');
     link.setAttribute('download', `Laporan_Hutang_Piutang_${sanitizedRt}_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
     showToast('Laporan CSV berhasil diunduh', 'success');
   };
 
@@ -1355,6 +1397,7 @@ export default function HutangPiutangPage() {
                   <input
                     type="number"
                     required
+                    min={1}
                     disabled={!!editingItem}
                     placeholder="0"
                     value={formData.totalNominal}
@@ -1740,24 +1783,45 @@ export default function HutangPiutangPage() {
               </div>
 
               <div className="flex items-center justify-end gap-2.5 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsWaModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold transition-all"
-                >
-                  Batal
-                </button>
-
-                <a
-                  href={`https://wa.me/${waItem.kontakPihak?.replace(/^0/, '62').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(waMessageText)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsWaModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all flex items-center gap-1.5 shadow-md shadow-emerald-200"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span>Buka Chat WhatsApp</span>
-                </a>
+                {(() => {
+                  const cleanPhone = waItem.kontakPihak ? waItem.kontakPihak.replace(/^0/, '62').replace(/\D/g, '') : '';
+                  const hasValidPhone = cleanPhone.length >= 8;
+                  return (
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(waMessageText);
+                          showToast('Pesan berhasil disalin ke clipboard', 'success');
+                        }}
+                        className="px-3.5 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-all text-xs"
+                      >
+                        Salin Teks
+                      </button>
+                      {hasValidPhone ? (
+                        <a
+                          href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(waMessageText)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsWaModalOpen(false)}
+                          className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all flex items-center gap-1.5 shadow-md shadow-emerald-200 text-xs"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          <span>Buka Chat WhatsApp</span>
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled
+                          title="Nomor kontak tidak valid atau kosong"
+                          className="px-4 py-2 rounded-xl bg-slate-200 text-slate-400 font-bold cursor-not-allowed text-xs flex items-center gap-1.5"
+                        >
+                          <span>Nomor Tidak Valid</span>
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/client/client';
+import { PrismaClient, Prisma } from '../generated/client/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
@@ -24,4 +24,5 @@ if (globalForPrisma.prisma) {
 }
 
 export const db = prisma;
+export { Prisma };
 export default db;
