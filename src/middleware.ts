@@ -56,7 +56,8 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Paths that do not require authentication check
-  const isAuthPage = pathname === '/login';
+  const isLoginPage = pathname === '/login';
+  const isPublicPage = isLoginPage || pathname === '/demo' || pathname === '/daftar';
   const isPublicVerification = pathname.startsWith('/verifikasi-surat');
   const isPublicFile = 
     pathname.includes('.') || 
@@ -71,6 +72,8 @@ export async function middleware(request: NextRequest) {
   // Public API endpoints whitelist
   const isPublicApi = 
     pathname === '/api/auth/login' ||
+    pathname === '/api/auth/demo' ||
+    pathname === '/api/auth/register-rt' ||
     (pathname === '/api/config' && request.method === 'GET') ||
     pathname.startsWith('/api/surat/verifikasi') ||
     pathname.startsWith('/api/cron') ||
@@ -111,8 +114,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If web page not logged in and not on login page, redirect to login
-  if (!isAuthenticated && !isAuthPage) {
+  // If web page not logged in and not on a public page, redirect to login
+  if (!isAuthenticated && !isPublicPage) {
     const loginUrl = new URL('/login', request.url);
     if (pathname && pathname !== '/') {
       loginUrl.searchParams.set('redirect', pathname);
@@ -121,7 +124,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // If logged in and on login page, redirect to dashboard or original target
-  if (isAuthenticated && isAuthPage) {
+  if (isAuthenticated && isLoginPage) {
     const redirectParam = request.nextUrl.searchParams.get('redirect');
     const targetUrl = new URL(redirectParam && redirectParam.startsWith('/') ? redirectParam : '/', request.url);
     return NextResponse.redirect(targetUrl);
