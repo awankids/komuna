@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
   ArrowRight, 
@@ -17,9 +16,9 @@ import {
 
 export default function DemoPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleStartDemo = async () => {
+    if (isLoading) return;
     setIsLoading(true);
     try {
       const res = await fetch('/api/auth/demo', {
@@ -27,7 +26,7 @@ export default function DemoPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        router.push('/?demo=1');
+        window.location.href = '/?demo=1';
       } else {
         // Fallback direct navigate to GET route
         window.location.href = '/api/auth/demo';

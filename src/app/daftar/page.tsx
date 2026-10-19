@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
   ArrowLeft, 
@@ -54,7 +53,6 @@ interface FormData {
 }
 
 export default function RegisterWizardPage() {
-  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +85,7 @@ export default function RegisterWizardPage() {
     setujuKetentuan: true,
   });
 
-  const updateField = (field: keyof FormData, value: any) => {
+  const updateField = <K extends keyof FormData>(field: K, value: FormData[K]) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errorMessage) setErrorMessage('');
   };
@@ -176,6 +174,7 @@ export default function RegisterWizardPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
     if (!validateStep(4)) return;
 
     setIsLoading(true);
@@ -193,8 +192,8 @@ export default function RegisterWizardPage() {
         setErrorMessage(data.error || 'Terjadi kendala saat mendaftar. Silakan periksa kembali.');
         setIsLoading(false);
       } else {
-        // Berhasil mendaftar, langsung arahkan ke dashboard
-        router.push('/?welcome=new_rt');
+        // Berhasil mendaftar, reload segar via window.location agar layout & cookies termuat penuh
+        window.location.href = '/?welcome=new_rt';
       }
     } catch (err) {
       console.error('Registration failed:', err);
@@ -467,7 +466,7 @@ export default function RegisterWizardPage() {
                     <input
                       type="text"
                       value={formData.noRt}
-                      onChange={(e) => updateField('noRt', e.target.value)}
+                      onChange={(e) => updateField('noRt', e.target.value.replace(/^(rt|rw)\s*\.?\s*/i, ''))}
                       placeholder="Misal: 03 atau 04"
                       className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)]"
                     />
@@ -480,7 +479,7 @@ export default function RegisterWizardPage() {
                     <input
                       type="text"
                       value={formData.noRw}
-                      onChange={(e) => updateField('noRw', e.target.value)}
+                      onChange={(e) => updateField('noRw', e.target.value.replace(/^(rt|rw)\s*\.?\s*/i, ''))}
                       placeholder="Misal: 08"
                       className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)]"
                     />
@@ -673,8 +672,12 @@ export default function RegisterWizardPage() {
                     <input
                       type="number"
                       step={50000}
-                      value={formData.targetJimpitan}
-                      onChange={(e) => updateField('targetJimpitan', Number(e.target.value))}
+                      min={0}
+                      value={formData.targetJimpitan || ''}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value.replace(/\D/g, ''), 10);
+                        updateField('targetJimpitan', isNaN(val) ? 0 : val);
+                      }}
                       placeholder="2000000"
                       className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring-strong)] focus:border-[var(--brand-primary)]"
                     />
@@ -737,7 +740,16 @@ export default function RegisterWizardPage() {
                       <span className="text-xs font-bold uppercase tracking-wide">Wilayah RT / Lingkungan</span>
                     </div>
                     <p className="text-base font-extrabold text-slate-900 dark:text-white">
-                      {formData.tingkatWilayah} {formData.noRt ? `RT ${formData.noRt}` : ''} {formData.noRw ? `RW ${formData.noRw}` : ''}
+                      {(() => {
+                        const cleanRt = formData.noRt ? formData.noRt.replace(/^(rt|rw)\s*\.?\s*/i, '').trim() : '';
+                        const cleanRw = formData.noRw ? formData.noRw.replace(/^(rt|rw)\s*\.?\s*/i, '').trim() : '';
+                        if (formData.tingkatWilayah === 'RT') {
+                          return `RT ${cleanRt || '-'}${cleanRw ? ` / RW ${cleanRw}` : ''}`;
+                        } else if (formData.tingkatWilayah === 'RW') {
+                          return `RW ${cleanRw || '-'}`;
+                        }
+                        return `${formData.tingkatWilayah} ${cleanRt ? `RT ${cleanRt}` : ''}`.trim();
+                      })()}
                     </p>
                     <p className="text-xs text-slate-600 dark:text-slate-300">
                       {[formData.dusunPerumahan, formData.desaKelurahan, formData.kecamatan, formData.kotaKabupaten]

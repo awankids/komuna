@@ -2,11 +2,31 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword, setSessionCookies } from '@/lib/auth';
 
-function generateSlug(text: string): string {
-  return text
+function sanitizeRtRw(val?: string | null): string {
+  if (!val) return '';
+  return String(val).replace(/^(rt|rw)\s*\.?\s*/i, '').trim();
+}
+
+async function generateUniqueSlug(baseName: string): Promise<string> {
+  const baseSlug = baseName
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)+/g, '') || 'rt-baru';
+
+  let candidateSlug = baseSlug;
+  let counter = 1;
+
+  while (true) {
+    const existing = await db.komunitas.findUnique({
+      where: { slug: candidateSlug },
+      select: { id: true },
+    });
+    if (!existing) {
+      return candidateSlug;
+    }
+    counter++;
+    candidateSlug = `${baseSlug}-${counter}-${Math.floor(100 + Math.random() * 900)}`;
+  }
 }
 
 export async function POST(request: Request) {
@@ -66,71 +86,86 @@ export async function POST(request: Request) {
       );
     }
 
-    // 3. Susun Nama & Slug Komunitas Unik
-    const namaKomunitas = [
-      tingkatWilayah,
-      noRt ? `RT ${noRt}` : '',
-      noRw ? `RW ${noRw}` : '',
-      dusunPerumahan || desaKelurahan || 'Sejahtera',
-    ]
-      .filter(Boolean)
-      .join(' ')
-      .trim();
+    // 3. Sanitasi format RT & RW serta susun nama komunitas
+    const cleanRt = sanitizeRtRw(noRt);
+    const cleanRw = sanitizeRtRw(noRw);
 
-    let baseSlug = generateSlug(
-      `${tingkatWilayah}-${noRt || '01'}-${dusunPerumahan || desaKelurahan || 'baru'}`
-    );
-    
-    // Cek duplikasi slug
-    const existingSlug = await db.komunitas.findUnique({ where: { slug: baseSlug } });
-    if (existingSlug) {
-      baseSlug = `${baseSlug}-${Math.floor(100 + Math.random() * 900)}`;
+    let wilayahLabel = '';
+    if (tingkatWilayah === 'RT') {
+      wilayahLabel = cleanRt ? `RT ${cleanRt}` : 'RT';
+      if (cleanRw) wilayahLabel += `/RW ${cleanRw}`;
+    } else if (tingkatWilayah === 'RW') {
+      wilayahLabel = cleanRw ? `RW ${cleanRw}` : 'RW';
+    } else {
+      wilayahLabel = tingkatWilayah || 'RT';
     }
 
+    const lokasiLabel = dusunPerumahan || desaKelurahan || 'Sejahtera';
+    const namaKomunitas = `${wilayahLabel} ${lokasiLabel}`.trim();
+
+    // 4. Buat slug unik anti bentrok
+    const slug = await generateUniqueSlug(
+      `${tingkatWilayah}-${cleanRt || '01'}-${dusunPerumahan || desaKelurahan || 'baru'}`
+    );
+
     const modulString = Array.isArray(modulAktif) ? modulAktif.join(',') : (modulAktif || 'jimpitan,kas,anggota');
-
-    // 4. Buat Record Komunitas Baru di Database
-    const komunitas = await db.komunitas.create({
-      data: {
-        nama: namaKomunitas,
-        slug: baseSlug,
-        tingkatWilayah: tingkatWilayah || 'RT',
-        noRt: noRt ? String(noRt).trim() : null,
-        noRw: noRw ? String(noRw).trim() : null,
-        dusunPerumahan: dusunPerumahan ? String(dusunPerumahan).trim() : null,
-        desaKelurahan: desaKelurahan ? String(desaKelurahan).trim() : null,
-        kecamatan: kecamatan ? String(kecamatan).trim() : null,
-        kotaKabupaten: kotaKabupaten ? String(kotaKabupaten).trim() : null,
-        provinsi: provinsi ? String(provinsi).trim() : null,
-        kodePos: kodePos ? String(kodePos).trim() : null,
-        targetJimpitan: Number(targetJimpitan) || 2000000,
-        temaWarna: temaWarna || 'orange',
-        modulAktif: modulString,
-        estimasiKk: estimasiKk || '30-70',
-        statusAktif: true,
-      },
-    });
-
-    // 5. Buat User Administrator Akun
+    const numericTargetJimpitan = Math.max(0, Number(targetJimpitan) || 2000000);
     const passwordHash = hashPassword(passwordAdmin);
-    const user = await db.user.create({
-      data: {
-        nama: namaAdmin.trim(),
-        email: normalizedEmail,
-        noHp: noHpAdmin ? String(noHpAdmin).trim() : null,
-        passwordHash,
-        role: 'ADMIN',
-        jabatan: jabatanAdmin || 'Ketua RT',
-        statusAktif: true,
-        komunitasId: komunitas.id,
-      },
-    });
 
-    // 6. Inisialisasi Data Sampel (Jika Dipilih untuk Latihan)
-    if (muatDataSimulasi) {
-      try {
-        // Contoh 3 Anggota Awal
-        await db.anggota.create({
+    // 5. Eksekusi Transaksi Database Atomik (Komunitas, Pengurus, Pengaturan, & Data Simulasi)
+    const { komunitas, user } = await db.$transaction(async (tx) => {
+      // 5a. Buat Komunitas
+      const newKomunitas = await tx.komunitas.create({
+        data: {
+          nama: namaKomunitas,
+          slug,
+          tingkatWilayah: tingkatWilayah || 'RT',
+          noRt: cleanRt || null,
+          noRw: cleanRw || null,
+          dusunPerumahan: dusunPerumahan ? String(dusunPerumahan).trim() : null,
+          desaKelurahan: desaKelurahan ? String(desaKelurahan).trim() : null,
+          kecamatan: kecamatan ? String(kecamatan).trim() : null,
+          kotaKabupaten: kotaKabupaten ? String(kotaKabupaten).trim() : null,
+          provinsi: provinsi ? String(provinsi).trim() : null,
+          kodePos: kodePos ? String(kodePos).trim() : null,
+          targetJimpitan: numericTargetJimpitan,
+          temaWarna: temaWarna || 'orange',
+          modulAktif: modulString,
+          estimasiKk: estimasiKk || '30-70',
+          statusAktif: true,
+        },
+      });
+
+      // 5b. Buat User Pengurus Pertama (Admin)
+      const newUser = await tx.user.create({
+        data: {
+          nama: namaAdmin.trim(),
+          email: normalizedEmail,
+          noHp: noHpAdmin ? String(noHpAdmin).trim() : null,
+          passwordHash,
+          role: 'ADMIN',
+          jabatan: jabatanAdmin || 'Ketua RT',
+          statusAktif: true,
+          komunitasId: newKomunitas.id,
+        },
+      });
+
+      // 5c. Buat Pengaturan Aplikasi Khusus Komunitas Ini
+      await tx.pengaturanAplikasi.create({
+        data: {
+          komunitasId: newKomunitas.id,
+          namaApp: 'Komuna',
+          namaRt: newKomunitas.nama,
+          kotaWilayah: kotaKabupaten ? String(kotaKabupaten).trim() : (desaKelurahan ? String(desaKelurahan).trim() : 'Indonesia'),
+          tagline: 'Kebersamaan, Terpadu, Transparan',
+          targetJimpitan: numericTargetJimpitan,
+          periodeAktif: `${new Date().getFullYear()} - ${new Date().getFullYear() + 5}`,
+        },
+      });
+
+      // 5d. Inisialisasi Data Sampel (Jika Dipilih untuk Latihan)
+      if (muatDataSimulasi) {
+        await tx.anggota.create({
           data: {
             nama: `${namaAdmin.trim()} (Pengurus)`,
             noRumah: 'A-01',
@@ -138,11 +173,11 @@ export async function POST(request: Request) {
             statusKeluarga: 'kepala_keluarga',
             isWajibJimpitan: true,
             isWajibRonda: true,
-            komunitasId: komunitas.id,
+            komunitasId: newKomunitas.id,
           },
         });
 
-        await db.anggota.create({
+        await tx.anggota.create({
           data: {
             nama: 'Bambang Sutrisno',
             noRumah: 'A-02',
@@ -150,11 +185,11 @@ export async function POST(request: Request) {
             statusKeluarga: 'kepala_keluarga',
             isWajibJimpitan: true,
             isWajibRonda: true,
-            komunitasId: komunitas.id,
+            komunitasId: newKomunitas.id,
           },
         });
 
-        await db.anggota.create({
+        await tx.anggota.create({
           data: {
             nama: 'Haji Ahmad Fauzi',
             noRumah: 'B-01',
@@ -162,12 +197,11 @@ export async function POST(request: Request) {
             statusKeluarga: 'kepala_keluarga',
             isWajibJimpitan: true,
             isWajibRonda: false,
-            komunitasId: komunitas.id,
+            komunitasId: newKomunitas.id,
           },
         });
 
-        // Contoh Kas Saldo Awal
-        await db.transaksiKeuangan.create({
+        await tx.transaksiKeuangan.create({
           data: {
             tanggal: new Date(),
             jenis: 'pemasukan',
@@ -175,15 +209,15 @@ export async function POST(request: Request) {
             kategori: 'Saldo Awal',
             keterangan: 'Penerimaan Kas Awal Pembentukan Akun Baru RT',
             nominal: 500000,
-            komunitasId: komunitas.id,
+            komunitasId: newKomunitas.id,
           },
         });
-      } catch (seedErr) {
-        console.warn('Simulasi data partial seeding notice:', seedErr);
       }
-    }
 
-    // 7. Berikan Sesi Login Otomatis
+      return { komunitas: newKomunitas, user: newUser };
+    });
+
+    // 6. Berikan Sesi Login Otomatis
     await setSessionCookies({
       id: user.id,
       nama: user.nama,
