@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import PWARegister from "@/components/PWARegister";
 
@@ -25,17 +24,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Suppress React 19 development warning for Next.js Script tag injection
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-  const originalError = console.error;
-  console.error = (...args: unknown[]) => {
-    if (typeof args[0] === 'string' && args[0].includes('Encountered a script tag')) {
-      return;
-    }
-    originalError.apply(console, args);
-  };
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,8 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script src="/theme-init.js" />
+      </head>
       <body className="min-h-full flex bg-[#f8fafc] text-slate-800">
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
         <PWARegister />
         {children}
       </body>

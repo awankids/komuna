@@ -59,13 +59,24 @@ export function verifyPassword(
 // Server Cookie & Session Helpers (Route Handlers)
 // ==========================================
 
-export async function setSessionCookies(user: { id: string; nama: string; email: string; role: string }) {
+export async function setSessionCookies(user: { 
+  id: string; 
+  nama: string; 
+  email: string; 
+  role: string;
+  komunitasId?: string | null;
+  komunitasNama?: string | null;
+  jabatan?: string | null;
+}) {
   const cookieStore = await cookies();
   const token = await signSessionToken({
     id: user.id,
     nama: user.nama,
     email: user.email,
     role: user.role,
+    komunitasId: user.komunitasId || undefined,
+    komunitasNama: user.komunitasNama || undefined,
+    jabatan: user.jabatan || undefined,
   });
 
   const isProd = process.env.NODE_ENV === 'production';
@@ -85,6 +96,9 @@ export async function setSessionCookies(user: { id: string; nama: string; email:
     id: user.id,
     nama: user.nama,
     role: user.role,
+    komunitasId: user.komunitasId || undefined,
+    komunitasNama: user.komunitasNama || undefined,
+    jabatan: user.jabatan || undefined,
   })), {
     httpOnly: false,
     secure: isProd,

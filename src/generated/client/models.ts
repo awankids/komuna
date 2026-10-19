@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Komunitas'
 export type * from './models/User'
 export type * from './models/Anggota'
 export type * from './models/Rombongan'

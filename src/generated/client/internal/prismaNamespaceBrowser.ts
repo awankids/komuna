@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Komunitas: 'Komunitas',
   User: 'User',
   Anggota: 'Anggota',
   Rombongan: 'Rombongan',
@@ -91,6 +92,31 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const KomunitasScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  slug: 'slug',
+  tingkatWilayah: 'tingkatWilayah',
+  noRt: 'noRt',
+  noRw: 'noRw',
+  dusunPerumahan: 'dusunPerumahan',
+  desaKelurahan: 'desaKelurahan',
+  kecamatan: 'kecamatan',
+  kotaKabupaten: 'kotaKabupaten',
+  provinsi: 'provinsi',
+  kodePos: 'kodePos',
+  targetJimpitan: 'targetJimpitan',
+  temaWarna: 'temaWarna',
+  modulAktif: 'modulAktif',
+  estimasiKk: 'estimasiKk',
+  statusAktif: 'statusAktif',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KomunitasScalarFieldEnum = (typeof KomunitasScalarFieldEnum)[keyof typeof KomunitasScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   nama: 'nama',
@@ -98,7 +124,9 @@ export const UserScalarFieldEnum = {
   noHp: 'noHp',
   passwordHash: 'passwordHash',
   role: 'role',
+  jabatan: 'jabatan',
   statusAktif: 'statusAktif',
+  komunitasId: 'komunitasId',
   createdAt: 'createdAt'
 } as const
 

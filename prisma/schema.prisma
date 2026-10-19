@@ -7,15 +7,42 @@ generator client {
   output   = "../src/generated/client"
 }
 
+model Komunitas {
+  id             String    @id @default(uuid())
+  nama           String
+  slug           String    @unique
+  tingkatWilayah String    @default("RT") // "RT", "RW", "DUSUN", "DESA", "PAGUYUBAN"
+  noRt           String?
+  noRw           String?
+  dusunPerumahan String?
+  desaKelurahan  String?
+  kecamatan      String?
+  kotaKabupaten  String?
+  provinsi       String?
+  kodePos        String?
+  targetJimpitan Int       @default(3000000)
+  temaWarna      String    @default("orange") // orange, emerald, blue, violet
+  modulAktif     String?   @default("jimpitan,kas,anggota")
+  estimasiKk     String?   @default("30-70")
+  statusAktif    Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+
+  users          User[]
+}
+
 model User {
-  id           String   @id @default(uuid())
+  id           String      @id @default(uuid())
   nama         String
-  email        String   @unique
+  email        String      @unique
   noHp         String?
   passwordHash String
-  role         String   @default("ADMIN") // SUPER_ADMIN, ADMIN, BENDAHARA, SEKRETARIS, PETUGAS, WARGA
-  statusAktif  Boolean  @default(true)
-  createdAt    DateTime @default(now())
+  role         String      @default("ADMIN") // SUPER_ADMIN, ADMIN, BENDAHARA, SEKRETARIS, PETUGAS, WARGA
+  jabatan      String?     // Ketua RT, Sekretaris, Bendahara, dll
+  statusAktif  Boolean     @default(true)
+  komunitasId  String?
+  komunitas    Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
 }
 
 model Anggota {

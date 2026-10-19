@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Komunitas: 'Komunitas',
   User: 'User',
   Anggota: 'Anggota',
   Rombongan: 'Rombongan',
@@ -421,10 +422,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan"
+    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Komunitas: {
+      payload: Prisma.$KomunitasPayload<ExtArgs>
+      fields: Prisma.KomunitasFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.KomunitasFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.KomunitasFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>
+        }
+        findFirst: {
+          args: Prisma.KomunitasFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.KomunitasFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>
+        }
+        findMany: {
+          args: Prisma.KomunitasFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>[]
+        }
+        create: {
+          args: Prisma.KomunitasCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>
+        }
+        createMany: {
+          args: Prisma.KomunitasCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.KomunitasCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>[]
+        }
+        delete: {
+          args: Prisma.KomunitasDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>
+        }
+        update: {
+          args: Prisma.KomunitasUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>
+        }
+        deleteMany: {
+          args: Prisma.KomunitasDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.KomunitasUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.KomunitasUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>[]
+        }
+        upsert: {
+          args: Prisma.KomunitasUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KomunitasPayload>
+        }
+        aggregate: {
+          args: Prisma.KomunitasAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateKomunitas>
+        }
+        groupBy: {
+          args: Prisma.KomunitasGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.KomunitasGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.KomunitasCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.KomunitasCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -2092,6 +2167,31 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const KomunitasScalarFieldEnum = {
+  id: 'id',
+  nama: 'nama',
+  slug: 'slug',
+  tingkatWilayah: 'tingkatWilayah',
+  noRt: 'noRt',
+  noRw: 'noRw',
+  dusunPerumahan: 'dusunPerumahan',
+  desaKelurahan: 'desaKelurahan',
+  kecamatan: 'kecamatan',
+  kotaKabupaten: 'kotaKabupaten',
+  provinsi: 'provinsi',
+  kodePos: 'kodePos',
+  targetJimpitan: 'targetJimpitan',
+  temaWarna: 'temaWarna',
+  modulAktif: 'modulAktif',
+  estimasiKk: 'estimasiKk',
+  statusAktif: 'statusAktif',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KomunitasScalarFieldEnum = (typeof KomunitasScalarFieldEnum)[keyof typeof KomunitasScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   nama: 'nama',
@@ -2099,7 +2199,9 @@ export const UserScalarFieldEnum = {
   noHp: 'noHp',
   passwordHash: 'passwordHash',
   role: 'role',
+  jabatan: 'jabatan',
   statusAktif: 'statusAktif',
+  komunitasId: 'komunitasId',
   createdAt: 'createdAt'
 } as const
 
@@ -2531,6 +2633,20 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -2548,20 +2664,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
- * Reference to a field of type 'Int[]'
- */
-export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -2688,6 +2790,7 @@ export type PrismaClientOptions = ({
   queryPlanCacheMaxSize?: number
 }
 export type GlobalOmitConfig = {
+  komunitas?: Prisma.KomunitasOmit
   user?: Prisma.UserOmit
   anggota?: Prisma.AnggotaOmit
   rombongan?: Prisma.RombonganOmit

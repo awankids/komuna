@@ -31,7 +31,9 @@ export type UserMinAggregateOutputType = {
   noHp: string | null
   passwordHash: string | null
   role: string | null
+  jabatan: string | null
   statusAktif: boolean | null
+  komunitasId: string | null
   createdAt: Date | null
 }
 
@@ -42,7 +44,9 @@ export type UserMaxAggregateOutputType = {
   noHp: string | null
   passwordHash: string | null
   role: string | null
+  jabatan: string | null
   statusAktif: boolean | null
+  komunitasId: string | null
   createdAt: Date | null
 }
 
@@ -53,7 +57,9 @@ export type UserCountAggregateOutputType = {
   noHp: number
   passwordHash: number
   role: number
+  jabatan: number
   statusAktif: number
+  komunitasId: number
   createdAt: number
   _all: number
 }
@@ -66,7 +72,9 @@ export type UserMinAggregateInputType = {
   noHp?: true
   passwordHash?: true
   role?: true
+  jabatan?: true
   statusAktif?: true
+  komunitasId?: true
   createdAt?: true
 }
 
@@ -77,7 +85,9 @@ export type UserMaxAggregateInputType = {
   noHp?: true
   passwordHash?: true
   role?: true
+  jabatan?: true
   statusAktif?: true
+  komunitasId?: true
   createdAt?: true
 }
 
@@ -88,7 +98,9 @@ export type UserCountAggregateInputType = {
   noHp?: true
   passwordHash?: true
   role?: true
+  jabatan?: true
   statusAktif?: true
+  komunitasId?: true
   createdAt?: true
   _all?: true
 }
@@ -172,7 +184,9 @@ export type UserGroupByOutputType = {
   noHp: string | null
   passwordHash: string
   role: string
+  jabatan: string | null
   statusAktif: boolean
+  komunitasId: string | null
   createdAt: Date
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
@@ -204,8 +218,11 @@ export type UserWhereInput = {
   noHp?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  jabatan?: Prisma.StringNullableFilter<"User"> | string | null
   statusAktif?: Prisma.BoolFilter<"User"> | boolean
+  komunitasId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -215,8 +232,11 @@ export type UserOrderByWithRelationInput = {
   noHp?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  jabatan?: Prisma.SortOrderInput | Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -229,8 +249,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   noHp?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  jabatan?: Prisma.StringNullableFilter<"User"> | string | null
   statusAktif?: Prisma.BoolFilter<"User"> | boolean
+  komunitasId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -240,7 +263,9 @@ export type UserOrderByWithAggregationInput = {
   noHp?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  jabatan?: Prisma.SortOrderInput | Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -257,7 +282,9 @@ export type UserScalarWhereWithAggregatesInput = {
   noHp?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
+  jabatan?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   statusAktif?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
@@ -268,8 +295,10 @@ export type UserCreateInput = {
   noHp?: string | null
   passwordHash: string
   role?: string
+  jabatan?: string | null
   statusAktif?: boolean
   createdAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -279,7 +308,9 @@ export type UserUncheckedCreateInput = {
   noHp?: string | null
   passwordHash: string
   role?: string
+  jabatan?: string | null
   statusAktif?: boolean
+  komunitasId?: string | null
   createdAt?: Date | string
 }
 
@@ -290,8 +321,10 @@ export type UserUpdateInput = {
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -301,7 +334,9 @@ export type UserUncheckedUpdateInput = {
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -312,7 +347,9 @@ export type UserCreateManyInput = {
   noHp?: string | null
   passwordHash: string
   role?: string
+  jabatan?: string | null
   statusAktif?: boolean
+  komunitasId?: string | null
   createdAt?: Date | string
 }
 
@@ -323,6 +360,7 @@ export type UserUpdateManyMutationInput = {
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -334,8 +372,20 @@ export type UserUncheckedUpdateManyInput = {
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -345,7 +395,9 @@ export type UserCountOrderByAggregateInput = {
   noHp?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  jabatan?: Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -356,7 +408,9 @@ export type UserMaxOrderByAggregateInput = {
   noHp?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  jabatan?: Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -367,24 +421,166 @@ export type UserMinOrderByAggregateInput = {
   noHp?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  jabatan?: Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type UserCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutKomunitasInput, Prisma.UserUncheckedCreateWithoutKomunitasInput> | Prisma.UserCreateWithoutKomunitasInput[] | Prisma.UserUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKomunitasInput | Prisma.UserCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.UserCreateManyKomunitasInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type UserUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutKomunitasInput, Prisma.UserUncheckedCreateWithoutKomunitasInput> | Prisma.UserCreateWithoutKomunitasInput[] | Prisma.UserUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKomunitasInput | Prisma.UserCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.UserCreateManyKomunitasInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type UserUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutKomunitasInput, Prisma.UserUncheckedCreateWithoutKomunitasInput> | Prisma.UserCreateWithoutKomunitasInput[] | Prisma.UserUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKomunitasInput | Prisma.UserCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.UserUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.UserCreateManyKomunitasInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.UserUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutKomunitasInput | Prisma.UserUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type UserUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutKomunitasInput, Prisma.UserUncheckedCreateWithoutKomunitasInput> | Prisma.UserCreateWithoutKomunitasInput[] | Prisma.UserUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutKomunitasInput | Prisma.UserCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.UserUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.UserCreateManyKomunitasInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.UserUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutKomunitasInput | Prisma.UserUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserCreateWithoutKomunitasInput = {
+  id?: string
+  nama: string
+  email: string
+  noHp?: string | null
+  passwordHash: string
+  role?: string
+  jabatan?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+}
+
+export type UserUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  nama: string
+  email: string
+  noHp?: string | null
+  passwordHash: string
+  role?: string
+  jabatan?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+}
+
+export type UserCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutKomunitasInput, Prisma.UserUncheckedCreateWithoutKomunitasInput>
+}
+
+export type UserCreateManyKomunitasInputEnvelope = {
+  data: Prisma.UserCreateManyKomunitasInput | Prisma.UserCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutKomunitasInput, Prisma.UserUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutKomunitasInput, Prisma.UserUncheckedCreateWithoutKomunitasInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutKomunitasInput, Prisma.UserUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type UserUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  nama?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringFilter<"User"> | string
+  noHp?: Prisma.StringNullableFilter<"User"> | string | null
+  passwordHash?: Prisma.StringFilter<"User"> | string
+  role?: Prisma.StringFilter<"User"> | string
+  jabatan?: Prisma.StringNullableFilter<"User"> | string | null
+  statusAktif?: Prisma.BoolFilter<"User"> | boolean
+  komunitasId?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+}
+
+export type UserCreateManyKomunitasInput = {
+  id?: string
+  nama: string
+  email: string
+  noHp?: string | null
+  passwordHash: string
+  role?: string
+  jabatan?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+}
+
+export type UserUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -396,8 +592,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   noHp?: boolean
   passwordHash?: boolean
   role?: boolean
+  jabatan?: boolean
   statusAktif?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
+  komunitas?: boolean | Prisma.User$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -407,8 +606,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   noHp?: boolean
   passwordHash?: boolean
   role?: boolean
+  jabatan?: boolean
   statusAktif?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
+  komunitas?: boolean | Prisma.User$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -418,8 +620,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   noHp?: boolean
   passwordHash?: boolean
   role?: boolean
+  jabatan?: boolean
   statusAktif?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
+  komunitas?: boolean | Prisma.User$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -429,15 +634,28 @@ export type UserSelectScalar = {
   noHp?: boolean
   passwordHash?: boolean
   role?: boolean
+  jabatan?: boolean
   statusAktif?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "email" | "noHp" | "passwordHash" | "role" | "statusAktif" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "email" | "noHp" | "passwordHash" | "role" | "jabatan" | "statusAktif" | "komunitasId" | "createdAt", ExtArgs["result"]["user"]>
+export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.User$komunitasArgs<ExtArgs>
+}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.User$komunitasArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.User$komunitasArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
-  objects: {}
+  objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     nama: string
@@ -445,7 +663,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     noHp: string | null
     passwordHash: string
     role: string
+    jabatan: string | null
     statusAktif: boolean
+    komunitasId: string | null
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -841,6 +1061,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.User$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -876,7 +1097,9 @@ export interface UserFieldRefs {
   readonly noHp: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'String'>
+  readonly jabatan: Prisma.FieldRef<"User", 'String'>
   readonly statusAktif: Prisma.FieldRef<"User", 'Boolean'>
+  readonly komunitasId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
@@ -894,6 +1117,10 @@ export type UserFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which User to fetch.
    */
@@ -913,6 +1140,10 @@ export type UserFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -930,6 +1161,10 @@ export type UserFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which User to fetch.
    */
@@ -979,6 +1214,10 @@ export type UserFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where?: Prisma.UserWhereInput
@@ -1026,6 +1265,10 @@ export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which Users to fetch.
    */
@@ -1075,6 +1318,10 @@ export type UserCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * The data needed to create a User.
    */
   data: Prisma.XOR<Prisma.UserCreateInput, Prisma.UserUncheckedCreateInput>
@@ -1108,6 +1355,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1122,6 +1373,10 @@ export type UserUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * The data needed to update a User.
    */
@@ -1174,6 +1429,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1188,6 +1447,10 @@ export type UserUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * The filter to search for the User to update in case it exists.
    */
@@ -1215,6 +1478,10 @@ export type UserDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter which User to delete.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1235,6 +1502,25 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.komunitas
+ */
+export type User$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
+}
+
+/**
  * User without action
  */
 export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1246,4 +1532,8 @@ export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
 }

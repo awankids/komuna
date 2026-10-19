@@ -23,6 +23,9 @@ export async function POST(request: Request) {
           { noHp: identifier.replace(/^\+62/, '0') },
         ],
       },
+      include: {
+        komunitas: true,
+      },
     });
     
     if (!user) {
@@ -58,6 +61,9 @@ export async function POST(request: Request) {
       nama: user.nama,
       email: user.email,
       role: user.role,
+      komunitasId: user.komunitasId,
+      komunitasNama: user.komunitas?.nama || null,
+      jabatan: user.jabatan || null,
     });
     
     return NextResponse.json({ 
@@ -66,7 +72,10 @@ export async function POST(request: Request) {
         id: user.id, 
         nama: user.nama, 
         email: user.email, 
-        role: user.role 
+        role: user.role,
+        komunitasId: user.komunitasId,
+        komunitasNama: user.komunitas?.nama || null,
+        jabatan: user.jabatan || null,
       } 
     });
   } catch (error: any) {

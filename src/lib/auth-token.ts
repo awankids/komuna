@@ -3,6 +3,9 @@ export interface SessionUser {
   nama: string;
   email: string;
   role: string;
+  komunitasId?: string;
+  komunitasNama?: string;
+  jabatan?: string;
   exp?: number;
   iat?: number;
 }

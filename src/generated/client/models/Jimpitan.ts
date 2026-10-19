@@ -535,14 +535,6 @@ export type JimpitanUncheckedUpdateManyWithoutJadwalNestedInput = {
   deleteMany?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type JimpitanCreateWithoutJadwalInput = {
   id?: string
   tanggal: Date | string
