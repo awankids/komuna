@@ -88,21 +88,16 @@ export default function LoginPage() {
     };
     fetchConfig();
 
-    // Check Dark Mode state strictly from komuna-dark setting (with auto-migration to light mode default)
+    // Check Dark Mode state strictly from komuna_login_dark_explicit
     try {
-      if (localStorage.getItem('komuna_theme_v2_clean') !== 'yes' || localStorage.getItem('komuna_login_dark_explicit') !== 'yes') {
-        localStorage.setItem('komuna-dark', 'no');
-        localStorage.setItem('komuna_theme_v2_clean', 'yes');
-        document.documentElement.classList.remove('dark');
-        setIsDark(false);
+      const isExplicitDark = localStorage.getItem('komuna_login_dark_explicit') === 'yes';
+      setIsDark(isExplicitDark);
+      if (isExplicitDark) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('komuna-dark', 'yes');
       } else {
-        const isDarkActive = localStorage.getItem('komuna-dark') === 'yes';
-        setIsDark(isDarkActive);
-        if (isDarkActive) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('komuna-dark', 'no');
       }
     } catch {}
 
