@@ -124,15 +124,9 @@ export async function POST(
     });
 
     const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
-    let finalDiserahkan = totalTerkumpul;
-    let nominalTalangan = 0;
-
-    if (statusTalangan === 'ditalangi_kas') {
-      finalDiserahkan = totalTarget;
-      nominalTalangan = nominalKurang;
-    } else if (customDiserahkan !== undefined && !isNaN(Number(customDiserahkan))) {
-      finalDiserahkan = Number(customDiserahkan);
-    }
+    const finalDiserahkan = totalTerkumpul;
+    const nominalTalangan = 0;
+    const finalStatusTalangan = 'tidak_ditalangi';
 
     // Execute in Prisma transaction
     const result = await db.$transaction(async (tx) => {
@@ -157,7 +151,7 @@ export async function POST(
           totalTerkumpul,
           nominalDiserahkan: finalDiserahkan,
           nominalKurang,
-          statusTalangan,
+          statusTalangan: finalStatusTalangan,
           nominalTalangan,
           pemenangId,
           namaPemenang: pemenang.namaPeserta,

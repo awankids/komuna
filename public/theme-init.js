@@ -7,6 +7,13 @@
       localStorage.setItem('komuna_theme_v2_clean', 'yes');
     }
 
+    // On /login route, always enforce pure Light Mode default unless user explicitly chose dark on login
+    if (typeof window !== 'undefined' && window.location && window.location.pathname === '/login') {
+      if (localStorage.getItem('komuna_login_dark_explicit') !== 'yes') {
+        localStorage.setItem('komuna-dark', 'no');
+      }
+    }
+
     var theme = localStorage.getItem('komuna-theme') || 'orange';
     var isDark = localStorage.getItem('komuna-dark') === 'yes';
     var font = localStorage.getItem('komuna-font') || 'outfit';

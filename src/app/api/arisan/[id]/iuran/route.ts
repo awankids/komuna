@@ -101,16 +101,9 @@ export async function PATCH(
     const totalTerkumpul = allPaid.reduce((acc, curr) => acc + curr.nominal, 0);
     const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
 
-    const currentTalangan = statusTalangan || putaran.statusTalangan;
-    let finalDiserahkan = totalTerkumpul;
-    let nominalTalangan = 0;
-
-    if (currentTalangan === 'ditalangi_kas') {
-      finalDiserahkan = totalTarget;
-      nominalTalangan = nominalKurang;
-    } else if (customDiserahkan !== undefined && !isNaN(Number(customDiserahkan))) {
-      finalDiserahkan = Number(customDiserahkan);
-    }
+    const finalDiserahkan = totalTerkumpul;
+    const nominalTalangan = 0;
+    const currentTalangan = 'tidak_ditalangi';
 
     const updatedPutaran = await db.putaranArisan.update({
       where: { id: putaranId },

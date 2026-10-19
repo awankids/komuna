@@ -245,7 +245,6 @@ export default function ArisanPage() {
     tanggalKocok: new Date().toISOString().split('T')[0],
     hariJawa: '',
     agendaId: '',
-    statusTalangan: 'tidak_ditalangi', // "tidak_ditalangi" | "ditalangi_kas"
     sinkronAgendaBerikutnya: true,
     lokasiBerikutnya: '',
     tanggalBerikutnya: '',
@@ -317,9 +316,6 @@ export default function ArisanPage() {
       }
     >
   >({});
-
-  // Local talangan toggle in checklist
-  const [localTalanganMode, setLocalTalanganMode] = useState<'tidak_ditalangi' | 'ditalangi_kas'>('tidak_ditalangi');
 
   // Show Toast Notification
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
@@ -394,7 +390,6 @@ export default function ArisanPage() {
             });
           }
           setLocalIuranState(map);
-          setLocalTalanganMode('tidak_ditalangi');
           setIsAbsensiConfirmed(false);
         }
       }
@@ -619,8 +614,7 @@ export default function ArisanPage() {
     const absenCount = izinCount + tidakHadirCount;
     const unpaidCount = unifiedIuranRows.length - paidCount;
     const nominalKurang = Math.max(0, totalTarget - totalTerkumpul);
-    const nominalDiserahkan =
-      localTalanganMode === 'ditalangi_kas' ? totalTarget : totalTerkumpul;
+    const nominalDiserahkan = totalTerkumpul;
 
     return {
       totalTarget,
@@ -635,19 +629,20 @@ export default function ArisanPage() {
       absenCount,
       absenDanNunggakCount,
     };
-  }, [kelompokDetail, unifiedIuranRows, localTalanganMode]);
+  }, [kelompokDetail, unifiedIuranRows]);
 
-  // Gating & Kondisi Kesiapan Roda Putar
+  // Status kelengkapan iuran (transparansi catatan)
   const isIuranComplete = useMemo(() => {
     if (!kelompokDetail || kelompokDetail.peserta.length === 0) return false;
-    return latestPutaranStats.nominalKurang === 0 || localTalanganMode === 'ditalangi_kas';
-  }, [kelompokDetail, latestPutaranStats.nominalKurang, localTalanganMode]);
+    return latestPutaranStats.nominalKurang === 0;
+  }, [kelompokDetail, latestPutaranStats.nominalKurang]);
 
+  // Gating Kesiapan Roda Putar: Cukup konfirmasi absensi warga
   const isReadyToSpin = useMemo(() => {
     if (!kelompokDetail || kelompokDetail.peserta.length === 0) return false;
     if (wheelCandidates.length === 0) return false;
-    return isAbsensiConfirmed && isIuranComplete;
-  }, [kelompokDetail, wheelCandidates.length, isAbsensiConfirmed, isIuranComplete]);
+    return isAbsensiConfirmed;
+  }, [kelompokDetail, wheelCandidates.length, isAbsensiConfirmed]);
 
   const spinDisabledReason = useMemo(() => {
     if (!kelompokDetail || kelompokDetail.peserta.length === 0) {
@@ -659,17 +654,8 @@ export default function ArisanPage() {
     if (!isAbsensiConfirmed) {
       return 'Absensi belum dikonfirmasi (Tandai kehadiran & klik "Konfirmasi Absensi Selesai")';
     }
-    if (!isIuranComplete) {
-      return `Uang iuran kurang Rp ${latestPutaranStats.nominalKurang.toLocaleString('id-ID')} (Lengkapi atau Aktifkan Talangan Kas RT)`;
-    }
     return undefined;
-  }, [
-    kelompokDetail,
-    wheelCandidates.length,
-    isAbsensiConfirmed,
-    isIuranComplete,
-    latestPutaranStats.nominalKurang,
-  ]);
+  }, [kelompokDetail, wheelCandidates.length, isAbsensiConfirmed]);
 
   // Quick actions: Tandai Semua Hadir
   const handleMarkAllHadir = () => {
@@ -714,7 +700,6 @@ export default function ArisanPage() {
       freshMap[p.id] = { statusBayar: false, statusKehadiran: 'hadir', catatan: '' };
     });
     setLocalIuranState(freshMap);
-    setLocalTalanganMode('tidak_ditalangi');
     setIsAbsensiConfirmed(false);
     showToast('Lembar presensi telah di-reset untuk pertemuan baru', 'success');
   };
@@ -798,7 +783,6 @@ export default function ArisanPage() {
       tanggalKocok: todayDateStr,
       hariJawa: kelompokDetail?.hariJawa || todayHariJawa,
       agendaId: upcomingAgendas.length > 0 ? upcomingAgendas[0].id : '',
-      statusTalangan: localTalanganMode,
       sinkronAgendaBerikutnya: kelompokDetail?.autoSinkronAgenda ?? true,
       lokasiBerikutnya: defaultHostLocation,
       tanggalBerikutnya: nextMeetingDateStr,
@@ -827,7 +811,6 @@ export default function ArisanPage() {
           tanggalKocok: winnerConfigForm.tanggalKocok,
           hariJawa: winnerConfigForm.hariJawa,
           agendaId: winnerConfigForm.agendaId || null,
-          statusTalangan: localTalanganMode,
           kehadiranDanIuranList,
           sinkronAgendaBerikutnya: winnerConfigForm.sinkronAgendaBerikutnya,
           lokasiBerikutnya: winnerConfigForm.lokasiBerikutnya,
@@ -946,7 +929,6 @@ export default function ArisanPage() {
         body: JSON.stringify({
           putaranId: latestPutaran.id,
           pembayaranList: payload,
-          statusTalangan: localTalanganMode,
         }),
       });
 
@@ -1229,12 +1211,8 @@ export default function ArisanPage() {
       `Dana yang diserahkan: *${prizeFormatted}* (dari total hak: ${targetFormatted})\n\n`;
 
     if (putaran.nominalKurang > 0) {
-      message += `⚠️ *Catatan Keuangan:* Terdapat kekurangan iuran sebesar *Rp ${putaran.nominalKurang.toLocaleString('id-ID')}* (${unpaidMembers.length} warga belum setor).\n`;
-      if (putaran.statusTalangan === 'ditalangi_kas') {
-        message += `_Kekurangan telah ditalangi sementara oleh Kas Pengurus agar pemenang menerima penuh._\n\n`;
-      } else {
-        message += `_Pemenang menerima dana seadanya terlebih dahulu dan kekurangan akan diserahkan setelah iuran tertagih._\n\n`;
-      }
+      message += `⚠️ *Catatan Keuangan:* Terdapat kekurangan iuran sebesar *Rp ${putaran.nominalKurang.toLocaleString('id-ID')}* (${unpaidMembers.length} warga belum setor).\n` +
+        `_Pemenang menerima dana terkumpul malam ini (Rp ${putaran.nominalDiserahkan.toLocaleString('id-ID')}). Sisa kekurangan dicatat sebagai tunggakan dan akan diserahkan setelah tertagih._\n\n`;
     }
 
     message += `📊 *Rekap Transparansi Pertemuan:*\n` +
@@ -1556,18 +1534,14 @@ export default function ArisanPage() {
                     </div>
                     <span
                       className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mt-0.5 ${
-                        localTalanganMode === 'ditalangi_kas'
-                          ? 'bg-blue-100 text-blue-800'
-                          : latestPutaranStats.nominalKurang > 0
+                        latestPutaranStats.nominalKurang > 0
                           ? 'bg-amber-100 text-amber-800'
                           : 'bg-emerald-100 text-emerald-800'
                       }`}
                     >
-                      {localTalanganMode === 'ditalangi_kas'
-                        ? 'Ditalangi Kas RT'
-                        : latestPutaranStats.nominalKurang > 0
-                        ? 'Diserahkan Seadanya'
-                        : 'Diserahkan Penuh'}
+                      {latestPutaranStats.nominalKurang > 0
+                        ? `Kurang Rp ${latestPutaranStats.nominalKurang.toLocaleString('id-ID')}`
+                        : 'Lengkap (100%)'}
                     </span>
                   </div>
                 </div>
@@ -1696,35 +1670,25 @@ export default function ArisanPage() {
                             />
                             2. Penyerahan Iuran
                           </span>
-                          {isIuranComplete ? (
+                          {latestPutaranStats.nominalKurang === 0 ? (
                             <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-md">
-                              {localTalanganMode === 'ditalangi_kas' ? 'Ditalangi Kas' : 'Lengkap 100%'}
+                              Lengkap 100%
                             </span>
                           ) : (
-                            <span className="text-[10px] font-bold text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded-md">
-                              Kurang Uang
+                            <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded-md">
+                              Terkumpul Sebagian
                             </span>
                           )}
                         </div>
                         <div className="text-[11px] text-slate-500 mb-2">
                           Terkumpul: <strong>Rp {latestPutaranStats.totalTerkumpul.toLocaleString('id-ID')}</strong>
                           {latestPutaranStats.nominalKurang > 0 && (
-                            <span className="text-rose-600">
-                              {' '}
-                              (Kurang Rp {latestPutaranStats.nominalKurang.toLocaleString('id-ID')})
+                            <span className="text-amber-600 block mt-0.5">
+                              (Sisa Rp {latestPutaranStats.nominalKurang.toLocaleString('id-ID')} dicatat ke riwayat)
                             </span>
                           )}
                         </div>
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          {latestPutaranStats.nominalKurang > 0 && localTalanganMode !== 'ditalangi_kas' ? (
-                            <button
-                              type="button"
-                              onClick={() => setLocalTalanganMode('ditalangi_kas')}
-                              className="text-[10px] font-bold px-2 py-1 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 cursor-pointer"
-                            >
-                              Aktifkan Talangan Kas RT
-                            </button>
-                          ) : null}
                           <button
                             type="button"
                             onClick={handleMarkAllLunas}
@@ -2053,25 +2017,16 @@ export default function ArisanPage() {
 
                       {kelompokDetail.peserta.length > 0 && (
                         <div className="mt-4 pt-3 border-t border-slate-100 space-y-2.5">
-                          {/* Talangan Toggle Switch */}
-                          <label className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs cursor-pointer">
-                            <div>
-                              <span className="font-bold text-slate-800 block">
-                                Talangi Kekurangan dari Kas RT
+                          {latestPutaranStats.nominalKurang > 0 && (
+                            <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/50 text-xs text-amber-800">
+                              <span className="font-semibold block">
+                                Tercatat {latestPutaranStats.unpaidCount} warga belum setor iuran (Kurang Rp {latestPutaranStats.nominalKurang.toLocaleString('id-ID')})
                               </span>
-                              <span className="text-[10px] text-slate-400">
-                                Pemenang menerima uang penuh; kas RT menggantikan sementara uang warga yang nunggak.
+                              <span className="text-[10px] text-amber-600 block mt-0.5">
+                                Pengundian tetap dapat dilanjutkan. Dana diserahkan seadanya dari yang terkumpul, dan sisa kekurangan dicatat sebagai tunggakan riwayat untuk ditagih pada pertemuan berikutnya.
                               </span>
                             </div>
-                            <input
-                              type="checkbox"
-                              checked={localTalanganMode === 'ditalangi_kas'}
-                              onChange={(e) =>
-                                setLocalTalanganMode(e.target.checked ? 'ditalangi_kas' : 'tidak_ditalangi')
-                              }
-                              className="rounded text-[var(--brand-primary)] focus:ring-[var(--brand-primary)] w-4 h-4 cursor-pointer"
-                            />
-                          </label>
+                          )}
 
                           <button
                             type="button"
@@ -2243,9 +2198,9 @@ export default function ArisanPage() {
                                 <span className="font-bold text-emerald-600 text-base">
                                   Rp {putaran.nominalDiserahkan.toLocaleString('id-ID')}
                                 </span>
-                                {putaran.statusTalangan === 'ditalangi_kas' && (
-                                  <span className="text-[10px] text-blue-600 font-bold block">
-                                    (Ditalangi Kas)
+                                {putaran.nominalKurang > 0 && (
+                                  <span className="text-[10px] text-amber-600 font-bold block">
+                                    (Kurang Rp {putaran.nominalKurang.toLocaleString('id-ID')})
                                   </span>
                                 )}
                               </div>
@@ -2408,7 +2363,7 @@ export default function ArisanPage() {
             </>
           )}
 
-          {/* Modal: Konfirmasi Pemenang Undian dengan Sinkronisasi Agenda & Talangan */}
+          {/* Modal: Konfirmasi Pemenang Undian dengan Sinkronisasi Agenda & Penyerahan */}
           {isWinnerModalOpen && pendingWinner && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
               <div className="bg-white rounded-3xl border border-slate-100 shadow-2xl max-w-lg w-full p-6 text-left space-y-4 animate-in zoom-in-95 max-h-[90vh] overflow-y-auto">
@@ -2500,63 +2455,33 @@ export default function ArisanPage() {
                     </select>
                   </div>
 
-                  <div>
-                    <label className="block font-bold text-slate-700 mb-1">
-                      Kebijakan Penyerahan Uang
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <label
-                        className={`p-2.5 rounded-xl border cursor-pointer text-xs transition ${
-                          winnerConfigForm.statusTalangan === 'tidak_ditalangi'
-                            ? 'bg-orange-50 border-[var(--brand-primary)] text-[var(--brand-primary)] font-bold'
-                            : 'bg-white border-slate-200 text-slate-600'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="statusTalangan"
-                          value="tidak_ditalangi"
-                          checked={winnerConfigForm.statusTalangan === 'tidak_ditalangi'}
-                          onChange={() =>
-                            setWinnerConfigForm({
-                              ...winnerConfigForm,
-                              statusTalangan: 'tidak_ditalangi',
-                            })
-                          }
-                          className="sr-only"
-                        />
-                        <span>Serahkan Seadanya</span>
-                        <p className="text-[10px] text-slate-400 font-normal mt-0.5">
-                          Sesuai uang yang terkumpul malam ini.
-                        </p>
-                      </label>
-
-                      <label
-                        className={`p-2.5 rounded-xl border cursor-pointer text-xs transition ${
-                          winnerConfigForm.statusTalangan === 'ditalangi_kas'
-                            ? 'bg-orange-50 border-[var(--brand-primary)] text-[var(--brand-primary)] font-bold'
-                            : 'bg-white border-slate-200 text-slate-600'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="statusTalangan"
-                          value="ditalangi_kas"
-                          checked={winnerConfigForm.statusTalangan === 'ditalangi_kas'}
-                          onChange={() =>
-                            setWinnerConfigForm({
-                              ...winnerConfigForm,
-                              statusTalangan: 'ditalangi_kas',
-                            })
-                          }
-                          className="sr-only"
-                        />
-                        <span>Ditalangi Kas RT</span>
-                        <p className="text-[10px] text-slate-400 font-normal mt-0.5">
-                          Pemenang menerima penuh 100%.
-                        </p>
-                      </label>
+                  {/* Ringkasan Realisasi Penyerahan Dana Malam Ini */}
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-500">Uang Iuran Terkumpul:</span>
+                      <span className="font-bold text-slate-800">
+                        Rp {latestPutaranStats.totalTerkumpul.toLocaleString('id-ID')}
+                      </span>
                     </div>
+                    {latestPutaranStats.nominalKurang > 0 && (
+                      <div className="flex items-center justify-between text-xs text-rose-600">
+                        <span>Kekurangan ({latestPutaranStats.unpaidCount} warga belum setor):</span>
+                        <span className="font-bold">
+                          - Rp {latestPutaranStats.nominalKurang.toLocaleString('id-ID')}
+                        </span>
+                      </div>
+                    )}
+                    <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-700">Dana Diserahkan ke Pemenang:</span>
+                      <span className="text-base font-extrabold text-emerald-600">
+                        Rp {latestPutaranStats.totalTerkumpul.toLocaleString('id-ID')}
+                      </span>
+                    </div>
+                    {latestPutaranStats.nominalKurang > 0 && (
+                      <p className="text-[10px] text-amber-700 leading-normal">
+                        ℹ️ Sisa kekurangan Rp {latestPutaranStats.nominalKurang.toLocaleString('id-ID')} otomatis dicatat sebagai tunggakan riwayat warga yang belum bayar dan ditagih pada pertemuan berikutnya.
+                      </p>
+                    )}
                   </div>
 
                   {/* Penugasan Pemenang sebagai Tuan Rumah Agenda Arisan/Rapat Berikutnya */}
