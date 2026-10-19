@@ -31,6 +31,7 @@ export type NotifikasiMinAggregateOutputType = {
   type: string | null
   isRead: boolean | null
   createdAt: Date | null
+  komunitasId: string | null
 }
 
 export type NotifikasiMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type NotifikasiMaxAggregateOutputType = {
   type: string | null
   isRead: boolean | null
   createdAt: Date | null
+  komunitasId: string | null
 }
 
 export type NotifikasiCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type NotifikasiCountAggregateOutputType = {
   type: number
   isRead: number
   createdAt: number
+  komunitasId: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type NotifikasiMinAggregateInputType = {
   type?: true
   isRead?: true
   createdAt?: true
+  komunitasId?: true
 }
 
 export type NotifikasiMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type NotifikasiMaxAggregateInputType = {
   type?: true
   isRead?: true
   createdAt?: true
+  komunitasId?: true
 }
 
 export type NotifikasiCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type NotifikasiCountAggregateInputType = {
   type?: true
   isRead?: true
   createdAt?: true
+  komunitasId?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type NotifikasiGroupByOutputType = {
   type: string
   isRead: boolean
   createdAt: Date
+  komunitasId: string | null
   _count: NotifikasiCountAggregateOutputType | null
   _min: NotifikasiMinAggregateOutputType | null
   _max: NotifikasiMaxAggregateOutputType | null
@@ -190,6 +197,8 @@ export type NotifikasiWhereInput = {
   type?: Prisma.StringFilter<"Notifikasi"> | string
   isRead?: Prisma.BoolFilter<"Notifikasi"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Notifikasi"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"Notifikasi"> | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type NotifikasiOrderByWithRelationInput = {
@@ -199,6 +208,8 @@ export type NotifikasiOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   isRead?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type NotifikasiWhereUniqueInput = Prisma.AtLeast<{
@@ -211,6 +222,8 @@ export type NotifikasiWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.StringFilter<"Notifikasi"> | string
   isRead?: Prisma.BoolFilter<"Notifikasi"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Notifikasi"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"Notifikasi"> | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id">
 
 export type NotifikasiOrderByWithAggregationInput = {
@@ -220,6 +233,7 @@ export type NotifikasiOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   isRead?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.NotifikasiCountOrderByAggregateInput
   _max?: Prisma.NotifikasiMaxOrderByAggregateInput
   _min?: Prisma.NotifikasiMinOrderByAggregateInput
@@ -235,6 +249,7 @@ export type NotifikasiScalarWhereWithAggregatesInput = {
   type?: Prisma.StringWithAggregatesFilter<"Notifikasi"> | string
   isRead?: Prisma.BoolWithAggregatesFilter<"Notifikasi"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Notifikasi"> | Date | string
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"Notifikasi"> | string | null
 }
 
 export type NotifikasiCreateInput = {
@@ -244,6 +259,7 @@ export type NotifikasiCreateInput = {
   type?: string
   isRead?: boolean
   createdAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutNotifikasiInput
 }
 
 export type NotifikasiUncheckedCreateInput = {
@@ -253,6 +269,7 @@ export type NotifikasiUncheckedCreateInput = {
   type?: string
   isRead?: boolean
   createdAt?: Date | string
+  komunitasId?: string | null
 }
 
 export type NotifikasiUpdateInput = {
@@ -262,6 +279,7 @@ export type NotifikasiUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   isRead?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutNotifikasiNestedInput
 }
 
 export type NotifikasiUncheckedUpdateInput = {
@@ -271,6 +289,7 @@ export type NotifikasiUncheckedUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   isRead?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type NotifikasiCreateManyInput = {
@@ -280,6 +299,7 @@ export type NotifikasiCreateManyInput = {
   type?: string
   isRead?: boolean
   createdAt?: Date | string
+  komunitasId?: string | null
 }
 
 export type NotifikasiUpdateManyMutationInput = {
@@ -298,6 +318,17 @@ export type NotifikasiUncheckedUpdateManyInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   isRead?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type NotifikasiListRelationFilter = {
+  every?: Prisma.NotifikasiWhereInput
+  some?: Prisma.NotifikasiWhereInput
+  none?: Prisma.NotifikasiWhereInput
+}
+
+export type NotifikasiOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type NotifikasiCountOrderByAggregateInput = {
@@ -307,6 +338,7 @@ export type NotifikasiCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   isRead?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type NotifikasiMaxOrderByAggregateInput = {
@@ -316,6 +348,7 @@ export type NotifikasiMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   isRead?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type NotifikasiMinOrderByAggregateInput = {
@@ -325,6 +358,142 @@ export type NotifikasiMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   isRead?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
+}
+
+export type NotifikasiCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.NotifikasiCreateWithoutKomunitasInput, Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput> | Prisma.NotifikasiCreateWithoutKomunitasInput[] | Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput | Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.NotifikasiCreateManyKomunitasInputEnvelope
+  connect?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+}
+
+export type NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.NotifikasiCreateWithoutKomunitasInput, Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput> | Prisma.NotifikasiCreateWithoutKomunitasInput[] | Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput | Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.NotifikasiCreateManyKomunitasInputEnvelope
+  connect?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+}
+
+export type NotifikasiUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.NotifikasiCreateWithoutKomunitasInput, Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput> | Prisma.NotifikasiCreateWithoutKomunitasInput[] | Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput | Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.NotifikasiUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.NotifikasiUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.NotifikasiCreateManyKomunitasInputEnvelope
+  set?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  disconnect?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  delete?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  connect?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  update?: Prisma.NotifikasiUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.NotifikasiUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.NotifikasiUpdateManyWithWhereWithoutKomunitasInput | Prisma.NotifikasiUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.NotifikasiScalarWhereInput | Prisma.NotifikasiScalarWhereInput[]
+}
+
+export type NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.NotifikasiCreateWithoutKomunitasInput, Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput> | Prisma.NotifikasiCreateWithoutKomunitasInput[] | Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput | Prisma.NotifikasiCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.NotifikasiUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.NotifikasiUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.NotifikasiCreateManyKomunitasInputEnvelope
+  set?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  disconnect?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  delete?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  connect?: Prisma.NotifikasiWhereUniqueInput | Prisma.NotifikasiWhereUniqueInput[]
+  update?: Prisma.NotifikasiUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.NotifikasiUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.NotifikasiUpdateManyWithWhereWithoutKomunitasInput | Prisma.NotifikasiUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.NotifikasiScalarWhereInput | Prisma.NotifikasiScalarWhereInput[]
+}
+
+export type NotifikasiCreateWithoutKomunitasInput = {
+  id?: string
+  title: string
+  message: string
+  type?: string
+  isRead?: boolean
+  createdAt?: Date | string
+}
+
+export type NotifikasiUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  title: string
+  message: string
+  type?: string
+  isRead?: boolean
+  createdAt?: Date | string
+}
+
+export type NotifikasiCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.NotifikasiWhereUniqueInput
+  create: Prisma.XOR<Prisma.NotifikasiCreateWithoutKomunitasInput, Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput>
+}
+
+export type NotifikasiCreateManyKomunitasInputEnvelope = {
+  data: Prisma.NotifikasiCreateManyKomunitasInput | Prisma.NotifikasiCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type NotifikasiUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.NotifikasiWhereUniqueInput
+  update: Prisma.XOR<Prisma.NotifikasiUpdateWithoutKomunitasInput, Prisma.NotifikasiUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.NotifikasiCreateWithoutKomunitasInput, Prisma.NotifikasiUncheckedCreateWithoutKomunitasInput>
+}
+
+export type NotifikasiUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.NotifikasiWhereUniqueInput
+  data: Prisma.XOR<Prisma.NotifikasiUpdateWithoutKomunitasInput, Prisma.NotifikasiUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type NotifikasiUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.NotifikasiScalarWhereInput
+  data: Prisma.XOR<Prisma.NotifikasiUpdateManyMutationInput, Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type NotifikasiScalarWhereInput = {
+  AND?: Prisma.NotifikasiScalarWhereInput | Prisma.NotifikasiScalarWhereInput[]
+  OR?: Prisma.NotifikasiScalarWhereInput[]
+  NOT?: Prisma.NotifikasiScalarWhereInput | Prisma.NotifikasiScalarWhereInput[]
+  id?: Prisma.StringFilter<"Notifikasi"> | string
+  title?: Prisma.StringFilter<"Notifikasi"> | string
+  message?: Prisma.StringFilter<"Notifikasi"> | string
+  type?: Prisma.StringFilter<"Notifikasi"> | string
+  isRead?: Prisma.BoolFilter<"Notifikasi"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Notifikasi"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"Notifikasi"> | string | null
+}
+
+export type NotifikasiCreateManyKomunitasInput = {
+  id?: string
+  title: string
+  message: string
+  type?: string
+  isRead?: boolean
+  createdAt?: Date | string
+}
+
+export type NotifikasiUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  isRead?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type NotifikasiUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  isRead?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type NotifikasiUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  message?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  isRead?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -336,6 +505,8 @@ export type NotifikasiSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   type?: boolean
   isRead?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.Notifikasi$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["notifikasi"]>
 
 export type NotifikasiSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -345,6 +516,8 @@ export type NotifikasiSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   type?: boolean
   isRead?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.Notifikasi$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["notifikasi"]>
 
 export type NotifikasiSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -354,6 +527,8 @@ export type NotifikasiSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   type?: boolean
   isRead?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.Notifikasi$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["notifikasi"]>
 
 export type NotifikasiSelectScalar = {
@@ -363,13 +538,25 @@ export type NotifikasiSelectScalar = {
   type?: boolean
   isRead?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
 }
 
-export type NotifikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "message" | "type" | "isRead" | "createdAt", ExtArgs["result"]["notifikasi"]>
+export type NotifikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "message" | "type" | "isRead" | "createdAt" | "komunitasId", ExtArgs["result"]["notifikasi"]>
+export type NotifikasiInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.Notifikasi$komunitasArgs<ExtArgs>
+}
+export type NotifikasiIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.Notifikasi$komunitasArgs<ExtArgs>
+}
+export type NotifikasiIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.Notifikasi$komunitasArgs<ExtArgs>
+}
 
 export type $NotifikasiPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Notifikasi"
-  objects: {}
+  objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
@@ -377,6 +564,7 @@ export type $NotifikasiPayload<ExtArgs extends runtime.Types.Extensions.Internal
     type: string
     isRead: boolean
     createdAt: Date
+    komunitasId: string | null
   }, ExtArgs["result"]["notifikasi"]>
   composites: {}
 }
@@ -771,6 +959,7 @@ readonly fields: NotifikasiFieldRefs;
  */
 export interface Prisma__NotifikasiClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.Notifikasi$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Notifikasi$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -806,6 +995,7 @@ export interface NotifikasiFieldRefs {
   readonly type: Prisma.FieldRef<"Notifikasi", 'String'>
   readonly isRead: Prisma.FieldRef<"Notifikasi", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Notifikasi", 'DateTime'>
+  readonly komunitasId: Prisma.FieldRef<"Notifikasi", 'String'>
 }
     
 
@@ -822,6 +1012,10 @@ export type NotifikasiFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the Notifikasi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
   /**
    * Filter, which Notifikasi to fetch.
    */
@@ -841,6 +1035,10 @@ export type NotifikasiFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
+  /**
    * Filter, which Notifikasi to fetch.
    */
   where: Prisma.NotifikasiWhereUniqueInput
@@ -858,6 +1056,10 @@ export type NotifikasiFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the Notifikasi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
   /**
    * Filter, which Notifikasi to fetch.
    */
@@ -907,6 +1109,10 @@ export type NotifikasiFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
+  /**
    * Filter, which Notifikasi to fetch.
    */
   where?: Prisma.NotifikasiWhereInput
@@ -954,6 +1160,10 @@ export type NotifikasiFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the Notifikasi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
   /**
    * Filter, which Notifikasis to fetch.
    */
@@ -1003,6 +1213,10 @@ export type NotifikasiCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
+  /**
    * The data needed to create a Notifikasi.
    */
   data: Prisma.XOR<Prisma.NotifikasiCreateInput, Prisma.NotifikasiUncheckedCreateInput>
@@ -1036,6 +1250,10 @@ export type NotifikasiCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.NotifikasiCreateManyInput | Prisma.NotifikasiCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1050,6 +1268,10 @@ export type NotifikasiUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Notifikasi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
   /**
    * The data needed to update a Notifikasi.
    */
@@ -1102,6 +1324,10 @@ export type NotifikasiUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many Notifikasis to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1116,6 +1342,10 @@ export type NotifikasiUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Notifikasi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
   /**
    * The filter to search for the Notifikasi to update in case it exists.
    */
@@ -1143,6 +1373,10 @@ export type NotifikasiDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
+  /**
    * Filter which Notifikasi to delete.
    */
   where: Prisma.NotifikasiWhereUniqueInput
@@ -1163,6 +1397,25 @@ export type NotifikasiDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * Notifikasi.komunitas
+ */
+export type Notifikasi$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
+}
+
+/**
  * Notifikasi without action
  */
 export type NotifikasiDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1174,4 +1427,8 @@ export type NotifikasiDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Notifikasi
    */
   omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
 }

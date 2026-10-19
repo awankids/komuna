@@ -128,6 +128,7 @@ export async function POST(request: Request, context: RouteContext) {
           title: `Pembayaran ${labelTipe}: ${hutangPiutang.judul}`,
           message: `Pembayaran sebesar Rp ${bayarInt.toLocaleString('id-ID')} (${metode.toUpperCase()}) telah dicatat oleh ${dicatatOleh}. Status: ${statusKet}.`,
           type: newStatus === 'lunas' ? 'success' : 'info',
+          komunitasId: hutangPiutang.komunitasId || tenant.komunitasId,
         },
       });
 

@@ -1,13 +1,28 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext } from '@/lib/auth';
 
 export async function GET() {
   try {
+    const tenant = await getTenantContext();
+
+    const whereClause = tenant?.komunitasId
+      ? {
+          OR: [
+            { komunitasId: tenant.komunitasId }, // Notifikasi RT spesifik
+            { komunitasId: null },               // Notifikasi pembaruan sistem global
+          ],
+        }
+      : {
+          komunitasId: null, // Tamu / unauthenticated hanya melihat changelog publik
+        };
+
     const notifikasi = await db.notifikasi.findMany({
+      where: whereClause,
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20, // Limit to recent 20
+      take: 25, // Limit to recent 25
     });
     
     return NextResponse.json({ success: true, notifikasi });
@@ -19,6 +34,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await getTenantContext();
     const data = await request.json();
     
     const notifikasi = await db.notifikasi.create({
@@ -26,6 +42,7 @@ export async function POST(request: Request) {
         title: data.title,
         message: data.message,
         type: data.type || 'info',
+        komunitasId: tenant?.komunitasId || null,
       }
     });
     

@@ -48,7 +48,8 @@ export async function GET(request: Request) {
         title,
         message,
         type: 'info',
-        isRead: false
+        isRead: false,
+        komunitasId: rombongan.komunitasId,
       }
     });
 

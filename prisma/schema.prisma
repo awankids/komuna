@@ -43,6 +43,7 @@ model Komunitas {
   hutangPiutang  HutangPiutang[]
   pengaturan     PengaturanAplikasi?
   rombongan      Rombongan[]
+  notifikasi     Notifikasi[]
 }
 
 model User {
@@ -186,12 +187,15 @@ model Agenda {
 }
 
 model Notifikasi {
-  id        String   @id @default(uuid())
-  title     String
-  message   String
-  type      String   @default("info") // info, success, warning, error
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id          String      @id @default(uuid())
+  title       String
+  message     String
+  type        String      @default("info") // info, success, warning, error
+  isRead      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+
+  komunitasId String?
+  komunitas   Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
 }
 
 model PengaturanAplikasi {

@@ -241,7 +241,8 @@ export const NotifikasiScalarFieldEnum = {
   message: 'message',
   type: 'type',
   isRead: 'isRead',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  komunitasId: 'komunitasId'
 } as const
 
 export type NotifikasiScalarFieldEnum = (typeof NotifikasiScalarFieldEnum)[keyof typeof NotifikasiScalarFieldEnum]

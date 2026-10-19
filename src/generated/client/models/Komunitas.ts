@@ -343,6 +343,7 @@ export type KomunitasWhereInput = {
   hutangPiutang?: Prisma.HutangPiutangListRelationFilter
   pengaturan?: Prisma.XOR<Prisma.PengaturanAplikasiNullableScalarRelationFilter, Prisma.PengaturanAplikasiWhereInput> | null
   rombongan?: Prisma.RombonganListRelationFilter
+  notifikasi?: Prisma.NotifikasiListRelationFilter
 }
 
 export type KomunitasOrderByWithRelationInput = {
@@ -380,6 +381,7 @@ export type KomunitasOrderByWithRelationInput = {
   hutangPiutang?: Prisma.HutangPiutangOrderByRelationAggregateInput
   pengaturan?: Prisma.PengaturanAplikasiOrderByWithRelationInput
   rombongan?: Prisma.RombonganOrderByRelationAggregateInput
+  notifikasi?: Prisma.NotifikasiOrderByRelationAggregateInput
 }
 
 export type KomunitasWhereUniqueInput = Prisma.AtLeast<{
@@ -420,6 +422,7 @@ export type KomunitasWhereUniqueInput = Prisma.AtLeast<{
   hutangPiutang?: Prisma.HutangPiutangListRelationFilter
   pengaturan?: Prisma.XOR<Prisma.PengaturanAplikasiNullableScalarRelationFilter, Prisma.PengaturanAplikasiWhereInput> | null
   rombongan?: Prisma.RombonganListRelationFilter
+  notifikasi?: Prisma.NotifikasiListRelationFilter
 }, "id" | "slug">
 
 export type KomunitasOrderByWithAggregationInput = {
@@ -509,6 +512,7 @@ export type KomunitasCreateInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateInput = {
@@ -546,6 +550,7 @@ export type KomunitasUncheckedCreateInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUpdateInput = {
@@ -583,6 +588,7 @@ export type KomunitasUpdateInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateInput = {
@@ -620,6 +626,7 @@ export type KomunitasUncheckedUpdateInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateManyInput = {
@@ -887,6 +894,22 @@ export type KomunitasUpdateOneWithoutAgendaNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutAgendaInput, Prisma.KomunitasUpdateWithoutAgendaInput>, Prisma.KomunitasUncheckedUpdateWithoutAgendaInput>
 }
 
+export type KomunitasCreateNestedOneWithoutNotifikasiInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutNotifikasiInput, Prisma.KomunitasUncheckedCreateWithoutNotifikasiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutNotifikasiInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutNotifikasiNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutNotifikasiInput, Prisma.KomunitasUncheckedCreateWithoutNotifikasiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutNotifikasiInput
+  upsert?: Prisma.KomunitasUpsertWithoutNotifikasiInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutNotifikasiInput, Prisma.KomunitasUpdateWithoutNotifikasiInput>, Prisma.KomunitasUncheckedUpdateWithoutNotifikasiInput>
+}
+
 export type KomunitasCreateNestedOneWithoutPengaturanInput = {
   create?: Prisma.XOR<Prisma.KomunitasCreateWithoutPengaturanInput, Prisma.KomunitasUncheckedCreateWithoutPengaturanInput>
   connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutPengaturanInput
@@ -1065,6 +1088,7 @@ export type KomunitasCreateWithoutUsersInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutUsersInput = {
@@ -1101,6 +1125,7 @@ export type KomunitasUncheckedCreateWithoutUsersInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutUsersInput = {
@@ -1153,6 +1178,7 @@ export type KomunitasUpdateWithoutUsersInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutUsersInput = {
@@ -1189,6 +1215,7 @@ export type KomunitasUncheckedUpdateWithoutUsersInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutAnggotaInput = {
@@ -1225,6 +1252,7 @@ export type KomunitasCreateWithoutAnggotaInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutAnggotaInput = {
@@ -1261,6 +1289,7 @@ export type KomunitasUncheckedCreateWithoutAnggotaInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutAnggotaInput = {
@@ -1313,6 +1342,7 @@ export type KomunitasUpdateWithoutAnggotaInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutAnggotaInput = {
@@ -1349,6 +1379,7 @@ export type KomunitasUncheckedUpdateWithoutAnggotaInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutRombonganInput = {
@@ -1385,6 +1416,7 @@ export type KomunitasCreateWithoutRombonganInput = {
   arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutRombonganInput = {
@@ -1421,6 +1453,7 @@ export type KomunitasUncheckedCreateWithoutRombonganInput = {
   arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutRombonganInput = {
@@ -1473,6 +1506,7 @@ export type KomunitasUpdateWithoutRombonganInput = {
   arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutRombonganInput = {
@@ -1509,6 +1543,7 @@ export type KomunitasUncheckedUpdateWithoutRombonganInput = {
   arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutJimpitanInput = {
@@ -1545,6 +1580,7 @@ export type KomunitasCreateWithoutJimpitanInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutJimpitanInput = {
@@ -1581,6 +1617,7 @@ export type KomunitasUncheckedCreateWithoutJimpitanInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutJimpitanInput = {
@@ -1633,6 +1670,7 @@ export type KomunitasUpdateWithoutJimpitanInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutJimpitanInput = {
@@ -1669,6 +1707,7 @@ export type KomunitasUncheckedUpdateWithoutJimpitanInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutTransaksiInput = {
@@ -1705,6 +1744,7 @@ export type KomunitasCreateWithoutTransaksiInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutTransaksiInput = {
@@ -1741,6 +1781,7 @@ export type KomunitasUncheckedCreateWithoutTransaksiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutTransaksiInput = {
@@ -1793,6 +1834,7 @@ export type KomunitasUpdateWithoutTransaksiInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutTransaksiInput = {
@@ -1829,6 +1871,7 @@ export type KomunitasUncheckedUpdateWithoutTransaksiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutAgendaInput = {
@@ -1865,6 +1908,7 @@ export type KomunitasCreateWithoutAgendaInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutAgendaInput = {
@@ -1901,6 +1945,7 @@ export type KomunitasUncheckedCreateWithoutAgendaInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutAgendaInput = {
@@ -1953,6 +1998,7 @@ export type KomunitasUpdateWithoutAgendaInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutAgendaInput = {
@@ -1979,6 +2025,171 @@ export type KomunitasUncheckedUpdateWithoutAgendaInput = {
   anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
   jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
   transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutNotifikasiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutNotifikasiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutNotifikasiInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutNotifikasiInput, Prisma.KomunitasUncheckedCreateWithoutNotifikasiInput>
+}
+
+export type KomunitasUpsertWithoutNotifikasiInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutNotifikasiInput, Prisma.KomunitasUncheckedUpdateWithoutNotifikasiInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutNotifikasiInput, Prisma.KomunitasUncheckedCreateWithoutNotifikasiInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutNotifikasiInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutNotifikasiInput, Prisma.KomunitasUncheckedUpdateWithoutNotifikasiInput>
+}
+
+export type KomunitasUpdateWithoutNotifikasiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutNotifikasiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
   pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
   suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
   mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
@@ -2025,6 +2236,7 @@ export type KomunitasCreateWithoutPengaturanInput = {
   arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutPengaturanInput = {
@@ -2061,6 +2273,7 @@ export type KomunitasUncheckedCreateWithoutPengaturanInput = {
   arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutPengaturanInput = {
@@ -2113,6 +2326,7 @@ export type KomunitasUpdateWithoutPengaturanInput = {
   arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutPengaturanInput = {
@@ -2149,6 +2363,7 @@ export type KomunitasUncheckedUpdateWithoutPengaturanInput = {
   arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutHutangPiutangInput = {
@@ -2185,6 +2400,7 @@ export type KomunitasCreateWithoutHutangPiutangInput = {
   arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutHutangPiutangInput = {
@@ -2221,6 +2437,7 @@ export type KomunitasUncheckedCreateWithoutHutangPiutangInput = {
   arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutHutangPiutangInput = {
@@ -2273,6 +2490,7 @@ export type KomunitasUpdateWithoutHutangPiutangInput = {
   arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutHutangPiutangInput = {
@@ -2309,6 +2527,7 @@ export type KomunitasUncheckedUpdateWithoutHutangPiutangInput = {
   arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutPengurusInput = {
@@ -2345,6 +2564,7 @@ export type KomunitasCreateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutPengurusInput = {
@@ -2381,6 +2601,7 @@ export type KomunitasUncheckedCreateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutPengurusInput = {
@@ -2433,6 +2654,7 @@ export type KomunitasUpdateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutPengurusInput = {
@@ -2469,6 +2691,7 @@ export type KomunitasUncheckedUpdateWithoutPengurusInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutSuratPengantarInput = {
@@ -2505,6 +2728,7 @@ export type KomunitasCreateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutSuratPengantarInput = {
@@ -2541,6 +2765,7 @@ export type KomunitasUncheckedCreateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutSuratPengantarInput = {
@@ -2593,6 +2818,7 @@ export type KomunitasUpdateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutSuratPengantarInput = {
@@ -2629,6 +2855,7 @@ export type KomunitasUncheckedUpdateWithoutSuratPengantarInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutMutasiInput = {
@@ -2665,6 +2892,7 @@ export type KomunitasCreateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutMutasiInput = {
@@ -2701,6 +2929,7 @@ export type KomunitasUncheckedCreateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutMutasiInput = {
@@ -2753,6 +2982,7 @@ export type KomunitasUpdateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutMutasiInput = {
@@ -2789,6 +3019,7 @@ export type KomunitasUncheckedUpdateWithoutMutasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutProgramKerjaInput = {
@@ -2825,6 +3056,7 @@ export type KomunitasCreateWithoutProgramKerjaInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutProgramKerjaInput = {
@@ -2861,6 +3093,7 @@ export type KomunitasUncheckedCreateWithoutProgramKerjaInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutProgramKerjaInput = {
@@ -2913,6 +3146,7 @@ export type KomunitasUpdateWithoutProgramKerjaInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutProgramKerjaInput = {
@@ -2949,6 +3183,7 @@ export type KomunitasUncheckedUpdateWithoutProgramKerjaInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutInventarisInput = {
@@ -2985,6 +3220,7 @@ export type KomunitasCreateWithoutInventarisInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutInventarisInput = {
@@ -3021,6 +3257,7 @@ export type KomunitasUncheckedCreateWithoutInventarisInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutInventarisInput = {
@@ -3073,6 +3310,7 @@ export type KomunitasUpdateWithoutInventarisInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutInventarisInput = {
@@ -3109,6 +3347,7 @@ export type KomunitasUncheckedUpdateWithoutInventarisInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutEvaluasiInput = {
@@ -3145,6 +3384,7 @@ export type KomunitasCreateWithoutEvaluasiInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutEvaluasiInput = {
@@ -3181,6 +3421,7 @@ export type KomunitasUncheckedCreateWithoutEvaluasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutEvaluasiInput = {
@@ -3233,6 +3474,7 @@ export type KomunitasUpdateWithoutEvaluasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutEvaluasiInput = {
@@ -3269,6 +3511,7 @@ export type KomunitasUncheckedUpdateWithoutEvaluasiInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateWithoutArisanInput = {
@@ -3305,6 +3548,7 @@ export type KomunitasCreateWithoutArisanInput = {
   hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutArisanInput = {
@@ -3341,6 +3585,7 @@ export type KomunitasUncheckedCreateWithoutArisanInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
   rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+  notifikasi?: Prisma.NotifikasiUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutArisanInput = {
@@ -3393,6 +3638,7 @@ export type KomunitasUpdateWithoutArisanInput = {
   hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutArisanInput = {
@@ -3429,6 +3675,7 @@ export type KomunitasUncheckedUpdateWithoutArisanInput = {
   hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
   pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
   rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+  notifikasi?: Prisma.NotifikasiUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 
@@ -3451,6 +3698,7 @@ export type KomunitasCountOutputType = {
   arisan: number
   hutangPiutang: number
   rombongan: number
+  notifikasi: number
 }
 
 export type KomunitasCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3468,6 +3716,7 @@ export type KomunitasCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   arisan?: boolean | KomunitasCountOutputTypeCountArisanArgs
   hutangPiutang?: boolean | KomunitasCountOutputTypeCountHutangPiutangArgs
   rombongan?: boolean | KomunitasCountOutputTypeCountRombonganArgs
+  notifikasi?: boolean | KomunitasCountOutputTypeCountNotifikasiArgs
 }
 
 /**
@@ -3578,6 +3827,13 @@ export type KomunitasCountOutputTypeCountRombonganArgs<ExtArgs extends runtime.T
   where?: Prisma.RombonganWhereInput
 }
 
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountNotifikasiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotifikasiWhereInput
+}
+
 
 export type KomunitasSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3614,6 +3870,7 @@ export type KomunitasSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   hutangPiutang?: boolean | Prisma.Komunitas$hutangPiutangArgs<ExtArgs>
   pengaturan?: boolean | Prisma.Komunitas$pengaturanArgs<ExtArgs>
   rombongan?: boolean | Prisma.Komunitas$rombonganArgs<ExtArgs>
+  notifikasi?: boolean | Prisma.Komunitas$notifikasiArgs<ExtArgs>
   _count?: boolean | Prisma.KomunitasCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["komunitas"]>
 
@@ -3700,6 +3957,7 @@ export type KomunitasInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   hutangPiutang?: boolean | Prisma.Komunitas$hutangPiutangArgs<ExtArgs>
   pengaturan?: boolean | Prisma.Komunitas$pengaturanArgs<ExtArgs>
   rombongan?: boolean | Prisma.Komunitas$rombonganArgs<ExtArgs>
+  notifikasi?: boolean | Prisma.Komunitas$notifikasiArgs<ExtArgs>
   _count?: boolean | Prisma.KomunitasCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type KomunitasIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -3723,6 +3981,7 @@ export type $KomunitasPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     hutangPiutang: Prisma.$HutangPiutangPayload<ExtArgs>[]
     pengaturan: Prisma.$PengaturanAplikasiPayload<ExtArgs> | null
     rombongan: Prisma.$RombonganPayload<ExtArgs>[]
+    notifikasi: Prisma.$NotifikasiPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4153,6 +4412,7 @@ export interface Prisma__KomunitasClient<T, Null = never, ExtArgs extends runtim
   hutangPiutang<T extends Prisma.Komunitas$hutangPiutangArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$hutangPiutangArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HutangPiutangPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pengaturan<T extends Prisma.Komunitas$pengaturanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$pengaturanArgs<ExtArgs>>): Prisma.Prisma__PengaturanAplikasiClient<runtime.Types.Result.GetResult<Prisma.$PengaturanAplikasiPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   rombongan<T extends Prisma.Komunitas$rombonganArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$rombonganArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RombonganPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifikasi<T extends Prisma.Komunitas$notifikasiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$notifikasiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotifikasiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4946,6 +5206,30 @@ export type Komunitas$rombonganArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.RombonganScalarFieldEnum | Prisma.RombonganScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.notifikasi
+ */
+export type Komunitas$notifikasiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notifikasi
+   */
+  select?: Prisma.NotifikasiSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notifikasi
+   */
+  omit?: Prisma.NotifikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotifikasiInclude<ExtArgs> | null
+  where?: Prisma.NotifikasiWhereInput
+  orderBy?: Prisma.NotifikasiOrderByWithRelationInput | Prisma.NotifikasiOrderByWithRelationInput[]
+  cursor?: Prisma.NotifikasiWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotifikasiScalarFieldEnum | Prisma.NotifikasiScalarFieldEnum[]
 }
 
 /**

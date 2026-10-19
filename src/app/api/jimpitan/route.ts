@@ -116,7 +116,8 @@ export async function POST(request: Request) {
           title: 'Laporan Jimpitan Masuk 💰',
           message: `Alhamdulillah, jimpitan tanggal ${formattedDate} telah disetor oleh **${petugasName}** sejumlah ${formattedNominal}.`,
           type: 'success',
-          isRead: false
+          isRead: false,
+          komunitasId: tenant.komunitasId,
         }
       }).catch(err => console.error('Failed to create jimpitan notification:', err));
     }

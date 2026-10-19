@@ -249,9 +249,18 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     <Link href="/notifikasi" onClick={() => handleMarkRead(notif.id)} key={notif.id} className={`block px-4 py-3 border-b border-slate-50 hover:bg-slate-50 cursor-pointer transition-colors ${!notif.isRead ? 'bg-slate-50/50' : ''}`}>
                       <div className="flex items-start gap-3">
                         <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${!notif.isRead ? 'bg-[var(--brand-primary)]' : 'bg-transparent'}`} />
-                        <div>
-                          <p className={`text-xs ${!notif.isRead ? 'font-bold text-slate-800' : 'font-medium text-slate-600'}`}>{notif.title}</p>
-                          {notif.message && <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-2 leading-snug">{notif.message}</p>}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className={`text-[9px] px-1.5 py-0.2 rounded font-semibold ${
+                              notif.komunitasId 
+                                ? 'bg-amber-50 text-amber-700 border border-amber-200/50' 
+                                : 'bg-blue-50 text-blue-700 border border-blue-200/50'
+                            }`}>
+                              {notif.komunitasId ? 'Aktivitas RT' : 'Sistem'}
+                            </span>
+                            <p className={`text-xs truncate ${!notif.isRead ? 'font-bold text-slate-800' : 'font-medium text-slate-600'}`}>{notif.title}</p>
+                          </div>
+                          {notif.message && <p className="text-[10px] text-slate-500 line-clamp-2 leading-snug">{notif.message}</p>}
                           <p className="text-[9px] text-slate-400 mt-1">{formatTime(notif.createdAt)}</p>
                         </div>
                       </div>

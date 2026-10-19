@@ -242,6 +242,7 @@ export async function POST(request: Request) {
           title: `Catatan Baru: ${labelTipe}`,
           message: `${judul.trim()} (${namaPihak.trim()}) sebesar Rp ${nominalInt.toLocaleString('id-ID')} telah dicatat oleh ${diisiOleh}.`,
           type: tipe === 'piutang' ? 'info' : 'warning',
+          komunitasId: tenant.komunitasId,
         },
       });
 

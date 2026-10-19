@@ -105,7 +105,8 @@ export async function POST(request: Request) {
         title: 'Agenda Baru 📅',
         message: `Ada agenda baru: **${judul}** pada tanggal ${formattedDate}${timeString}${locationString}.`,
         type: 'info',
-        isRead: false
+        isRead: false,
+        komunitasId: tenant.komunitasId,
       }
     }).catch(err => console.error('Failed to create agenda notification:', err));
 

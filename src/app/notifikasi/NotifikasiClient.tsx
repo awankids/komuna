@@ -15,6 +15,7 @@ interface Notification {
   type: string;
   isRead: boolean;
   createdAt: Date;
+  komunitasId?: string | null;
 }
 
 export default function NotifikasiClient({ initialData }: { initialData: Notification[] }) {
@@ -142,9 +143,18 @@ export default function NotifikasiClient({ initialData }: { initialData: Notific
                       {/* Content Column */}
                       <div className="flex-1 space-y-1">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
-                          <h4 className={`text-[15px] tracking-tight ${!item.isRead ? 'font-bold text-slate-800' : 'font-semibold text-slate-700'}`}>
-                            {item.title}
-                          </h4>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                              item.komunitasId 
+                                ? 'bg-amber-100 text-amber-800 border border-amber-200' 
+                                : 'bg-blue-100 text-blue-800 border border-blue-200'
+                            }`}>
+                              {item.komunitasId ? 'Aktivitas RT' : 'Pembaruan Sistem'}
+                            </span>
+                            <h4 className={`text-[15px] tracking-tight ${!item.isRead ? 'font-bold text-slate-800' : 'font-semibold text-slate-700'}`}>
+                              {item.title}
+                            </h4>
+                          </div>
                           <div className="flex items-center gap-1.5 text-slate-400">
                             <CalendarDays className="w-3.5 h-3.5" />
                             <span className="text-[11px] font-semibold">
