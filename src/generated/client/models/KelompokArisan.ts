@@ -46,6 +46,7 @@ export type KelompokArisanMinAggregateOutputType = {
   tanggalMulai: Date | null
   status: string | null
   keterangan: string | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +63,7 @@ export type KelompokArisanMaxAggregateOutputType = {
   tanggalMulai: Date | null
   status: string | null
   keterangan: string | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -78,6 +80,7 @@ export type KelompokArisanCountAggregateOutputType = {
   tanggalMulai: number
   status: number
   keterangan: number
+  komunitasId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -104,6 +107,7 @@ export type KelompokArisanMinAggregateInputType = {
   tanggalMulai?: true
   status?: true
   keterangan?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -120,6 +124,7 @@ export type KelompokArisanMaxAggregateInputType = {
   tanggalMulai?: true
   status?: true
   keterangan?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -136,6 +141,7 @@ export type KelompokArisanCountAggregateInputType = {
   tanggalMulai?: true
   status?: true
   keterangan?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -239,6 +245,7 @@ export type KelompokArisanGroupByOutputType = {
   tanggalMulai: Date
   status: string
   keterangan: string | null
+  komunitasId: string | null
   createdAt: Date
   updatedAt: Date
   _count: KelompokArisanCountAggregateOutputType | null
@@ -278,8 +285,10 @@ export type KelompokArisanWhereInput = {
   tanggalMulai?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
   status?: Prisma.StringFilter<"KelompokArisan"> | string
   keterangan?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
   createdAt?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   peserta?: Prisma.PesertaArisanListRelationFilter
   putaran?: Prisma.PutaranArisanListRelationFilter
 }
@@ -296,8 +305,10 @@ export type KelompokArisanOrderByWithRelationInput = {
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
   peserta?: Prisma.PesertaArisanOrderByRelationAggregateInput
   putaran?: Prisma.PutaranArisanOrderByRelationAggregateInput
 }
@@ -317,8 +328,10 @@ export type KelompokArisanWhereUniqueInput = Prisma.AtLeast<{
   tanggalMulai?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
   status?: Prisma.StringFilter<"KelompokArisan"> | string
   keterangan?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
   createdAt?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   peserta?: Prisma.PesertaArisanListRelationFilter
   putaran?: Prisma.PutaranArisanListRelationFilter
 }, "id">
@@ -335,6 +348,7 @@ export type KelompokArisanOrderByWithAggregationInput = {
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.KelompokArisanCountOrderByAggregateInput
@@ -359,6 +373,7 @@ export type KelompokArisanScalarWhereWithAggregatesInput = {
   tanggalMulai?: Prisma.DateTimeWithAggregatesFilter<"KelompokArisan"> | Date | string
   status?: Prisma.StringWithAggregatesFilter<"KelompokArisan"> | string
   keterangan?: Prisma.StringNullableWithAggregatesFilter<"KelompokArisan"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"KelompokArisan"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"KelompokArisan"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"KelompokArisan"> | Date | string
 }
@@ -377,6 +392,7 @@ export type KelompokArisanCreateInput = {
   keterangan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutArisanInput
   peserta?: Prisma.PesertaArisanCreateNestedManyWithoutKelompokInput
   putaran?: Prisma.PutaranArisanCreateNestedManyWithoutKelompokInput
 }
@@ -393,6 +409,7 @@ export type KelompokArisanUncheckedCreateInput = {
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   peserta?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutKelompokInput
@@ -413,6 +430,7 @@ export type KelompokArisanUpdateInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutArisanNestedInput
   peserta?: Prisma.PesertaArisanUpdateManyWithoutKelompokNestedInput
   putaran?: Prisma.PutaranArisanUpdateManyWithoutKelompokNestedInput
 }
@@ -429,6 +447,7 @@ export type KelompokArisanUncheckedUpdateInput = {
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   peserta?: Prisma.PesertaArisanUncheckedUpdateManyWithoutKelompokNestedInput
@@ -447,6 +466,7 @@ export type KelompokArisanCreateManyInput = {
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -479,8 +499,19 @@ export type KelompokArisanUncheckedUpdateManyInput = {
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type KelompokArisanListRelationFilter = {
+  every?: Prisma.KelompokArisanWhereInput
+  some?: Prisma.KelompokArisanWhereInput
+  none?: Prisma.KelompokArisanWhereInput
+}
+
+export type KelompokArisanOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type KelompokArisanCountOrderByAggregateInput = {
@@ -495,6 +526,7 @@ export type KelompokArisanCountOrderByAggregateInput = {
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -515,6 +547,7 @@ export type KelompokArisanMaxOrderByAggregateInput = {
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -531,6 +564,7 @@ export type KelompokArisanMinOrderByAggregateInput = {
   tanggalMulai?: Prisma.SortOrder
   status?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -542,6 +576,48 @@ export type KelompokArisanSumOrderByAggregateInput = {
 export type KelompokArisanScalarRelationFilter = {
   is?: Prisma.KelompokArisanWhereInput
   isNot?: Prisma.KelompokArisanWhereInput
+}
+
+export type KelompokArisanCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.KelompokArisanCreateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput> | Prisma.KelompokArisanCreateWithoutKomunitasInput[] | Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput | Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.KelompokArisanCreateManyKomunitasInputEnvelope
+  connect?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+}
+
+export type KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.KelompokArisanCreateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput> | Prisma.KelompokArisanCreateWithoutKomunitasInput[] | Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput | Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.KelompokArisanCreateManyKomunitasInputEnvelope
+  connect?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+}
+
+export type KelompokArisanUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.KelompokArisanCreateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput> | Prisma.KelompokArisanCreateWithoutKomunitasInput[] | Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput | Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.KelompokArisanUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.KelompokArisanUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.KelompokArisanCreateManyKomunitasInputEnvelope
+  set?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  disconnect?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  delete?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  connect?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  update?: Prisma.KelompokArisanUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.KelompokArisanUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.KelompokArisanUpdateManyWithWhereWithoutKomunitasInput | Prisma.KelompokArisanUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.KelompokArisanScalarWhereInput | Prisma.KelompokArisanScalarWhereInput[]
+}
+
+export type KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.KelompokArisanCreateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput> | Prisma.KelompokArisanCreateWithoutKomunitasInput[] | Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput | Prisma.KelompokArisanCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.KelompokArisanUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.KelompokArisanUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.KelompokArisanCreateManyKomunitasInputEnvelope
+  set?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  disconnect?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  delete?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  connect?: Prisma.KelompokArisanWhereUniqueInput | Prisma.KelompokArisanWhereUniqueInput[]
+  update?: Prisma.KelompokArisanUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.KelompokArisanUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.KelompokArisanUpdateManyWithWhereWithoutKomunitasInput | Prisma.KelompokArisanUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.KelompokArisanScalarWhereInput | Prisma.KelompokArisanScalarWhereInput[]
 }
 
 export type KelompokArisanCreateNestedOneWithoutPesertaInput = {
@@ -572,6 +648,88 @@ export type KelompokArisanUpdateOneRequiredWithoutPutaranNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.KelompokArisanUpdateToOneWithWhereWithoutPutaranInput, Prisma.KelompokArisanUpdateWithoutPutaranInput>, Prisma.KelompokArisanUncheckedUpdateWithoutPutaranInput>
 }
 
+export type KelompokArisanCreateWithoutKomunitasInput = {
+  id?: string
+  nama: string
+  nominalIuran: number
+  periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
+  tanggalMulai?: Date | string
+  status?: string
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  peserta?: Prisma.PesertaArisanCreateNestedManyWithoutKelompokInput
+  putaran?: Prisma.PutaranArisanCreateNestedManyWithoutKelompokInput
+}
+
+export type KelompokArisanUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  nama: string
+  nominalIuran: number
+  periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
+  tanggalMulai?: Date | string
+  status?: string
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  peserta?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutKelompokInput
+  putaran?: Prisma.PutaranArisanUncheckedCreateNestedManyWithoutKelompokInput
+}
+
+export type KelompokArisanCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.KelompokArisanWhereUniqueInput
+  create: Prisma.XOR<Prisma.KelompokArisanCreateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput>
+}
+
+export type KelompokArisanCreateManyKomunitasInputEnvelope = {
+  data: Prisma.KelompokArisanCreateManyKomunitasInput | Prisma.KelompokArisanCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type KelompokArisanUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.KelompokArisanWhereUniqueInput
+  update: Prisma.XOR<Prisma.KelompokArisanUpdateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.KelompokArisanCreateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedCreateWithoutKomunitasInput>
+}
+
+export type KelompokArisanUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.KelompokArisanWhereUniqueInput
+  data: Prisma.XOR<Prisma.KelompokArisanUpdateWithoutKomunitasInput, Prisma.KelompokArisanUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type KelompokArisanUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.KelompokArisanScalarWhereInput
+  data: Prisma.XOR<Prisma.KelompokArisanUpdateManyMutationInput, Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type KelompokArisanScalarWhereInput = {
+  AND?: Prisma.KelompokArisanScalarWhereInput | Prisma.KelompokArisanScalarWhereInput[]
+  OR?: Prisma.KelompokArisanScalarWhereInput[]
+  NOT?: Prisma.KelompokArisanScalarWhereInput | Prisma.KelompokArisanScalarWhereInput[]
+  id?: Prisma.StringFilter<"KelompokArisan"> | string
+  nama?: Prisma.StringFilter<"KelompokArisan"> | string
+  nominalIuran?: Prisma.IntFilter<"KelompokArisan"> | number
+  periodeTipe?: Prisma.StringFilter<"KelompokArisan"> | string
+  hariJawa?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  waktuKocok?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  lokasiKocok?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  autoSinkronAgenda?: Prisma.BoolFilter<"KelompokArisan"> | boolean
+  tanggalMulai?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
+  status?: Prisma.StringFilter<"KelompokArisan"> | string
+  keterangan?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"KelompokArisan"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"KelompokArisan"> | Date | string
+}
+
 export type KelompokArisanCreateWithoutPesertaInput = {
   id?: string
   nama: string
@@ -586,6 +744,7 @@ export type KelompokArisanCreateWithoutPesertaInput = {
   keterangan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutArisanInput
   putaran?: Prisma.PutaranArisanCreateNestedManyWithoutKelompokInput
 }
 
@@ -601,6 +760,7 @@ export type KelompokArisanUncheckedCreateWithoutPesertaInput = {
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   putaran?: Prisma.PutaranArisanUncheckedCreateNestedManyWithoutKelompokInput
@@ -636,6 +796,7 @@ export type KelompokArisanUpdateWithoutPesertaInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutArisanNestedInput
   putaran?: Prisma.PutaranArisanUpdateManyWithoutKelompokNestedInput
 }
 
@@ -651,6 +812,7 @@ export type KelompokArisanUncheckedUpdateWithoutPesertaInput = {
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   putaran?: Prisma.PutaranArisanUncheckedUpdateManyWithoutKelompokNestedInput
@@ -670,6 +832,7 @@ export type KelompokArisanCreateWithoutPutaranInput = {
   keterangan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutArisanInput
   peserta?: Prisma.PesertaArisanCreateNestedManyWithoutKelompokInput
 }
 
@@ -685,6 +848,7 @@ export type KelompokArisanUncheckedCreateWithoutPutaranInput = {
   tanggalMulai?: Date | string
   status?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   peserta?: Prisma.PesertaArisanUncheckedCreateNestedManyWithoutKelompokInput
@@ -720,6 +884,7 @@ export type KelompokArisanUpdateWithoutPutaranInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutArisanNestedInput
   peserta?: Prisma.PesertaArisanUpdateManyWithoutKelompokNestedInput
 }
 
@@ -735,9 +900,78 @@ export type KelompokArisanUncheckedUpdateWithoutPutaranInput = {
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   peserta?: Prisma.PesertaArisanUncheckedUpdateManyWithoutKelompokNestedInput
+}
+
+export type KelompokArisanCreateManyKomunitasInput = {
+  id?: string
+  nama: string
+  nominalIuran: number
+  periodeTipe?: string
+  hariJawa?: string | null
+  waktuKocok?: string | null
+  lokasiKocok?: string | null
+  autoSinkronAgenda?: boolean
+  tanggalMulai?: Date | string
+  status?: string
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type KelompokArisanUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
+  periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  peserta?: Prisma.PesertaArisanUpdateManyWithoutKelompokNestedInput
+  putaran?: Prisma.PutaranArisanUpdateManyWithoutKelompokNestedInput
+}
+
+export type KelompokArisanUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
+  periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  peserta?: Prisma.PesertaArisanUncheckedUpdateManyWithoutKelompokNestedInput
+  putaran?: Prisma.PutaranArisanUncheckedUpdateManyWithoutKelompokNestedInput
+}
+
+export type KelompokArisanUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  nominalIuran?: Prisma.IntFieldUpdateOperationsInput | number
+  periodeTipe?: Prisma.StringFieldUpdateOperationsInput | string
+  hariJawa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasiKocok?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoSinkronAgenda?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -792,8 +1026,10 @@ export type KelompokArisanSelect<ExtArgs extends runtime.Types.Extensions.Intern
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.KelompokArisan$komunitasArgs<ExtArgs>
   peserta?: boolean | Prisma.KelompokArisan$pesertaArgs<ExtArgs>
   putaran?: boolean | Prisma.KelompokArisan$putaranArgs<ExtArgs>
   _count?: boolean | Prisma.KelompokArisanCountOutputTypeDefaultArgs<ExtArgs>
@@ -811,8 +1047,10 @@ export type KelompokArisanSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.KelompokArisan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["kelompokArisan"]>
 
 export type KelompokArisanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -827,8 +1065,10 @@ export type KelompokArisanSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.KelompokArisan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["kelompokArisan"]>
 
 export type KelompokArisanSelectScalar = {
@@ -843,22 +1083,29 @@ export type KelompokArisanSelectScalar = {
   tanggalMulai?: boolean
   status?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type KelompokArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "nominalIuran" | "periodeTipe" | "hariJawa" | "waktuKocok" | "lokasiKocok" | "autoSinkronAgenda" | "tanggalMulai" | "status" | "keterangan" | "createdAt" | "updatedAt", ExtArgs["result"]["kelompokArisan"]>
+export type KelompokArisanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "nominalIuran" | "periodeTipe" | "hariJawa" | "waktuKocok" | "lokasiKocok" | "autoSinkronAgenda" | "tanggalMulai" | "status" | "keterangan" | "komunitasId" | "createdAt" | "updatedAt", ExtArgs["result"]["kelompokArisan"]>
 export type KelompokArisanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.KelompokArisan$komunitasArgs<ExtArgs>
   peserta?: boolean | Prisma.KelompokArisan$pesertaArgs<ExtArgs>
   putaran?: boolean | Prisma.KelompokArisan$putaranArgs<ExtArgs>
   _count?: boolean | Prisma.KelompokArisanCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type KelompokArisanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type KelompokArisanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type KelompokArisanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.KelompokArisan$komunitasArgs<ExtArgs>
+}
+export type KelompokArisanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.KelompokArisan$komunitasArgs<ExtArgs>
+}
 
 export type $KelompokArisanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "KelompokArisan"
   objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
     peserta: Prisma.$PesertaArisanPayload<ExtArgs>[]
     putaran: Prisma.$PutaranArisanPayload<ExtArgs>[]
   }
@@ -874,6 +1121,7 @@ export type $KelompokArisanPayload<ExtArgs extends runtime.Types.Extensions.Inte
     tanggalMulai: Date
     status: string
     keterangan: string | null
+    komunitasId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["kelompokArisan"]>
@@ -1270,6 +1518,7 @@ readonly fields: KelompokArisanFieldRefs;
  */
 export interface Prisma__KelompokArisanClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.KelompokArisan$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.KelompokArisan$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   peserta<T extends Prisma.KelompokArisan$pesertaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.KelompokArisan$pesertaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PesertaArisanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   putaran<T extends Prisma.KelompokArisan$putaranArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.KelompokArisan$putaranArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PutaranArisanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1312,6 +1561,7 @@ export interface KelompokArisanFieldRefs {
   readonly tanggalMulai: Prisma.FieldRef<"KelompokArisan", 'DateTime'>
   readonly status: Prisma.FieldRef<"KelompokArisan", 'String'>
   readonly keterangan: Prisma.FieldRef<"KelompokArisan", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"KelompokArisan", 'String'>
   readonly createdAt: Prisma.FieldRef<"KelompokArisan", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"KelompokArisan", 'DateTime'>
 }
@@ -1568,6 +1818,10 @@ export type KelompokArisanCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.KelompokArisanCreateManyInput | Prisma.KelompokArisanCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KelompokArisanIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1638,6 +1892,10 @@ export type KelompokArisanUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many KelompokArisans to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KelompokArisanIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1704,6 +1962,25 @@ export type KelompokArisanDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many KelompokArisans to delete.
    */
   limit?: number
+}
+
+/**
+ * KelompokArisan.komunitas
+ */
+export type KelompokArisan$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

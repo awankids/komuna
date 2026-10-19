@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { requireTenantContext } from '@/lib/auth';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -7,6 +8,7 @@ interface RouteContext {
 
 export async function POST(request: Request, context: RouteContext) {
   try {
+    const tenant = await requireTenantContext();
     const { id } = await context.params;
     const body = await request.json();
     const {
@@ -32,8 +34,8 @@ export async function POST(request: Request, context: RouteContext) {
 
     // Atomic transaction for payment + cash ledger sync
     const result = await db.$transaction(async (tx) => {
-      const hutangPiutang = await tx.hutangPiutang.findUnique({
-        where: { id },
+      const hutangPiutang = await tx.hutangPiutang.findFirst({
+        where: { id, komunitasId: tenant.komunitasId },
       });
 
       if (!hutangPiutang) {
@@ -61,6 +63,7 @@ export async function POST(request: Request, context: RouteContext) {
           // Uang masuk ke kas RT dari pelunasan/cicilan piutang
           const kasTx = await tx.transaksiKeuangan.create({
             data: {
+              komunitasId: tenant.komunitasId,
               tanggal: payDate,
               jenis: 'pemasukan',
               sumber: 'manual',
@@ -74,6 +77,7 @@ export async function POST(request: Request, context: RouteContext) {
           // Uang kas RT keluar untuk membayar hutang vendor
           const kasTx = await tx.transaksiKeuangan.create({
             data: {
+              komunitasId: tenant.komunitasId,
               tanggal: payDate,
               jenis: 'pengeluaran',
               sumber: 'manual',

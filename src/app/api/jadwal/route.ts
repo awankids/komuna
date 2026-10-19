@@ -1,10 +1,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
-// GET all schedules along with anggota info
+// GET all schedules along with anggota info for this tenant
 export async function GET() {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const schedules = await db.jadwalPetugas.findMany({
+      where: {
+        anggota: {
+          komunitasId: tenant.komunitasId,
+        }
+      },
       include: {
         anggota: true,
       },
@@ -20,6 +31,7 @@ export async function GET() {
 // POST or GENERATE schedules
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     
     // Check if it is a generate action
@@ -29,11 +41,14 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Tahun dan bulan mulai wajib diisi' }, { status: 400 });
       }
 
-      // Fetch all Rombongan groups along with active members
+      // Fetch all Rombongan groups for this tenant along with active members
       const groups = await db.rombongan.findMany({
+        where: {
+          komunitasId: tenant.komunitasId,
+        },
         include: {
           anggota: {
-            where: { statusAktif: true },
+            where: { statusAktif: true, komunitasId: tenant.komunitasId },
             orderBy: { nama: 'asc' },
           },
         },
@@ -51,7 +66,7 @@ export async function POST(request: Request) {
       const numDays = new Date(yearNum, monthNum + 1, 0).getDate();
       const createdSchedules = [];
 
-      // Delete existing schedules for this month first to avoid conflict
+      // Delete existing schedules for this month first only for this tenant
       const startOfMonth = new Date(Date.UTC(yearNum, monthNum, 1));
       const endOfMonth = new Date(Date.UTC(yearNum, monthNum, numDays, 23, 59, 59, 999));
       
@@ -61,6 +76,9 @@ export async function POST(request: Request) {
             gte: startOfMonth,
             lte: endOfMonth,
           },
+          anggota: {
+            komunitasId: tenant.komunitasId,
+          }
         },
       });
 
@@ -111,20 +129,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'ID Anggota dan Tanggal wajib diisi' }, { status: 400 });
     }
 
+    // Verify anggota belongs to this tenant
+    const targetMember = await db.anggota.findFirst({
+      where: { id: anggotaId, komunitasId: tenant.komunitasId }
+    });
+    if (!targetMember) {
+      return NextResponse.json({ error: 'Anggota tidak ditemukan di komunitas Anda' }, { status: 404 });
+    }
+
     const dateVal = new Date(tanggal);
 
-    // Check if schedule for this date already exists
+    // Check if schedule for this date already exists for this tenant
     const existing = await db.jadwalPetugas.findFirst({
       where: {
         tanggal: {
           gte: new Date(dateVal.setHours(0, 0, 0, 0)),
           lte: new Date(dateVal.setHours(23, 59, 59, 999)),
         },
+        anggota: {
+          komunitasId: tenant.komunitasId,
+        }
       },
     });
 
     if (existing) {
-      return NextResponse.json({ error: 'Jadwal untuk tanggal ini sudah ada' }, { status: 400 });
+      return NextResponse.json({ error: 'Jadwal untuk tanggal ini sudah ada di komunitas Anda' }, { status: 400 });
     }
 
     const newSchedule = await db.jadwalPetugas.create({
@@ -145,11 +174,22 @@ export async function POST(request: Request) {
 // DELETE a schedule
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
     if (!id) {
       return NextResponse.json({ error: 'ID jadwal wajib dicantumkan' }, { status: 400 });
+    }
+
+    // Verify schedule belongs to this tenant
+    const sched = await db.jadwalPetugas.findFirst({
+      where: { id },
+      include: { anggota: true }
+    });
+
+    if (!sched || sched.anggota?.komunitasId !== tenant.komunitasId) {
+      return NextResponse.json({ error: 'Jadwal tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
     
     await db.jadwalPetugas.delete({

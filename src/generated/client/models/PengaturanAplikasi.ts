@@ -44,6 +44,7 @@ export type PengaturanAplikasiMinAggregateOutputType = {
   nomorSk: string | null
   periodeAktif: string | null
   updatedAt: Date | null
+  komunitasId: string | null
 }
 
 export type PengaturanAplikasiMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type PengaturanAplikasiMaxAggregateOutputType = {
   nomorSk: string | null
   periodeAktif: string | null
   updatedAt: Date | null
+  komunitasId: string | null
 }
 
 export type PengaturanAplikasiCountAggregateOutputType = {
@@ -68,6 +70,7 @@ export type PengaturanAplikasiCountAggregateOutputType = {
   nomorSk: number
   periodeAktif: number
   updatedAt: number
+  komunitasId: number
   _all: number
 }
 
@@ -90,6 +93,7 @@ export type PengaturanAplikasiMinAggregateInputType = {
   nomorSk?: true
   periodeAktif?: true
   updatedAt?: true
+  komunitasId?: true
 }
 
 export type PengaturanAplikasiMaxAggregateInputType = {
@@ -102,6 +106,7 @@ export type PengaturanAplikasiMaxAggregateInputType = {
   nomorSk?: true
   periodeAktif?: true
   updatedAt?: true
+  komunitasId?: true
 }
 
 export type PengaturanAplikasiCountAggregateInputType = {
@@ -114,6 +119,7 @@ export type PengaturanAplikasiCountAggregateInputType = {
   nomorSk?: true
   periodeAktif?: true
   updatedAt?: true
+  komunitasId?: true
   _all?: true
 }
 
@@ -213,6 +219,7 @@ export type PengaturanAplikasiGroupByOutputType = {
   nomorSk: string | null
   periodeAktif: string
   updatedAt: Date
+  komunitasId: string | null
   _count: PengaturanAplikasiCountAggregateOutputType | null
   _avg: PengaturanAplikasiAvgAggregateOutputType | null
   _sum: PengaturanAplikasiSumAggregateOutputType | null
@@ -248,6 +255,8 @@ export type PengaturanAplikasiWhereInput = {
   nomorSk?: Prisma.StringNullableFilter<"PengaturanAplikasi"> | string | null
   periodeAktif?: Prisma.StringFilter<"PengaturanAplikasi"> | string
   updatedAt?: Prisma.DateTimeFilter<"PengaturanAplikasi"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"PengaturanAplikasi"> | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type PengaturanAplikasiOrderByWithRelationInput = {
@@ -260,10 +269,13 @@ export type PengaturanAplikasiOrderByWithRelationInput = {
   nomorSk?: Prisma.SortOrderInput | Prisma.SortOrder
   periodeAktif?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type PengaturanAplikasiWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  komunitasId?: string
   AND?: Prisma.PengaturanAplikasiWhereInput | Prisma.PengaturanAplikasiWhereInput[]
   OR?: Prisma.PengaturanAplikasiWhereInput[]
   NOT?: Prisma.PengaturanAplikasiWhereInput | Prisma.PengaturanAplikasiWhereInput[]
@@ -275,7 +287,8 @@ export type PengaturanAplikasiWhereUniqueInput = Prisma.AtLeast<{
   nomorSk?: Prisma.StringNullableFilter<"PengaturanAplikasi"> | string | null
   periodeAktif?: Prisma.StringFilter<"PengaturanAplikasi"> | string
   updatedAt?: Prisma.DateTimeFilter<"PengaturanAplikasi"> | Date | string
-}, "id">
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
+}, "id" | "komunitasId">
 
 export type PengaturanAplikasiOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -287,6 +300,7 @@ export type PengaturanAplikasiOrderByWithAggregationInput = {
   nomorSk?: Prisma.SortOrderInput | Prisma.SortOrder
   periodeAktif?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PengaturanAplikasiCountOrderByAggregateInput
   _avg?: Prisma.PengaturanAplikasiAvgOrderByAggregateInput
   _max?: Prisma.PengaturanAplikasiMaxOrderByAggregateInput
@@ -307,6 +321,7 @@ export type PengaturanAplikasiScalarWhereWithAggregatesInput = {
   nomorSk?: Prisma.StringNullableWithAggregatesFilter<"PengaturanAplikasi"> | string | null
   periodeAktif?: Prisma.StringWithAggregatesFilter<"PengaturanAplikasi"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PengaturanAplikasi"> | Date | string
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"PengaturanAplikasi"> | string | null
 }
 
 export type PengaturanAplikasiCreateInput = {
@@ -319,6 +334,7 @@ export type PengaturanAplikasiCreateInput = {
   nomorSk?: string | null
   periodeAktif?: string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutPengaturanInput
 }
 
 export type PengaturanAplikasiUncheckedCreateInput = {
@@ -331,6 +347,7 @@ export type PengaturanAplikasiUncheckedCreateInput = {
   nomorSk?: string | null
   periodeAktif?: string
   updatedAt?: Date | string
+  komunitasId?: string | null
 }
 
 export type PengaturanAplikasiUpdateInput = {
@@ -343,6 +360,7 @@ export type PengaturanAplikasiUpdateInput = {
   nomorSk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   periodeAktif?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutPengaturanNestedInput
 }
 
 export type PengaturanAplikasiUncheckedUpdateInput = {
@@ -355,6 +373,7 @@ export type PengaturanAplikasiUncheckedUpdateInput = {
   nomorSk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   periodeAktif?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PengaturanAplikasiCreateManyInput = {
@@ -367,6 +386,7 @@ export type PengaturanAplikasiCreateManyInput = {
   nomorSk?: string | null
   periodeAktif?: string
   updatedAt?: Date | string
+  komunitasId?: string | null
 }
 
 export type PengaturanAplikasiUpdateManyMutationInput = {
@@ -391,6 +411,12 @@ export type PengaturanAplikasiUncheckedUpdateManyInput = {
   nomorSk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   periodeAktif?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type PengaturanAplikasiNullableScalarRelationFilter = {
+  is?: Prisma.PengaturanAplikasiWhereInput | null
+  isNot?: Prisma.PengaturanAplikasiWhereInput | null
 }
 
 export type PengaturanAplikasiCountOrderByAggregateInput = {
@@ -403,6 +429,7 @@ export type PengaturanAplikasiCountOrderByAggregateInput = {
   nomorSk?: Prisma.SortOrder
   periodeAktif?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type PengaturanAplikasiAvgOrderByAggregateInput = {
@@ -419,6 +446,7 @@ export type PengaturanAplikasiMaxOrderByAggregateInput = {
   nomorSk?: Prisma.SortOrder
   periodeAktif?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type PengaturanAplikasiMinOrderByAggregateInput = {
@@ -431,10 +459,107 @@ export type PengaturanAplikasiMinOrderByAggregateInput = {
   nomorSk?: Prisma.SortOrder
   periodeAktif?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type PengaturanAplikasiSumOrderByAggregateInput = {
   targetJimpitan?: Prisma.SortOrder
+}
+
+export type PengaturanAplikasiCreateNestedOneWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.PengaturanAplikasiCreateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedCreateWithoutKomunitasInput>
+  connectOrCreate?: Prisma.PengaturanAplikasiCreateOrConnectWithoutKomunitasInput
+  connect?: Prisma.PengaturanAplikasiWhereUniqueInput
+}
+
+export type PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.PengaturanAplikasiCreateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedCreateWithoutKomunitasInput>
+  connectOrCreate?: Prisma.PengaturanAplikasiCreateOrConnectWithoutKomunitasInput
+  connect?: Prisma.PengaturanAplikasiWhereUniqueInput
+}
+
+export type PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.PengaturanAplikasiCreateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedCreateWithoutKomunitasInput>
+  connectOrCreate?: Prisma.PengaturanAplikasiCreateOrConnectWithoutKomunitasInput
+  upsert?: Prisma.PengaturanAplikasiUpsertWithoutKomunitasInput
+  disconnect?: Prisma.PengaturanAplikasiWhereInput | boolean
+  delete?: Prisma.PengaturanAplikasiWhereInput | boolean
+  connect?: Prisma.PengaturanAplikasiWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PengaturanAplikasiUpdateToOneWithWhereWithoutKomunitasInput, Prisma.PengaturanAplikasiUpdateWithoutKomunitasInput>, Prisma.PengaturanAplikasiUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.PengaturanAplikasiCreateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedCreateWithoutKomunitasInput>
+  connectOrCreate?: Prisma.PengaturanAplikasiCreateOrConnectWithoutKomunitasInput
+  upsert?: Prisma.PengaturanAplikasiUpsertWithoutKomunitasInput
+  disconnect?: Prisma.PengaturanAplikasiWhereInput | boolean
+  delete?: Prisma.PengaturanAplikasiWhereInput | boolean
+  connect?: Prisma.PengaturanAplikasiWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PengaturanAplikasiUpdateToOneWithWhereWithoutKomunitasInput, Prisma.PengaturanAplikasiUpdateWithoutKomunitasInput>, Prisma.PengaturanAplikasiUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type PengaturanAplikasiCreateWithoutKomunitasInput = {
+  id?: string
+  namaApp?: string
+  namaRt?: string
+  tagline?: string
+  targetJimpitan?: number
+  kotaWilayah?: string
+  nomorSk?: string | null
+  periodeAktif?: string
+  updatedAt?: Date | string
+}
+
+export type PengaturanAplikasiUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  namaApp?: string
+  namaRt?: string
+  tagline?: string
+  targetJimpitan?: number
+  kotaWilayah?: string
+  nomorSk?: string | null
+  periodeAktif?: string
+  updatedAt?: Date | string
+}
+
+export type PengaturanAplikasiCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.PengaturanAplikasiWhereUniqueInput
+  create: Prisma.XOR<Prisma.PengaturanAplikasiCreateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedCreateWithoutKomunitasInput>
+}
+
+export type PengaturanAplikasiUpsertWithoutKomunitasInput = {
+  update: Prisma.XOR<Prisma.PengaturanAplikasiUpdateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.PengaturanAplikasiCreateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedCreateWithoutKomunitasInput>
+  where?: Prisma.PengaturanAplikasiWhereInput
+}
+
+export type PengaturanAplikasiUpdateToOneWithWhereWithoutKomunitasInput = {
+  where?: Prisma.PengaturanAplikasiWhereInput
+  data: Prisma.XOR<Prisma.PengaturanAplikasiUpdateWithoutKomunitasInput, Prisma.PengaturanAplikasiUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type PengaturanAplikasiUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  namaApp?: Prisma.StringFieldUpdateOperationsInput | string
+  namaRt?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.StringFieldUpdateOperationsInput | string
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  kotaWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorSk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  periodeAktif?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PengaturanAplikasiUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  namaApp?: Prisma.StringFieldUpdateOperationsInput | string
+  namaRt?: Prisma.StringFieldUpdateOperationsInput | string
+  tagline?: Prisma.StringFieldUpdateOperationsInput | string
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  kotaWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorSk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  periodeAktif?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -449,6 +574,8 @@ export type PengaturanAplikasiSelect<ExtArgs extends runtime.Types.Extensions.In
   nomorSk?: boolean
   periodeAktif?: boolean
   updatedAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["pengaturanAplikasi"]>
 
 export type PengaturanAplikasiSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -461,6 +588,8 @@ export type PengaturanAplikasiSelectCreateManyAndReturn<ExtArgs extends runtime.
   nomorSk?: boolean
   periodeAktif?: boolean
   updatedAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["pengaturanAplikasi"]>
 
 export type PengaturanAplikasiSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -473,6 +602,8 @@ export type PengaturanAplikasiSelectUpdateManyAndReturn<ExtArgs extends runtime.
   nomorSk?: boolean
   periodeAktif?: boolean
   updatedAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["pengaturanAplikasi"]>
 
 export type PengaturanAplikasiSelectScalar = {
@@ -485,13 +616,25 @@ export type PengaturanAplikasiSelectScalar = {
   nomorSk?: boolean
   periodeAktif?: boolean
   updatedAt?: boolean
+  komunitasId?: boolean
 }
 
-export type PengaturanAplikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "namaApp" | "namaRt" | "tagline" | "targetJimpitan" | "kotaWilayah" | "nomorSk" | "periodeAktif" | "updatedAt", ExtArgs["result"]["pengaturanAplikasi"]>
+export type PengaturanAplikasiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "namaApp" | "namaRt" | "tagline" | "targetJimpitan" | "kotaWilayah" | "nomorSk" | "periodeAktif" | "updatedAt" | "komunitasId", ExtArgs["result"]["pengaturanAplikasi"]>
+export type PengaturanAplikasiInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>
+}
+export type PengaturanAplikasiIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>
+}
+export type PengaturanAplikasiIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>
+}
 
 export type $PengaturanAplikasiPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PengaturanAplikasi"
-  objects: {}
+  objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     namaApp: string
@@ -502,6 +645,7 @@ export type $PengaturanAplikasiPayload<ExtArgs extends runtime.Types.Extensions.
     nomorSk: string | null
     periodeAktif: string
     updatedAt: Date
+    komunitasId: string | null
   }, ExtArgs["result"]["pengaturanAplikasi"]>
   composites: {}
 }
@@ -896,6 +1040,7 @@ readonly fields: PengaturanAplikasiFieldRefs;
  */
 export interface Prisma__PengaturanAplikasiClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PengaturanAplikasi$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -934,6 +1079,7 @@ export interface PengaturanAplikasiFieldRefs {
   readonly nomorSk: Prisma.FieldRef<"PengaturanAplikasi", 'String'>
   readonly periodeAktif: Prisma.FieldRef<"PengaturanAplikasi", 'String'>
   readonly updatedAt: Prisma.FieldRef<"PengaturanAplikasi", 'DateTime'>
+  readonly komunitasId: Prisma.FieldRef<"PengaturanAplikasi", 'String'>
 }
     
 
@@ -950,6 +1096,10 @@ export type PengaturanAplikasiFindUniqueArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the PengaturanAplikasi
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
   /**
    * Filter, which PengaturanAplikasi to fetch.
    */
@@ -969,6 +1119,10 @@ export type PengaturanAplikasiFindUniqueOrThrowArgs<ExtArgs extends runtime.Type
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
+  /**
    * Filter, which PengaturanAplikasi to fetch.
    */
   where: Prisma.PengaturanAplikasiWhereUniqueInput
@@ -986,6 +1140,10 @@ export type PengaturanAplikasiFindFirstArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the PengaturanAplikasi
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
   /**
    * Filter, which PengaturanAplikasi to fetch.
    */
@@ -1035,6 +1193,10 @@ export type PengaturanAplikasiFindFirstOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
+  /**
    * Filter, which PengaturanAplikasi to fetch.
    */
   where?: Prisma.PengaturanAplikasiWhereInput
@@ -1082,6 +1244,10 @@ export type PengaturanAplikasiFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the PengaturanAplikasi
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
   /**
    * Filter, which PengaturanAplikasis to fetch.
    */
@@ -1131,6 +1297,10 @@ export type PengaturanAplikasiCreateArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
+  /**
    * The data needed to create a PengaturanAplikasi.
    */
   data: Prisma.XOR<Prisma.PengaturanAplikasiCreateInput, Prisma.PengaturanAplikasiUncheckedCreateInput>
@@ -1164,6 +1334,10 @@ export type PengaturanAplikasiCreateManyAndReturnArgs<ExtArgs extends runtime.Ty
    */
   data: Prisma.PengaturanAplikasiCreateManyInput | Prisma.PengaturanAplikasiCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1178,6 +1352,10 @@ export type PengaturanAplikasiUpdateArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the PengaturanAplikasi
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
   /**
    * The data needed to update a PengaturanAplikasi.
    */
@@ -1230,6 +1408,10 @@ export type PengaturanAplikasiUpdateManyAndReturnArgs<ExtArgs extends runtime.Ty
    * Limit how many PengaturanAplikasis to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1244,6 +1426,10 @@ export type PengaturanAplikasiUpsertArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the PengaturanAplikasi
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
   /**
    * The filter to search for the PengaturanAplikasi to update in case it exists.
    */
@@ -1271,6 +1457,10 @@ export type PengaturanAplikasiDeleteArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
+  /**
    * Filter which PengaturanAplikasi to delete.
    */
   where: Prisma.PengaturanAplikasiWhereUniqueInput
@@ -1291,6 +1481,25 @@ export type PengaturanAplikasiDeleteManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * PengaturanAplikasi.komunitas
+ */
+export type PengaturanAplikasi$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
+}
+
+/**
  * PengaturanAplikasi without action
  */
 export type PengaturanAplikasiDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1302,4 +1511,8 @@ export type PengaturanAplikasiDefaultArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the PengaturanAplikasi
    */
   omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
 }

@@ -163,3 +163,70 @@ export async function requireRole(allowedRoles: string[]): Promise<SessionUser> 
   }
   return session;
 }
+
+export interface TenantContext {
+  userId: string;
+  komunitasId: string;
+  role: string;
+  nama: string;
+  email: string;
+  komunitasNama?: string;
+  komunitasSlug?: string;
+}
+
+export async function getTenantContext(): Promise<TenantContext | null> {
+  const session = await getServerSession();
+  if (!session) return null;
+
+  let komunitasId = session.komunitasId;
+  let komunitasNama = session.komunitasNama || undefined;
+  let komunitasSlug: string | undefined = undefined;
+
+  const { db } = await import('./db');
+
+  if (!komunitasId) {
+    const user = await db.user.findUnique({
+      where: { id: session.id },
+      include: { komunitas: true },
+    });
+    komunitasId = user?.komunitasId || undefined;
+    komunitasNama = user?.komunitas?.nama || undefined;
+    komunitasSlug = user?.komunitas?.slug || undefined;
+  }
+
+  if (!komunitasId && session.email === 'admin@komuna.id') {
+    const dayu = await db.komunitas.findFirst({ where: { slug: 'dayu-02' } });
+    komunitasId = dayu?.id;
+    komunitasNama = dayu?.nama;
+    komunitasSlug = dayu?.slug;
+  }
+
+  if (!komunitasId) return null;
+
+  if (!komunitasNama || !komunitasSlug) {
+    const kom = await db.komunitas.findUnique({
+      where: { id: komunitasId },
+      select: { nama: true, slug: true },
+    });
+    komunitasNama = kom?.nama;
+    komunitasSlug = kom?.slug;
+  }
+
+  return {
+    userId: session.id,
+    komunitasId,
+    role: session.role,
+    nama: session.nama,
+    email: session.email,
+    komunitasNama,
+    komunitasSlug,
+  };
+}
+
+export async function requireTenantContext(): Promise<TenantContext> {
+  const ctx = await getTenantContext();
+  if (!ctx) {
+    throw new Error('UNAUTHORIZED_TENANT');
+  }
+  return ctx;
+}

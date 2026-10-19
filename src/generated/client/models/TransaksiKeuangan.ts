@@ -43,6 +43,7 @@ export type TransaksiKeuanganMinAggregateOutputType = {
   keterangan: string | null
   nominal: number | null
   buktiUrl: string | null
+  komunitasId: string | null
   localId: string | null
   syncStatus: string | null
   createdAtLocal: Date | null
@@ -58,6 +59,7 @@ export type TransaksiKeuanganMaxAggregateOutputType = {
   keterangan: string | null
   nominal: number | null
   buktiUrl: string | null
+  komunitasId: string | null
   localId: string | null
   syncStatus: string | null
   createdAtLocal: Date | null
@@ -73,6 +75,7 @@ export type TransaksiKeuanganCountAggregateOutputType = {
   keterangan: number
   nominal: number
   buktiUrl: number
+  komunitasId: number
   localId: number
   syncStatus: number
   createdAtLocal: number
@@ -98,6 +101,7 @@ export type TransaksiKeuanganMinAggregateInputType = {
   keterangan?: true
   nominal?: true
   buktiUrl?: true
+  komunitasId?: true
   localId?: true
   syncStatus?: true
   createdAtLocal?: true
@@ -113,6 +117,7 @@ export type TransaksiKeuanganMaxAggregateInputType = {
   keterangan?: true
   nominal?: true
   buktiUrl?: true
+  komunitasId?: true
   localId?: true
   syncStatus?: true
   createdAtLocal?: true
@@ -128,6 +133,7 @@ export type TransaksiKeuanganCountAggregateInputType = {
   keterangan?: true
   nominal?: true
   buktiUrl?: true
+  komunitasId?: true
   localId?: true
   syncStatus?: true
   createdAtLocal?: true
@@ -230,6 +236,7 @@ export type TransaksiKeuanganGroupByOutputType = {
   keterangan: string
   nominal: number
   buktiUrl: string | null
+  komunitasId: string | null
   localId: string | null
   syncStatus: string | null
   createdAtLocal: Date | null
@@ -268,10 +275,12 @@ export type TransaksiKeuanganWhereInput = {
   keterangan?: Prisma.StringFilter<"TransaksiKeuangan"> | string
   nominal?: Prisma.IntFilter<"TransaksiKeuangan"> | number
   buktiUrl?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   localId?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   syncStatus?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
   syncedAt?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   pembayaranHutang?: Prisma.XOR<Prisma.PembayaranHutangPiutangNullableScalarRelationFilter, Prisma.PembayaranHutangPiutangWhereInput> | null
 }
 
@@ -284,10 +293,12 @@ export type TransaksiKeuanganOrderByWithRelationInput = {
   keterangan?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
   buktiUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   localId?: Prisma.SortOrderInput | Prisma.SortOrder
   syncStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   syncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
   pembayaranHutang?: Prisma.PembayaranHutangPiutangOrderByWithRelationInput
 }
 
@@ -304,9 +315,11 @@ export type TransaksiKeuanganWhereUniqueInput = Prisma.AtLeast<{
   keterangan?: Prisma.StringFilter<"TransaksiKeuangan"> | string
   nominal?: Prisma.IntFilter<"TransaksiKeuangan"> | number
   buktiUrl?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   syncStatus?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
   syncedAt?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   pembayaranHutang?: Prisma.XOR<Prisma.PembayaranHutangPiutangNullableScalarRelationFilter, Prisma.PembayaranHutangPiutangWhereInput> | null
 }, "id" | "localId">
 
@@ -319,6 +332,7 @@ export type TransaksiKeuanganOrderByWithAggregationInput = {
   keterangan?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
   buktiUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   localId?: Prisma.SortOrderInput | Prisma.SortOrder
   syncStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -342,6 +356,7 @@ export type TransaksiKeuanganScalarWhereWithAggregatesInput = {
   keterangan?: Prisma.StringWithAggregatesFilter<"TransaksiKeuangan"> | string
   nominal?: Prisma.IntWithAggregatesFilter<"TransaksiKeuangan"> | number
   buktiUrl?: Prisma.StringNullableWithAggregatesFilter<"TransaksiKeuangan"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"TransaksiKeuangan"> | string | null
   localId?: Prisma.StringNullableWithAggregatesFilter<"TransaksiKeuangan"> | string | null
   syncStatus?: Prisma.StringNullableWithAggregatesFilter<"TransaksiKeuangan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableWithAggregatesFilter<"TransaksiKeuangan"> | Date | string | null
@@ -361,6 +376,7 @@ export type TransaksiKeuanganCreateInput = {
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
   syncedAt?: Date | string | null
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutTransaksiInput
   pembayaranHutang?: Prisma.PembayaranHutangPiutangCreateNestedOneWithoutTransaksiKasInput
 }
 
@@ -373,6 +389,7 @@ export type TransaksiKeuanganUncheckedCreateInput = {
   keterangan: string
   nominal: number
   buktiUrl?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -393,6 +410,7 @@ export type TransaksiKeuanganUpdateInput = {
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  komunitas?: Prisma.KomunitasUpdateOneWithoutTransaksiNestedInput
   pembayaranHutang?: Prisma.PembayaranHutangPiutangUpdateOneWithoutTransaksiKasNestedInput
 }
 
@@ -405,6 +423,7 @@ export type TransaksiKeuanganUncheckedUpdateInput = {
   keterangan?: Prisma.StringFieldUpdateOperationsInput | string
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
   buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -421,6 +440,7 @@ export type TransaksiKeuanganCreateManyInput = {
   keterangan: string
   nominal: number
   buktiUrl?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -451,10 +471,21 @@ export type TransaksiKeuanganUncheckedUpdateManyInput = {
   keterangan?: Prisma.StringFieldUpdateOperationsInput | string
   nominal?: Prisma.IntFieldUpdateOperationsInput | number
   buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TransaksiKeuanganListRelationFilter = {
+  every?: Prisma.TransaksiKeuanganWhereInput
+  some?: Prisma.TransaksiKeuanganWhereInput
+  none?: Prisma.TransaksiKeuanganWhereInput
+}
+
+export type TransaksiKeuanganOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type TransaksiKeuanganCountOrderByAggregateInput = {
@@ -466,6 +497,7 @@ export type TransaksiKeuanganCountOrderByAggregateInput = {
   keterangan?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
   buktiUrl?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   localId?: Prisma.SortOrder
   syncStatus?: Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrder
@@ -485,6 +517,7 @@ export type TransaksiKeuanganMaxOrderByAggregateInput = {
   keterangan?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
   buktiUrl?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   localId?: Prisma.SortOrder
   syncStatus?: Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrder
@@ -500,6 +533,7 @@ export type TransaksiKeuanganMinOrderByAggregateInput = {
   keterangan?: Prisma.SortOrder
   nominal?: Prisma.SortOrder
   buktiUrl?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   localId?: Prisma.SortOrder
   syncStatus?: Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrder
@@ -513,6 +547,48 @@ export type TransaksiKeuanganSumOrderByAggregateInput = {
 export type TransaksiKeuanganNullableScalarRelationFilter = {
   is?: Prisma.TransaksiKeuanganWhereInput | null
   isNot?: Prisma.TransaksiKeuanganWhereInput | null
+}
+
+export type TransaksiKeuanganCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput> | Prisma.TransaksiKeuanganCreateWithoutKomunitasInput[] | Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput | Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.TransaksiKeuanganCreateManyKomunitasInputEnvelope
+  connect?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+}
+
+export type TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput> | Prisma.TransaksiKeuanganCreateWithoutKomunitasInput[] | Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput | Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.TransaksiKeuanganCreateManyKomunitasInputEnvelope
+  connect?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+}
+
+export type TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput> | Prisma.TransaksiKeuanganCreateWithoutKomunitasInput[] | Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput | Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.TransaksiKeuanganUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.TransaksiKeuanganUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.TransaksiKeuanganCreateManyKomunitasInputEnvelope
+  set?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  disconnect?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  delete?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  connect?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  update?: Prisma.TransaksiKeuanganUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.TransaksiKeuanganUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.TransaksiKeuanganUpdateManyWithWhereWithoutKomunitasInput | Prisma.TransaksiKeuanganUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.TransaksiKeuanganScalarWhereInput | Prisma.TransaksiKeuanganScalarWhereInput[]
+}
+
+export type TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput> | Prisma.TransaksiKeuanganCreateWithoutKomunitasInput[] | Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput | Prisma.TransaksiKeuanganCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.TransaksiKeuanganUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.TransaksiKeuanganUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.TransaksiKeuanganCreateManyKomunitasInputEnvelope
+  set?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  disconnect?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  delete?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  connect?: Prisma.TransaksiKeuanganWhereUniqueInput | Prisma.TransaksiKeuanganWhereUniqueInput[]
+  update?: Prisma.TransaksiKeuanganUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.TransaksiKeuanganUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.TransaksiKeuanganUpdateManyWithWhereWithoutKomunitasInput | Prisma.TransaksiKeuanganUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.TransaksiKeuanganScalarWhereInput | Prisma.TransaksiKeuanganScalarWhereInput[]
 }
 
 export type TransaksiKeuanganCreateNestedOneWithoutPembayaranHutangInput = {
@@ -531,6 +607,83 @@ export type TransaksiKeuanganUpdateOneWithoutPembayaranHutangNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TransaksiKeuanganUpdateToOneWithWhereWithoutPembayaranHutangInput, Prisma.TransaksiKeuanganUpdateWithoutPembayaranHutangInput>, Prisma.TransaksiKeuanganUncheckedUpdateWithoutPembayaranHutangInput>
 }
 
+export type TransaksiKeuanganCreateWithoutKomunitasInput = {
+  id?: string
+  tanggal: Date | string
+  jenis: string
+  sumber: string
+  kategori?: string | null
+  keterangan: string
+  nominal: number
+  buktiUrl?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangCreateNestedOneWithoutTransaksiKasInput
+}
+
+export type TransaksiKeuanganUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  tanggal: Date | string
+  jenis: string
+  sumber: string
+  kategori?: string | null
+  keterangan: string
+  nominal: number
+  buktiUrl?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangUncheckedCreateNestedOneWithoutTransaksiKasInput
+}
+
+export type TransaksiKeuanganCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.TransaksiKeuanganWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput>
+}
+
+export type TransaksiKeuanganCreateManyKomunitasInputEnvelope = {
+  data: Prisma.TransaksiKeuanganCreateManyKomunitasInput | Prisma.TransaksiKeuanganCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type TransaksiKeuanganUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.TransaksiKeuanganWhereUniqueInput
+  update: Prisma.XOR<Prisma.TransaksiKeuanganUpdateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.TransaksiKeuanganCreateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedCreateWithoutKomunitasInput>
+}
+
+export type TransaksiKeuanganUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.TransaksiKeuanganWhereUniqueInput
+  data: Prisma.XOR<Prisma.TransaksiKeuanganUpdateWithoutKomunitasInput, Prisma.TransaksiKeuanganUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type TransaksiKeuanganUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.TransaksiKeuanganScalarWhereInput
+  data: Prisma.XOR<Prisma.TransaksiKeuanganUpdateManyMutationInput, Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type TransaksiKeuanganScalarWhereInput = {
+  AND?: Prisma.TransaksiKeuanganScalarWhereInput | Prisma.TransaksiKeuanganScalarWhereInput[]
+  OR?: Prisma.TransaksiKeuanganScalarWhereInput[]
+  NOT?: Prisma.TransaksiKeuanganScalarWhereInput | Prisma.TransaksiKeuanganScalarWhereInput[]
+  id?: Prisma.StringFilter<"TransaksiKeuangan"> | string
+  tanggal?: Prisma.DateTimeFilter<"TransaksiKeuangan"> | Date | string
+  jenis?: Prisma.StringFilter<"TransaksiKeuangan"> | string
+  sumber?: Prisma.StringFilter<"TransaksiKeuangan"> | string
+  kategori?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  keterangan?: Prisma.StringFilter<"TransaksiKeuangan"> | string
+  nominal?: Prisma.IntFilter<"TransaksiKeuangan"> | number
+  buktiUrl?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  localId?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  syncStatus?: Prisma.StringNullableFilter<"TransaksiKeuangan"> | string | null
+  createdAtLocal?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
+  syncedAt?: Prisma.DateTimeNullableFilter<"TransaksiKeuangan"> | Date | string | null
+}
+
 export type TransaksiKeuanganCreateWithoutPembayaranHutangInput = {
   id?: string
   tanggal: Date | string
@@ -544,6 +697,7 @@ export type TransaksiKeuanganCreateWithoutPembayaranHutangInput = {
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
   syncedAt?: Date | string | null
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutTransaksiInput
 }
 
 export type TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput = {
@@ -555,6 +709,7 @@ export type TransaksiKeuanganUncheckedCreateWithoutPembayaranHutangInput = {
   keterangan: string
   nominal: number
   buktiUrl?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -590,9 +745,73 @@ export type TransaksiKeuanganUpdateWithoutPembayaranHutangInput = {
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  komunitas?: Prisma.KomunitasUpdateOneWithoutTransaksiNestedInput
 }
 
 export type TransaksiKeuanganUncheckedUpdateWithoutPembayaranHutangInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jenis?: Prisma.StringFieldUpdateOperationsInput | string
+  sumber?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TransaksiKeuanganCreateManyKomunitasInput = {
+  id?: string
+  tanggal: Date | string
+  jenis: string
+  sumber: string
+  kategori?: string | null
+  keterangan: string
+  nominal: number
+  buktiUrl?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+}
+
+export type TransaksiKeuanganUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jenis?: Prisma.StringFieldUpdateOperationsInput | string
+  sumber?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangUpdateOneWithoutTransaksiKasNestedInput
+}
+
+export type TransaksiKeuanganUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jenis?: Prisma.StringFieldUpdateOperationsInput | string
+  sumber?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.StringFieldUpdateOperationsInput | string
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  buktiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pembayaranHutang?: Prisma.PembayaranHutangPiutangUncheckedUpdateOneWithoutTransaksiKasNestedInput
+}
+
+export type TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jenis?: Prisma.StringFieldUpdateOperationsInput | string
@@ -618,10 +837,12 @@ export type TransaksiKeuanganSelect<ExtArgs extends runtime.Types.Extensions.Int
   keterangan?: boolean
   nominal?: boolean
   buktiUrl?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
+  komunitas?: boolean | Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>
   pembayaranHutang?: boolean | Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs>
 }, ExtArgs["result"]["transaksiKeuangan"]>
 
@@ -634,10 +855,12 @@ export type TransaksiKeuanganSelectCreateManyAndReturn<ExtArgs extends runtime.T
   keterangan?: boolean
   nominal?: boolean
   buktiUrl?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
+  komunitas?: boolean | Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["transaksiKeuangan"]>
 
 export type TransaksiKeuanganSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -649,10 +872,12 @@ export type TransaksiKeuanganSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   keterangan?: boolean
   nominal?: boolean
   buktiUrl?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
+  komunitas?: boolean | Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["transaksiKeuangan"]>
 
 export type TransaksiKeuanganSelectScalar = {
@@ -664,22 +889,29 @@ export type TransaksiKeuanganSelectScalar = {
   keterangan?: boolean
   nominal?: boolean
   buktiUrl?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
 }
 
-export type TransaksiKeuanganOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tanggal" | "jenis" | "sumber" | "kategori" | "keterangan" | "nominal" | "buktiUrl" | "localId" | "syncStatus" | "createdAtLocal" | "syncedAt", ExtArgs["result"]["transaksiKeuangan"]>
+export type TransaksiKeuanganOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tanggal" | "jenis" | "sumber" | "kategori" | "keterangan" | "nominal" | "buktiUrl" | "komunitasId" | "localId" | "syncStatus" | "createdAtLocal" | "syncedAt", ExtArgs["result"]["transaksiKeuangan"]>
 export type TransaksiKeuanganInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>
   pembayaranHutang?: boolean | Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs>
 }
-export type TransaksiKeuanganIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type TransaksiKeuanganIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TransaksiKeuanganIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>
+}
+export type TransaksiKeuanganIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>
+}
 
 export type $TransaksiKeuanganPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TransaksiKeuangan"
   objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
     pembayaranHutang: Prisma.$PembayaranHutangPiutangPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -691,6 +923,7 @@ export type $TransaksiKeuanganPayload<ExtArgs extends runtime.Types.Extensions.I
     keterangan: string
     nominal: number
     buktiUrl: string | null
+    komunitasId: string | null
     localId: string | null
     syncStatus: string | null
     createdAtLocal: Date | null
@@ -1089,6 +1322,7 @@ readonly fields: TransaksiKeuanganFieldRefs;
  */
 export interface Prisma__TransaksiKeuanganClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TransaksiKeuangan$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pembayaranHutang<T extends Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TransaksiKeuangan$pembayaranHutangArgs<ExtArgs>>): Prisma.Prisma__PembayaranHutangPiutangClient<runtime.Types.Result.GetResult<Prisma.$PembayaranHutangPiutangPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1127,6 +1361,7 @@ export interface TransaksiKeuanganFieldRefs {
   readonly keterangan: Prisma.FieldRef<"TransaksiKeuangan", 'String'>
   readonly nominal: Prisma.FieldRef<"TransaksiKeuangan", 'Int'>
   readonly buktiUrl: Prisma.FieldRef<"TransaksiKeuangan", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"TransaksiKeuangan", 'String'>
   readonly localId: Prisma.FieldRef<"TransaksiKeuangan", 'String'>
   readonly syncStatus: Prisma.FieldRef<"TransaksiKeuangan", 'String'>
   readonly createdAtLocal: Prisma.FieldRef<"TransaksiKeuangan", 'DateTime'>
@@ -1385,6 +1620,10 @@ export type TransaksiKeuanganCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.TransaksiKeuanganCreateManyInput | Prisma.TransaksiKeuanganCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1455,6 +1694,10 @@ export type TransaksiKeuanganUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many TransaksiKeuangans to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1521,6 +1764,25 @@ export type TransaksiKeuanganDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many TransaksiKeuangans to delete.
    */
   limit?: number
+}
+
+/**
+ * TransaksiKeuangan.komunitas
+ */
+export type TransaksiKeuangan$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

@@ -1,13 +1,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { findNextWetonDate } from '@/lib/javanese-date';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ success: false, error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status'); // "aktif" | "selesai" | "semua"
 
-    const where: any = {};
+    const where: any = {
+      komunitasId: tenant.komunitasId,
+    };
     if (status && status !== 'semua') {
       where.status = status;
     }
@@ -94,6 +102,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const {
       nama,
@@ -125,6 +134,7 @@ export async function POST(request: Request) {
 
     const newKelompok = await db.kelompokArisan.create({
       data: {
+        komunitasId: tenant.komunitasId,
         nama: nama.trim(),
         nominalIuran: nominal,
         periodeTipe: periodeTipe || 'bulanan',
@@ -156,6 +166,7 @@ export async function POST(request: Request) {
         const nextAgendaDate = findNextWetonDate(hariJawa);
         await db.agenda.create({
           data: {
+            komunitasId: tenant.komunitasId,
             judul: `Rapat Rutin & Kocokan Arisan: ${newKelompok.nama}`,
             kategori: 'rapat',
             tanggal: nextAgendaDate,

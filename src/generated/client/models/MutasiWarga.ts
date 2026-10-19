@@ -34,6 +34,7 @@ export type MutasiWargaMinAggregateOutputType = {
   jenisKelamin: string | null
   keterangan: string | null
   anggotaId: string | null
+  komunitasId: string | null
   dicatatOleh: string | null
   createdAt: Date | null
 }
@@ -48,6 +49,7 @@ export type MutasiWargaMaxAggregateOutputType = {
   jenisKelamin: string | null
   keterangan: string | null
   anggotaId: string | null
+  komunitasId: string | null
   dicatatOleh: string | null
   createdAt: Date | null
 }
@@ -62,6 +64,7 @@ export type MutasiWargaCountAggregateOutputType = {
   jenisKelamin: number
   keterangan: number
   anggotaId: number
+  komunitasId: number
   dicatatOleh: number
   createdAt: number
   _all: number
@@ -78,6 +81,7 @@ export type MutasiWargaMinAggregateInputType = {
   jenisKelamin?: true
   keterangan?: true
   anggotaId?: true
+  komunitasId?: true
   dicatatOleh?: true
   createdAt?: true
 }
@@ -92,6 +96,7 @@ export type MutasiWargaMaxAggregateInputType = {
   jenisKelamin?: true
   keterangan?: true
   anggotaId?: true
+  komunitasId?: true
   dicatatOleh?: true
   createdAt?: true
 }
@@ -106,6 +111,7 @@ export type MutasiWargaCountAggregateInputType = {
   jenisKelamin?: true
   keterangan?: true
   anggotaId?: true
+  komunitasId?: true
   dicatatOleh?: true
   createdAt?: true
   _all?: true
@@ -193,6 +199,7 @@ export type MutasiWargaGroupByOutputType = {
   jenisKelamin: string | null
   keterangan: string | null
   anggotaId: string | null
+  komunitasId: string | null
   dicatatOleh: string
   createdAt: Date
   _count: MutasiWargaCountAggregateOutputType | null
@@ -228,9 +235,11 @@ export type MutasiWargaWhereInput = {
   jenisKelamin?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
   keterangan?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
   anggotaId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
   dicatatOleh?: Prisma.StringFilter<"MutasiWarga"> | string
   createdAt?: Prisma.DateTimeFilter<"MutasiWarga"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type MutasiWargaOrderByWithRelationInput = {
@@ -243,9 +252,11 @@ export type MutasiWargaOrderByWithRelationInput = {
   jenisKelamin?: Prisma.SortOrderInput | Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   dicatatOleh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   anggota?: Prisma.AnggotaOrderByWithRelationInput
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type MutasiWargaWhereUniqueInput = Prisma.AtLeast<{
@@ -261,9 +272,11 @@ export type MutasiWargaWhereUniqueInput = Prisma.AtLeast<{
   jenisKelamin?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
   keterangan?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
   anggotaId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
   dicatatOleh?: Prisma.StringFilter<"MutasiWarga"> | string
   createdAt?: Prisma.DateTimeFilter<"MutasiWarga"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id">
 
 export type MutasiWargaOrderByWithAggregationInput = {
@@ -276,6 +289,7 @@ export type MutasiWargaOrderByWithAggregationInput = {
   jenisKelamin?: Prisma.SortOrderInput | Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   dicatatOleh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MutasiWargaCountOrderByAggregateInput
@@ -296,6 +310,7 @@ export type MutasiWargaScalarWhereWithAggregatesInput = {
   jenisKelamin?: Prisma.StringNullableWithAggregatesFilter<"MutasiWarga"> | string | null
   keterangan?: Prisma.StringNullableWithAggregatesFilter<"MutasiWarga"> | string | null
   anggotaId?: Prisma.StringNullableWithAggregatesFilter<"MutasiWarga"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"MutasiWarga"> | string | null
   dicatatOleh?: Prisma.StringWithAggregatesFilter<"MutasiWarga"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MutasiWarga"> | Date | string
 }
@@ -312,6 +327,7 @@ export type MutasiWargaCreateInput = {
   dicatatOleh?: string
   createdAt?: Date | string
   anggota?: Prisma.AnggotaCreateNestedOneWithoutMutasiInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutMutasiInput
 }
 
 export type MutasiWargaUncheckedCreateInput = {
@@ -324,6 +340,7 @@ export type MutasiWargaUncheckedCreateInput = {
   jenisKelamin?: string | null
   keterangan?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   dicatatOleh?: string
   createdAt?: Date | string
 }
@@ -340,6 +357,7 @@ export type MutasiWargaUpdateInput = {
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   anggota?: Prisma.AnggotaUpdateOneWithoutMutasiNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutMutasiNestedInput
 }
 
 export type MutasiWargaUncheckedUpdateInput = {
@@ -352,6 +370,7 @@ export type MutasiWargaUncheckedUpdateInput = {
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -366,6 +385,7 @@ export type MutasiWargaCreateManyInput = {
   jenisKelamin?: string | null
   keterangan?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   dicatatOleh?: string
   createdAt?: Date | string
 }
@@ -393,6 +413,7 @@ export type MutasiWargaUncheckedUpdateManyInput = {
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,6 +438,7 @@ export type MutasiWargaCountOrderByAggregateInput = {
   jenisKelamin?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   dicatatOleh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -431,6 +453,7 @@ export type MutasiWargaMaxOrderByAggregateInput = {
   jenisKelamin?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   dicatatOleh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -445,8 +468,51 @@ export type MutasiWargaMinOrderByAggregateInput = {
   jenisKelamin?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   dicatatOleh?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type MutasiWargaCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.MutasiWargaCreateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput> | Prisma.MutasiWargaCreateWithoutKomunitasInput[] | Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput | Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.MutasiWargaCreateManyKomunitasInputEnvelope
+  connect?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+}
+
+export type MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.MutasiWargaCreateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput> | Prisma.MutasiWargaCreateWithoutKomunitasInput[] | Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput | Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.MutasiWargaCreateManyKomunitasInputEnvelope
+  connect?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+}
+
+export type MutasiWargaUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.MutasiWargaCreateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput> | Prisma.MutasiWargaCreateWithoutKomunitasInput[] | Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput | Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.MutasiWargaUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.MutasiWargaUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.MutasiWargaCreateManyKomunitasInputEnvelope
+  set?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  disconnect?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  delete?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  connect?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  update?: Prisma.MutasiWargaUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.MutasiWargaUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.MutasiWargaUpdateManyWithWhereWithoutKomunitasInput | Prisma.MutasiWargaUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
+}
+
+export type MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.MutasiWargaCreateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput> | Prisma.MutasiWargaCreateWithoutKomunitasInput[] | Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput | Prisma.MutasiWargaCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.MutasiWargaUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.MutasiWargaUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.MutasiWargaCreateManyKomunitasInputEnvelope
+  set?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  disconnect?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  delete?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  connect?: Prisma.MutasiWargaWhereUniqueInput | Prisma.MutasiWargaWhereUniqueInput[]
+  update?: Prisma.MutasiWargaUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.MutasiWargaUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.MutasiWargaUpdateManyWithWhereWithoutKomunitasInput | Prisma.MutasiWargaUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
 }
 
 export type MutasiWargaCreateNestedManyWithoutAnggotaInput = {
@@ -491,6 +557,78 @@ export type MutasiWargaUncheckedUpdateManyWithoutAnggotaNestedInput = {
   deleteMany?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
 }
 
+export type MutasiWargaCreateWithoutKomunitasInput = {
+  id?: string
+  jenisMutasi: string
+  tanggalPeristiwa?: Date | string
+  namaWarga: string
+  nik?: string | null
+  noRumah?: string | null
+  jenisKelamin?: string | null
+  keterangan?: string | null
+  dicatatOleh?: string
+  createdAt?: Date | string
+  anggota?: Prisma.AnggotaCreateNestedOneWithoutMutasiInput
+}
+
+export type MutasiWargaUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  jenisMutasi: string
+  tanggalPeristiwa?: Date | string
+  namaWarga: string
+  nik?: string | null
+  noRumah?: string | null
+  jenisKelamin?: string | null
+  keterangan?: string | null
+  anggotaId?: string | null
+  dicatatOleh?: string
+  createdAt?: Date | string
+}
+
+export type MutasiWargaCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.MutasiWargaWhereUniqueInput
+  create: Prisma.XOR<Prisma.MutasiWargaCreateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput>
+}
+
+export type MutasiWargaCreateManyKomunitasInputEnvelope = {
+  data: Prisma.MutasiWargaCreateManyKomunitasInput | Prisma.MutasiWargaCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type MutasiWargaUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.MutasiWargaWhereUniqueInput
+  update: Prisma.XOR<Prisma.MutasiWargaUpdateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.MutasiWargaCreateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedCreateWithoutKomunitasInput>
+}
+
+export type MutasiWargaUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.MutasiWargaWhereUniqueInput
+  data: Prisma.XOR<Prisma.MutasiWargaUpdateWithoutKomunitasInput, Prisma.MutasiWargaUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type MutasiWargaUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.MutasiWargaScalarWhereInput
+  data: Prisma.XOR<Prisma.MutasiWargaUpdateManyMutationInput, Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type MutasiWargaScalarWhereInput = {
+  AND?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
+  OR?: Prisma.MutasiWargaScalarWhereInput[]
+  NOT?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
+  id?: Prisma.StringFilter<"MutasiWarga"> | string
+  jenisMutasi?: Prisma.StringFilter<"MutasiWarga"> | string
+  tanggalPeristiwa?: Prisma.DateTimeFilter<"MutasiWarga"> | Date | string
+  namaWarga?: Prisma.StringFilter<"MutasiWarga"> | string
+  nik?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  noRumah?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  jenisKelamin?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  keterangan?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  anggotaId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
+  dicatatOleh?: Prisma.StringFilter<"MutasiWarga"> | string
+  createdAt?: Prisma.DateTimeFilter<"MutasiWarga"> | Date | string
+}
+
 export type MutasiWargaCreateWithoutAnggotaInput = {
   id?: string
   jenisMutasi: string
@@ -502,6 +640,7 @@ export type MutasiWargaCreateWithoutAnggotaInput = {
   keterangan?: string | null
   dicatatOleh?: string
   createdAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutMutasiInput
 }
 
 export type MutasiWargaUncheckedCreateWithoutAnggotaInput = {
@@ -513,6 +652,7 @@ export type MutasiWargaUncheckedCreateWithoutAnggotaInput = {
   noRumah?: string | null
   jenisKelamin?: string | null
   keterangan?: string | null
+  komunitasId?: string | null
   dicatatOleh?: string
   createdAt?: Date | string
 }
@@ -543,21 +683,60 @@ export type MutasiWargaUpdateManyWithWhereWithoutAnggotaInput = {
   data: Prisma.XOR<Prisma.MutasiWargaUpdateManyMutationInput, Prisma.MutasiWargaUncheckedUpdateManyWithoutAnggotaInput>
 }
 
-export type MutasiWargaScalarWhereInput = {
-  AND?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
-  OR?: Prisma.MutasiWargaScalarWhereInput[]
-  NOT?: Prisma.MutasiWargaScalarWhereInput | Prisma.MutasiWargaScalarWhereInput[]
-  id?: Prisma.StringFilter<"MutasiWarga"> | string
-  jenisMutasi?: Prisma.StringFilter<"MutasiWarga"> | string
-  tanggalPeristiwa?: Prisma.DateTimeFilter<"MutasiWarga"> | Date | string
-  namaWarga?: Prisma.StringFilter<"MutasiWarga"> | string
-  nik?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
-  noRumah?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
-  jenisKelamin?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
-  keterangan?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
-  anggotaId?: Prisma.StringNullableFilter<"MutasiWarga"> | string | null
-  dicatatOleh?: Prisma.StringFilter<"MutasiWarga"> | string
-  createdAt?: Prisma.DateTimeFilter<"MutasiWarga"> | Date | string
+export type MutasiWargaCreateManyKomunitasInput = {
+  id?: string
+  jenisMutasi: string
+  tanggalPeristiwa?: Date | string
+  namaWarga: string
+  nik?: string | null
+  noRumah?: string | null
+  jenisKelamin?: string | null
+  keterangan?: string | null
+  anggotaId?: string | null
+  dicatatOleh?: string
+  createdAt?: Date | string
+}
+
+export type MutasiWargaUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jenisMutasi?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggalPeristiwa?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggota?: Prisma.AnggotaUpdateOneWithoutMutasiNestedInput
+}
+
+export type MutasiWargaUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jenisMutasi?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggalPeristiwa?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MutasiWargaUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jenisMutasi?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggalPeristiwa?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type MutasiWargaCreateManyAnggotaInput = {
@@ -569,6 +748,7 @@ export type MutasiWargaCreateManyAnggotaInput = {
   noRumah?: string | null
   jenisKelamin?: string | null
   keterangan?: string | null
+  komunitasId?: string | null
   dicatatOleh?: string
   createdAt?: Date | string
 }
@@ -584,6 +764,7 @@ export type MutasiWargaUpdateWithoutAnggotaInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutMutasiNestedInput
 }
 
 export type MutasiWargaUncheckedUpdateWithoutAnggotaInput = {
@@ -595,6 +776,7 @@ export type MutasiWargaUncheckedUpdateWithoutAnggotaInput = {
   noRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -608,6 +790,7 @@ export type MutasiWargaUncheckedUpdateManyWithoutAnggotaInput = {
   noRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dicatatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -624,9 +807,11 @@ export type MutasiWargaSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   jenisKelamin?: boolean
   keterangan?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   dicatatOleh?: boolean
   createdAt?: boolean
   anggota?: boolean | Prisma.MutasiWarga$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.MutasiWarga$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["mutasiWarga"]>
 
 export type MutasiWargaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -639,9 +824,11 @@ export type MutasiWargaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   jenisKelamin?: boolean
   keterangan?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   dicatatOleh?: boolean
   createdAt?: boolean
   anggota?: boolean | Prisma.MutasiWarga$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.MutasiWarga$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["mutasiWarga"]>
 
 export type MutasiWargaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -654,9 +841,11 @@ export type MutasiWargaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   jenisKelamin?: boolean
   keterangan?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   dicatatOleh?: boolean
   createdAt?: boolean
   anggota?: boolean | Prisma.MutasiWarga$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.MutasiWarga$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["mutasiWarga"]>
 
 export type MutasiWargaSelectScalar = {
@@ -669,25 +858,30 @@ export type MutasiWargaSelectScalar = {
   jenisKelamin?: boolean
   keterangan?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   dicatatOleh?: boolean
   createdAt?: boolean
 }
 
-export type MutasiWargaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jenisMutasi" | "tanggalPeristiwa" | "namaWarga" | "nik" | "noRumah" | "jenisKelamin" | "keterangan" | "anggotaId" | "dicatatOleh" | "createdAt", ExtArgs["result"]["mutasiWarga"]>
+export type MutasiWargaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jenisMutasi" | "tanggalPeristiwa" | "namaWarga" | "nik" | "noRumah" | "jenisKelamin" | "keterangan" | "anggotaId" | "komunitasId" | "dicatatOleh" | "createdAt", ExtArgs["result"]["mutasiWarga"]>
 export type MutasiWargaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.MutasiWarga$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.MutasiWarga$komunitasArgs<ExtArgs>
 }
 export type MutasiWargaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.MutasiWarga$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.MutasiWarga$komunitasArgs<ExtArgs>
 }
 export type MutasiWargaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.MutasiWarga$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.MutasiWarga$komunitasArgs<ExtArgs>
 }
 
 export type $MutasiWargaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MutasiWarga"
   objects: {
     anggota: Prisma.$AnggotaPayload<ExtArgs> | null
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -699,6 +893,7 @@ export type $MutasiWargaPayload<ExtArgs extends runtime.Types.Extensions.Interna
     jenisKelamin: string | null
     keterangan: string | null
     anggotaId: string | null
+    komunitasId: string | null
     dicatatOleh: string
     createdAt: Date
   }, ExtArgs["result"]["mutasiWarga"]>
@@ -1096,6 +1291,7 @@ readonly fields: MutasiWargaFieldRefs;
 export interface Prisma__MutasiWargaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   anggota<T extends Prisma.MutasiWarga$anggotaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MutasiWarga$anggotaArgs<ExtArgs>>): Prisma.Prisma__AnggotaClient<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  komunitas<T extends Prisma.MutasiWarga$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MutasiWarga$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1134,6 +1330,7 @@ export interface MutasiWargaFieldRefs {
   readonly jenisKelamin: Prisma.FieldRef<"MutasiWarga", 'String'>
   readonly keterangan: Prisma.FieldRef<"MutasiWarga", 'String'>
   readonly anggotaId: Prisma.FieldRef<"MutasiWarga", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"MutasiWarga", 'String'>
   readonly dicatatOleh: Prisma.FieldRef<"MutasiWarga", 'String'>
   readonly createdAt: Prisma.FieldRef<"MutasiWarga", 'DateTime'>
 }
@@ -1553,6 +1750,25 @@ export type MutasiWarga$anggotaArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   include?: Prisma.AnggotaInclude<ExtArgs> | null
   where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * MutasiWarga.komunitas
+ */
+export type MutasiWarga$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

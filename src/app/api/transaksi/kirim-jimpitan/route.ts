@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { requireTenantContext } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { month, year } = await request.json();
 
     if (!month || !year) {
@@ -27,6 +29,7 @@ export async function POST(request: Request) {
 
     const existingTx = await db.transaksiKeuangan.findFirst({
       where: {
+        komunitasId: tenant.komunitasId,
         sumber: 'jimpitan',
         tanggal: {
           gte: startOfMonth,
@@ -42,6 +45,7 @@ export async function POST(request: Request) {
     // 3. Query all jimpitan records for this month and sum nominals
     const jimpitanRecords = await db.jimpitan.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfMonth,
           lte: endOfMonth
@@ -63,7 +67,8 @@ export async function POST(request: Request) {
         sumber: 'jimpitan',
         kategori: 'Jimpitan',
         keterangan: `Jimpitan Bulan ${getMonthName(month)} ${year}`,
-        nominal: totalJimpitan
+        nominal: totalJimpitan,
+        komunitasId: tenant.komunitasId,
       }
     });
 

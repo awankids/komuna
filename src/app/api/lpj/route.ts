@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 const DEFAULT_EVALUASI = {
   kataPengantar: 'Puji dan syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa atas terselenggaranya seluruh program kerja dan pelayanan warga di lingkungan RT kita sepanjang tahun ini. Laporan Pertanggungjawaban ini kami susun sebagai bentuk transparansi, akuntabilitas, dan keterbukaan tata kelola kepengurusan Rukun Tetangga.',
@@ -11,6 +12,11 @@ const DEFAULT_EVALUASI = {
 
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const tahunParam = searchParams.get('tahun');
     const targetYear = tahunParam ? parseInt(tahunParam) : new Date().getFullYear();
@@ -19,7 +25,9 @@ export async function GET(request: Request) {
     const endOfYear = new Date(targetYear, 11, 31, 23, 59, 59);
 
     // 1. App Configuration & Legalitas
-    const config = await db.pengaturanAplikasi.findFirst() || {
+    const config = await db.pengaturanAplikasi.findFirst({
+      where: { komunitasId: tenant.komunitasId },
+    }) || {
       namaApp: 'komuna.id',
       namaRt: 'RT',
       tagline: 'Kebersamaan, Terpadu, Transparan',
@@ -31,7 +39,10 @@ export async function GET(request: Request) {
 
     // 2. Susunan Pengurus RT
     const pengurus = await db.pengurusRT.findMany({
-      where: { statusAktif: true },
+      where: {
+        komunitasId: tenant.komunitasId,
+        statusAktif: true,
+      },
       orderBy: { urutan: 'asc' }
     });
 
@@ -42,6 +53,7 @@ export async function GET(request: Request) {
     // 3. Mutasi Warga (Pilar 1)
     const mutasiList = await db.mutasiWarga.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggalPeristiwa: {
           gte: startOfYear,
           lte: endOfYear
@@ -62,15 +74,24 @@ export async function GET(request: Request) {
       else if (m.jenisMutasi === 'keluar') totalKeluar++;
     });
 
-    const totalWargaAktif = await db.anggota.count({ where: { statusAktif: true } });
-    const totalKkAktif = await db.anggota.count({ where: { statusAktif: true, statusKeluarga: 'kepala_keluarga' } });
-    const totalLaki = await db.anggota.count({ where: { statusAktif: true, jenisKelamin: 'Laki-laki' } });
-    const totalPerempuan = await db.anggota.count({ where: { statusAktif: true, jenisKelamin: 'Perempuan' } });
+    const totalWargaAktif = await db.anggota.count({
+      where: { komunitasId: tenant.komunitasId, statusAktif: true },
+    });
+    const totalKkAktif = await db.anggota.count({
+      where: { komunitasId: tenant.komunitasId, statusAktif: true, statusKeluarga: 'kepala_keluarga' },
+    });
+    const totalLaki = await db.anggota.count({
+      where: { komunitasId: tenant.komunitasId, statusAktif: true, jenisKelamin: 'Laki-laki' },
+    });
+    const totalPerempuan = await db.anggota.count({
+      where: { komunitasId: tenant.komunitasId, statusAktif: true, jenisKelamin: 'Perempuan' },
+    });
     const deltaNetto = (totalLahir + totalMasuk) - (totalMeninggal + totalKeluar);
 
     // 4. Realisasi Keuangan Kas (Pilar Keuangan 1 Tahun)
     const transactions = await db.transaksiKeuangan.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfYear,
           lte: endOfYear
@@ -101,6 +122,7 @@ export async function GET(request: Request) {
     // Saldo Awal (sebelum 1 Jan tahun target)
     const priorTransactions = await db.transaksiKeuangan.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: { lt: startOfYear }
       }
     });
@@ -115,7 +137,10 @@ export async function GET(request: Request) {
 
     // 5. Realisasi Program Kerja (Pilar 2)
     const prokerList = await db.programKerja.findMany({
-      where: { tahun: targetYear },
+      where: {
+        komunitasId: tenant.komunitasId,
+        tahun: targetYear,
+      },
       orderBy: { createdAt: 'asc' }
     });
 
@@ -136,6 +161,9 @@ export async function GET(request: Request) {
 
     // 6. Inventaris & Aset RT (Pilar 3)
     const inventarisList = await db.inventarisAset.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       orderBy: { createdAt: 'asc' }
     });
 
@@ -154,8 +182,11 @@ export async function GET(request: Request) {
     });
 
     // 7. Evaluasi & Rencana Masa Depan (Pilar 4)
-    let evaluasi = await db.evaluasiTahunan.findUnique({
-      where: { tahun: targetYear }
+    let evaluasi = await db.evaluasiTahunan.findFirst({
+      where: {
+        komunitasId: tenant.komunitasId,
+        tahun: targetYear,
+      }
     });
 
     if (!evaluasi) {
@@ -163,6 +194,7 @@ export async function GET(request: Request) {
         id: 'default',
         tahun: targetYear,
         ...DEFAULT_EVALUASI,
+        komunitasId: tenant.komunitasId,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -229,6 +261,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { 
       tahun, 
@@ -242,7 +275,12 @@ export async function POST(request: Request) {
     const targetYear = Number(tahun) || new Date().getFullYear();
 
     const evaluasi = await db.evaluasiTahunan.upsert({
-      where: { tahun: targetYear },
+      where: {
+        komunitasId_tahun: {
+          komunitasId: tenant.komunitasId,
+          tahun: targetYear,
+        },
+      },
       update: {
         kataPengantar: kataPengantar || null,
         kendalaTantangan: kendalaTantangan || '',
@@ -251,6 +289,7 @@ export async function POST(request: Request) {
         estimasiAnggaran: Number(estimasiAnggaran) || 0
       },
       create: {
+        komunitasId: tenant.komunitasId,
         tahun: targetYear,
         kataPengantar: kataPengantar || null,
         kendalaTantangan: kendalaTantangan || '',

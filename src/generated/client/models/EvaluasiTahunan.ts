@@ -44,6 +44,7 @@ export type EvaluasiTahunanMinAggregateOutputType = {
   solusiTindakan: string | null
   usulanRencana: string | null
   estimasiAnggaran: number | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +57,7 @@ export type EvaluasiTahunanMaxAggregateOutputType = {
   solusiTindakan: string | null
   usulanRencana: string | null
   estimasiAnggaran: number | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +70,7 @@ export type EvaluasiTahunanCountAggregateOutputType = {
   solusiTindakan: number
   usulanRencana: number
   estimasiAnggaran: number
+  komunitasId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -92,6 +95,7 @@ export type EvaluasiTahunanMinAggregateInputType = {
   solusiTindakan?: true
   usulanRencana?: true
   estimasiAnggaran?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -104,6 +108,7 @@ export type EvaluasiTahunanMaxAggregateInputType = {
   solusiTindakan?: true
   usulanRencana?: true
   estimasiAnggaran?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -116,6 +121,7 @@ export type EvaluasiTahunanCountAggregateInputType = {
   solusiTindakan?: true
   usulanRencana?: true
   estimasiAnggaran?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -215,6 +221,7 @@ export type EvaluasiTahunanGroupByOutputType = {
   solusiTindakan: string
   usulanRencana: string
   estimasiAnggaran: number
+  komunitasId: string | null
   createdAt: Date
   updatedAt: Date
   _count: EvaluasiTahunanCountAggregateOutputType | null
@@ -250,8 +257,10 @@ export type EvaluasiTahunanWhereInput = {
   solusiTindakan?: Prisma.StringFilter<"EvaluasiTahunan"> | string
   usulanRencana?: Prisma.StringFilter<"EvaluasiTahunan"> | string
   estimasiAnggaran?: Prisma.IntFilter<"EvaluasiTahunan"> | number
+  komunitasId?: Prisma.StringNullableFilter<"EvaluasiTahunan"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EvaluasiTahunan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EvaluasiTahunan"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type EvaluasiTahunanOrderByWithRelationInput = {
@@ -262,24 +271,29 @@ export type EvaluasiTahunanOrderByWithRelationInput = {
   solusiTindakan?: Prisma.SortOrder
   usulanRencana?: Prisma.SortOrder
   estimasiAnggaran?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type EvaluasiTahunanWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  tahun?: number
+  komunitasId_tahun?: Prisma.EvaluasiTahunanKomunitasIdTahunCompoundUniqueInput
   AND?: Prisma.EvaluasiTahunanWhereInput | Prisma.EvaluasiTahunanWhereInput[]
   OR?: Prisma.EvaluasiTahunanWhereInput[]
   NOT?: Prisma.EvaluasiTahunanWhereInput | Prisma.EvaluasiTahunanWhereInput[]
+  tahun?: Prisma.IntFilter<"EvaluasiTahunan"> | number
   kataPengantar?: Prisma.StringNullableFilter<"EvaluasiTahunan"> | string | null
   kendalaTantangan?: Prisma.StringFilter<"EvaluasiTahunan"> | string
   solusiTindakan?: Prisma.StringFilter<"EvaluasiTahunan"> | string
   usulanRencana?: Prisma.StringFilter<"EvaluasiTahunan"> | string
   estimasiAnggaran?: Prisma.IntFilter<"EvaluasiTahunan"> | number
+  komunitasId?: Prisma.StringNullableFilter<"EvaluasiTahunan"> | string | null
   createdAt?: Prisma.DateTimeFilter<"EvaluasiTahunan"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EvaluasiTahunan"> | Date | string
-}, "id" | "tahun">
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
+}, "id" | "komunitasId_tahun">
 
 export type EvaluasiTahunanOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -289,6 +303,7 @@ export type EvaluasiTahunanOrderByWithAggregationInput = {
   solusiTindakan?: Prisma.SortOrder
   usulanRencana?: Prisma.SortOrder
   estimasiAnggaran?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EvaluasiTahunanCountOrderByAggregateInput
@@ -309,6 +324,7 @@ export type EvaluasiTahunanScalarWhereWithAggregatesInput = {
   solusiTindakan?: Prisma.StringWithAggregatesFilter<"EvaluasiTahunan"> | string
   usulanRencana?: Prisma.StringWithAggregatesFilter<"EvaluasiTahunan"> | string
   estimasiAnggaran?: Prisma.IntWithAggregatesFilter<"EvaluasiTahunan"> | number
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"EvaluasiTahunan"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EvaluasiTahunan"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"EvaluasiTahunan"> | Date | string
 }
@@ -323,6 +339,7 @@ export type EvaluasiTahunanCreateInput = {
   estimasiAnggaran?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutEvaluasiInput
 }
 
 export type EvaluasiTahunanUncheckedCreateInput = {
@@ -333,6 +350,7 @@ export type EvaluasiTahunanUncheckedCreateInput = {
   solusiTindakan: string
   usulanRencana: string
   estimasiAnggaran?: number
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -347,6 +365,7 @@ export type EvaluasiTahunanUpdateInput = {
   estimasiAnggaran?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutEvaluasiNestedInput
 }
 
 export type EvaluasiTahunanUncheckedUpdateInput = {
@@ -357,6 +376,7 @@ export type EvaluasiTahunanUncheckedUpdateInput = {
   solusiTindakan?: Prisma.StringFieldUpdateOperationsInput | string
   usulanRencana?: Prisma.StringFieldUpdateOperationsInput | string
   estimasiAnggaran?: Prisma.IntFieldUpdateOperationsInput | number
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -369,6 +389,7 @@ export type EvaluasiTahunanCreateManyInput = {
   solusiTindakan: string
   usulanRencana: string
   estimasiAnggaran?: number
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -393,8 +414,24 @@ export type EvaluasiTahunanUncheckedUpdateManyInput = {
   solusiTindakan?: Prisma.StringFieldUpdateOperationsInput | string
   usulanRencana?: Prisma.StringFieldUpdateOperationsInput | string
   estimasiAnggaran?: Prisma.IntFieldUpdateOperationsInput | number
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EvaluasiTahunanListRelationFilter = {
+  every?: Prisma.EvaluasiTahunanWhereInput
+  some?: Prisma.EvaluasiTahunanWhereInput
+  none?: Prisma.EvaluasiTahunanWhereInput
+}
+
+export type EvaluasiTahunanOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type EvaluasiTahunanKomunitasIdTahunCompoundUniqueInput = {
+  komunitasId: string
+  tahun: number
 }
 
 export type EvaluasiTahunanCountOrderByAggregateInput = {
@@ -405,6 +442,7 @@ export type EvaluasiTahunanCountOrderByAggregateInput = {
   solusiTindakan?: Prisma.SortOrder
   usulanRencana?: Prisma.SortOrder
   estimasiAnggaran?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -422,6 +460,7 @@ export type EvaluasiTahunanMaxOrderByAggregateInput = {
   solusiTindakan?: Prisma.SortOrder
   usulanRencana?: Prisma.SortOrder
   estimasiAnggaran?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -434,6 +473,7 @@ export type EvaluasiTahunanMinOrderByAggregateInput = {
   solusiTindakan?: Prisma.SortOrder
   usulanRencana?: Prisma.SortOrder
   estimasiAnggaran?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -441,6 +481,162 @@ export type EvaluasiTahunanMinOrderByAggregateInput = {
 export type EvaluasiTahunanSumOrderByAggregateInput = {
   tahun?: Prisma.SortOrder
   estimasiAnggaran?: Prisma.SortOrder
+}
+
+export type EvaluasiTahunanCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.EvaluasiTahunanCreateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput> | Prisma.EvaluasiTahunanCreateWithoutKomunitasInput[] | Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput | Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.EvaluasiTahunanCreateManyKomunitasInputEnvelope
+  connect?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+}
+
+export type EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.EvaluasiTahunanCreateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput> | Prisma.EvaluasiTahunanCreateWithoutKomunitasInput[] | Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput | Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.EvaluasiTahunanCreateManyKomunitasInputEnvelope
+  connect?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+}
+
+export type EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.EvaluasiTahunanCreateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput> | Prisma.EvaluasiTahunanCreateWithoutKomunitasInput[] | Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput | Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.EvaluasiTahunanUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.EvaluasiTahunanUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.EvaluasiTahunanCreateManyKomunitasInputEnvelope
+  set?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  disconnect?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  delete?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  connect?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  update?: Prisma.EvaluasiTahunanUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.EvaluasiTahunanUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.EvaluasiTahunanUpdateManyWithWhereWithoutKomunitasInput | Prisma.EvaluasiTahunanUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.EvaluasiTahunanScalarWhereInput | Prisma.EvaluasiTahunanScalarWhereInput[]
+}
+
+export type EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.EvaluasiTahunanCreateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput> | Prisma.EvaluasiTahunanCreateWithoutKomunitasInput[] | Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput | Prisma.EvaluasiTahunanCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.EvaluasiTahunanUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.EvaluasiTahunanUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.EvaluasiTahunanCreateManyKomunitasInputEnvelope
+  set?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  disconnect?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  delete?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  connect?: Prisma.EvaluasiTahunanWhereUniqueInput | Prisma.EvaluasiTahunanWhereUniqueInput[]
+  update?: Prisma.EvaluasiTahunanUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.EvaluasiTahunanUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.EvaluasiTahunanUpdateManyWithWhereWithoutKomunitasInput | Prisma.EvaluasiTahunanUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.EvaluasiTahunanScalarWhereInput | Prisma.EvaluasiTahunanScalarWhereInput[]
+}
+
+export type EvaluasiTahunanCreateWithoutKomunitasInput = {
+  id?: string
+  tahun: number
+  kataPengantar?: string | null
+  kendalaTantangan: string
+  solusiTindakan: string
+  usulanRencana: string
+  estimasiAnggaran?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EvaluasiTahunanUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  tahun: number
+  kataPengantar?: string | null
+  kendalaTantangan: string
+  solusiTindakan: string
+  usulanRencana: string
+  estimasiAnggaran?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EvaluasiTahunanCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.EvaluasiTahunanWhereUniqueInput
+  create: Prisma.XOR<Prisma.EvaluasiTahunanCreateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput>
+}
+
+export type EvaluasiTahunanCreateManyKomunitasInputEnvelope = {
+  data: Prisma.EvaluasiTahunanCreateManyKomunitasInput | Prisma.EvaluasiTahunanCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type EvaluasiTahunanUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.EvaluasiTahunanWhereUniqueInput
+  update: Prisma.XOR<Prisma.EvaluasiTahunanUpdateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.EvaluasiTahunanCreateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedCreateWithoutKomunitasInput>
+}
+
+export type EvaluasiTahunanUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.EvaluasiTahunanWhereUniqueInput
+  data: Prisma.XOR<Prisma.EvaluasiTahunanUpdateWithoutKomunitasInput, Prisma.EvaluasiTahunanUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type EvaluasiTahunanUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.EvaluasiTahunanScalarWhereInput
+  data: Prisma.XOR<Prisma.EvaluasiTahunanUpdateManyMutationInput, Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type EvaluasiTahunanScalarWhereInput = {
+  AND?: Prisma.EvaluasiTahunanScalarWhereInput | Prisma.EvaluasiTahunanScalarWhereInput[]
+  OR?: Prisma.EvaluasiTahunanScalarWhereInput[]
+  NOT?: Prisma.EvaluasiTahunanScalarWhereInput | Prisma.EvaluasiTahunanScalarWhereInput[]
+  id?: Prisma.StringFilter<"EvaluasiTahunan"> | string
+  tahun?: Prisma.IntFilter<"EvaluasiTahunan"> | number
+  kataPengantar?: Prisma.StringNullableFilter<"EvaluasiTahunan"> | string | null
+  kendalaTantangan?: Prisma.StringFilter<"EvaluasiTahunan"> | string
+  solusiTindakan?: Prisma.StringFilter<"EvaluasiTahunan"> | string
+  usulanRencana?: Prisma.StringFilter<"EvaluasiTahunan"> | string
+  estimasiAnggaran?: Prisma.IntFilter<"EvaluasiTahunan"> | number
+  komunitasId?: Prisma.StringNullableFilter<"EvaluasiTahunan"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"EvaluasiTahunan"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"EvaluasiTahunan"> | Date | string
+}
+
+export type EvaluasiTahunanCreateManyKomunitasInput = {
+  id?: string
+  tahun: number
+  kataPengantar?: string | null
+  kendalaTantangan: string
+  solusiTindakan: string
+  usulanRencana: string
+  estimasiAnggaran?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EvaluasiTahunanUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tahun?: Prisma.IntFieldUpdateOperationsInput | number
+  kataPengantar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kendalaTantangan?: Prisma.StringFieldUpdateOperationsInput | string
+  solusiTindakan?: Prisma.StringFieldUpdateOperationsInput | string
+  usulanRencana?: Prisma.StringFieldUpdateOperationsInput | string
+  estimasiAnggaran?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EvaluasiTahunanUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tahun?: Prisma.IntFieldUpdateOperationsInput | number
+  kataPengantar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kendalaTantangan?: Prisma.StringFieldUpdateOperationsInput | string
+  solusiTindakan?: Prisma.StringFieldUpdateOperationsInput | string
+  usulanRencana?: Prisma.StringFieldUpdateOperationsInput | string
+  estimasiAnggaran?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tahun?: Prisma.IntFieldUpdateOperationsInput | number
+  kataPengantar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kendalaTantangan?: Prisma.StringFieldUpdateOperationsInput | string
+  solusiTindakan?: Prisma.StringFieldUpdateOperationsInput | string
+  usulanRencana?: Prisma.StringFieldUpdateOperationsInput | string
+  estimasiAnggaran?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -453,8 +649,10 @@ export type EvaluasiTahunanSelect<ExtArgs extends runtime.Types.Extensions.Inter
   solusiTindakan?: boolean
   usulanRencana?: boolean
   estimasiAnggaran?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["evaluasiTahunan"]>
 
 export type EvaluasiTahunanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -465,8 +663,10 @@ export type EvaluasiTahunanSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   solusiTindakan?: boolean
   usulanRencana?: boolean
   estimasiAnggaran?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["evaluasiTahunan"]>
 
 export type EvaluasiTahunanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -477,8 +677,10 @@ export type EvaluasiTahunanSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   solusiTindakan?: boolean
   usulanRencana?: boolean
   estimasiAnggaran?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["evaluasiTahunan"]>
 
 export type EvaluasiTahunanSelectScalar = {
@@ -489,15 +691,27 @@ export type EvaluasiTahunanSelectScalar = {
   solusiTindakan?: boolean
   usulanRencana?: boolean
   estimasiAnggaran?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EvaluasiTahunanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tahun" | "kataPengantar" | "kendalaTantangan" | "solusiTindakan" | "usulanRencana" | "estimasiAnggaran" | "createdAt" | "updatedAt", ExtArgs["result"]["evaluasiTahunan"]>
+export type EvaluasiTahunanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tahun" | "kataPengantar" | "kendalaTantangan" | "solusiTindakan" | "usulanRencana" | "estimasiAnggaran" | "komunitasId" | "createdAt" | "updatedAt", ExtArgs["result"]["evaluasiTahunan"]>
+export type EvaluasiTahunanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>
+}
+export type EvaluasiTahunanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>
+}
+export type EvaluasiTahunanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>
+}
 
 export type $EvaluasiTahunanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EvaluasiTahunan"
-  objects: {}
+  objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tahun: number
@@ -506,6 +720,7 @@ export type $EvaluasiTahunanPayload<ExtArgs extends runtime.Types.Extensions.Int
     solusiTindakan: string
     usulanRencana: string
     estimasiAnggaran: number
+    komunitasId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["evaluasiTahunan"]>
@@ -902,6 +1117,7 @@ readonly fields: EvaluasiTahunanFieldRefs;
  */
 export interface Prisma__EvaluasiTahunanClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EvaluasiTahunan$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -938,6 +1154,7 @@ export interface EvaluasiTahunanFieldRefs {
   readonly solusiTindakan: Prisma.FieldRef<"EvaluasiTahunan", 'String'>
   readonly usulanRencana: Prisma.FieldRef<"EvaluasiTahunan", 'String'>
   readonly estimasiAnggaran: Prisma.FieldRef<"EvaluasiTahunan", 'Int'>
+  readonly komunitasId: Prisma.FieldRef<"EvaluasiTahunan", 'String'>
   readonly createdAt: Prisma.FieldRef<"EvaluasiTahunan", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"EvaluasiTahunan", 'DateTime'>
 }
@@ -957,6 +1174,10 @@ export type EvaluasiTahunanFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
+  /**
    * Filter, which EvaluasiTahunan to fetch.
    */
   where: Prisma.EvaluasiTahunanWhereUniqueInput
@@ -975,6 +1196,10 @@ export type EvaluasiTahunanFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
+  /**
    * Filter, which EvaluasiTahunan to fetch.
    */
   where: Prisma.EvaluasiTahunanWhereUniqueInput
@@ -992,6 +1217,10 @@ export type EvaluasiTahunanFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the EvaluasiTahunan
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
   /**
    * Filter, which EvaluasiTahunan to fetch.
    */
@@ -1041,6 +1270,10 @@ export type EvaluasiTahunanFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
+  /**
    * Filter, which EvaluasiTahunan to fetch.
    */
   where?: Prisma.EvaluasiTahunanWhereInput
@@ -1088,6 +1321,10 @@ export type EvaluasiTahunanFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the EvaluasiTahunan
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
   /**
    * Filter, which EvaluasiTahunans to fetch.
    */
@@ -1137,6 +1374,10 @@ export type EvaluasiTahunanCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
+  /**
    * The data needed to create a EvaluasiTahunan.
    */
   data: Prisma.XOR<Prisma.EvaluasiTahunanCreateInput, Prisma.EvaluasiTahunanUncheckedCreateInput>
@@ -1170,6 +1411,10 @@ export type EvaluasiTahunanCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.EvaluasiTahunanCreateManyInput | Prisma.EvaluasiTahunanCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1184,6 +1429,10 @@ export type EvaluasiTahunanUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the EvaluasiTahunan
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
   /**
    * The data needed to update a EvaluasiTahunan.
    */
@@ -1236,6 +1485,10 @@ export type EvaluasiTahunanUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many EvaluasiTahunans to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1250,6 +1503,10 @@ export type EvaluasiTahunanUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the EvaluasiTahunan
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
   /**
    * The filter to search for the EvaluasiTahunan to update in case it exists.
    */
@@ -1277,6 +1534,10 @@ export type EvaluasiTahunanDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
+  /**
    * Filter which EvaluasiTahunan to delete.
    */
   where: Prisma.EvaluasiTahunanWhereUniqueInput
@@ -1297,6 +1558,25 @@ export type EvaluasiTahunanDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * EvaluasiTahunan.komunitas
+ */
+export type EvaluasiTahunan$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
+}
+
+/**
  * EvaluasiTahunan without action
  */
 export type EvaluasiTahunanDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1308,4 +1588,8 @@ export type EvaluasiTahunanDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the EvaluasiTahunan
    */
   omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
 }

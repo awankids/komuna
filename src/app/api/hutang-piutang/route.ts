@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 // GET all hutang & piutang records with summary statistics
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const tipe = searchParams.get('tipe'); // "semua" | "piutang" | "hutang"
     const status = searchParams.get('status'); // "semua" | "belum_lunas" | "sebagian" | "lunas"
@@ -11,7 +17,9 @@ export async function GET(request: Request) {
     const sort = searchParams.get('sort') || 'jatuhTempo'; // "jatuhTempo" | "nominalDesc" | "terbaru"
 
     // Base query filter
-    const where: any = {};
+    const where: any = {
+      komunitasId: tenant.komunitasId,
+    };
 
     if (tipe && tipe !== 'semua') {
       where.tipe = tipe;
@@ -63,6 +71,9 @@ export async function GET(request: Request) {
 
     // 2. Fetch all active items for global KPI calculation (regardless of filter)
     const allRecords = await db.hutangPiutang.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       select: {
         id: true,
         tipe: true,
@@ -135,6 +146,7 @@ export async function GET(request: Request) {
 // POST new hutang or piutang record
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const {
       tipe,
@@ -175,6 +187,7 @@ export async function POST(request: Request) {
       // 1. Create HutangPiutang record
       const created = await tx.hutangPiutang.create({
         data: {
+          komunitasId: tenant.komunitasId,
           tipe,
           judul: judul.trim(),
           namaPihak: namaPihak.trim(),
@@ -197,6 +210,7 @@ export async function POST(request: Request) {
           // Kas RT dipinjamkan ke pihak luar -> Kas Berkurang (Pengeluaran)
           await tx.transaksiKeuangan.create({
             data: {
+              komunitasId: tenant.komunitasId,
               tanggal: startDate,
               jenis: 'pengeluaran',
               sumber: 'manual',
@@ -209,6 +223,7 @@ export async function POST(request: Request) {
           // Kas RT menerima pinjaman/talangan tunai -> Kas Bertambah (Pemasukan)
           await tx.transaksiKeuangan.create({
             data: {
+              komunitasId: tenant.komunitasId,
               tanggal: startDate,
               jenis: 'pemasukan',
               sumber: 'manual',

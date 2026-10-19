@@ -1,15 +1,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ success: false, error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { id } = await params;
 
-    const kelompok = await db.kelompokArisan.findUnique({
-      where: { id },
+    const kelompok = await db.kelompokArisan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
       include: {
         peserta: {
           orderBy: [{ nomorSlot: 'asc' }, { namaPeserta: 'asc' }],
@@ -94,6 +100,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id } = await params;
     const body = await request.json();
     const {
@@ -108,7 +115,9 @@ export async function PUT(
       keterangan,
     } = body;
 
-    const existing = await db.kelompokArisan.findUnique({ where: { id } });
+    const existing = await db.kelompokArisan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
+    });
     if (!existing) {
       return NextResponse.json(
         { success: false, error: 'Kelompok arisan tidak ditemukan' },
@@ -147,7 +156,19 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id } = await params;
+
+    const existing = await db.kelompokArisan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
+    });
+    if (!existing) {
+      return NextResponse.json(
+        { success: false, error: 'Kelompok arisan tidak ditemukan' },
+        { status: 404 }
+      );
+    }
+
     await db.kelompokArisan.delete({ where: { id } });
     return NextResponse.json({ success: true, message: 'Kelompok arisan berhasil dihapus' });
   } catch (error: any) {

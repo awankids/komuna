@@ -2222,6 +2222,7 @@ export const AnggotaScalarFieldEnum = {
   pekerjaan: 'pekerjaan',
   statusPerkawinan: 'statusPerkawinan',
   statusAktif: 'statusAktif',
+  komunitasId: 'komunitasId',
   statusKeluarga: 'statusKeluarga',
   kepalaKeluargaId: 'kepalaKeluargaId',
   isWajibJimpitan: 'isWajibJimpitan',
@@ -2238,7 +2239,8 @@ export const RombonganScalarFieldEnum = {
   id: 'id',
   nama: 'nama',
   ketuaId: 'ketuaId',
-  hariPiket: 'hariPiket'
+  hariPiket: 'hariPiket',
+  komunitasId: 'komunitasId'
 } as const
 
 export type RombonganScalarFieldEnum = (typeof RombonganScalarFieldEnum)[keyof typeof RombonganScalarFieldEnum]
@@ -2262,6 +2264,7 @@ export const JimpitanScalarFieldEnum = {
   diisiOleh: 'diisiOleh',
   diisiPada: 'diisiPada',
   catatan: 'catatan',
+  komunitasId: 'komunitasId',
   localId: 'localId',
   syncStatus: 'syncStatus',
   createdAtLocal: 'createdAtLocal',
@@ -2280,6 +2283,7 @@ export const TransaksiKeuanganScalarFieldEnum = {
   keterangan: 'keterangan',
   nominal: 'nominal',
   buktiUrl: 'buktiUrl',
+  komunitasId: 'komunitasId',
   localId: 'localId',
   syncStatus: 'syncStatus',
   createdAtLocal: 'createdAtLocal',
@@ -2299,7 +2303,8 @@ export const AgendaScalarFieldEnum = {
   lokasi: 'lokasi',
   keterangan: 'keterangan',
   status: 'status',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  komunitasId: 'komunitasId'
 } as const
 
 export type AgendaScalarFieldEnum = (typeof AgendaScalarFieldEnum)[keyof typeof AgendaScalarFieldEnum]
@@ -2326,7 +2331,8 @@ export const PengaturanAplikasiScalarFieldEnum = {
   kotaWilayah: 'kotaWilayah',
   nomorSk: 'nomorSk',
   periodeAktif: 'periodeAktif',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  komunitasId: 'komunitasId'
 } as const
 
 export type PengaturanAplikasiScalarFieldEnum = (typeof PengaturanAplikasiScalarFieldEnum)[keyof typeof PengaturanAplikasiScalarFieldEnum]
@@ -2339,6 +2345,7 @@ export const HutangPiutangScalarFieldEnum = {
   namaPihak: 'namaPihak',
   kontakPihak: 'kontakPihak',
   anggotaId: 'anggotaId',
+  komunitasId: 'komunitasId',
   totalNominal: 'totalNominal',
   sisaNominal: 'sisaNominal',
   tanggalMulai: 'tanggalMulai',
@@ -2380,6 +2387,7 @@ export const PengurusRTScalarFieldEnum = {
   noHp: 'noHp',
   alamatRumah: 'alamatRumah',
   anggotaId: 'anggotaId',
+  komunitasId: 'komunitasId',
   urutan: 'urutan',
   periode: 'periode',
   statusAktif: 'statusAktif',
@@ -2398,6 +2406,7 @@ export const SuratPengantarScalarFieldEnum = {
   jenisSurat: 'jenisSurat',
   judulSurat: 'judulSurat',
   anggotaId: 'anggotaId',
+  komunitasId: 'komunitasId',
   namaWarga: 'namaWarga',
   nik: 'nik',
   tempatLahir: 'tempatLahir',
@@ -2434,6 +2443,7 @@ export const MutasiWargaScalarFieldEnum = {
   jenisKelamin: 'jenisKelamin',
   keterangan: 'keterangan',
   anggotaId: 'anggotaId',
+  komunitasId: 'komunitasId',
   dicatatOleh: 'dicatatOleh',
   createdAt: 'createdAt'
 } as const
@@ -2453,6 +2463,7 @@ export const ProgramKerjaScalarFieldEnum = {
   persentase: 'persentase',
   keteranganHasil: 'keteranganHasil',
   dokumentasiUrl: 'dokumentasiUrl',
+  komunitasId: 'komunitasId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2474,6 +2485,7 @@ export const InventarisAsetScalarFieldEnum = {
   sumberPerolehan: 'sumberPerolehan',
   statusTahunIni: 'statusTahunIni',
   keterangan: 'keterangan',
+  komunitasId: 'komunitasId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2507,6 +2519,7 @@ export const EvaluasiTahunanScalarFieldEnum = {
   solusiTindakan: 'solusiTindakan',
   usulanRencana: 'usulanRencana',
   estimasiAnggaran: 'estimasiAnggaran',
+  komunitasId: 'komunitasId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2526,6 +2539,7 @@ export const KelompokArisanScalarFieldEnum = {
   tanggalMulai: 'tanggalMulai',
   status: 'status',
   keterangan: 'keterangan',
+  komunitasId: 'komunitasId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

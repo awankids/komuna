@@ -52,6 +52,7 @@ export type ProgramKerjaMinAggregateOutputType = {
   persentase: number | null
   keteranganHasil: string | null
   dokumentasiUrl: string | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +69,7 @@ export type ProgramKerjaMaxAggregateOutputType = {
   persentase: number | null
   keteranganHasil: string | null
   dokumentasiUrl: string | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -84,6 +86,7 @@ export type ProgramKerjaCountAggregateOutputType = {
   persentase: number
   keteranganHasil: number
   dokumentasiUrl: number
+  komunitasId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -116,6 +119,7 @@ export type ProgramKerjaMinAggregateInputType = {
   persentase?: true
   keteranganHasil?: true
   dokumentasiUrl?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -132,6 +136,7 @@ export type ProgramKerjaMaxAggregateInputType = {
   persentase?: true
   keteranganHasil?: true
   dokumentasiUrl?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -148,6 +153,7 @@ export type ProgramKerjaCountAggregateInputType = {
   persentase?: true
   keteranganHasil?: true
   dokumentasiUrl?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -251,6 +257,7 @@ export type ProgramKerjaGroupByOutputType = {
   persentase: number
   keteranganHasil: string | null
   dokumentasiUrl: string | null
+  komunitasId: string | null
   createdAt: Date
   updatedAt: Date
   _count: ProgramKerjaCountAggregateOutputType | null
@@ -290,8 +297,10 @@ export type ProgramKerjaWhereInput = {
   persentase?: Prisma.IntFilter<"ProgramKerja"> | number
   keteranganHasil?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
   dokumentasiUrl?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProgramKerja"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProgramKerja"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type ProgramKerjaOrderByWithRelationInput = {
@@ -306,8 +315,10 @@ export type ProgramKerjaOrderByWithRelationInput = {
   persentase?: Prisma.SortOrder
   keteranganHasil?: Prisma.SortOrderInput | Prisma.SortOrder
   dokumentasiUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type ProgramKerjaWhereUniqueInput = Prisma.AtLeast<{
@@ -325,8 +336,10 @@ export type ProgramKerjaWhereUniqueInput = Prisma.AtLeast<{
   persentase?: Prisma.IntFilter<"ProgramKerja"> | number
   keteranganHasil?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
   dokumentasiUrl?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProgramKerja"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProgramKerja"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id">
 
 export type ProgramKerjaOrderByWithAggregationInput = {
@@ -341,6 +354,7 @@ export type ProgramKerjaOrderByWithAggregationInput = {
   persentase?: Prisma.SortOrder
   keteranganHasil?: Prisma.SortOrderInput | Prisma.SortOrder
   dokumentasiUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProgramKerjaCountOrderByAggregateInput
@@ -365,6 +379,7 @@ export type ProgramKerjaScalarWhereWithAggregatesInput = {
   persentase?: Prisma.IntWithAggregatesFilter<"ProgramKerja"> | number
   keteranganHasil?: Prisma.StringNullableWithAggregatesFilter<"ProgramKerja"> | string | null
   dokumentasiUrl?: Prisma.StringNullableWithAggregatesFilter<"ProgramKerja"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"ProgramKerja"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProgramKerja"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ProgramKerja"> | Date | string
 }
@@ -383,6 +398,7 @@ export type ProgramKerjaCreateInput = {
   dokumentasiUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutProgramKerjaInput
 }
 
 export type ProgramKerjaUncheckedCreateInput = {
@@ -397,6 +413,7 @@ export type ProgramKerjaUncheckedCreateInput = {
   persentase?: number
   keteranganHasil?: string | null
   dokumentasiUrl?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -415,6 +432,7 @@ export type ProgramKerjaUpdateInput = {
   dokumentasiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutProgramKerjaNestedInput
 }
 
 export type ProgramKerjaUncheckedUpdateInput = {
@@ -429,6 +447,7 @@ export type ProgramKerjaUncheckedUpdateInput = {
   persentase?: Prisma.IntFieldUpdateOperationsInput | number
   keteranganHasil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dokumentasiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -445,6 +464,7 @@ export type ProgramKerjaCreateManyInput = {
   persentase?: number
   keteranganHasil?: string | null
   dokumentasiUrl?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -477,8 +497,19 @@ export type ProgramKerjaUncheckedUpdateManyInput = {
   persentase?: Prisma.IntFieldUpdateOperationsInput | number
   keteranganHasil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dokumentasiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProgramKerjaListRelationFilter = {
+  every?: Prisma.ProgramKerjaWhereInput
+  some?: Prisma.ProgramKerjaWhereInput
+  none?: Prisma.ProgramKerjaWhereInput
+}
+
+export type ProgramKerjaOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type ProgramKerjaCountOrderByAggregateInput = {
@@ -493,6 +524,7 @@ export type ProgramKerjaCountOrderByAggregateInput = {
   persentase?: Prisma.SortOrder
   keteranganHasil?: Prisma.SortOrder
   dokumentasiUrl?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -516,6 +548,7 @@ export type ProgramKerjaMaxOrderByAggregateInput = {
   persentase?: Prisma.SortOrder
   keteranganHasil?: Prisma.SortOrder
   dokumentasiUrl?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -532,6 +565,7 @@ export type ProgramKerjaMinOrderByAggregateInput = {
   persentase?: Prisma.SortOrder
   keteranganHasil?: Prisma.SortOrder
   dokumentasiUrl?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -541,6 +575,190 @@ export type ProgramKerjaSumOrderByAggregateInput = {
   anggaranRencana?: Prisma.SortOrder
   anggaranRealisasi?: Prisma.SortOrder
   persentase?: Prisma.SortOrder
+}
+
+export type ProgramKerjaCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.ProgramKerjaCreateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput> | Prisma.ProgramKerjaCreateWithoutKomunitasInput[] | Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput | Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.ProgramKerjaCreateManyKomunitasInputEnvelope
+  connect?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+}
+
+export type ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.ProgramKerjaCreateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput> | Prisma.ProgramKerjaCreateWithoutKomunitasInput[] | Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput | Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.ProgramKerjaCreateManyKomunitasInputEnvelope
+  connect?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+}
+
+export type ProgramKerjaUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.ProgramKerjaCreateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput> | Prisma.ProgramKerjaCreateWithoutKomunitasInput[] | Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput | Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.ProgramKerjaUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.ProgramKerjaUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.ProgramKerjaCreateManyKomunitasInputEnvelope
+  set?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  disconnect?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  delete?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  connect?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  update?: Prisma.ProgramKerjaUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.ProgramKerjaUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.ProgramKerjaUpdateManyWithWhereWithoutKomunitasInput | Prisma.ProgramKerjaUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.ProgramKerjaScalarWhereInput | Prisma.ProgramKerjaScalarWhereInput[]
+}
+
+export type ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.ProgramKerjaCreateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput> | Prisma.ProgramKerjaCreateWithoutKomunitasInput[] | Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput | Prisma.ProgramKerjaCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.ProgramKerjaUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.ProgramKerjaUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.ProgramKerjaCreateManyKomunitasInputEnvelope
+  set?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  disconnect?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  delete?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  connect?: Prisma.ProgramKerjaWhereUniqueInput | Prisma.ProgramKerjaWhereUniqueInput[]
+  update?: Prisma.ProgramKerjaUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.ProgramKerjaUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.ProgramKerjaUpdateManyWithWhereWithoutKomunitasInput | Prisma.ProgramKerjaUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.ProgramKerjaScalarWhereInput | Prisma.ProgramKerjaScalarWhereInput[]
+}
+
+export type ProgramKerjaCreateWithoutKomunitasInput = {
+  id?: string
+  tahun: number
+  bidang: string
+  namaProgram: string
+  targetBulan?: string | null
+  anggaranRencana?: number
+  anggaranRealisasi?: number
+  status?: string
+  persentase?: number
+  keteranganHasil?: string | null
+  dokumentasiUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProgramKerjaUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  tahun: number
+  bidang: string
+  namaProgram: string
+  targetBulan?: string | null
+  anggaranRencana?: number
+  anggaranRealisasi?: number
+  status?: string
+  persentase?: number
+  keteranganHasil?: string | null
+  dokumentasiUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProgramKerjaCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.ProgramKerjaWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProgramKerjaCreateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput>
+}
+
+export type ProgramKerjaCreateManyKomunitasInputEnvelope = {
+  data: Prisma.ProgramKerjaCreateManyKomunitasInput | Prisma.ProgramKerjaCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProgramKerjaUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.ProgramKerjaWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProgramKerjaUpdateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.ProgramKerjaCreateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedCreateWithoutKomunitasInput>
+}
+
+export type ProgramKerjaUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.ProgramKerjaWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProgramKerjaUpdateWithoutKomunitasInput, Prisma.ProgramKerjaUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type ProgramKerjaUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.ProgramKerjaScalarWhereInput
+  data: Prisma.XOR<Prisma.ProgramKerjaUpdateManyMutationInput, Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type ProgramKerjaScalarWhereInput = {
+  AND?: Prisma.ProgramKerjaScalarWhereInput | Prisma.ProgramKerjaScalarWhereInput[]
+  OR?: Prisma.ProgramKerjaScalarWhereInput[]
+  NOT?: Prisma.ProgramKerjaScalarWhereInput | Prisma.ProgramKerjaScalarWhereInput[]
+  id?: Prisma.StringFilter<"ProgramKerja"> | string
+  tahun?: Prisma.IntFilter<"ProgramKerja"> | number
+  bidang?: Prisma.StringFilter<"ProgramKerja"> | string
+  namaProgram?: Prisma.StringFilter<"ProgramKerja"> | string
+  targetBulan?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
+  anggaranRencana?: Prisma.IntFilter<"ProgramKerja"> | number
+  anggaranRealisasi?: Prisma.IntFilter<"ProgramKerja"> | number
+  status?: Prisma.StringFilter<"ProgramKerja"> | string
+  persentase?: Prisma.IntFilter<"ProgramKerja"> | number
+  keteranganHasil?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
+  dokumentasiUrl?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"ProgramKerja"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"ProgramKerja"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ProgramKerja"> | Date | string
+}
+
+export type ProgramKerjaCreateManyKomunitasInput = {
+  id?: string
+  tahun: number
+  bidang: string
+  namaProgram: string
+  targetBulan?: string | null
+  anggaranRencana?: number
+  anggaranRealisasi?: number
+  status?: string
+  persentase?: number
+  keteranganHasil?: string | null
+  dokumentasiUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProgramKerjaUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tahun?: Prisma.IntFieldUpdateOperationsInput | number
+  bidang?: Prisma.StringFieldUpdateOperationsInput | string
+  namaProgram?: Prisma.StringFieldUpdateOperationsInput | string
+  targetBulan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggaranRencana?: Prisma.IntFieldUpdateOperationsInput | number
+  anggaranRealisasi?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  persentase?: Prisma.IntFieldUpdateOperationsInput | number
+  keteranganHasil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dokumentasiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProgramKerjaUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tahun?: Prisma.IntFieldUpdateOperationsInput | number
+  bidang?: Prisma.StringFieldUpdateOperationsInput | string
+  namaProgram?: Prisma.StringFieldUpdateOperationsInput | string
+  targetBulan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggaranRencana?: Prisma.IntFieldUpdateOperationsInput | number
+  anggaranRealisasi?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  persentase?: Prisma.IntFieldUpdateOperationsInput | number
+  keteranganHasil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dokumentasiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProgramKerjaUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tahun?: Prisma.IntFieldUpdateOperationsInput | number
+  bidang?: Prisma.StringFieldUpdateOperationsInput | string
+  namaProgram?: Prisma.StringFieldUpdateOperationsInput | string
+  targetBulan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggaranRencana?: Prisma.IntFieldUpdateOperationsInput | number
+  anggaranRealisasi?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  persentase?: Prisma.IntFieldUpdateOperationsInput | number
+  keteranganHasil?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dokumentasiUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -557,8 +775,10 @@ export type ProgramKerjaSelect<ExtArgs extends runtime.Types.Extensions.Internal
   persentase?: boolean
   keteranganHasil?: boolean
   dokumentasiUrl?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.ProgramKerja$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["programKerja"]>
 
 export type ProgramKerjaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -573,8 +793,10 @@ export type ProgramKerjaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   persentase?: boolean
   keteranganHasil?: boolean
   dokumentasiUrl?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.ProgramKerja$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["programKerja"]>
 
 export type ProgramKerjaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -589,8 +811,10 @@ export type ProgramKerjaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   persentase?: boolean
   keteranganHasil?: boolean
   dokumentasiUrl?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.ProgramKerja$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["programKerja"]>
 
 export type ProgramKerjaSelectScalar = {
@@ -605,15 +829,27 @@ export type ProgramKerjaSelectScalar = {
   persentase?: boolean
   keteranganHasil?: boolean
   dokumentasiUrl?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProgramKerjaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tahun" | "bidang" | "namaProgram" | "targetBulan" | "anggaranRencana" | "anggaranRealisasi" | "status" | "persentase" | "keteranganHasil" | "dokumentasiUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["programKerja"]>
+export type ProgramKerjaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tahun" | "bidang" | "namaProgram" | "targetBulan" | "anggaranRencana" | "anggaranRealisasi" | "status" | "persentase" | "keteranganHasil" | "dokumentasiUrl" | "komunitasId" | "createdAt" | "updatedAt", ExtArgs["result"]["programKerja"]>
+export type ProgramKerjaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.ProgramKerja$komunitasArgs<ExtArgs>
+}
+export type ProgramKerjaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.ProgramKerja$komunitasArgs<ExtArgs>
+}
+export type ProgramKerjaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.ProgramKerja$komunitasArgs<ExtArgs>
+}
 
 export type $ProgramKerjaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProgramKerja"
-  objects: {}
+  objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tahun: number
@@ -626,6 +862,7 @@ export type $ProgramKerjaPayload<ExtArgs extends runtime.Types.Extensions.Intern
     persentase: number
     keteranganHasil: string | null
     dokumentasiUrl: string | null
+    komunitasId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["programKerja"]>
@@ -1022,6 +1259,7 @@ readonly fields: ProgramKerjaFieldRefs;
  */
 export interface Prisma__ProgramKerjaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.ProgramKerja$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProgramKerja$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1062,6 +1300,7 @@ export interface ProgramKerjaFieldRefs {
   readonly persentase: Prisma.FieldRef<"ProgramKerja", 'Int'>
   readonly keteranganHasil: Prisma.FieldRef<"ProgramKerja", 'String'>
   readonly dokumentasiUrl: Prisma.FieldRef<"ProgramKerja", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"ProgramKerja", 'String'>
   readonly createdAt: Prisma.FieldRef<"ProgramKerja", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ProgramKerja", 'DateTime'>
 }
@@ -1081,6 +1320,10 @@ export type ProgramKerjaFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
+  /**
    * Filter, which ProgramKerja to fetch.
    */
   where: Prisma.ProgramKerjaWhereUniqueInput
@@ -1099,6 +1342,10 @@ export type ProgramKerjaFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
+  /**
    * Filter, which ProgramKerja to fetch.
    */
   where: Prisma.ProgramKerjaWhereUniqueInput
@@ -1116,6 +1363,10 @@ export type ProgramKerjaFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the ProgramKerja
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
   /**
    * Filter, which ProgramKerja to fetch.
    */
@@ -1165,6 +1416,10 @@ export type ProgramKerjaFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
+  /**
    * Filter, which ProgramKerja to fetch.
    */
   where?: Prisma.ProgramKerjaWhereInput
@@ -1212,6 +1467,10 @@ export type ProgramKerjaFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the ProgramKerja
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
   /**
    * Filter, which ProgramKerjas to fetch.
    */
@@ -1261,6 +1520,10 @@ export type ProgramKerjaCreateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
+  /**
    * The data needed to create a ProgramKerja.
    */
   data: Prisma.XOR<Prisma.ProgramKerjaCreateInput, Prisma.ProgramKerjaUncheckedCreateInput>
@@ -1294,6 +1557,10 @@ export type ProgramKerjaCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    */
   data: Prisma.ProgramKerjaCreateManyInput | Prisma.ProgramKerjaCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1308,6 +1575,10 @@ export type ProgramKerjaUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the ProgramKerja
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
   /**
    * The data needed to update a ProgramKerja.
    */
@@ -1360,6 +1631,10 @@ export type ProgramKerjaUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ex
    * Limit how many ProgramKerjas to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1374,6 +1649,10 @@ export type ProgramKerjaUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the ProgramKerja
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
   /**
    * The filter to search for the ProgramKerja to update in case it exists.
    */
@@ -1401,6 +1680,10 @@ export type ProgramKerjaDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
+  /**
    * Filter which ProgramKerja to delete.
    */
   where: Prisma.ProgramKerjaWhereUniqueInput
@@ -1421,6 +1704,25 @@ export type ProgramKerjaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * ProgramKerja.komunitas
+ */
+export type ProgramKerja$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
+}
+
+/**
  * ProgramKerja without action
  */
 export type ProgramKerjaDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1432,4 +1734,8 @@ export type ProgramKerjaDefaultArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the ProgramKerja
    */
   omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
 }

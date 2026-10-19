@@ -1,16 +1,24 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 const ROMAN_MONTHS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search') || '';
     const jenis = searchParams.get('jenis') || '';
 
-    // Fetch config for RT/RW format
-    const config = await db.pengaturanAplikasi.findFirst();
+    // Fetch config for RT/RW format for this tenant
+    const config = await db.pengaturanAplikasi.findFirst({
+      where: { komunitasId: tenant.komunitasId }
+    });
     const namaRt = config?.namaRt || 'RT';
 
     // Calculate Next Letter Number
@@ -24,6 +32,7 @@ export async function GET(request: Request) {
 
     const yearCount = await db.suratPengantar.count({
       where: {
+        komunitasId: tenant.komunitasId,
         createdAt: {
           gte: startOfYear,
           lte: endOfYear
@@ -37,7 +46,9 @@ export async function GET(request: Request) {
     const nextNomorSurat = `${formattedUrut}/${cleanRt}/${romanMonth}/${currentYear}`;
 
     // Filter query
-    const whereClause: any = {};
+    const whereClause: any = {
+      komunitasId: tenant.komunitasId,
+    };
     if (jenis && jenis !== 'all') {
       whereClause.jenisSurat = jenis;
     }
@@ -80,6 +91,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const {
       jenisSurat,
@@ -122,6 +134,7 @@ export async function POST(request: Request) {
 
     const yearCount = await db.suratPengantar.count({
       where: {
+        komunitasId: tenant.komunitasId,
         createdAt: {
           gte: startOfYear,
           lte: endOfYear
@@ -132,7 +145,9 @@ export async function POST(request: Request) {
     const nextUrut = yearCount + 1;
 
     if (!nomorSurat) {
-      const config = await db.pengaturanAplikasi.findFirst();
+      const config = await db.pengaturanAplikasi.findFirst({
+        where: { komunitasId: tenant.komunitasId }
+      });
       const namaRt = config?.namaRt || 'RT';
       const cleanRt = namaRt.replace(/\s+/g, '.');
       nomorSurat = `${String(nextUrut).padStart(3, '0')}/${cleanRt}/${romanMonth}/${currentYear}`;
@@ -166,15 +181,16 @@ export async function POST(request: Request) {
         jabatanPenandatangan: jabatanPenandatangan || 'Ketua RT',
         kotaSurat: kotaSurat || 'Semarang',
         status: 'aktif',
-        dibuatOleh: 'Admin RT'
+        dibuatOleh: 'Admin RT',
+        komunitasId: tenant.komunitasId,
       }
     });
 
     // If anggotaId exists, update resident's biodata to enrich master data
     if (anggotaId) {
       try {
-        await db.anggota.update({
-          where: { id: anggotaId },
+        await db.anggota.updateMany({
+          where: { id: anggotaId, komunitasId: tenant.komunitasId },
           data: {
             nik: nik || undefined,
             tempatLahir: tempatLahir || undefined,
@@ -202,11 +218,19 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (!id) {
       return NextResponse.json({ error: 'ID surat wajib disertakan' }, { status: 400 });
+    }
+
+    const existing = await db.suratPengantar.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Surat tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     await db.suratPengantar.delete({

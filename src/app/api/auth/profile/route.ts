@@ -16,7 +16,28 @@ export async function GET() {
 
     const user = await db.user.findUnique({ 
       where: { id: session.id },
-      select: { id: true, nama: true, email: true, role: true, createdAt: true }
+      select: { 
+        id: true, 
+        nama: true, 
+        email: true, 
+        role: true, 
+        noHp: true,
+        jabatan: true,
+        komunitasId: true,
+        komunitas: {
+          select: {
+            id: true,
+            nama: true,
+            tingkatWilayah: true,
+            slug: true,
+            desaKelurahan: true,
+            kecamatan: true,
+            kotaKabupaten: true,
+            provinsi: true,
+          },
+        },
+        createdAt: true 
+      }
     });
     
     if (!user) {
@@ -72,6 +93,9 @@ export async function PUT(request: Request) {
     const updatedUser = await db.user.update({
       where: { id: session.id },
       data: updateData,
+      include: {
+        komunitas: true,
+      },
     });
 
     // Refresh secure cookies with updated name
@@ -80,6 +104,9 @@ export async function PUT(request: Request) {
       nama: updatedUser.nama,
       email: updatedUser.email,
       role: updatedUser.role,
+      komunitasId: updatedUser.komunitasId,
+      komunitasNama: updatedUser.komunitas?.nama,
+      jabatan: updatedUser.jabatan,
     });
 
     return NextResponse.json({ 
@@ -89,6 +116,8 @@ export async function PUT(request: Request) {
         nama: updatedUser.nama,
         email: updatedUser.email,
         role: updatedUser.role,
+        jabatan: updatedUser.jabatan,
+        komunitasId: updatedUser.komunitasId,
       }
     });
   } catch (error: any) {

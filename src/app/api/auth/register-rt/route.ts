@@ -130,7 +130,7 @@ export async function POST(request: Request) {
     if (muatDataSimulasi) {
       try {
         // Contoh 3 Anggota Awal
-        const warga1 = await db.anggota.create({
+        await db.anggota.create({
           data: {
             nama: `${namaAdmin.trim()} (Pengurus)`,
             noRumah: 'A-01',
@@ -138,6 +138,7 @@ export async function POST(request: Request) {
             statusKeluarga: 'kepala_keluarga',
             isWajibJimpitan: true,
             isWajibRonda: true,
+            komunitasId: komunitas.id,
           },
         });
 
@@ -149,6 +150,7 @@ export async function POST(request: Request) {
             statusKeluarga: 'kepala_keluarga',
             isWajibJimpitan: true,
             isWajibRonda: true,
+            komunitasId: komunitas.id,
           },
         });
 
@@ -160,6 +162,7 @@ export async function POST(request: Request) {
             statusKeluarga: 'kepala_keluarga',
             isWajibJimpitan: true,
             isWajibRonda: false,
+            komunitasId: komunitas.id,
           },
         });
 
@@ -172,6 +175,7 @@ export async function POST(request: Request) {
             kategori: 'Saldo Awal',
             keterangan: 'Penerimaan Kas Awal Pembentukan Akun Baru RT',
             nominal: 500000,
+            komunitasId: komunitas.id,
           },
         });
       } catch (seedErr) {

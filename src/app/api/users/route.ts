@@ -1,18 +1,25 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getServerSession, hashPassword } from '@/lib/auth';
+import { getServerSession, hashPassword, requireTenantContext } from '@/lib/auth';
 
 const ALLOWED_ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN'];
 const VALID_ROLES = ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA', 'SEKRETARIS', 'PETUGAS', 'WARGA'];
 
 export async function GET() {
   try {
+    const tenant = await requireTenantContext();
     const session = await getServerSession();
     if (!session || !ALLOWED_ADMIN_ROLES.includes(session.role)) {
       return NextResponse.json({ error: 'Akses ditolak: Hanya Admin yang dapat melihat daftar pengguna' }, { status: 403 });
     }
 
+    const where: any = {};
+    if (session.role !== 'SUPER_ADMIN') {
+      where.komunitasId = tenant.komunitasId;
+    }
+
     const users = await db.user.findMany({
+      where,
       select: {
         id: true,
         nama: true,
@@ -20,6 +27,7 @@ export async function GET() {
         noHp: true,
         role: true,
         statusAktif: true,
+        komunitasId: true,
         createdAt: true,
       },
       orderBy: { createdAt: 'desc' },
@@ -34,6 +42,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const session = await getServerSession();
     if (!session || !ALLOWED_ADMIN_ROLES.includes(session.role)) {
       return NextResponse.json({ error: 'Akses ditolak: Hanya Admin yang dapat menambahkan pengguna baru' }, { status: 403 });
@@ -66,6 +75,7 @@ export async function POST(request: Request) {
 
     const newUser = await db.user.create({
       data: {
+        komunitasId: tenant.komunitasId,
         nama: nama.trim(),
         email: normalizedEmail,
         noHp: noHp ? noHp.trim() : null,
@@ -80,6 +90,7 @@ export async function POST(request: Request) {
         noHp: true,
         role: true,
         statusAktif: true,
+        komunitasId: true,
         createdAt: true,
       },
     });

@@ -1,122 +1,21 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-
-const SEED_INVENTARIS = [
-  {
-    kodeBarang: 'AST-TND-01',
-    namaBarang: 'Tenda Terop Besi Pipa 4 x 6 Meter',
-    kategori: 'tenda_kursi',
-    jumlah: 2,
-    satuan: 'unit',
-    kondisiBaik: 2,
-    kondisiRusak: 0,
-    lokasiSimpan: 'Gudang Balai RT',
-    tahunPengadaan: 2024,
-    sumberPerolehan: 'Kas RT',
-    statusTahunIni: 'tetap',
-    keterangan: 'Lengkap dengan terpal atap biru dan tirai samping'
-  },
-  {
-    kodeBarang: 'AST-KRS-02',
-    namaBarang: 'Kursi Lipat Chitose Busa Hitam',
-    kategori: 'tenda_kursi',
-    jumlah: 100,
-    satuan: 'buah',
-    kondisiBaik: 94,
-    kondisiRusak: 6,
-    lokasiSimpan: 'Gudang Balai RT',
-    tahunPengadaan: 2024,
-    sumberPerolehan: 'Swadaya Warga',
-    statusTahunIni: 'tetap',
-    keterangan: '6 buah perlu diservis las kaki penyangga'
-  },
-  {
-    kodeBarang: 'AST-SND-03',
-    namaBarang: 'Sound System Wireless Portable 15 Inch + 2 Mic',
-    kategori: 'elektronik_sound',
-    jumlah: 1,
-    satuan: 'set',
-    kondisiBaik: 1,
-    kondisiRusak: 0,
-    lokasiSimpan: 'Rumah Ketua RT',
-    tahunPengadaan: 2026,
-    sumberPerolehan: 'Kas RT',
-    statusTahunIni: 'bertambah_baru',
-    keterangan: 'Pengadaan baru tahun berjalan untuk rapat warga dan tirakatan'
-  },
-  {
-    kodeBarang: 'AST-RMP-04',
-    namaBarang: 'Mesin Potong Rumput Dorong 4-Tak',
-    kategori: 'kebersihan',
-    jumlah: 2,
-    satuan: 'unit',
-    kondisiBaik: 1,
-    kondisiRusak: 1,
-    lokasiSimpan: 'Pos Ronda Utama',
-    tahunPengadaan: 2025,
-    sumberPerolehan: 'Kas RT',
-    statusTahunIni: 'perbaikan',
-    keterangan: '1 unit sedang diservis karburator di bengkel'
-  },
-  {
-    kodeBarang: 'AST-PMP-05',
-    namaBarang: 'Pompa Air Celup Submersible Banjir 2 Inch',
-    kategori: 'kebersihan',
-    jumlah: 1,
-    satuan: 'unit',
-    kondisiBaik: 1,
-    kondisiRusak: 0,
-    lokasiSimpan: 'Pos Ronda Utama',
-    tahunPengadaan: 2026,
-    sumberPerolehan: 'Bantuan Kelurahan',
-    statusTahunIni: 'bertambah_baru',
-    keterangan: 'Siaga darurat genangan air musim penghujan'
-  },
-  {
-    kodeBarang: 'AST-TGG-06',
-    namaBarang: 'Tangga Lipat Aluminium Teleskopik 3.8 Meter',
-    kategori: 'peralatan',
-    jumlah: 1,
-    satuan: 'unit',
-    kondisiBaik: 1,
-    kondisiRusak: 0,
-    lokasiSimpan: 'Gudang Balai RT',
-    tahunPengadaan: 2025,
-    sumberPerolehan: 'Kas RT',
-    statusTahunIni: 'tetap',
-    keterangan: 'Untuk perbaikan lampu jalan dan pasang umbul-umbul'
-  },
-  {
-    kodeBarang: 'AST-CKL-07',
-    namaBarang: 'Set Cangkul, Sekop, & Gerobak Sorong Artco',
-    kategori: 'kebersihan',
-    jumlah: 6,
-    satuan: 'set',
-    kondisiBaik: 5,
-    kondisiRusak: 1,
-    lokasiSimpan: 'Gudang Balai RT',
-    tahunPengadaan: 2024,
-    sumberPerolehan: 'Swadaya Warga',
-    statusTahunIni: 'tetap',
-    keterangan: 'Perlengkapan kerja bakti rutin warga'
-  }
-];
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const kategori = searchParams.get('kategori');
     const search = searchParams.get('search')?.toLowerCase() || '';
 
-    // Auto-seed if empty
-    const count = await db.inventarisAset.count();
-    if (count === 0) {
-      for (const item of SEED_INVENTARIS) {
-        await db.inventarisAset.create({ data: item });
-      }
-    }
-
-    const where: any = {};
+    const where: any = {
+      komunitasId: tenant.komunitasId,
+    };
     if (kategori && kategori !== 'all') {
       where.kategori = kategori;
     }
@@ -173,6 +72,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { 
       kodeBarang, 
@@ -206,7 +106,8 @@ export async function POST(request: Request) {
         tahunPengadaan: Number(tahunPengadaan) || new Date().getFullYear(),
         sumberPerolehan: sumberPerolehan || 'Kas RT',
         statusTahunIni: statusTahunIni || 'tetap',
-        keterangan: keterangan || null
+        keterangan: keterangan || null,
+        komunitasId: tenant.komunitasId,
       }
     });
 
@@ -219,11 +120,19 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { id, ...updateData } = body;
 
     if (!id) {
       return NextResponse.json({ error: 'ID inventaris wajib disertakan' }, { status: 400 });
+    }
+
+    const existing = await db.inventarisAset.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Inventaris tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     if (updateData.jumlah !== undefined) updateData.jumlah = Number(updateData.jumlah);
@@ -245,11 +154,19 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (!id) {
       return NextResponse.json({ error: 'ID inventaris wajib disertakan' }, { status: 400 });
+    }
+
+    const existing = await db.inventarisAset.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Inventaris tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     await db.inventarisAset.delete({

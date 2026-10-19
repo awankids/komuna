@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -8,14 +9,19 @@ interface RouteContext {
 // GET single hutang piutang detail with riwayat bayar
 export async function GET(request: Request, context: RouteContext) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { id } = await context.params;
 
     if (!id) {
       return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
     }
 
-    const item = await db.hutangPiutang.findUnique({
-      where: { id },
+    const item = await db.hutangPiutang.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
       include: {
         anggota: true,
         riwayatBayar: {
@@ -44,6 +50,7 @@ export async function GET(request: Request, context: RouteContext) {
 // PUT / UPDATE hutang piutang details
 export async function PUT(request: Request, context: RouteContext) {
   try {
+    const tenant = await requireTenantContext();
     const { id } = await context.params;
     const body = await request.json();
     const {
@@ -60,7 +67,9 @@ export async function PUT(request: Request, context: RouteContext) {
       return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
     }
 
-    const existing = await db.hutangPiutang.findUnique({ where: { id } });
+    const existing = await db.hutangPiutang.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
+    });
     if (!existing) {
       return NextResponse.json({ error: 'Data tidak ditemukan' }, { status: 404 });
     }
@@ -97,13 +106,16 @@ export async function PUT(request: Request, context: RouteContext) {
 // DELETE hutang piutang record
 export async function DELETE(request: Request, context: RouteContext) {
   try {
+    const tenant = await requireTenantContext();
     const { id } = await context.params;
 
     if (!id) {
       return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
     }
 
-    const existing = await db.hutangPiutang.findUnique({ where: { id } });
+    const existing = await db.hutangPiutang.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
+    });
     if (!existing) {
       return NextResponse.json({ error: 'Data tidak ditemukan' }, { status: 404 });
     }

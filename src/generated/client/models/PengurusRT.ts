@@ -43,6 +43,7 @@ export type PengurusRTMinAggregateOutputType = {
   noHp: string | null
   alamatRumah: string | null
   anggotaId: string | null
+  komunitasId: string | null
   urutan: number | null
   periode: string | null
   statusAktif: boolean | null
@@ -60,6 +61,7 @@ export type PengurusRTMaxAggregateOutputType = {
   noHp: string | null
   alamatRumah: string | null
   anggotaId: string | null
+  komunitasId: string | null
   urutan: number | null
   periode: string | null
   statusAktif: boolean | null
@@ -77,6 +79,7 @@ export type PengurusRTCountAggregateOutputType = {
   noHp: number
   alamatRumah: number
   anggotaId: number
+  komunitasId: number
   urutan: number
   periode: number
   statusAktif: number
@@ -104,6 +107,7 @@ export type PengurusRTMinAggregateInputType = {
   noHp?: true
   alamatRumah?: true
   anggotaId?: true
+  komunitasId?: true
   urutan?: true
   periode?: true
   statusAktif?: true
@@ -121,6 +125,7 @@ export type PengurusRTMaxAggregateInputType = {
   noHp?: true
   alamatRumah?: true
   anggotaId?: true
+  komunitasId?: true
   urutan?: true
   periode?: true
   statusAktif?: true
@@ -138,6 +143,7 @@ export type PengurusRTCountAggregateInputType = {
   noHp?: true
   alamatRumah?: true
   anggotaId?: true
+  komunitasId?: true
   urutan?: true
   periode?: true
   statusAktif?: true
@@ -242,6 +248,7 @@ export type PengurusRTGroupByOutputType = {
   noHp: string | null
   alamatRumah: string | null
   anggotaId: string | null
+  komunitasId: string | null
   urutan: number
   periode: string | null
   statusAktif: boolean
@@ -282,6 +289,7 @@ export type PengurusRTWhereInput = {
   noHp?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   alamatRumah?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   anggotaId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   urutan?: Prisma.IntFilter<"PengurusRT"> | number
   periode?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   statusAktif?: Prisma.BoolFilter<"PengurusRT"> | boolean
@@ -289,6 +297,7 @@ export type PengurusRTWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type PengurusRTOrderByWithRelationInput = {
@@ -300,6 +309,7 @@ export type PengurusRTOrderByWithRelationInput = {
   noHp?: Prisma.SortOrderInput | Prisma.SortOrder
   alamatRumah?: Prisma.SortOrderInput | Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   urutan?: Prisma.SortOrder
   periode?: Prisma.SortOrderInput | Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
@@ -307,6 +317,7 @@ export type PengurusRTOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   anggota?: Prisma.AnggotaOrderByWithRelationInput
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type PengurusRTWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +332,7 @@ export type PengurusRTWhereUniqueInput = Prisma.AtLeast<{
   noHp?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   alamatRumah?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   anggotaId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   urutan?: Prisma.IntFilter<"PengurusRT"> | number
   periode?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
   statusAktif?: Prisma.BoolFilter<"PengurusRT"> | boolean
@@ -328,6 +340,7 @@ export type PengurusRTWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id">
 
 export type PengurusRTOrderByWithAggregationInput = {
@@ -339,6 +352,7 @@ export type PengurusRTOrderByWithAggregationInput = {
   noHp?: Prisma.SortOrderInput | Prisma.SortOrder
   alamatRumah?: Prisma.SortOrderInput | Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   urutan?: Prisma.SortOrder
   periode?: Prisma.SortOrderInput | Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
@@ -364,6 +378,7 @@ export type PengurusRTScalarWhereWithAggregatesInput = {
   noHp?: Prisma.StringNullableWithAggregatesFilter<"PengurusRT"> | string | null
   alamatRumah?: Prisma.StringNullableWithAggregatesFilter<"PengurusRT"> | string | null
   anggotaId?: Prisma.StringNullableWithAggregatesFilter<"PengurusRT"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"PengurusRT"> | string | null
   urutan?: Prisma.IntWithAggregatesFilter<"PengurusRT"> | number
   periode?: Prisma.StringNullableWithAggregatesFilter<"PengurusRT"> | string | null
   statusAktif?: Prisma.BoolWithAggregatesFilter<"PengurusRT"> | boolean
@@ -387,6 +402,7 @@ export type PengurusRTCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   anggota?: Prisma.AnggotaCreateNestedOneWithoutPengurusInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutPengurusInput
 }
 
 export type PengurusRTUncheckedCreateInput = {
@@ -398,6 +414,7 @@ export type PengurusRTUncheckedCreateInput = {
   noHp?: string | null
   alamatRumah?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   urutan?: number
   periode?: string | null
   statusAktif?: boolean
@@ -421,6 +438,7 @@ export type PengurusRTUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   anggota?: Prisma.AnggotaUpdateOneWithoutPengurusNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutPengurusNestedInput
 }
 
 export type PengurusRTUncheckedUpdateInput = {
@@ -432,6 +450,7 @@ export type PengurusRTUncheckedUpdateInput = {
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urutan?: Prisma.IntFieldUpdateOperationsInput | number
   periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -449,6 +468,7 @@ export type PengurusRTCreateManyInput = {
   noHp?: string | null
   alamatRumah?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   urutan?: number
   periode?: string | null
   statusAktif?: boolean
@@ -482,6 +502,7 @@ export type PengurusRTUncheckedUpdateManyInput = {
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urutan?: Prisma.IntFieldUpdateOperationsInput | number
   periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -509,6 +530,7 @@ export type PengurusRTCountOrderByAggregateInput = {
   noHp?: Prisma.SortOrder
   alamatRumah?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   urutan?: Prisma.SortOrder
   periode?: Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
@@ -530,6 +552,7 @@ export type PengurusRTMaxOrderByAggregateInput = {
   noHp?: Prisma.SortOrder
   alamatRumah?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   urutan?: Prisma.SortOrder
   periode?: Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
@@ -547,6 +570,7 @@ export type PengurusRTMinOrderByAggregateInput = {
   noHp?: Prisma.SortOrder
   alamatRumah?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   urutan?: Prisma.SortOrder
   periode?: Prisma.SortOrder
   statusAktif?: Prisma.SortOrder
@@ -557,6 +581,48 @@ export type PengurusRTMinOrderByAggregateInput = {
 
 export type PengurusRTSumOrderByAggregateInput = {
   urutan?: Prisma.SortOrder
+}
+
+export type PengurusRTCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.PengurusRTCreateWithoutKomunitasInput, Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput> | Prisma.PengurusRTCreateWithoutKomunitasInput[] | Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput | Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.PengurusRTCreateManyKomunitasInputEnvelope
+  connect?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+}
+
+export type PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.PengurusRTCreateWithoutKomunitasInput, Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput> | Prisma.PengurusRTCreateWithoutKomunitasInput[] | Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput | Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.PengurusRTCreateManyKomunitasInputEnvelope
+  connect?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+}
+
+export type PengurusRTUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.PengurusRTCreateWithoutKomunitasInput, Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput> | Prisma.PengurusRTCreateWithoutKomunitasInput[] | Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput | Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.PengurusRTUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.PengurusRTUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.PengurusRTCreateManyKomunitasInputEnvelope
+  set?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  disconnect?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  delete?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  connect?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  update?: Prisma.PengurusRTUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.PengurusRTUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.PengurusRTUpdateManyWithWhereWithoutKomunitasInput | Prisma.PengurusRTUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
+}
+
+export type PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.PengurusRTCreateWithoutKomunitasInput, Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput> | Prisma.PengurusRTCreateWithoutKomunitasInput[] | Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput | Prisma.PengurusRTCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.PengurusRTUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.PengurusRTUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.PengurusRTCreateManyKomunitasInputEnvelope
+  set?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  disconnect?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  delete?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  connect?: Prisma.PengurusRTWhereUniqueInput | Prisma.PengurusRTWhereUniqueInput[]
+  update?: Prisma.PengurusRTUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.PengurusRTUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.PengurusRTUpdateManyWithWhereWithoutKomunitasInput | Prisma.PengurusRTUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
 }
 
 export type PengurusRTCreateNestedManyWithoutAnggotaInput = {
@@ -601,6 +667,87 @@ export type PengurusRTUncheckedUpdateManyWithoutAnggotaNestedInput = {
   deleteMany?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
 }
 
+export type PengurusRTCreateWithoutKomunitasInput = {
+  id?: string
+  jabatan: string
+  kategori?: string
+  nama: string
+  nik?: string | null
+  noHp?: string | null
+  alamatRumah?: string | null
+  urutan?: number
+  periode?: string | null
+  statusAktif?: boolean
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  anggota?: Prisma.AnggotaCreateNestedOneWithoutPengurusInput
+}
+
+export type PengurusRTUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  jabatan: string
+  kategori?: string
+  nama: string
+  nik?: string | null
+  noHp?: string | null
+  alamatRumah?: string | null
+  anggotaId?: string | null
+  urutan?: number
+  periode?: string | null
+  statusAktif?: boolean
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PengurusRTCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.PengurusRTWhereUniqueInput
+  create: Prisma.XOR<Prisma.PengurusRTCreateWithoutKomunitasInput, Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput>
+}
+
+export type PengurusRTCreateManyKomunitasInputEnvelope = {
+  data: Prisma.PengurusRTCreateManyKomunitasInput | Prisma.PengurusRTCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type PengurusRTUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.PengurusRTWhereUniqueInput
+  update: Prisma.XOR<Prisma.PengurusRTUpdateWithoutKomunitasInput, Prisma.PengurusRTUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.PengurusRTCreateWithoutKomunitasInput, Prisma.PengurusRTUncheckedCreateWithoutKomunitasInput>
+}
+
+export type PengurusRTUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.PengurusRTWhereUniqueInput
+  data: Prisma.XOR<Prisma.PengurusRTUpdateWithoutKomunitasInput, Prisma.PengurusRTUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type PengurusRTUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.PengurusRTScalarWhereInput
+  data: Prisma.XOR<Prisma.PengurusRTUpdateManyMutationInput, Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type PengurusRTScalarWhereInput = {
+  AND?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
+  OR?: Prisma.PengurusRTScalarWhereInput[]
+  NOT?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
+  id?: Prisma.StringFilter<"PengurusRT"> | string
+  jabatan?: Prisma.StringFilter<"PengurusRT"> | string
+  kategori?: Prisma.StringFilter<"PengurusRT"> | string
+  nama?: Prisma.StringFilter<"PengurusRT"> | string
+  nik?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  noHp?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  alamatRumah?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  anggotaId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  urutan?: Prisma.IntFilter<"PengurusRT"> | number
+  periode?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  statusAktif?: Prisma.BoolFilter<"PengurusRT"> | boolean
+  keterangan?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
+}
+
 export type PengurusRTCreateWithoutAnggotaInput = {
   id?: string
   jabatan: string
@@ -615,6 +762,7 @@ export type PengurusRTCreateWithoutAnggotaInput = {
   keterangan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutPengurusInput
 }
 
 export type PengurusRTUncheckedCreateWithoutAnggotaInput = {
@@ -625,6 +773,7 @@ export type PengurusRTUncheckedCreateWithoutAnggotaInput = {
   nik?: string | null
   noHp?: string | null
   alamatRumah?: string | null
+  komunitasId?: string | null
   urutan?: number
   periode?: string | null
   statusAktif?: boolean
@@ -659,24 +808,72 @@ export type PengurusRTUpdateManyWithWhereWithoutAnggotaInput = {
   data: Prisma.XOR<Prisma.PengurusRTUpdateManyMutationInput, Prisma.PengurusRTUncheckedUpdateManyWithoutAnggotaInput>
 }
 
-export type PengurusRTScalarWhereInput = {
-  AND?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
-  OR?: Prisma.PengurusRTScalarWhereInput[]
-  NOT?: Prisma.PengurusRTScalarWhereInput | Prisma.PengurusRTScalarWhereInput[]
-  id?: Prisma.StringFilter<"PengurusRT"> | string
-  jabatan?: Prisma.StringFilter<"PengurusRT"> | string
-  kategori?: Prisma.StringFilter<"PengurusRT"> | string
-  nama?: Prisma.StringFilter<"PengurusRT"> | string
-  nik?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
-  noHp?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
-  alamatRumah?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
-  anggotaId?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
-  urutan?: Prisma.IntFilter<"PengurusRT"> | number
-  periode?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
-  statusAktif?: Prisma.BoolFilter<"PengurusRT"> | boolean
-  keterangan?: Prisma.StringNullableFilter<"PengurusRT"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"PengurusRT"> | Date | string
+export type PengurusRTCreateManyKomunitasInput = {
+  id?: string
+  jabatan: string
+  kategori?: string
+  nama: string
+  nik?: string | null
+  noHp?: string | null
+  alamatRumah?: string | null
+  anggotaId?: string | null
+  urutan?: number
+  periode?: string | null
+  statusAktif?: boolean
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PengurusRTUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urutan?: Prisma.IntFieldUpdateOperationsInput | number
+  periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggota?: Prisma.AnggotaUpdateOneWithoutPengurusNestedInput
+}
+
+export type PengurusRTUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urutan?: Prisma.IntFieldUpdateOperationsInput | number
+  periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PengurusRTUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatan?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  urutan?: Prisma.IntFieldUpdateOperationsInput | number
+  periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PengurusRTCreateManyAnggotaInput = {
@@ -687,6 +884,7 @@ export type PengurusRTCreateManyAnggotaInput = {
   nik?: string | null
   noHp?: string | null
   alamatRumah?: string | null
+  komunitasId?: string | null
   urutan?: number
   periode?: string | null
   statusAktif?: boolean
@@ -709,6 +907,7 @@ export type PengurusRTUpdateWithoutAnggotaInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutPengurusNestedInput
 }
 
 export type PengurusRTUncheckedUpdateWithoutAnggotaInput = {
@@ -719,6 +918,7 @@ export type PengurusRTUncheckedUpdateWithoutAnggotaInput = {
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urutan?: Prisma.IntFieldUpdateOperationsInput | number
   periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -735,6 +935,7 @@ export type PengurusRTUncheckedUpdateManyWithoutAnggotaInput = {
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   noHp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alamatRumah?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   urutan?: Prisma.IntFieldUpdateOperationsInput | number
   periode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -754,6 +955,7 @@ export type PengurusRTSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   noHp?: boolean
   alamatRumah?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   urutan?: boolean
   periode?: boolean
   statusAktif?: boolean
@@ -761,6 +963,7 @@ export type PengurusRTSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.PengurusRT$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.PengurusRT$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["pengurusRT"]>
 
 export type PengurusRTSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -772,6 +975,7 @@ export type PengurusRTSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   noHp?: boolean
   alamatRumah?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   urutan?: boolean
   periode?: boolean
   statusAktif?: boolean
@@ -779,6 +983,7 @@ export type PengurusRTSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.PengurusRT$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.PengurusRT$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["pengurusRT"]>
 
 export type PengurusRTSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -790,6 +995,7 @@ export type PengurusRTSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   noHp?: boolean
   alamatRumah?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   urutan?: boolean
   periode?: boolean
   statusAktif?: boolean
@@ -797,6 +1003,7 @@ export type PengurusRTSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.PengurusRT$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.PengurusRT$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["pengurusRT"]>
 
 export type PengurusRTSelectScalar = {
@@ -808,6 +1015,7 @@ export type PengurusRTSelectScalar = {
   noHp?: boolean
   alamatRumah?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   urutan?: boolean
   periode?: boolean
   statusAktif?: boolean
@@ -816,21 +1024,25 @@ export type PengurusRTSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PengurusRTOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jabatan" | "kategori" | "nama" | "nik" | "noHp" | "alamatRumah" | "anggotaId" | "urutan" | "periode" | "statusAktif" | "keterangan" | "createdAt" | "updatedAt", ExtArgs["result"]["pengurusRT"]>
+export type PengurusRTOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "jabatan" | "kategori" | "nama" | "nik" | "noHp" | "alamatRumah" | "anggotaId" | "komunitasId" | "urutan" | "periode" | "statusAktif" | "keterangan" | "createdAt" | "updatedAt", ExtArgs["result"]["pengurusRT"]>
 export type PengurusRTInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.PengurusRT$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.PengurusRT$komunitasArgs<ExtArgs>
 }
 export type PengurusRTIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.PengurusRT$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.PengurusRT$komunitasArgs<ExtArgs>
 }
 export type PengurusRTIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.PengurusRT$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.PengurusRT$komunitasArgs<ExtArgs>
 }
 
 export type $PengurusRTPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PengurusRT"
   objects: {
     anggota: Prisma.$AnggotaPayload<ExtArgs> | null
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -841,6 +1053,7 @@ export type $PengurusRTPayload<ExtArgs extends runtime.Types.Extensions.Internal
     noHp: string | null
     alamatRumah: string | null
     anggotaId: string | null
+    komunitasId: string | null
     urutan: number
     periode: string | null
     statusAktif: boolean
@@ -1242,6 +1455,7 @@ readonly fields: PengurusRTFieldRefs;
 export interface Prisma__PengurusRTClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   anggota<T extends Prisma.PengurusRT$anggotaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PengurusRT$anggotaArgs<ExtArgs>>): Prisma.Prisma__AnggotaClient<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  komunitas<T extends Prisma.PengurusRT$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PengurusRT$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1279,6 +1493,7 @@ export interface PengurusRTFieldRefs {
   readonly noHp: Prisma.FieldRef<"PengurusRT", 'String'>
   readonly alamatRumah: Prisma.FieldRef<"PengurusRT", 'String'>
   readonly anggotaId: Prisma.FieldRef<"PengurusRT", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"PengurusRT", 'String'>
   readonly urutan: Prisma.FieldRef<"PengurusRT", 'Int'>
   readonly periode: Prisma.FieldRef<"PengurusRT", 'String'>
   readonly statusAktif: Prisma.FieldRef<"PengurusRT", 'Boolean'>
@@ -1702,6 +1917,25 @@ export type PengurusRT$anggotaArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.AnggotaInclude<ExtArgs> | null
   where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * PengurusRT.komunitas
+ */
+export type PengurusRT$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

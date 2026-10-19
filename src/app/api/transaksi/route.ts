@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 // GET all transactions and calculate running balance
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const month = searchParams.get('month'); // "01" - "12"
     const year = searchParams.get('year'); // "2026"
@@ -15,8 +21,11 @@ export async function GET(request: Request) {
     const yearNum = parseInt(year, 10);
     const monthNum = parseInt(month, 10) - 1;
 
-    // 1. Fetch all transactions from database
+    // 1. Fetch all transactions for this tenant
     const transactions = await db.transaksiKeuangan.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       orderBy: { tanggal: 'asc' }
     });
 
@@ -71,9 +80,10 @@ export async function GET(request: Request) {
     // Sort month transactions in descending order (latest first)
     monthTx.sort((a, b) => new Date(b.tanggal).getTime() - new Date(a.tanggal).getTime());
 
-    // 4. Fetch the real jimpitan sum for this month
+    // 4. Fetch the real jimpitan sum for this month for this tenant
     const jimpitanRecords = await db.jimpitan.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfMonth,
           lte: endOfMonth
@@ -117,6 +127,7 @@ export async function GET(request: Request) {
 // POST new transaction
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { tanggal, jenis, kategori, keterangan, nominal, sumber } = await request.json();
 
     if (!tanggal || !jenis || !keterangan || nominal === undefined || nominal <= 0) {
@@ -131,6 +142,7 @@ export async function POST(request: Request) {
         kategori,
         keterangan,
         nominal: parseInt(nominal, 10),
+        komunitasId: tenant.komunitasId,
       }
     });
 
@@ -144,19 +156,27 @@ export async function POST(request: Request) {
 // PUT update transaction
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { id, tanggal, jenis, kategori, keterangan, nominal } = await request.json();
 
     if (!id || !tanggal || !jenis || !keterangan || nominal === undefined || nominal <= 0) {
       return NextResponse.json({ error: 'Data update transaksi tidak lengkap' }, { status: 400 });
     }
 
-    const tx = await db.transaksiKeuangan.findUnique({ where: { id } });
-    if (tx && tx.sumber === 'jimpitan') {
+    const tx = await db.transaksiKeuangan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!tx) {
+      return NextResponse.json({ error: 'Data transaksi tidak ditemukan di komunitas Anda' }, { status: 404 });
+    }
+
+    if (tx.sumber === 'jimpitan') {
       const startOfDay = new Date(Date.UTC(tx.tanggal.getUTCFullYear(), tx.tanggal.getUTCMonth(), tx.tanggal.getUTCDate(), 0, 0, 0, 0));
       const endOfDay = new Date(Date.UTC(tx.tanggal.getUTCFullYear(), tx.tanggal.getUTCMonth(), tx.tanggal.getUTCDate(), 23, 59, 59, 999));
       
       const relatedJimpitan = await db.jimpitan.findFirst({
         where: {
+          komunitasId: tenant.komunitasId,
           tanggal: {
             gte: startOfDay,
             lte: endOfDay
@@ -192,6 +212,7 @@ export async function PUT(request: Request) {
 // DELETE transaction
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -199,13 +220,20 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID transaksi wajib diisi' }, { status: 400 });
     }
 
-    const tx = await db.transaksiKeuangan.findUnique({ where: { id } });
-    if (tx && tx.sumber === 'jimpitan') {
+    const tx = await db.transaksiKeuangan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!tx) {
+      return NextResponse.json({ error: 'Data transaksi tidak ditemukan di komunitas Anda' }, { status: 404 });
+    }
+
+    if (tx.sumber === 'jimpitan') {
       const startOfDay = new Date(Date.UTC(tx.tanggal.getUTCFullYear(), tx.tanggal.getUTCMonth(), tx.tanggal.getUTCDate(), 0, 0, 0, 0));
       const endOfDay = new Date(Date.UTC(tx.tanggal.getUTCFullYear(), tx.tanggal.getUTCMonth(), tx.tanggal.getUTCDate(), 23, 59, 59, 999));
       
       const relatedJimpitan = await db.jimpitan.findFirst({
         where: {
+          komunitasId: tenant.komunitasId,
           tanggal: {
             gte: startOfDay,
             lte: endOfDay

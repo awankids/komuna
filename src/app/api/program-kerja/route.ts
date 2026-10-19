@@ -1,91 +1,23 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-
-const SEED_PROKER = [
-  {
-    tahun: 2026,
-    bidang: 'lingkungan',
-    namaProgram: 'Kerja Bakti Rutin Triwulan & Pembersihan Saluran Air',
-    targetBulan: 'Maret, Juni, Sept, Des 2026',
-    anggaranRencana: 1200000,
-    anggaranRealisasi: 1150000,
-    status: 'terlaksana',
-    persentase: 100,
-    keteranganHasil: 'Terlaksana 4 kali putaran, lingkungan bebas banjir dan bebas jentik nyamuk DB'
-  },
-  {
-    tahun: 2026,
-    bidang: 'keamanan',
-    namaProgram: 'Revitalisasi Pos Ronda & Pemasangan 4 Titik Kamera CCTV Online',
-    targetBulan: 'April 2026',
-    anggaranRencana: 4500000,
-    anggaranRealisasi: 4250000,
-    status: 'terlaksana',
-    persentase: 100,
-    keteranganHasil: 'Pos ronda diperbaiki, 4 kamera CCTV online aktif memantau gerbang utama dan pertigaan'
-  },
-  {
-    tahun: 2026,
-    bidang: 'sosial_pkk',
-    namaProgram: 'Pemeriksaan Kesehatan Posyandu Balita & Lansia Rutin PKK RT',
-    targetBulan: 'Rutin Setiap Bulan',
-    anggaranRencana: 2400000,
-    anggaranRealisasi: 2100000,
-    status: 'terlaksana',
-    persentase: 100,
-    keteranganHasil: 'Pemberian Makanan Tambahan (PMT) balita dan cek tensi/gula darah rutin lansia'
-  },
-  {
-    tahun: 2026,
-    bidang: 'kepemudaan',
-    namaProgram: 'Peringatan Gebyar Kemerdekaan HUT RI Ke-81 & Pentas Seni Warga',
-    targetBulan: 'Agustus 2026',
-    anggaranRencana: 8000000,
-    anggaranRealisasi: 8350000,
-    status: 'terlaksana',
-    persentase: 100,
-    keteranganHasil: 'Lomba anak-anak, tirakatan malam 17-an, jalan santai bersama 120 warga RT'
-  },
-  {
-    tahun: 2026,
-    bidang: 'pembangunan',
-    namaProgram: 'Pengecatan Marka Jalan & Penomoran Rumah Warga Seragam',
-    targetBulan: 'Oktober 2026',
-    anggaranRencana: 2000000,
-    anggaranRealisasi: 1400000,
-    status: 'berjalan',
-    persentase: 70,
-    keteranganHasil: 'Blok A dan B selesai dicat dan dipasang plat nomor baru, Blok C dan D sedang berjalan'
-  },
-  {
-    tahun: 2026,
-    bidang: 'keagamaan',
-    namaProgram: 'Pengajian Rutin Keliling & Santunan Yatim Piatu',
-    targetBulan: 'Bulan Ramadhan & Muharram',
-    anggaranRencana: 1500000,
-    anggaranRealisasi: 1500000,
-    status: 'terlaksana',
-    persentase: 100,
-    keteranganHasil: 'Santunan tersalurkan ke 8 anak yatim di sekitar lingkungan'
-  }
-];
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const tahunParam = searchParams.get('tahun');
     const targetYear = tahunParam ? parseInt(tahunParam) : new Date().getFullYear();
     const bidang = searchParams.get('bidang');
 
-    // Auto seed if empty
-    const count = await db.programKerja.count();
-    if (count === 0) {
-      for (const item of SEED_PROKER) {
-        await db.programKerja.create({ data: item });
-      }
-    }
-
-    const where: any = { tahun: targetYear };
+    const where: any = { 
+      tahun: targetYear,
+      komunitasId: tenant.komunitasId,
+    };
     if (bidang && bidang !== 'all') {
       where.bidang = bidang;
     }
@@ -136,6 +68,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { 
       tahun, 
@@ -165,7 +98,8 @@ export async function POST(request: Request) {
         status: status || 'terlaksana',
         persentase: Number(persentase) || 100,
         keteranganHasil: keteranganHasil || null,
-        dokumentasiUrl: dokumentasiUrl || null
+        dokumentasiUrl: dokumentasiUrl || null,
+        komunitasId: tenant.komunitasId,
       }
     });
 
@@ -178,11 +112,19 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { id, ...updateData } = body;
 
     if (!id) {
       return NextResponse.json({ error: 'ID program kerja wajib disertakan' }, { status: 400 });
+    }
+
+    const existing = await db.programKerja.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Program kerja tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     if (updateData.tahun !== undefined) updateData.tahun = Number(updateData.tahun);
@@ -204,11 +146,19 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (!id) {
       return NextResponse.json({ error: 'ID program kerja wajib disertakan' }, { status: 400 });
+    }
+
+    const existing = await db.programKerja.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Program kerja tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     await db.programKerja.delete({

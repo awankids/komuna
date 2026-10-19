@@ -1,14 +1,23 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 // GET all Rombongan along with count of active members and leader details
 export async function GET() {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const rombongan = await db.rombongan.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       include: {
         ketua: true,
         anggota: {
-          where: { statusAktif: true }
+          where: { statusAktif: true, komunitasId: tenant.komunitasId }
         }
       },
       orderBy: { nama: 'asc' },
@@ -43,13 +52,14 @@ export async function GET() {
 // POST create new Rombongan group
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { nama } = await request.json();
     if (!nama) {
       return NextResponse.json({ error: 'Nama rombongan wajib diisi' }, { status: 400 });
     }
 
-    const existing = await db.rombongan.findUnique({
-      where: { nama }
+    const existing = await db.rombongan.findFirst({
+      where: { nama, komunitasId: tenant.komunitasId }
     });
 
     if (existing) {
@@ -57,7 +67,7 @@ export async function POST(request: Request) {
     }
 
     const newRom = await db.rombongan.create({
-      data: { nama }
+      data: { nama, komunitasId: tenant.komunitasId }
     });
 
     return NextResponse.json(newRom, { status: 201 });
@@ -67,12 +77,13 @@ export async function POST(request: Request) {
   }
 }
 
-async function regenerateSchedules(yearNum: number, monthNum: number) {
-  // Fetch all groups
+async function regenerateSchedules(komunitasId: string, yearNum: number, monthNum: number) {
+  // Fetch groups belonging to this tenant
   const groups = await db.rombongan.findMany({
+    where: { komunitasId },
     include: {
       anggota: {
-        where: { statusAktif: true },
+        where: { statusAktif: true, komunitasId },
         orderBy: { nama: 'asc' },
       },
     },
@@ -85,13 +96,16 @@ async function regenerateSchedules(yearNum: number, monthNum: number) {
   const startOfMonth = new Date(Date.UTC(yearNum, monthNum, 1));
   const endOfMonth = new Date(Date.UTC(yearNum, monthNum, numDays, 23, 59, 59, 999));
 
-  // Delete existing
+  // Delete existing schedules only for members of this tenant
   await db.jadwalPetugas.deleteMany({
     where: {
       tanggal: {
         gte: startOfMonth,
         lte: endOfMonth,
       },
+      anggota: {
+        komunitasId
+      }
     },
   });
 
@@ -125,28 +139,35 @@ async function regenerateSchedules(yearNum: number, monthNum: number) {
 // PUT update Rombongan (name, leader assignment, schedule day, and add/remove members)
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { id, nama, ketuaId, hariPiket, addAnggotaId, removeAnggotaId } = await request.json();
     if (!id) {
       return NextResponse.json({ error: 'ID rombongan wajib diisi' }, { status: 400 });
     }
 
+    const currentRom = await db.rombongan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!currentRom) {
+      return NextResponse.json({ error: 'Rombongan tidak ditemukan di komunitas Anda' }, { status: 404 });
+    }
+
     // 1. Handle adding an anggota to this rombongan
     if (addAnggotaId) {
-      await db.anggota.update({
-        where: { id: addAnggotaId },
+      await db.anggota.updateMany({
+        where: { id: addAnggotaId, komunitasId: tenant.komunitasId },
         data: { rombonganId: id, isWajibRonda: true }
       });
     }
 
     // 2. Handle removing an anggota from this rombongan
     if (removeAnggotaId) {
-      await db.anggota.update({
-        where: { id: removeAnggotaId },
+      await db.anggota.updateMany({
+        where: { id: removeAnggotaId, komunitasId: tenant.komunitasId },
         data: { rombonganId: null }
       });
       // If the removed member was the ketua, clear ketuaId
-      const currentRom = await db.rombongan.findUnique({ where: { id } });
-      if (currentRom?.ketuaId === removeAnggotaId) {
+      if (currentRom.ketuaId === removeAnggotaId) {
         await db.rombongan.update({
           where: { id },
           data: { ketuaId: null }
@@ -158,10 +179,11 @@ export async function PUT(request: Request) {
     const dataToUpdate: any = {};
 
     if (nama) {
-      // Check if name is already taken by another group
+      // Check if name is already taken by another group within this community
       const duplicate = await db.rombongan.findFirst({
         where: {
           nama,
+          komunitasId: tenant.komunitasId,
           NOT: { id }
         }
       });
@@ -172,12 +194,13 @@ export async function PUT(request: Request) {
       dataToUpdate.nama = nama;
     }
 
-    // If day is assigned, clear it from other groups first to maintain 1-to-1 weekday assignment mapping
+    // If day is assigned, clear it from other groups first to maintain 1-to-1 weekday assignment mapping in this community
     if (hariPiket && hariPiket !== 'none') {
       const dayVal = parseInt(hariPiket, 10);
       await db.rombongan.updateMany({
         where: {
           hariPiket: dayVal,
+          komunitasId: tenant.komunitasId,
           NOT: { id }
         },
         data: { hariPiket: null }
@@ -201,16 +224,16 @@ export async function PUT(request: Request) {
     // Auto-regenerate schedules for current month & year if hariPiket was updated
     if (hariPiket !== undefined) {
       const now = new Date();
-      await regenerateSchedules(now.getFullYear(), now.getMonth());
+      await regenerateSchedules(tenant.komunitasId, now.getFullYear(), now.getMonth());
     }
 
     // Return the fresh full formatted rombongan
-    const fresh = await db.rombongan.findUnique({
-      where: { id },
+    const fresh = await db.rombongan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId },
       include: {
         ketua: true,
         anggota: {
-          where: { statusAktif: true }
+          where: { statusAktif: true, komunitasId: tenant.komunitasId }
         }
       }
     });
@@ -246,10 +269,18 @@ export async function PUT(request: Request) {
 // DELETE Rombongan group
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     if (!id) {
       return NextResponse.json({ error: 'ID rombongan wajib dicantumkan' }, { status: 400 });
+    }
+
+    const existingRom = await db.rombongan.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existingRom) {
+      return NextResponse.json({ error: 'Rombongan tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     await db.rombongan.delete({

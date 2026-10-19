@@ -54,6 +54,7 @@ export type InventarisAsetMinAggregateOutputType = {
   sumberPerolehan: string | null
   statusTahunIni: string | null
   keterangan: string | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +73,7 @@ export type InventarisAsetMaxAggregateOutputType = {
   sumberPerolehan: string | null
   statusTahunIni: string | null
   keterangan: string | null
+  komunitasId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -90,6 +92,7 @@ export type InventarisAsetCountAggregateOutputType = {
   sumberPerolehan: number
   statusTahunIni: number
   keterangan: number
+  komunitasId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -124,6 +127,7 @@ export type InventarisAsetMinAggregateInputType = {
   sumberPerolehan?: true
   statusTahunIni?: true
   keterangan?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -142,6 +146,7 @@ export type InventarisAsetMaxAggregateInputType = {
   sumberPerolehan?: true
   statusTahunIni?: true
   keterangan?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -160,6 +165,7 @@ export type InventarisAsetCountAggregateInputType = {
   sumberPerolehan?: true
   statusTahunIni?: true
   keterangan?: true
+  komunitasId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -265,6 +271,7 @@ export type InventarisAsetGroupByOutputType = {
   sumberPerolehan: string
   statusTahunIni: string
   keterangan: string | null
+  komunitasId: string | null
   createdAt: Date
   updatedAt: Date
   _count: InventarisAsetCountAggregateOutputType | null
@@ -306,8 +313,10 @@ export type InventarisAsetWhereInput = {
   sumberPerolehan?: Prisma.StringFilter<"InventarisAset"> | string
   statusTahunIni?: Prisma.StringFilter<"InventarisAset"> | string
   keterangan?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InventarisAset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InventarisAset"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   peminjaman?: Prisma.PeminjamanAsetListRelationFilter
 }
 
@@ -325,8 +334,10 @@ export type InventarisAsetOrderByWithRelationInput = {
   sumberPerolehan?: Prisma.SortOrder
   statusTahunIni?: Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
   peminjaman?: Prisma.PeminjamanAsetOrderByRelationAggregateInput
 }
 
@@ -347,8 +358,10 @@ export type InventarisAsetWhereUniqueInput = Prisma.AtLeast<{
   sumberPerolehan?: Prisma.StringFilter<"InventarisAset"> | string
   statusTahunIni?: Prisma.StringFilter<"InventarisAset"> | string
   keterangan?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InventarisAset"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InventarisAset"> | Date | string
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   peminjaman?: Prisma.PeminjamanAsetListRelationFilter
 }, "id">
 
@@ -366,6 +379,7 @@ export type InventarisAsetOrderByWithAggregationInput = {
   sumberPerolehan?: Prisma.SortOrder
   statusTahunIni?: Prisma.SortOrder
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.InventarisAsetCountOrderByAggregateInput
@@ -392,6 +406,7 @@ export type InventarisAsetScalarWhereWithAggregatesInput = {
   sumberPerolehan?: Prisma.StringWithAggregatesFilter<"InventarisAset"> | string
   statusTahunIni?: Prisma.StringWithAggregatesFilter<"InventarisAset"> | string
   keterangan?: Prisma.StringNullableWithAggregatesFilter<"InventarisAset"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"InventarisAset"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InventarisAset"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InventarisAset"> | Date | string
 }
@@ -412,6 +427,7 @@ export type InventarisAsetCreateInput = {
   keterangan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutInventarisInput
   peminjaman?: Prisma.PeminjamanAsetCreateNestedManyWithoutInventarisInput
 }
 
@@ -429,6 +445,7 @@ export type InventarisAsetUncheckedCreateInput = {
   sumberPerolehan?: string
   statusTahunIni?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   peminjaman?: Prisma.PeminjamanAsetUncheckedCreateNestedManyWithoutInventarisInput
@@ -450,6 +467,7 @@ export type InventarisAsetUpdateInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutInventarisNestedInput
   peminjaman?: Prisma.PeminjamanAsetUpdateManyWithoutInventarisNestedInput
 }
 
@@ -467,6 +485,7 @@ export type InventarisAsetUncheckedUpdateInput = {
   sumberPerolehan?: Prisma.StringFieldUpdateOperationsInput | string
   statusTahunIni?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   peminjaman?: Prisma.PeminjamanAsetUncheckedUpdateManyWithoutInventarisNestedInput
@@ -486,6 +505,7 @@ export type InventarisAsetCreateManyInput = {
   sumberPerolehan?: string
   statusTahunIni?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -522,8 +542,19 @@ export type InventarisAsetUncheckedUpdateManyInput = {
   sumberPerolehan?: Prisma.StringFieldUpdateOperationsInput | string
   statusTahunIni?: Prisma.StringFieldUpdateOperationsInput | string
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InventarisAsetListRelationFilter = {
+  every?: Prisma.InventarisAsetWhereInput
+  some?: Prisma.InventarisAsetWhereInput
+  none?: Prisma.InventarisAsetWhereInput
+}
+
+export type InventarisAsetOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type InventarisAsetCountOrderByAggregateInput = {
@@ -540,6 +571,7 @@ export type InventarisAsetCountOrderByAggregateInput = {
   sumberPerolehan?: Prisma.SortOrder
   statusTahunIni?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -565,6 +597,7 @@ export type InventarisAsetMaxOrderByAggregateInput = {
   sumberPerolehan?: Prisma.SortOrder
   statusTahunIni?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -583,6 +616,7 @@ export type InventarisAsetMinOrderByAggregateInput = {
   sumberPerolehan?: Prisma.SortOrder
   statusTahunIni?: Prisma.SortOrder
   keterangan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -599,6 +633,48 @@ export type InventarisAsetScalarRelationFilter = {
   isNot?: Prisma.InventarisAsetWhereInput
 }
 
+export type InventarisAsetCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.InventarisAsetCreateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput> | Prisma.InventarisAsetCreateWithoutKomunitasInput[] | Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput | Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.InventarisAsetCreateManyKomunitasInputEnvelope
+  connect?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+}
+
+export type InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.InventarisAsetCreateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput> | Prisma.InventarisAsetCreateWithoutKomunitasInput[] | Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput | Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.InventarisAsetCreateManyKomunitasInputEnvelope
+  connect?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+}
+
+export type InventarisAsetUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.InventarisAsetCreateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput> | Prisma.InventarisAsetCreateWithoutKomunitasInput[] | Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput | Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.InventarisAsetUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.InventarisAsetUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.InventarisAsetCreateManyKomunitasInputEnvelope
+  set?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  disconnect?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  delete?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  connect?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  update?: Prisma.InventarisAsetUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.InventarisAsetUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.InventarisAsetUpdateManyWithWhereWithoutKomunitasInput | Prisma.InventarisAsetUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.InventarisAsetScalarWhereInput | Prisma.InventarisAsetScalarWhereInput[]
+}
+
+export type InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.InventarisAsetCreateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput> | Prisma.InventarisAsetCreateWithoutKomunitasInput[] | Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput | Prisma.InventarisAsetCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.InventarisAsetUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.InventarisAsetUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.InventarisAsetCreateManyKomunitasInputEnvelope
+  set?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  disconnect?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  delete?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  connect?: Prisma.InventarisAsetWhereUniqueInput | Prisma.InventarisAsetWhereUniqueInput[]
+  update?: Prisma.InventarisAsetUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.InventarisAsetUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.InventarisAsetUpdateManyWithWhereWithoutKomunitasInput | Prisma.InventarisAsetUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.InventarisAsetScalarWhereInput | Prisma.InventarisAsetScalarWhereInput[]
+}
+
 export type InventarisAsetCreateNestedOneWithoutPeminjamanInput = {
   create?: Prisma.XOR<Prisma.InventarisAsetCreateWithoutPeminjamanInput, Prisma.InventarisAsetUncheckedCreateWithoutPeminjamanInput>
   connectOrCreate?: Prisma.InventarisAsetCreateOrConnectWithoutPeminjamanInput
@@ -611,6 +687,92 @@ export type InventarisAsetUpdateOneRequiredWithoutPeminjamanNestedInput = {
   upsert?: Prisma.InventarisAsetUpsertWithoutPeminjamanInput
   connect?: Prisma.InventarisAsetWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.InventarisAsetUpdateToOneWithWhereWithoutPeminjamanInput, Prisma.InventarisAsetUpdateWithoutPeminjamanInput>, Prisma.InventarisAsetUncheckedUpdateWithoutPeminjamanInput>
+}
+
+export type InventarisAsetCreateWithoutKomunitasInput = {
+  id?: string
+  kodeBarang?: string | null
+  namaBarang: string
+  kategori: string
+  jumlah?: number
+  satuan?: string
+  kondisiBaik?: number
+  kondisiRusak?: number
+  lokasiSimpan?: string | null
+  tahunPengadaan?: number
+  sumberPerolehan?: string
+  statusTahunIni?: string
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  peminjaman?: Prisma.PeminjamanAsetCreateNestedManyWithoutInventarisInput
+}
+
+export type InventarisAsetUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  kodeBarang?: string | null
+  namaBarang: string
+  kategori: string
+  jumlah?: number
+  satuan?: string
+  kondisiBaik?: number
+  kondisiRusak?: number
+  lokasiSimpan?: string | null
+  tahunPengadaan?: number
+  sumberPerolehan?: string
+  statusTahunIni?: string
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  peminjaman?: Prisma.PeminjamanAsetUncheckedCreateNestedManyWithoutInventarisInput
+}
+
+export type InventarisAsetCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.InventarisAsetWhereUniqueInput
+  create: Prisma.XOR<Prisma.InventarisAsetCreateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput>
+}
+
+export type InventarisAsetCreateManyKomunitasInputEnvelope = {
+  data: Prisma.InventarisAsetCreateManyKomunitasInput | Prisma.InventarisAsetCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type InventarisAsetUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.InventarisAsetWhereUniqueInput
+  update: Prisma.XOR<Prisma.InventarisAsetUpdateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.InventarisAsetCreateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedCreateWithoutKomunitasInput>
+}
+
+export type InventarisAsetUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.InventarisAsetWhereUniqueInput
+  data: Prisma.XOR<Prisma.InventarisAsetUpdateWithoutKomunitasInput, Prisma.InventarisAsetUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type InventarisAsetUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.InventarisAsetScalarWhereInput
+  data: Prisma.XOR<Prisma.InventarisAsetUpdateManyMutationInput, Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type InventarisAsetScalarWhereInput = {
+  AND?: Prisma.InventarisAsetScalarWhereInput | Prisma.InventarisAsetScalarWhereInput[]
+  OR?: Prisma.InventarisAsetScalarWhereInput[]
+  NOT?: Prisma.InventarisAsetScalarWhereInput | Prisma.InventarisAsetScalarWhereInput[]
+  id?: Prisma.StringFilter<"InventarisAset"> | string
+  kodeBarang?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
+  namaBarang?: Prisma.StringFilter<"InventarisAset"> | string
+  kategori?: Prisma.StringFilter<"InventarisAset"> | string
+  jumlah?: Prisma.IntFilter<"InventarisAset"> | number
+  satuan?: Prisma.StringFilter<"InventarisAset"> | string
+  kondisiBaik?: Prisma.IntFilter<"InventarisAset"> | number
+  kondisiRusak?: Prisma.IntFilter<"InventarisAset"> | number
+  lokasiSimpan?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
+  tahunPengadaan?: Prisma.IntFilter<"InventarisAset"> | number
+  sumberPerolehan?: Prisma.StringFilter<"InventarisAset"> | string
+  statusTahunIni?: Prisma.StringFilter<"InventarisAset"> | string
+  keterangan?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"InventarisAset"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"InventarisAset"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InventarisAset"> | Date | string
 }
 
 export type InventarisAsetCreateWithoutPeminjamanInput = {
@@ -629,6 +791,7 @@ export type InventarisAsetCreateWithoutPeminjamanInput = {
   keterangan?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutInventarisInput
 }
 
 export type InventarisAsetUncheckedCreateWithoutPeminjamanInput = {
@@ -645,6 +808,7 @@ export type InventarisAsetUncheckedCreateWithoutPeminjamanInput = {
   sumberPerolehan?: string
   statusTahunIni?: string
   keterangan?: string | null
+  komunitasId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -681,9 +845,85 @@ export type InventarisAsetUpdateWithoutPeminjamanInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutInventarisNestedInput
 }
 
 export type InventarisAsetUncheckedUpdateWithoutPeminjamanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  kodeBarang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaBarang?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  satuan?: Prisma.StringFieldUpdateOperationsInput | string
+  kondisiBaik?: Prisma.IntFieldUpdateOperationsInput | number
+  kondisiRusak?: Prisma.IntFieldUpdateOperationsInput | number
+  lokasiSimpan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tahunPengadaan?: Prisma.IntFieldUpdateOperationsInput | number
+  sumberPerolehan?: Prisma.StringFieldUpdateOperationsInput | string
+  statusTahunIni?: Prisma.StringFieldUpdateOperationsInput | string
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InventarisAsetCreateManyKomunitasInput = {
+  id?: string
+  kodeBarang?: string | null
+  namaBarang: string
+  kategori: string
+  jumlah?: number
+  satuan?: string
+  kondisiBaik?: number
+  kondisiRusak?: number
+  lokasiSimpan?: string | null
+  tahunPengadaan?: number
+  sumberPerolehan?: string
+  statusTahunIni?: string
+  keterangan?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InventarisAsetUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  kodeBarang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaBarang?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  satuan?: Prisma.StringFieldUpdateOperationsInput | string
+  kondisiBaik?: Prisma.IntFieldUpdateOperationsInput | number
+  kondisiRusak?: Prisma.IntFieldUpdateOperationsInput | number
+  lokasiSimpan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tahunPengadaan?: Prisma.IntFieldUpdateOperationsInput | number
+  sumberPerolehan?: Prisma.StringFieldUpdateOperationsInput | string
+  statusTahunIni?: Prisma.StringFieldUpdateOperationsInput | string
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  peminjaman?: Prisma.PeminjamanAsetUpdateManyWithoutInventarisNestedInput
+}
+
+export type InventarisAsetUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  kodeBarang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaBarang?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  jumlah?: Prisma.IntFieldUpdateOperationsInput | number
+  satuan?: Prisma.StringFieldUpdateOperationsInput | string
+  kondisiBaik?: Prisma.IntFieldUpdateOperationsInput | number
+  kondisiRusak?: Prisma.IntFieldUpdateOperationsInput | number
+  lokasiSimpan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tahunPengadaan?: Prisma.IntFieldUpdateOperationsInput | number
+  sumberPerolehan?: Prisma.StringFieldUpdateOperationsInput | string
+  statusTahunIni?: Prisma.StringFieldUpdateOperationsInput | string
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  peminjaman?: Prisma.PeminjamanAsetUncheckedUpdateManyWithoutInventarisNestedInput
+}
+
+export type InventarisAsetUncheckedUpdateManyWithoutKomunitasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   kodeBarang?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaBarang?: Prisma.StringFieldUpdateOperationsInput | string
@@ -746,8 +986,10 @@ export type InventarisAsetSelect<ExtArgs extends runtime.Types.Extensions.Intern
   sumberPerolehan?: boolean
   statusTahunIni?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.InventarisAset$komunitasArgs<ExtArgs>
   peminjaman?: boolean | Prisma.InventarisAset$peminjamanArgs<ExtArgs>
   _count?: boolean | Prisma.InventarisAsetCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventarisAset"]>
@@ -766,8 +1008,10 @@ export type InventarisAsetSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   sumberPerolehan?: boolean
   statusTahunIni?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.InventarisAset$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["inventarisAset"]>
 
 export type InventarisAsetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -784,8 +1028,10 @@ export type InventarisAsetSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   sumberPerolehan?: boolean
   statusTahunIni?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  komunitas?: boolean | Prisma.InventarisAset$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["inventarisAset"]>
 
 export type InventarisAsetSelectScalar = {
@@ -802,21 +1048,28 @@ export type InventarisAsetSelectScalar = {
   sumberPerolehan?: boolean
   statusTahunIni?: boolean
   keterangan?: boolean
+  komunitasId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type InventarisAsetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "kodeBarang" | "namaBarang" | "kategori" | "jumlah" | "satuan" | "kondisiBaik" | "kondisiRusak" | "lokasiSimpan" | "tahunPengadaan" | "sumberPerolehan" | "statusTahunIni" | "keterangan" | "createdAt" | "updatedAt", ExtArgs["result"]["inventarisAset"]>
+export type InventarisAsetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "kodeBarang" | "namaBarang" | "kategori" | "jumlah" | "satuan" | "kondisiBaik" | "kondisiRusak" | "lokasiSimpan" | "tahunPengadaan" | "sumberPerolehan" | "statusTahunIni" | "keterangan" | "komunitasId" | "createdAt" | "updatedAt", ExtArgs["result"]["inventarisAset"]>
 export type InventarisAsetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.InventarisAset$komunitasArgs<ExtArgs>
   peminjaman?: boolean | Prisma.InventarisAset$peminjamanArgs<ExtArgs>
   _count?: boolean | Prisma.InventarisAsetCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type InventarisAsetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type InventarisAsetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type InventarisAsetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.InventarisAset$komunitasArgs<ExtArgs>
+}
+export type InventarisAsetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.InventarisAset$komunitasArgs<ExtArgs>
+}
 
 export type $InventarisAsetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InventarisAset"
   objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
     peminjaman: Prisma.$PeminjamanAsetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -833,6 +1086,7 @@ export type $InventarisAsetPayload<ExtArgs extends runtime.Types.Extensions.Inte
     sumberPerolehan: string
     statusTahunIni: string
     keterangan: string | null
+    komunitasId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["inventarisAset"]>
@@ -1229,6 +1483,7 @@ readonly fields: InventarisAsetFieldRefs;
  */
 export interface Prisma__InventarisAsetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.InventarisAset$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventarisAset$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   peminjaman<T extends Prisma.InventarisAset$peminjamanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventarisAset$peminjamanArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PeminjamanAsetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1272,6 +1527,7 @@ export interface InventarisAsetFieldRefs {
   readonly sumberPerolehan: Prisma.FieldRef<"InventarisAset", 'String'>
   readonly statusTahunIni: Prisma.FieldRef<"InventarisAset", 'String'>
   readonly keterangan: Prisma.FieldRef<"InventarisAset", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"InventarisAset", 'String'>
   readonly createdAt: Prisma.FieldRef<"InventarisAset", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"InventarisAset", 'DateTime'>
 }
@@ -1528,6 +1784,10 @@ export type InventarisAsetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.InventarisAsetCreateManyInput | Prisma.InventarisAsetCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventarisAsetIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1598,6 +1858,10 @@ export type InventarisAsetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many InventarisAsets to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventarisAsetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1664,6 +1928,25 @@ export type InventarisAsetDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many InventarisAsets to delete.
    */
   limit?: number
+}
+
+/**
+ * InventarisAset.komunitas
+ */
+export type InventarisAset$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

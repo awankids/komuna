@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getWeton, findNextWetonDate } from '@/lib/javanese-date';
+import { requireTenantContext } from '@/lib/auth';
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id: kelompokId } = await params;
     const body = await request.json();
     const {
@@ -31,8 +33,8 @@ export async function POST(
       );
     }
 
-    const kelompok = await db.kelompokArisan.findUnique({
-      where: { id: kelompokId },
+    const kelompok = await db.kelompokArisan.findFirst({
+      where: { id: kelompokId, komunitasId: tenant.komunitasId },
       include: {
         peserta: {
           include: {
@@ -208,6 +210,7 @@ export async function POST(
 
           await tx.agenda.create({
             data: {
+              komunitasId: tenant.komunitasId,
               judul: `Rapat Rutin & Kocokan Arisan: ${kelompok.nama} (#${nextPutaranKe + 1})`,
               kategori: 'rapat',
               tanggal: nextAgendaDate,

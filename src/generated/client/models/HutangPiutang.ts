@@ -43,6 +43,7 @@ export type HutangPiutangMinAggregateOutputType = {
   namaPihak: string | null
   kontakPihak: string | null
   anggotaId: string | null
+  komunitasId: string | null
   totalNominal: number | null
   sisaNominal: number | null
   tanggalMulai: Date | null
@@ -62,6 +63,7 @@ export type HutangPiutangMaxAggregateOutputType = {
   namaPihak: string | null
   kontakPihak: string | null
   anggotaId: string | null
+  komunitasId: string | null
   totalNominal: number | null
   sisaNominal: number | null
   tanggalMulai: Date | null
@@ -81,6 +83,7 @@ export type HutangPiutangCountAggregateOutputType = {
   namaPihak: number
   kontakPihak: number
   anggotaId: number
+  komunitasId: number
   totalNominal: number
   sisaNominal: number
   tanggalMulai: number
@@ -112,6 +115,7 @@ export type HutangPiutangMinAggregateInputType = {
   namaPihak?: true
   kontakPihak?: true
   anggotaId?: true
+  komunitasId?: true
   totalNominal?: true
   sisaNominal?: true
   tanggalMulai?: true
@@ -131,6 +135,7 @@ export type HutangPiutangMaxAggregateInputType = {
   namaPihak?: true
   kontakPihak?: true
   anggotaId?: true
+  komunitasId?: true
   totalNominal?: true
   sisaNominal?: true
   tanggalMulai?: true
@@ -150,6 +155,7 @@ export type HutangPiutangCountAggregateInputType = {
   namaPihak?: true
   kontakPihak?: true
   anggotaId?: true
+  komunitasId?: true
   totalNominal?: true
   sisaNominal?: true
   tanggalMulai?: true
@@ -256,6 +262,7 @@ export type HutangPiutangGroupByOutputType = {
   namaPihak: string
   kontakPihak: string | null
   anggotaId: string | null
+  komunitasId: string | null
   totalNominal: number
   sisaNominal: number
   tanggalMulai: Date
@@ -298,6 +305,7 @@ export type HutangPiutangWhereInput = {
   namaPihak?: Prisma.StringFilter<"HutangPiutang"> | string
   kontakPihak?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
   anggotaId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
   totalNominal?: Prisma.IntFilter<"HutangPiutang"> | number
   sisaNominal?: Prisma.IntFilter<"HutangPiutang"> | number
   tanggalMulai?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
@@ -309,6 +317,7 @@ export type HutangPiutangWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   riwayatBayar?: Prisma.PembayaranHutangPiutangListRelationFilter
 }
 
@@ -319,6 +328,7 @@ export type HutangPiutangOrderByWithRelationInput = {
   namaPihak?: Prisma.SortOrder
   kontakPihak?: Prisma.SortOrderInput | Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   totalNominal?: Prisma.SortOrder
   sisaNominal?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
@@ -330,6 +340,7 @@ export type HutangPiutangOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   anggota?: Prisma.AnggotaOrderByWithRelationInput
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
   riwayatBayar?: Prisma.PembayaranHutangPiutangOrderByRelationAggregateInput
 }
 
@@ -343,6 +354,7 @@ export type HutangPiutangWhereUniqueInput = Prisma.AtLeast<{
   namaPihak?: Prisma.StringFilter<"HutangPiutang"> | string
   kontakPihak?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
   anggotaId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
   totalNominal?: Prisma.IntFilter<"HutangPiutang"> | number
   sisaNominal?: Prisma.IntFilter<"HutangPiutang"> | number
   tanggalMulai?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
@@ -354,6 +366,7 @@ export type HutangPiutangWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   riwayatBayar?: Prisma.PembayaranHutangPiutangListRelationFilter
 }, "id">
 
@@ -364,6 +377,7 @@ export type HutangPiutangOrderByWithAggregationInput = {
   namaPihak?: Prisma.SortOrder
   kontakPihak?: Prisma.SortOrderInput | Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   totalNominal?: Prisma.SortOrder
   sisaNominal?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
@@ -391,6 +405,7 @@ export type HutangPiutangScalarWhereWithAggregatesInput = {
   namaPihak?: Prisma.StringWithAggregatesFilter<"HutangPiutang"> | string
   kontakPihak?: Prisma.StringNullableWithAggregatesFilter<"HutangPiutang"> | string | null
   anggotaId?: Prisma.StringNullableWithAggregatesFilter<"HutangPiutang"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"HutangPiutang"> | string | null
   totalNominal?: Prisma.IntWithAggregatesFilter<"HutangPiutang"> | number
   sisaNominal?: Prisma.IntWithAggregatesFilter<"HutangPiutang"> | number
   tanggalMulai?: Prisma.DateTimeWithAggregatesFilter<"HutangPiutang"> | Date | string
@@ -420,6 +435,7 @@ export type HutangPiutangCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   anggota?: Prisma.AnggotaCreateNestedOneWithoutHutangPiutangInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutHutangPiutangInput
   riwayatBayar?: Prisma.PembayaranHutangPiutangCreateNestedManyWithoutHutangPiutangInput
 }
 
@@ -430,6 +446,7 @@ export type HutangPiutangUncheckedCreateInput = {
   namaPihak: string
   kontakPihak?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   totalNominal: number
   sisaNominal: number
   tanggalMulai: Date | string
@@ -460,6 +477,7 @@ export type HutangPiutangUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   anggota?: Prisma.AnggotaUpdateOneWithoutHutangPiutangNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutHutangPiutangNestedInput
   riwayatBayar?: Prisma.PembayaranHutangPiutangUpdateManyWithoutHutangPiutangNestedInput
 }
 
@@ -470,6 +488,7 @@ export type HutangPiutangUncheckedUpdateInput = {
   namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
   kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
   sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -490,6 +509,7 @@ export type HutangPiutangCreateManyInput = {
   namaPihak: string
   kontakPihak?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   totalNominal: number
   sisaNominal: number
   tanggalMulai: Date | string
@@ -527,6 +547,7 @@ export type HutangPiutangUncheckedUpdateManyInput = {
   namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
   kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
   sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -556,6 +577,7 @@ export type HutangPiutangCountOrderByAggregateInput = {
   namaPihak?: Prisma.SortOrder
   kontakPihak?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   totalNominal?: Prisma.SortOrder
   sisaNominal?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
@@ -580,6 +602,7 @@ export type HutangPiutangMaxOrderByAggregateInput = {
   namaPihak?: Prisma.SortOrder
   kontakPihak?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   totalNominal?: Prisma.SortOrder
   sisaNominal?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
@@ -599,6 +622,7 @@ export type HutangPiutangMinOrderByAggregateInput = {
   namaPihak?: Prisma.SortOrder
   kontakPihak?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   totalNominal?: Prisma.SortOrder
   sisaNominal?: Prisma.SortOrder
   tanggalMulai?: Prisma.SortOrder
@@ -619,6 +643,48 @@ export type HutangPiutangSumOrderByAggregateInput = {
 export type HutangPiutangScalarRelationFilter = {
   is?: Prisma.HutangPiutangWhereInput
   isNot?: Prisma.HutangPiutangWhereInput
+}
+
+export type HutangPiutangCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.HutangPiutangCreateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput> | Prisma.HutangPiutangCreateWithoutKomunitasInput[] | Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput | Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.HutangPiutangCreateManyKomunitasInputEnvelope
+  connect?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+}
+
+export type HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.HutangPiutangCreateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput> | Prisma.HutangPiutangCreateWithoutKomunitasInput[] | Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput | Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.HutangPiutangCreateManyKomunitasInputEnvelope
+  connect?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+}
+
+export type HutangPiutangUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.HutangPiutangCreateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput> | Prisma.HutangPiutangCreateWithoutKomunitasInput[] | Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput | Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.HutangPiutangUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.HutangPiutangUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.HutangPiutangCreateManyKomunitasInputEnvelope
+  set?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  disconnect?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  delete?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  connect?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  update?: Prisma.HutangPiutangUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.HutangPiutangUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.HutangPiutangUpdateManyWithWhereWithoutKomunitasInput | Prisma.HutangPiutangUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.HutangPiutangScalarWhereInput | Prisma.HutangPiutangScalarWhereInput[]
+}
+
+export type HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.HutangPiutangCreateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput> | Prisma.HutangPiutangCreateWithoutKomunitasInput[] | Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput | Prisma.HutangPiutangCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.HutangPiutangUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.HutangPiutangUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.HutangPiutangCreateManyKomunitasInputEnvelope
+  set?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  disconnect?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  delete?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  connect?: Prisma.HutangPiutangWhereUniqueInput | Prisma.HutangPiutangWhereUniqueInput[]
+  update?: Prisma.HutangPiutangUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.HutangPiutangUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.HutangPiutangUpdateManyWithWhereWithoutKomunitasInput | Prisma.HutangPiutangUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.HutangPiutangScalarWhereInput | Prisma.HutangPiutangScalarWhereInput[]
 }
 
 export type HutangPiutangCreateNestedManyWithoutAnggotaInput = {
@@ -677,6 +743,95 @@ export type HutangPiutangUpdateOneRequiredWithoutRiwayatBayarNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.HutangPiutangUpdateToOneWithWhereWithoutRiwayatBayarInput, Prisma.HutangPiutangUpdateWithoutRiwayatBayarInput>, Prisma.HutangPiutangUncheckedUpdateWithoutRiwayatBayarInput>
 }
 
+export type HutangPiutangCreateWithoutKomunitasInput = {
+  id?: string
+  tipe: string
+  judul: string
+  namaPihak: string
+  kontakPihak?: string | null
+  totalNominal: number
+  sisaNominal: number
+  tanggalMulai: Date | string
+  jatuhTempo?: Date | string | null
+  status?: string
+  kategori?: string | null
+  catatan?: string | null
+  diisiOleh: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  anggota?: Prisma.AnggotaCreateNestedOneWithoutHutangPiutangInput
+  riwayatBayar?: Prisma.PembayaranHutangPiutangCreateNestedManyWithoutHutangPiutangInput
+}
+
+export type HutangPiutangUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  tipe: string
+  judul: string
+  namaPihak: string
+  kontakPihak?: string | null
+  anggotaId?: string | null
+  totalNominal: number
+  sisaNominal: number
+  tanggalMulai: Date | string
+  jatuhTempo?: Date | string | null
+  status?: string
+  kategori?: string | null
+  catatan?: string | null
+  diisiOleh: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  riwayatBayar?: Prisma.PembayaranHutangPiutangUncheckedCreateNestedManyWithoutHutangPiutangInput
+}
+
+export type HutangPiutangCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.HutangPiutangWhereUniqueInput
+  create: Prisma.XOR<Prisma.HutangPiutangCreateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput>
+}
+
+export type HutangPiutangCreateManyKomunitasInputEnvelope = {
+  data: Prisma.HutangPiutangCreateManyKomunitasInput | Prisma.HutangPiutangCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type HutangPiutangUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.HutangPiutangWhereUniqueInput
+  update: Prisma.XOR<Prisma.HutangPiutangUpdateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.HutangPiutangCreateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedCreateWithoutKomunitasInput>
+}
+
+export type HutangPiutangUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.HutangPiutangWhereUniqueInput
+  data: Prisma.XOR<Prisma.HutangPiutangUpdateWithoutKomunitasInput, Prisma.HutangPiutangUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type HutangPiutangUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.HutangPiutangScalarWhereInput
+  data: Prisma.XOR<Prisma.HutangPiutangUpdateManyMutationInput, Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type HutangPiutangScalarWhereInput = {
+  AND?: Prisma.HutangPiutangScalarWhereInput | Prisma.HutangPiutangScalarWhereInput[]
+  OR?: Prisma.HutangPiutangScalarWhereInput[]
+  NOT?: Prisma.HutangPiutangScalarWhereInput | Prisma.HutangPiutangScalarWhereInput[]
+  id?: Prisma.StringFilter<"HutangPiutang"> | string
+  tipe?: Prisma.StringFilter<"HutangPiutang"> | string
+  judul?: Prisma.StringFilter<"HutangPiutang"> | string
+  namaPihak?: Prisma.StringFilter<"HutangPiutang"> | string
+  kontakPihak?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  anggotaId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  totalNominal?: Prisma.IntFilter<"HutangPiutang"> | number
+  sisaNominal?: Prisma.IntFilter<"HutangPiutang"> | number
+  tanggalMulai?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
+  jatuhTempo?: Prisma.DateTimeNullableFilter<"HutangPiutang"> | Date | string | null
+  status?: Prisma.StringFilter<"HutangPiutang"> | string
+  kategori?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  catatan?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
+  diisiOleh?: Prisma.StringFilter<"HutangPiutang"> | string
+  createdAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
+}
+
 export type HutangPiutangCreateWithoutAnggotaInput = {
   id?: string
   tipe: string
@@ -693,6 +848,7 @@ export type HutangPiutangCreateWithoutAnggotaInput = {
   diisiOleh: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutHutangPiutangInput
   riwayatBayar?: Prisma.PembayaranHutangPiutangCreateNestedManyWithoutHutangPiutangInput
 }
 
@@ -702,6 +858,7 @@ export type HutangPiutangUncheckedCreateWithoutAnggotaInput = {
   judul: string
   namaPihak: string
   kontakPihak?: string | null
+  komunitasId?: string | null
   totalNominal: number
   sisaNominal: number
   tanggalMulai: Date | string
@@ -741,28 +898,6 @@ export type HutangPiutangUpdateManyWithWhereWithoutAnggotaInput = {
   data: Prisma.XOR<Prisma.HutangPiutangUpdateManyMutationInput, Prisma.HutangPiutangUncheckedUpdateManyWithoutAnggotaInput>
 }
 
-export type HutangPiutangScalarWhereInput = {
-  AND?: Prisma.HutangPiutangScalarWhereInput | Prisma.HutangPiutangScalarWhereInput[]
-  OR?: Prisma.HutangPiutangScalarWhereInput[]
-  NOT?: Prisma.HutangPiutangScalarWhereInput | Prisma.HutangPiutangScalarWhereInput[]
-  id?: Prisma.StringFilter<"HutangPiutang"> | string
-  tipe?: Prisma.StringFilter<"HutangPiutang"> | string
-  judul?: Prisma.StringFilter<"HutangPiutang"> | string
-  namaPihak?: Prisma.StringFilter<"HutangPiutang"> | string
-  kontakPihak?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
-  anggotaId?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
-  totalNominal?: Prisma.IntFilter<"HutangPiutang"> | number
-  sisaNominal?: Prisma.IntFilter<"HutangPiutang"> | number
-  tanggalMulai?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
-  jatuhTempo?: Prisma.DateTimeNullableFilter<"HutangPiutang"> | Date | string | null
-  status?: Prisma.StringFilter<"HutangPiutang"> | string
-  kategori?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
-  catatan?: Prisma.StringNullableFilter<"HutangPiutang"> | string | null
-  diisiOleh?: Prisma.StringFilter<"HutangPiutang"> | string
-  createdAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"HutangPiutang"> | Date | string
-}
-
 export type HutangPiutangCreateWithoutRiwayatBayarInput = {
   id?: string
   tipe: string
@@ -780,6 +915,7 @@ export type HutangPiutangCreateWithoutRiwayatBayarInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   anggota?: Prisma.AnggotaCreateNestedOneWithoutHutangPiutangInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutHutangPiutangInput
 }
 
 export type HutangPiutangUncheckedCreateWithoutRiwayatBayarInput = {
@@ -789,6 +925,7 @@ export type HutangPiutangUncheckedCreateWithoutRiwayatBayarInput = {
   namaPihak: string
   kontakPihak?: string | null
   anggotaId?: string | null
+  komunitasId?: string | null
   totalNominal: number
   sisaNominal: number
   tanggalMulai: Date | string
@@ -834,9 +971,89 @@ export type HutangPiutangUpdateWithoutRiwayatBayarInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   anggota?: Prisma.AnggotaUpdateOneWithoutHutangPiutangNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutHutangPiutangNestedInput
 }
 
 export type HutangPiutangUncheckedUpdateWithoutRiwayatBayarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipe?: Prisma.StringFieldUpdateOperationsInput | string
+  judul?: Prisma.StringFieldUpdateOperationsInput | string
+  namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
+  kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
+  sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
+  tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jatuhTempo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type HutangPiutangCreateManyKomunitasInput = {
+  id?: string
+  tipe: string
+  judul: string
+  namaPihak: string
+  kontakPihak?: string | null
+  anggotaId?: string | null
+  totalNominal: number
+  sisaNominal: number
+  tanggalMulai: Date | string
+  jatuhTempo?: Date | string | null
+  status?: string
+  kategori?: string | null
+  catatan?: string | null
+  diisiOleh: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type HutangPiutangUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipe?: Prisma.StringFieldUpdateOperationsInput | string
+  judul?: Prisma.StringFieldUpdateOperationsInput | string
+  namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
+  kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
+  sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
+  tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jatuhTempo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggota?: Prisma.AnggotaUpdateOneWithoutHutangPiutangNestedInput
+  riwayatBayar?: Prisma.PembayaranHutangPiutangUpdateManyWithoutHutangPiutangNestedInput
+}
+
+export type HutangPiutangUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipe?: Prisma.StringFieldUpdateOperationsInput | string
+  judul?: Prisma.StringFieldUpdateOperationsInput | string
+  namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
+  kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
+  sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
+  tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jatuhTempo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  riwayatBayar?: Prisma.PembayaranHutangPiutangUncheckedUpdateManyWithoutHutangPiutangNestedInput
+}
+
+export type HutangPiutangUncheckedUpdateManyWithoutKomunitasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipe?: Prisma.StringFieldUpdateOperationsInput | string
   judul?: Prisma.StringFieldUpdateOperationsInput | string
@@ -861,6 +1078,7 @@ export type HutangPiutangCreateManyAnggotaInput = {
   judul: string
   namaPihak: string
   kontakPihak?: string | null
+  komunitasId?: string | null
   totalNominal: number
   sisaNominal: number
   tanggalMulai: Date | string
@@ -889,6 +1107,7 @@ export type HutangPiutangUpdateWithoutAnggotaInput = {
   diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutHutangPiutangNestedInput
   riwayatBayar?: Prisma.PembayaranHutangPiutangUpdateManyWithoutHutangPiutangNestedInput
 }
 
@@ -898,6 +1117,7 @@ export type HutangPiutangUncheckedUpdateWithoutAnggotaInput = {
   judul?: Prisma.StringFieldUpdateOperationsInput | string
   namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
   kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
   sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -917,6 +1137,7 @@ export type HutangPiutangUncheckedUpdateManyWithoutAnggotaInput = {
   judul?: Prisma.StringFieldUpdateOperationsInput | string
   namaPihak?: Prisma.StringFieldUpdateOperationsInput | string
   kontakPihak?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalNominal?: Prisma.IntFieldUpdateOperationsInput | number
   sisaNominal?: Prisma.IntFieldUpdateOperationsInput | number
   tanggalMulai?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -967,6 +1188,7 @@ export type HutangPiutangSelect<ExtArgs extends runtime.Types.Extensions.Interna
   namaPihak?: boolean
   kontakPihak?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   totalNominal?: boolean
   sisaNominal?: boolean
   tanggalMulai?: boolean
@@ -978,6 +1200,7 @@ export type HutangPiutangSelect<ExtArgs extends runtime.Types.Extensions.Interna
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.HutangPiutang$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.HutangPiutang$komunitasArgs<ExtArgs>
   riwayatBayar?: boolean | Prisma.HutangPiutang$riwayatBayarArgs<ExtArgs>
   _count?: boolean | Prisma.HutangPiutangCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["hutangPiutang"]>
@@ -989,6 +1212,7 @@ export type HutangPiutangSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   namaPihak?: boolean
   kontakPihak?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   totalNominal?: boolean
   sisaNominal?: boolean
   tanggalMulai?: boolean
@@ -1000,6 +1224,7 @@ export type HutangPiutangSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.HutangPiutang$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.HutangPiutang$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["hutangPiutang"]>
 
 export type HutangPiutangSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1009,6 +1234,7 @@ export type HutangPiutangSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   namaPihak?: boolean
   kontakPihak?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   totalNominal?: boolean
   sisaNominal?: boolean
   tanggalMulai?: boolean
@@ -1020,6 +1246,7 @@ export type HutangPiutangSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.HutangPiutang$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.HutangPiutang$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["hutangPiutang"]>
 
 export type HutangPiutangSelectScalar = {
@@ -1029,6 +1256,7 @@ export type HutangPiutangSelectScalar = {
   namaPihak?: boolean
   kontakPihak?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   totalNominal?: boolean
   sisaNominal?: boolean
   tanggalMulai?: boolean
@@ -1041,23 +1269,27 @@ export type HutangPiutangSelectScalar = {
   updatedAt?: boolean
 }
 
-export type HutangPiutangOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipe" | "judul" | "namaPihak" | "kontakPihak" | "anggotaId" | "totalNominal" | "sisaNominal" | "tanggalMulai" | "jatuhTempo" | "status" | "kategori" | "catatan" | "diisiOleh" | "createdAt" | "updatedAt", ExtArgs["result"]["hutangPiutang"]>
+export type HutangPiutangOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipe" | "judul" | "namaPihak" | "kontakPihak" | "anggotaId" | "komunitasId" | "totalNominal" | "sisaNominal" | "tanggalMulai" | "jatuhTempo" | "status" | "kategori" | "catatan" | "diisiOleh" | "createdAt" | "updatedAt", ExtArgs["result"]["hutangPiutang"]>
 export type HutangPiutangInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.HutangPiutang$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.HutangPiutang$komunitasArgs<ExtArgs>
   riwayatBayar?: boolean | Prisma.HutangPiutang$riwayatBayarArgs<ExtArgs>
   _count?: boolean | Prisma.HutangPiutangCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type HutangPiutangIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.HutangPiutang$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.HutangPiutang$komunitasArgs<ExtArgs>
 }
 export type HutangPiutangIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.HutangPiutang$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.HutangPiutang$komunitasArgs<ExtArgs>
 }
 
 export type $HutangPiutangPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "HutangPiutang"
   objects: {
     anggota: Prisma.$AnggotaPayload<ExtArgs> | null
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
     riwayatBayar: Prisma.$PembayaranHutangPiutangPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1067,6 +1299,7 @@ export type $HutangPiutangPayload<ExtArgs extends runtime.Types.Extensions.Inter
     namaPihak: string
     kontakPihak: string | null
     anggotaId: string | null
+    komunitasId: string | null
     totalNominal: number
     sisaNominal: number
     tanggalMulai: Date
@@ -1472,6 +1705,7 @@ readonly fields: HutangPiutangFieldRefs;
 export interface Prisma__HutangPiutangClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   anggota<T extends Prisma.HutangPiutang$anggotaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HutangPiutang$anggotaArgs<ExtArgs>>): Prisma.Prisma__AnggotaClient<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  komunitas<T extends Prisma.HutangPiutang$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HutangPiutang$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   riwayatBayar<T extends Prisma.HutangPiutang$riwayatBayarArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HutangPiutang$riwayatBayarArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PembayaranHutangPiutangPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1508,6 +1742,7 @@ export interface HutangPiutangFieldRefs {
   readonly namaPihak: Prisma.FieldRef<"HutangPiutang", 'String'>
   readonly kontakPihak: Prisma.FieldRef<"HutangPiutang", 'String'>
   readonly anggotaId: Prisma.FieldRef<"HutangPiutang", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"HutangPiutang", 'String'>
   readonly totalNominal: Prisma.FieldRef<"HutangPiutang", 'Int'>
   readonly sisaNominal: Prisma.FieldRef<"HutangPiutang", 'Int'>
   readonly tanggalMulai: Prisma.FieldRef<"HutangPiutang", 'DateTime'>
@@ -1935,6 +2170,25 @@ export type HutangPiutang$anggotaArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   include?: Prisma.AnggotaInclude<ExtArgs> | null
   where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * HutangPiutang.komunitas
+ */
+export type HutangPiutang$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

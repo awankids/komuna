@@ -1,16 +1,18 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { requireTenantContext } from '@/lib/auth';
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id: kelompokId } = await params;
     const body = await request.json();
 
-    const kelompok = await db.kelompokArisan.findUnique({
-      where: { id: kelompokId },
+    const kelompok = await db.kelompokArisan.findFirst({
+      where: { id: kelompokId, komunitasId: tenant.komunitasId },
       include: { peserta: true },
     });
 
@@ -60,6 +62,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id: kelompokId } = await params;
     const { searchParams } = new URL(request.url);
     const pesertaId = searchParams.get('pesertaId');
@@ -68,6 +71,17 @@ export async function DELETE(
       return NextResponse.json(
         { success: false, error: 'ID peserta wajib disertakan' },
         { status: 400 }
+      );
+    }
+
+    const kelompok = await db.kelompokArisan.findFirst({
+      where: { id: kelompokId, komunitasId: tenant.komunitasId },
+    });
+
+    if (!kelompok) {
+      return NextResponse.json(
+        { success: false, error: 'Kelompok arisan tidak ditemukan' },
+        { status: 404 }
       );
     }
 
@@ -97,7 +111,20 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id: kelompokId } = await params;
+
+    const kelompok = await db.kelompokArisan.findFirst({
+      where: { id: kelompokId, komunitasId: tenant.komunitasId },
+    });
+
+    if (!kelompok) {
+      return NextResponse.json(
+        { success: false, error: 'Kelompok arisan tidak ditemukan' },
+        { status: 404 }
+      );
+    }
+
     const body = await request.json();
     const { action } = body; // "reset_siklus"
 

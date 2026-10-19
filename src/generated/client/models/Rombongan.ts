@@ -39,6 +39,7 @@ export type RombonganMinAggregateOutputType = {
   nama: string | null
   ketuaId: string | null
   hariPiket: number | null
+  komunitasId: string | null
 }
 
 export type RombonganMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type RombonganMaxAggregateOutputType = {
   nama: string | null
   ketuaId: string | null
   hariPiket: number | null
+  komunitasId: string | null
 }
 
 export type RombonganCountAggregateOutputType = {
@@ -53,6 +55,7 @@ export type RombonganCountAggregateOutputType = {
   nama: number
   ketuaId: number
   hariPiket: number
+  komunitasId: number
   _all: number
 }
 
@@ -70,6 +73,7 @@ export type RombonganMinAggregateInputType = {
   nama?: true
   ketuaId?: true
   hariPiket?: true
+  komunitasId?: true
 }
 
 export type RombonganMaxAggregateInputType = {
@@ -77,6 +81,7 @@ export type RombonganMaxAggregateInputType = {
   nama?: true
   ketuaId?: true
   hariPiket?: true
+  komunitasId?: true
 }
 
 export type RombonganCountAggregateInputType = {
@@ -84,6 +89,7 @@ export type RombonganCountAggregateInputType = {
   nama?: true
   ketuaId?: true
   hariPiket?: true
+  komunitasId?: true
   _all?: true
 }
 
@@ -178,6 +184,7 @@ export type RombonganGroupByOutputType = {
   nama: string
   ketuaId: string | null
   hariPiket: number | null
+  komunitasId: string | null
   _count: RombonganCountAggregateOutputType | null
   _avg: RombonganAvgAggregateOutputType | null
   _sum: RombonganSumAggregateOutputType | null
@@ -208,7 +215,9 @@ export type RombonganWhereInput = {
   nama?: Prisma.StringFilter<"Rombongan"> | string
   ketuaId?: Prisma.StringNullableFilter<"Rombongan"> | string | null
   hariPiket?: Prisma.IntNullableFilter<"Rombongan"> | number | null
+  komunitasId?: Prisma.StringNullableFilter<"Rombongan"> | string | null
   ketua?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   anggota?: Prisma.AnggotaListRelationFilter
 }
 
@@ -217,27 +226,32 @@ export type RombonganOrderByWithRelationInput = {
   nama?: Prisma.SortOrder
   ketuaId?: Prisma.SortOrderInput | Prisma.SortOrder
   hariPiket?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   ketua?: Prisma.AnggotaOrderByWithRelationInput
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
   anggota?: Prisma.AnggotaOrderByRelationAggregateInput
 }
 
 export type RombonganWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  nama?: string
   ketuaId?: string
   AND?: Prisma.RombonganWhereInput | Prisma.RombonganWhereInput[]
   OR?: Prisma.RombonganWhereInput[]
   NOT?: Prisma.RombonganWhereInput | Prisma.RombonganWhereInput[]
+  nama?: Prisma.StringFilter<"Rombongan"> | string
   hariPiket?: Prisma.IntNullableFilter<"Rombongan"> | number | null
+  komunitasId?: Prisma.StringNullableFilter<"Rombongan"> | string | null
   ketua?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   anggota?: Prisma.AnggotaListRelationFilter
-}, "id" | "nama" | "ketuaId">
+}, "id" | "ketuaId">
 
 export type RombonganOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nama?: Prisma.SortOrder
   ketuaId?: Prisma.SortOrderInput | Prisma.SortOrder
   hariPiket?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RombonganCountOrderByAggregateInput
   _avg?: Prisma.RombonganAvgOrderByAggregateInput
   _max?: Prisma.RombonganMaxOrderByAggregateInput
@@ -253,6 +267,7 @@ export type RombonganScalarWhereWithAggregatesInput = {
   nama?: Prisma.StringWithAggregatesFilter<"Rombongan"> | string
   ketuaId?: Prisma.StringNullableWithAggregatesFilter<"Rombongan"> | string | null
   hariPiket?: Prisma.IntNullableWithAggregatesFilter<"Rombongan"> | number | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"Rombongan"> | string | null
 }
 
 export type RombonganCreateInput = {
@@ -260,6 +275,7 @@ export type RombonganCreateInput = {
   nama: string
   hariPiket?: number | null
   ketua?: Prisma.AnggotaCreateNestedOneWithoutMemimpinRombonganInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutRombonganInput
   anggota?: Prisma.AnggotaCreateNestedManyWithoutRombonganInput
 }
 
@@ -268,6 +284,7 @@ export type RombonganUncheckedCreateInput = {
   nama: string
   ketuaId?: string | null
   hariPiket?: number | null
+  komunitasId?: string | null
   anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutRombonganInput
 }
 
@@ -276,6 +293,7 @@ export type RombonganUpdateInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ketua?: Prisma.AnggotaUpdateOneWithoutMemimpinRombonganNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutRombonganNestedInput
   anggota?: Prisma.AnggotaUpdateManyWithoutRombonganNestedInput
 }
 
@@ -284,6 +302,7 @@ export type RombonganUncheckedUpdateInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   ketuaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutRombonganNestedInput
 }
 
@@ -292,6 +311,7 @@ export type RombonganCreateManyInput = {
   nama: string
   ketuaId?: string | null
   hariPiket?: number | null
+  komunitasId?: string | null
 }
 
 export type RombonganUpdateManyMutationInput = {
@@ -305,6 +325,17 @@ export type RombonganUncheckedUpdateManyInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   ketuaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type RombonganListRelationFilter = {
+  every?: Prisma.RombonganWhereInput
+  some?: Prisma.RombonganWhereInput
+  none?: Prisma.RombonganWhereInput
+}
+
+export type RombonganOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type RombonganNullableScalarRelationFilter = {
@@ -317,6 +348,7 @@ export type RombonganCountOrderByAggregateInput = {
   nama?: Prisma.SortOrder
   ketuaId?: Prisma.SortOrder
   hariPiket?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type RombonganAvgOrderByAggregateInput = {
@@ -328,6 +360,7 @@ export type RombonganMaxOrderByAggregateInput = {
   nama?: Prisma.SortOrder
   ketuaId?: Prisma.SortOrder
   hariPiket?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type RombonganMinOrderByAggregateInput = {
@@ -335,10 +368,53 @@ export type RombonganMinOrderByAggregateInput = {
   nama?: Prisma.SortOrder
   ketuaId?: Prisma.SortOrder
   hariPiket?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type RombonganSumOrderByAggregateInput = {
   hariPiket?: Prisma.SortOrder
+}
+
+export type RombonganCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.RombonganCreateWithoutKomunitasInput, Prisma.RombonganUncheckedCreateWithoutKomunitasInput> | Prisma.RombonganCreateWithoutKomunitasInput[] | Prisma.RombonganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.RombonganCreateOrConnectWithoutKomunitasInput | Prisma.RombonganCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.RombonganCreateManyKomunitasInputEnvelope
+  connect?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+}
+
+export type RombonganUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.RombonganCreateWithoutKomunitasInput, Prisma.RombonganUncheckedCreateWithoutKomunitasInput> | Prisma.RombonganCreateWithoutKomunitasInput[] | Prisma.RombonganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.RombonganCreateOrConnectWithoutKomunitasInput | Prisma.RombonganCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.RombonganCreateManyKomunitasInputEnvelope
+  connect?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+}
+
+export type RombonganUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.RombonganCreateWithoutKomunitasInput, Prisma.RombonganUncheckedCreateWithoutKomunitasInput> | Prisma.RombonganCreateWithoutKomunitasInput[] | Prisma.RombonganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.RombonganCreateOrConnectWithoutKomunitasInput | Prisma.RombonganCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.RombonganUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.RombonganUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.RombonganCreateManyKomunitasInputEnvelope
+  set?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  disconnect?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  delete?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  connect?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  update?: Prisma.RombonganUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.RombonganUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.RombonganUpdateManyWithWhereWithoutKomunitasInput | Prisma.RombonganUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.RombonganScalarWhereInput | Prisma.RombonganScalarWhereInput[]
+}
+
+export type RombonganUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.RombonganCreateWithoutKomunitasInput, Prisma.RombonganUncheckedCreateWithoutKomunitasInput> | Prisma.RombonganCreateWithoutKomunitasInput[] | Prisma.RombonganUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.RombonganCreateOrConnectWithoutKomunitasInput | Prisma.RombonganCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.RombonganUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.RombonganUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.RombonganCreateManyKomunitasInputEnvelope
+  set?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  disconnect?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  delete?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  connect?: Prisma.RombonganWhereUniqueInput | Prisma.RombonganWhereUniqueInput[]
+  update?: Prisma.RombonganUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.RombonganUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.RombonganUpdateManyWithWhereWithoutKomunitasInput | Prisma.RombonganUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.RombonganScalarWhereInput | Prisma.RombonganScalarWhereInput[]
 }
 
 export type RombonganCreateNestedOneWithoutAnggotaInput = {
@@ -397,11 +473,65 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type RombonganCreateWithoutKomunitasInput = {
+  id?: string
+  nama: string
+  hariPiket?: number | null
+  ketua?: Prisma.AnggotaCreateNestedOneWithoutMemimpinRombonganInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutRombonganInput
+}
+
+export type RombonganUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  nama: string
+  ketuaId?: string | null
+  hariPiket?: number | null
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutRombonganInput
+}
+
+export type RombonganCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.RombonganWhereUniqueInput
+  create: Prisma.XOR<Prisma.RombonganCreateWithoutKomunitasInput, Prisma.RombonganUncheckedCreateWithoutKomunitasInput>
+}
+
+export type RombonganCreateManyKomunitasInputEnvelope = {
+  data: Prisma.RombonganCreateManyKomunitasInput | Prisma.RombonganCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type RombonganUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.RombonganWhereUniqueInput
+  update: Prisma.XOR<Prisma.RombonganUpdateWithoutKomunitasInput, Prisma.RombonganUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.RombonganCreateWithoutKomunitasInput, Prisma.RombonganUncheckedCreateWithoutKomunitasInput>
+}
+
+export type RombonganUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.RombonganWhereUniqueInput
+  data: Prisma.XOR<Prisma.RombonganUpdateWithoutKomunitasInput, Prisma.RombonganUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type RombonganUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.RombonganScalarWhereInput
+  data: Prisma.XOR<Prisma.RombonganUpdateManyMutationInput, Prisma.RombonganUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type RombonganScalarWhereInput = {
+  AND?: Prisma.RombonganScalarWhereInput | Prisma.RombonganScalarWhereInput[]
+  OR?: Prisma.RombonganScalarWhereInput[]
+  NOT?: Prisma.RombonganScalarWhereInput | Prisma.RombonganScalarWhereInput[]
+  id?: Prisma.StringFilter<"Rombongan"> | string
+  nama?: Prisma.StringFilter<"Rombongan"> | string
+  ketuaId?: Prisma.StringNullableFilter<"Rombongan"> | string | null
+  hariPiket?: Prisma.IntNullableFilter<"Rombongan"> | number | null
+  komunitasId?: Prisma.StringNullableFilter<"Rombongan"> | string | null
+}
+
 export type RombonganCreateWithoutAnggotaInput = {
   id?: string
   nama: string
   hariPiket?: number | null
   ketua?: Prisma.AnggotaCreateNestedOneWithoutMemimpinRombonganInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutRombonganInput
 }
 
 export type RombonganUncheckedCreateWithoutAnggotaInput = {
@@ -409,6 +539,7 @@ export type RombonganUncheckedCreateWithoutAnggotaInput = {
   nama: string
   ketuaId?: string | null
   hariPiket?: number | null
+  komunitasId?: string | null
 }
 
 export type RombonganCreateOrConnectWithoutAnggotaInput = {
@@ -420,6 +551,7 @@ export type RombonganCreateWithoutKetuaInput = {
   id?: string
   nama: string
   hariPiket?: number | null
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutRombonganInput
   anggota?: Prisma.AnggotaCreateNestedManyWithoutRombonganInput
 }
 
@@ -427,6 +559,7 @@ export type RombonganUncheckedCreateWithoutKetuaInput = {
   id?: string
   nama: string
   hariPiket?: number | null
+  komunitasId?: string | null
   anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutRombonganInput
 }
 
@@ -451,6 +584,7 @@ export type RombonganUpdateWithoutAnggotaInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   ketua?: Prisma.AnggotaUpdateOneWithoutMemimpinRombonganNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutRombonganNestedInput
 }
 
 export type RombonganUncheckedUpdateWithoutAnggotaInput = {
@@ -458,6 +592,7 @@ export type RombonganUncheckedUpdateWithoutAnggotaInput = {
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   ketuaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type RombonganUpsertWithoutKetuaInput = {
@@ -475,6 +610,7 @@ export type RombonganUpdateWithoutKetuaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  komunitas?: Prisma.KomunitasUpdateOneWithoutRombonganNestedInput
   anggota?: Prisma.AnggotaUpdateManyWithoutRombonganNestedInput
 }
 
@@ -482,7 +618,38 @@ export type RombonganUncheckedUpdateWithoutKetuaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nama?: Prisma.StringFieldUpdateOperationsInput | string
   hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutRombonganNestedInput
+}
+
+export type RombonganCreateManyKomunitasInput = {
+  id?: string
+  nama: string
+  ketuaId?: string | null
+  hariPiket?: number | null
+}
+
+export type RombonganUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  ketua?: Prisma.AnggotaUpdateOneWithoutMemimpinRombonganNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutRombonganNestedInput
+}
+
+export type RombonganUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  ketuaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutRombonganNestedInput
+}
+
+export type RombonganUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  ketuaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hariPiket?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -521,7 +688,9 @@ export type RombonganSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   nama?: boolean
   ketuaId?: boolean
   hariPiket?: boolean
+  komunitasId?: boolean
   ketua?: boolean | Prisma.Rombongan$ketuaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Rombongan$komunitasArgs<ExtArgs>
   anggota?: boolean | Prisma.Rombongan$anggotaArgs<ExtArgs>
   _count?: boolean | Prisma.RombonganCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rombongan"]>
@@ -531,7 +700,9 @@ export type RombonganSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   nama?: boolean
   ketuaId?: boolean
   hariPiket?: boolean
+  komunitasId?: boolean
   ketua?: boolean | Prisma.Rombongan$ketuaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Rombongan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["rombongan"]>
 
 export type RombonganSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -539,7 +710,9 @@ export type RombonganSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   nama?: boolean
   ketuaId?: boolean
   hariPiket?: boolean
+  komunitasId?: boolean
   ketua?: boolean | Prisma.Rombongan$ketuaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Rombongan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["rombongan"]>
 
 export type RombonganSelectScalar = {
@@ -547,25 +720,30 @@ export type RombonganSelectScalar = {
   nama?: boolean
   ketuaId?: boolean
   hariPiket?: boolean
+  komunitasId?: boolean
 }
 
-export type RombonganOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "ketuaId" | "hariPiket", ExtArgs["result"]["rombongan"]>
+export type RombonganOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "ketuaId" | "hariPiket" | "komunitasId", ExtArgs["result"]["rombongan"]>
 export type RombonganInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ketua?: boolean | Prisma.Rombongan$ketuaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Rombongan$komunitasArgs<ExtArgs>
   anggota?: boolean | Prisma.Rombongan$anggotaArgs<ExtArgs>
   _count?: boolean | Prisma.RombonganCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RombonganIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ketua?: boolean | Prisma.Rombongan$ketuaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Rombongan$komunitasArgs<ExtArgs>
 }
 export type RombonganIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ketua?: boolean | Prisma.Rombongan$ketuaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Rombongan$komunitasArgs<ExtArgs>
 }
 
 export type $RombonganPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Rombongan"
   objects: {
     ketua: Prisma.$AnggotaPayload<ExtArgs> | null
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
     anggota: Prisma.$AnggotaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -573,6 +751,7 @@ export type $RombonganPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     nama: string
     ketuaId: string | null
     hariPiket: number | null
+    komunitasId: string | null
   }, ExtArgs["result"]["rombongan"]>
   composites: {}
 }
@@ -968,6 +1147,7 @@ readonly fields: RombonganFieldRefs;
 export interface Prisma__RombonganClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   ketua<T extends Prisma.Rombongan$ketuaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Rombongan$ketuaArgs<ExtArgs>>): Prisma.Prisma__AnggotaClient<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  komunitas<T extends Prisma.Rombongan$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Rombongan$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   anggota<T extends Prisma.Rombongan$anggotaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Rombongan$anggotaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1002,6 +1182,7 @@ export interface RombonganFieldRefs {
   readonly nama: Prisma.FieldRef<"Rombongan", 'String'>
   readonly ketuaId: Prisma.FieldRef<"Rombongan", 'String'>
   readonly hariPiket: Prisma.FieldRef<"Rombongan", 'Int'>
+  readonly komunitasId: Prisma.FieldRef<"Rombongan", 'String'>
 }
     
 
@@ -1419,6 +1600,25 @@ export type Rombongan$ketuaArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.AnggotaInclude<ExtArgs> | null
   where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * Rombongan.komunitas
+ */
+export type Rombongan$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

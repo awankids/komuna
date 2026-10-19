@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { tanggal, nominal, jadwalId, diisiOleh } = await request.json();
     
     if (!tanggal || nominal === undefined || nominal < 0) {
@@ -17,7 +19,7 @@ export async function POST(request: Request) {
       dateVal.getUTCFullYear(), dateVal.getUTCMonth(), dateVal.getUTCDate(), 23, 59, 59, 999
     ));
     
-    // 1. Check if schedule exists for this date if not provided
+    // 1. Check if schedule exists for this date if not provided (scoped to tenant)
     let finalJadwalId = jadwalId;
     if (!finalJadwalId) {
       const sched = await db.jadwalPetugas.findFirst({
@@ -25,6 +27,9 @@ export async function POST(request: Request) {
           tanggal: {
             gte: startOfDay,
             lte: endOfDay,
+          },
+          anggota: {
+            komunitasId: tenant.komunitasId,
           }
         }
       });
@@ -59,27 +64,14 @@ export async function POST(request: Request) {
         petugasName = schedDetails.anggota.nama;
       }
     } else {
-      // Fallback based on day of week
-      const day = dateVal.getUTCDay();
-      const hariPiket = day === 0 ? 7 : day;
-      const rombonganInfo: { [key: number]: { nama: string; ketua: string } } = {
-        1: { nama: 'Rombongan 1', ketua: 'Bp Suratijo' },
-        2: { nama: 'Rombongan 2', ketua: 'Bp Daliman (Thole)' },
-        3: { nama: 'Rombongan 3', ketua: 'Bp Salim Khudhori' },
-        4: { nama: 'Rombongan 4', ketua: 'Bp Ngatijan' },
-        5: { nama: 'Rombongan 5', ketua: 'Bp Maryanto' },
-        6: { nama: 'Rombongan 6', ketua: 'Bp Aris Putranto' },
-        7: { nama: 'Rombongan 7', ketua: 'Bp Maryadi' },
-      };
-      const fallback = rombonganInfo[hariPiket];
-      if (fallback) {
-        petugasName = `${fallback.nama} (Ketua: ${fallback.ketua})`;
-      }
+      // Generic fallback
+      petugasName = 'Petugas Ronda RT';
     }
     
     // 2. Check if Jimpitan already recorded for this day to track difference
     const existingJimpitan = await db.jimpitan.findFirst({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfDay,
           lte: endOfDay,
@@ -109,6 +101,7 @@ export async function POST(request: Request) {
           jadwalId: finalJadwalId || null,
           nominal,
           diisiOleh: diisiOleh || 'Admin RT',
+          komunitasId: tenant.komunitasId,
         }
       });
     }
@@ -136,6 +129,7 @@ export async function POST(request: Request) {
 
     const monthlyKasSent = await db.transaksiKeuangan.findFirst({
       where: {
+        komunitasId: tenant.komunitasId,
         sumber: 'jimpitan',
         tanggal: {
           gte: startOfMonth,
@@ -150,6 +144,7 @@ export async function POST(request: Request) {
         // 1. Check if a specific transaction for this exact date already exists
         const existingTxForDay = await db.transaksiKeuangan.findFirst({
           where: {
+            komunitasId: tenant.komunitasId,
             sumber: 'jimpitan',
             tanggal: {
               gte: startOfDay,
@@ -177,6 +172,7 @@ export async function POST(request: Request) {
           // 2. If no specific daily transaction, update the monthly bulk transaction if available
           const bulkTx = await db.transaksiKeuangan.findFirst({
             where: {
+              komunitasId: tenant.komunitasId,
               sumber: 'jimpitan',
               tanggal: {
                 gte: startOfMonth,
@@ -202,7 +198,8 @@ export async function POST(request: Request) {
                 sumber: 'jimpitan',
                 kategori: 'Jimpitan',
                 keterangan: `Jimpitan Susulan (${formattedJimpitanDate}) - Petugas: ${petugasName}`,
-                nominal: diff
+                nominal: diff,
+                komunitasId: tenant.komunitasId,
               }
             });
           }
@@ -220,6 +217,11 @@ export async function POST(request: Request) {
 // GET dashboard state aggregation
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     
     const todayDate = new Date();
@@ -235,8 +237,11 @@ export async function GET(request: Request) {
     const startOfMonth = new Date(Date.UTC(yearNum, monthNum, 1, 0, 0, 0, 0));
     const endOfMonth = new Date(Date.UTC(yearNum, monthNum + 1, 0, 23, 59, 59, 999));
     
-    // Get all transactions to date to calculate overall Saldo Kas and Saldo Awal correctly
+    // Get all transactions for this tenant to calculate overall Saldo Kas and Saldo Awal correctly
     const allTx = await db.transaksiKeuangan.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       orderBy: { tanggal: 'asc' }
     });
 
@@ -279,9 +284,10 @@ export async function GET(request: Request) {
       .filter(t => t.jenis === 'pengeluaran')
       .reduce((sum, t) => sum + t.nominal, 0);
       
-    // Get monthly jimpitan
+    // Get monthly jimpitan for this tenant
     const monthlyJimpitan = await db.jimpitan.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfMonth,
           lte: endOfMonth,
@@ -291,13 +297,16 @@ export async function GET(request: Request) {
     
     const totalJimpitan = monthlyJimpitan.reduce((sum, j) => sum + j.nominal, 0);
     
-    // Get recent 4 transactions
+    // Get recent 4 transactions for this tenant
     const recentTx = await db.transaksiKeuangan.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       orderBy: { tanggal: 'desc' },
       take: 4,
     });
     
-    // Get today's schedule
+    // Get today's schedule for this tenant
     const today = new Date();
     const startOfToday = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0));
     const endOfToday = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999));
@@ -307,6 +316,9 @@ export async function GET(request: Request) {
         tanggal: {
           gte: startOfToday,
           lte: endOfToday,
+        },
+        anggota: {
+          komunitasId: tenant.komunitasId,
         }
       },
       include: {
@@ -317,6 +329,7 @@ export async function GET(request: Request) {
     // Get today's jimpitan value
     const todayJimpitan = await db.jimpitan.findFirst({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfToday,
           lte: endOfToday,
@@ -335,6 +348,9 @@ export async function GET(request: Request) {
         tanggal: {
           gte: startOfYesterday,
           lte: endOfYesterday,
+        },
+        anggota: {
+          komunitasId: tenant.komunitasId,
         }
       },
       include: {
@@ -344,6 +360,7 @@ export async function GET(request: Request) {
 
     const yesterdayJimpitan = await db.jimpitan.findFirst({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfYesterday,
           lte: endOfYesterday,

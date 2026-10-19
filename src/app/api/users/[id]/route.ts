@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getServerSession, hashPassword } from '@/lib/auth';
+import { getServerSession, hashPassword, requireTenantContext } from '@/lib/auth';
 
 const ALLOWED_ADMIN_ROLES = ['SUPER_ADMIN', 'ADMIN'];
 const VALID_ROLES = ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA', 'SEKRETARIS', 'PETUGAS', 'WARGA'];
@@ -10,6 +10,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const session = await getServerSession();
     if (!session || !ALLOWED_ADMIN_ROLES.includes(session.role)) {
       return NextResponse.json({ error: 'Akses ditolak: Hanya Admin yang dapat mengubah data pengguna' }, { status: 403 });
@@ -26,6 +27,10 @@ export async function PUT(
     const existingUser = await db.user.findUnique({ where: { id } });
     if (!existingUser) {
       return NextResponse.json({ error: 'Pengguna tidak ditemukan' }, { status: 404 });
+    }
+
+    if (session.role !== 'SUPER_ADMIN' && existingUser.komunitasId !== tenant.komunitasId) {
+      return NextResponse.json({ error: 'Akses ditolak: Pengguna bukan bagian dari komunitas Anda' }, { status: 403 });
     }
 
     const updateData: any = {};
@@ -99,6 +104,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const session = await getServerSession();
     if (!session || !ALLOWED_ADMIN_ROLES.includes(session.role)) {
       return NextResponse.json({ error: 'Akses ditolak: Hanya Admin yang dapat menghapus akun' }, { status: 403 });
@@ -114,18 +120,25 @@ export async function DELETE(
       return NextResponse.json({ error: 'Anda tidak dapat menghapus akun Anda sendiri saat sedang masuk' }, { status: 400 });
     }
 
-    // Check count of admins to avoid deleting the last admin
-    const adminCount = await db.user.count({
-      where: { role: { in: ALLOWED_ADMIN_ROLES } },
-    });
-
     const targetUser = await db.user.findUnique({ where: { id } });
     if (!targetUser) {
       return NextResponse.json({ error: 'Pengguna tidak ditemukan' }, { status: 404 });
     }
 
+    if (session.role !== 'SUPER_ADMIN' && targetUser.komunitasId !== tenant.komunitasId) {
+      return NextResponse.json({ error: 'Akses ditolak: Pengguna bukan bagian dari komunitas Anda' }, { status: 403 });
+    }
+
+    // Check count of admins to avoid deleting the last admin within the community
+    const adminCount = await db.user.count({
+      where: {
+        komunitasId: tenant.komunitasId,
+        role: { in: ALLOWED_ADMIN_ROLES },
+      },
+    });
+
     if (ALLOWED_ADMIN_ROLES.includes(targetUser.role) && adminCount <= 1) {
-      return NextResponse.json({ error: 'Tidak dapat menghapus admin terakhir pada sistem' }, { status: 400 });
+      return NextResponse.json({ error: 'Tidak dapat menghapus admin terakhir pada sistem komunitas Anda' }, { status: 400 });
     }
 
     await db.user.delete({ where: { id } });

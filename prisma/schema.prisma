@@ -29,6 +29,20 @@ model Komunitas {
   updatedAt      DateTime  @default(now()) @updatedAt
 
   users          User[]
+  anggota        Anggota[]
+  jimpitan       Jimpitan[]
+  transaksi      TransaksiKeuangan[]
+  agenda         Agenda[]
+  pengurus       PengurusRT[]
+  suratPengantar SuratPengantar[]
+  mutasi         MutasiWarga[]
+  programKerja   ProgramKerja[]
+  inventaris     InventarisAset[]
+  evaluasi       EvaluasiTahunan[]
+  arisan         KelompokArisan[]
+  hutangPiutang  HutangPiutang[]
+  pengaturan     PengaturanAplikasi?
+  rombongan      Rombongan[]
 }
 
 model User {
@@ -60,6 +74,10 @@ model Anggota {
   statusPerkawinan  String?   @default("Kawin")
   statusAktif       Boolean   @default(true)
 
+  // Multi-tenancy
+  komunitasId       String?
+  komunitas         Komunitas? @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
   // Hierarki Keluarga
   statusKeluarga    String    @default("kepala_keluarga") // "kepala_keluarga" | "istri" | "anak" | "orang_tua" | "famili_lain"
   kepalaKeluargaId  String?
@@ -85,13 +103,16 @@ model Anggota {
 }
 
 model Rombongan {
-  id        String   @id @default(uuid())
-  nama      String   @unique
-  ketuaId   String?  @unique
-  ketua     Anggota? @relation("RombonganKetua", fields: [ketuaId], references: [id], onDelete: SetNull)
-  hariPiket Int?
+  id          String     @id @default(uuid())
+  nama        String
+  ketuaId     String?    @unique
+  ketua       Anggota?   @relation("RombonganKetua", fields: [ketuaId], references: [id], onDelete: SetNull)
+  hariPiket   Int?
   
-  anggota   Anggota[] @relation("RombonganAnggota")
+  komunitasId String?
+  komunitas   Komunitas? @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+  
+  anggota     Anggota[]  @relation("RombonganAnggota")
 }
 
 model JadwalPetugas {
@@ -114,6 +135,9 @@ model Jimpitan {
   diisiPada      DateTime       @default(now())
   catatan        String?
   
+  komunitasId    String?
+  komunitas      Komunitas?     @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
   // Offline sync fields
   localId        String?        @unique
   syncStatus     String?        @default("synced") // synced, pending, conflict
@@ -122,18 +146,21 @@ model Jimpitan {
 }
 
 model TransaksiKeuangan {
-  id             String    @id @default(uuid())
+  id             String      @id @default(uuid())
   tanggal        DateTime
-  jenis          String    // pemasukan, pengeluaran
-  sumber         String    // jimpitan, lain-lain, manual
+  jenis          String      // pemasukan, pengeluaran
+  sumber         String      // jimpitan, lain-lain, manual
   kategori       String?
   keterangan     String
   nominal        Int
   buktiUrl       String?
   
+  komunitasId    String?
+  komunitas      Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
   // Offline sync fields
-  localId        String?   @unique
-  syncStatus     String?   @default("synced") // synced, pending, conflict
+  localId        String?     @unique
+  syncStatus     String?     @default("synced") // synced, pending, conflict
   createdAtLocal DateTime?
   syncedAt       DateTime?
 
@@ -141,16 +168,19 @@ model TransaksiKeuangan {
 }
 
 model Agenda {
-  id           String   @id @default(uuid())
+  id           String      @id @default(uuid())
   judul        String
-  kategori     String   @default("umum") // kerjabakti, rapat, sosial, posyandu, umum
+  kategori     String      @default("umum") // kerjabakti, rapat, sosial, posyandu, umum
   tanggal      DateTime
-  waktuMulai   String?  // e.g. "08:00"
-  waktuSelesai String?  // e.g. "11:00"
-  lokasi       String?  // e.g. "Balai RT 04"
+  waktuMulai   String?     // e.g. "08:00"
+  waktuSelesai String?     // e.g. "11:00"
+  lokasi       String?     // e.g. "Balai RT 04"
   keterangan   String?
-  status       String   @default("terjadwal") // terjadwal, selesai, dibatalkan
-  createdAt    DateTime @default(now())
+  status       String      @default("terjadwal") // terjadwal, selesai, dibatalkan
+  createdAt    DateTime    @default(now())
+
+  komunitasId  String?
+  komunitas    Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
 
   putaranArisan PutaranArisan[]
 }
@@ -165,15 +195,18 @@ model Notifikasi {
 }
 
 model PengaturanAplikasi {
-  id             String   @id @default(uuid())
-  namaApp        String   @default("komuna.id")
-  namaRt         String   @default("RT 04")
-  tagline        String   @default("Kebersamaan, Terpadu, Transparan")
-  targetJimpitan Int      @default(3000000)
-  kotaWilayah    String   @default("Semarang")
+  id             String      @id @default(uuid())
+  namaApp        String      @default("komuna.id")
+  namaRt         String      @default("RT 04")
+  tagline        String      @default("Kebersamaan, Terpadu, Transparan")
+  targetJimpitan Int         @default(3000000)
+  kotaWilayah    String      @default("Semarang")
   nomorSk        String?
-  periodeAktif   String   @default("2024 - 2029")
-  updatedAt      DateTime @updatedAt
+  periodeAktif   String      @default("2024 - 2029")
+  updatedAt      DateTime    @updatedAt
+
+  komunitasId    String?     @unique
+  komunitas      Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
 }
 
 model HutangPiutang {
@@ -185,6 +218,9 @@ model HutangPiutang {
   anggotaId      String?                   // Relasi opsional jika pihak adalah warga terdaftar
   anggota        Anggota?                  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
   
+  komunitasId    String?
+  komunitas      Komunitas?                @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
   totalNominal   Int                       // Total nilai pinjaman / tagihan
   sisaNominal    Int                       // Sisa nominal yang belum terbayar
   tanggalMulai   DateTime                  // Tanggal transaksi terjadi
@@ -220,36 +256,42 @@ model PembayaranHutangPiutang {
 }
 
 model PengurusRT {
-  id             String    @id @default(uuid())
-  jabatan        String    // e.g. "Ketua RT", "Wakil Ketua RT", "Sekretaris", "Bendahara", "Seksi Keamanan"
-  kategori       String    @default("inti") // "inti" | "seksi"
+  id             String      @id @default(uuid())
+  jabatan        String      // e.g. "Ketua RT", "Wakil Ketua RT", "Sekretaris", "Bendahara", "Seksi Keamanan"
+  kategori       String      @default("inti") // "inti" | "seksi"
   nama           String
   nik            String?
   noHp           String?
   alamatRumah    String?
   
   anggotaId      String?
-  anggota        Anggota?  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  anggota        Anggota?    @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
   
-  urutan         Int       @default(1)
-  periode        String?   @default("2024 - 2029")
-  statusAktif    Boolean   @default(true)
+  komunitasId    String?
+  komunitas      Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
+  urutan         Int         @default(1)
+  periode        String?     @default("2024 - 2029")
+  statusAktif    Boolean     @default(true)
   keterangan     String?
   
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
 
 model SuratPengantar {
-  id                   String    @id @default(uuid())
-  nomorSurat           String    @unique
+  id                   String      @id @default(uuid())
+  nomorSurat           String      @unique
   nomorUrut            Int
-  jenisSurat           String    // "ktp_kk", "skck", "domisili", "sku", "belum_nikah", "kematian", "keramaian", "kustom"
+  jenisSurat           String      // "ktp_kk", "skck", "domisili", "sku", "belum_nikah", "kematian", "keramaian", "kustom"
   judulSurat           String
   
   anggotaId            String?
-  anggota              Anggota?  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  anggota              Anggota?    @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
   
+  komunitasId          String?
+  komunitas            Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
   namaWarga            String
   nik                  String?
   tempatLahir          String?
@@ -263,57 +305,63 @@ model SuratPengantar {
   keperluan            String
   keteranganTambahan   String?
   
-  tanggalSurat         DateTime  @default(now())
+  tanggalSurat         DateTime    @default(now())
   berlakuHingga        DateTime?
   namaPenandatangan    String
   jabatanPenandatangan String
-  kotaSurat            String    @default("Semarang")
+  kotaSurat            String      @default("Semarang")
   
-  kodeVerifikasi       String    @unique @default(cuid())
-  status               String    @default("aktif") // "aktif" | "dibatalkan"
-  dibuatOleh           String    @default("Admin RT")
+  kodeVerifikasi       String      @unique @default(cuid())
+  status               String      @default("aktif") // "aktif" | "dibatalkan"
+  dibuatOleh           String      @default("Admin RT")
   
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
 }
 
 // 1. Pencatatan Dinamika Kependudukan (Mutasi Warga)
 model MutasiWarga {
-  id               String    @id @default(uuid())
-  jenisMutasi      String    // "lahir" | "meninggal" | "masuk" | "keluar"
-  tanggalPeristiwa DateTime  @default(now())
+  id               String      @id @default(uuid())
+  jenisMutasi      String      // "lahir" | "meninggal" | "masuk" | "keluar"
+  tanggalPeristiwa DateTime    @default(now())
   
   namaWarga        String
   nik              String?
   noRumah          String?
-  jenisKelamin     String?   // "Laki-laki" | "Perempuan"
-  keterangan       String?   // Asal/tujuan pindah, penyebab, no surat pengantar
+  jenisKelamin     String?     // "Laki-laki" | "Perempuan"
+  keterangan       String?     // Asal/tujuan pindah, penyebab, no surat pengantar
   
   anggotaId        String?
-  anggota          Anggota?  @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  anggota          Anggota?    @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
   
-  dicatatOleh      String    @default("Sekretaris RT")
-  createdAt        DateTime  @default(now())
+  komunitasId      String?
+  komunitas        Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
+  dicatatOleh      String      @default("Sekretaris RT")
+  createdAt        DateTime    @default(now())
 }
 
 // 2. Program Kerja & Capaian Tahunan
 model ProgramKerja {
-  id                String    @id @default(uuid())
-  tahun             Int       // e.g. 2026
-  bidang            String    // "lingkungan", "keamanan", "sosial_pkk", "pembangunan", "keagamaan", "kepemudaan"
-  namaProgram       String    // e.g. "Kerja Bakti Massal Normalisasi Saluran Air"
-  targetBulan       String?   // e.g. "Maret 2026", "Triwulan II"
+  id                String      @id @default(uuid())
+  tahun             Int         // e.g. 2026
+  bidang            String      // "lingkungan", "keamanan", "sosial_pkk", "pembangunan", "keagamaan", "kepemudaan"
+  namaProgram       String      // e.g. "Kerja Bakti Massal Normalisasi Saluran Air"
+  targetBulan       String?     // e.g. "Maret 2026", "Triwulan II"
   
-  anggaranRencana   Int       @default(0)
-  anggaranRealisasi  Int       @default(0)
+  anggaranRencana   Int         @default(0)
+  anggaranRealisasi  Int         @default(0)
   
-  status            String    @default("terlaksana") // "terlaksana", "berjalan", "tertunda", "batal"
-  persentase        Int       @default(100) // 0 - 100%
-  keteranganHasil   String?   // Deskripsi hasil kegiatan & manfaat
-  dokumentasiUrl    String?   // Lampiran foto kegiatan (opsional)
+  status            String      @default("terlaksana") // "terlaksana", "berjalan", "tertunda", "batal"
+  persentase        Int         @default(100) // 0 - 100%
+  keteranganHasil   String?     // Deskripsi hasil kegiatan & manfaat
+  dokumentasiUrl    String?     // Lampiran foto kegiatan (opsional)
   
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  komunitasId       String?
+  komunitas         Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 }
 
 // 3. Buku Inventaris & Aset Lingkungan RT
@@ -334,6 +382,10 @@ model InventarisAset {
   statusTahunIni   String          @default("tetap") // "tetap", "bertambah_baru", "perbaikan", "afkir"
   
   keterangan       String?
+  
+  komunitasId      String?
+  komunitas        Komunitas?      @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   
@@ -362,17 +414,22 @@ model PeminjamanAset {
 
 // 4. Refleksi Tahunan: Kendala, Solusi, & Rencana Masa Depan
 model EvaluasiTahunan {
-  id               String    @id @default(uuid())
-  tahun            Int       @unique // e.g. 2026
+  id               String      @id @default(uuid())
+  tahun            Int
   
-  kataPengantar    String?   // Pesan pembuka dari Ketua RT
-  kendalaTantangan String    // Hambatan operasional selama setahun
-  solusiTindakan   String    // Solusi dan rekomendasi yang diterapkan
-  usulanRencana    String    // Rencana kerja prioritas tahun berikutnya
-  estimasiAnggaran Int       @default(0)
+  kataPengantar    String?     // Pesan pembuka dari Ketua RT
+  kendalaTantangan String      // Hambatan operasional selama setahun
+  solusiTindakan   String      // Solusi dan rekomendasi yang diterapkan
+  usulanRencana    String      // Rencana kerja prioritas tahun berikutnya
+  estimasiAnggaran Int         @default(0)
   
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  komunitasId      String?
+  komunitas        Komunitas?  @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@unique([komunitasId, tahun])
 }
 
 // 5. Modul Arisan Warga & Pengocokan Roda Putar
@@ -388,6 +445,9 @@ model KelompokArisan {
   tanggalMulai      DateTime        @default(now())
   status            String          @default("aktif") // "aktif", "selesai"
   keterangan        String?
+  
+  komunitasId       String?
+  komunitas         Komunitas?      @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 

@@ -41,6 +41,7 @@ export type SuratPengantarMinAggregateOutputType = {
   jenisSurat: string | null
   judulSurat: string | null
   anggotaId: string | null
+  komunitasId: string | null
   namaWarga: string | null
   nik: string | null
   tempatLahir: string | null
@@ -71,6 +72,7 @@ export type SuratPengantarMaxAggregateOutputType = {
   jenisSurat: string | null
   judulSurat: string | null
   anggotaId: string | null
+  komunitasId: string | null
   namaWarga: string | null
   nik: string | null
   tempatLahir: string | null
@@ -101,6 +103,7 @@ export type SuratPengantarCountAggregateOutputType = {
   jenisSurat: number
   judulSurat: number
   anggotaId: number
+  komunitasId: number
   namaWarga: number
   nik: number
   tempatLahir: number
@@ -141,6 +144,7 @@ export type SuratPengantarMinAggregateInputType = {
   jenisSurat?: true
   judulSurat?: true
   anggotaId?: true
+  komunitasId?: true
   namaWarga?: true
   nik?: true
   tempatLahir?: true
@@ -171,6 +175,7 @@ export type SuratPengantarMaxAggregateInputType = {
   jenisSurat?: true
   judulSurat?: true
   anggotaId?: true
+  komunitasId?: true
   namaWarga?: true
   nik?: true
   tempatLahir?: true
@@ -201,6 +206,7 @@ export type SuratPengantarCountAggregateInputType = {
   jenisSurat?: true
   judulSurat?: true
   anggotaId?: true
+  komunitasId?: true
   namaWarga?: true
   nik?: true
   tempatLahir?: true
@@ -318,6 +324,7 @@ export type SuratPengantarGroupByOutputType = {
   jenisSurat: string
   judulSurat: string
   anggotaId: string | null
+  komunitasId: string | null
   namaWarga: string
   nik: string | null
   tempatLahir: string | null
@@ -371,6 +378,7 @@ export type SuratPengantarWhereInput = {
   jenisSurat?: Prisma.StringFilter<"SuratPengantar"> | string
   judulSurat?: Prisma.StringFilter<"SuratPengantar"> | string
   anggotaId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
   namaWarga?: Prisma.StringFilter<"SuratPengantar"> | string
   nik?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
   tempatLahir?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
@@ -393,6 +401,7 @@ export type SuratPengantarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type SuratPengantarOrderByWithRelationInput = {
@@ -402,6 +411,7 @@ export type SuratPengantarOrderByWithRelationInput = {
   jenisSurat?: Prisma.SortOrder
   judulSurat?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   namaWarga?: Prisma.SortOrder
   nik?: Prisma.SortOrderInput | Prisma.SortOrder
   tempatLahir?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -424,6 +434,7 @@ export type SuratPengantarOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   anggota?: Prisma.AnggotaOrderByWithRelationInput
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type SuratPengantarWhereUniqueInput = Prisma.AtLeast<{
@@ -437,6 +448,7 @@ export type SuratPengantarWhereUniqueInput = Prisma.AtLeast<{
   jenisSurat?: Prisma.StringFilter<"SuratPengantar"> | string
   judulSurat?: Prisma.StringFilter<"SuratPengantar"> | string
   anggotaId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
   namaWarga?: Prisma.StringFilter<"SuratPengantar"> | string
   nik?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
   tempatLahir?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
@@ -458,6 +470,7 @@ export type SuratPengantarWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
   anggota?: Prisma.XOR<Prisma.AnggotaNullableScalarRelationFilter, Prisma.AnggotaWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id" | "nomorSurat" | "kodeVerifikasi">
 
 export type SuratPengantarOrderByWithAggregationInput = {
@@ -467,6 +480,7 @@ export type SuratPengantarOrderByWithAggregationInput = {
   jenisSurat?: Prisma.SortOrder
   judulSurat?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   namaWarga?: Prisma.SortOrder
   nik?: Prisma.SortOrderInput | Prisma.SortOrder
   tempatLahir?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -505,6 +519,7 @@ export type SuratPengantarScalarWhereWithAggregatesInput = {
   jenisSurat?: Prisma.StringWithAggregatesFilter<"SuratPengantar"> | string
   judulSurat?: Prisma.StringWithAggregatesFilter<"SuratPengantar"> | string
   anggotaId?: Prisma.StringNullableWithAggregatesFilter<"SuratPengantar"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"SuratPengantar"> | string | null
   namaWarga?: Prisma.StringWithAggregatesFilter<"SuratPengantar"> | string
   nik?: Prisma.StringNullableWithAggregatesFilter<"SuratPengantar"> | string | null
   tempatLahir?: Prisma.StringNullableWithAggregatesFilter<"SuratPengantar"> | string | null
@@ -556,6 +571,7 @@ export type SuratPengantarCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   anggota?: Prisma.AnggotaCreateNestedOneWithoutSuratPengantarInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutSuratPengantarInput
 }
 
 export type SuratPengantarUncheckedCreateInput = {
@@ -565,6 +581,7 @@ export type SuratPengantarUncheckedCreateInput = {
   jenisSurat: string
   judulSurat: string
   anggotaId?: string | null
+  komunitasId?: string | null
   namaWarga: string
   nik?: string | null
   tempatLahir?: string | null
@@ -616,6 +633,7 @@ export type SuratPengantarUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   anggota?: Prisma.AnggotaUpdateOneWithoutSuratPengantarNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutSuratPengantarNestedInput
 }
 
 export type SuratPengantarUncheckedUpdateInput = {
@@ -625,6 +643,7 @@ export type SuratPengantarUncheckedUpdateInput = {
   jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
   judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -655,6 +674,7 @@ export type SuratPengantarCreateManyInput = {
   jenisSurat: string
   judulSurat: string
   anggotaId?: string | null
+  komunitasId?: string | null
   namaWarga: string
   nik?: string | null
   tempatLahir?: string | null
@@ -714,6 +734,7 @@ export type SuratPengantarUncheckedUpdateManyInput = {
   jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
   judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
   anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -754,6 +775,7 @@ export type SuratPengantarCountOrderByAggregateInput = {
   jenisSurat?: Prisma.SortOrder
   judulSurat?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   namaWarga?: Prisma.SortOrder
   nik?: Prisma.SortOrder
   tempatLahir?: Prisma.SortOrder
@@ -788,6 +810,7 @@ export type SuratPengantarMaxOrderByAggregateInput = {
   jenisSurat?: Prisma.SortOrder
   judulSurat?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   namaWarga?: Prisma.SortOrder
   nik?: Prisma.SortOrder
   tempatLahir?: Prisma.SortOrder
@@ -818,6 +841,7 @@ export type SuratPengantarMinOrderByAggregateInput = {
   jenisSurat?: Prisma.SortOrder
   judulSurat?: Prisma.SortOrder
   anggotaId?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   namaWarga?: Prisma.SortOrder
   nik?: Prisma.SortOrder
   tempatLahir?: Prisma.SortOrder
@@ -843,6 +867,48 @@ export type SuratPengantarMinOrderByAggregateInput = {
 
 export type SuratPengantarSumOrderByAggregateInput = {
   nomorUrut?: Prisma.SortOrder
+}
+
+export type SuratPengantarCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.SuratPengantarCreateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput> | Prisma.SuratPengantarCreateWithoutKomunitasInput[] | Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput | Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.SuratPengantarCreateManyKomunitasInputEnvelope
+  connect?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+}
+
+export type SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.SuratPengantarCreateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput> | Prisma.SuratPengantarCreateWithoutKomunitasInput[] | Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput | Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.SuratPengantarCreateManyKomunitasInputEnvelope
+  connect?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+}
+
+export type SuratPengantarUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.SuratPengantarCreateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput> | Prisma.SuratPengantarCreateWithoutKomunitasInput[] | Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput | Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.SuratPengantarUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.SuratPengantarUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.SuratPengantarCreateManyKomunitasInputEnvelope
+  set?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  disconnect?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  delete?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  connect?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  update?: Prisma.SuratPengantarUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.SuratPengantarUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.SuratPengantarUpdateManyWithWhereWithoutKomunitasInput | Prisma.SuratPengantarUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
+}
+
+export type SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.SuratPengantarCreateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput> | Prisma.SuratPengantarCreateWithoutKomunitasInput[] | Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput | Prisma.SuratPengantarCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.SuratPengantarUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.SuratPengantarUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.SuratPengantarCreateManyKomunitasInputEnvelope
+  set?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  disconnect?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  delete?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  connect?: Prisma.SuratPengantarWhereUniqueInput | Prisma.SuratPengantarWhereUniqueInput[]
+  update?: Prisma.SuratPengantarUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.SuratPengantarUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.SuratPengantarUpdateManyWithWhereWithoutKomunitasInput | Prisma.SuratPengantarUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
 }
 
 export type SuratPengantarCreateNestedManyWithoutAnggotaInput = {
@@ -887,6 +953,126 @@ export type SuratPengantarUncheckedUpdateManyWithoutAnggotaNestedInput = {
   deleteMany?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
 }
 
+export type SuratPengantarCreateWithoutKomunitasInput = {
+  id?: string
+  nomorSurat: string
+  nomorUrut: number
+  jenisSurat: string
+  judulSurat: string
+  namaWarga: string
+  nik?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  alamat: string
+  keperluan: string
+  keteranganTambahan?: string | null
+  tanggalSurat?: Date | string
+  berlakuHingga?: Date | string | null
+  namaPenandatangan: string
+  jabatanPenandatangan: string
+  kotaSurat?: string
+  kodeVerifikasi?: string
+  status?: string
+  dibuatOleh?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  anggota?: Prisma.AnggotaCreateNestedOneWithoutSuratPengantarInput
+}
+
+export type SuratPengantarUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  nomorSurat: string
+  nomorUrut: number
+  jenisSurat: string
+  judulSurat: string
+  anggotaId?: string | null
+  namaWarga: string
+  nik?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  alamat: string
+  keperluan: string
+  keteranganTambahan?: string | null
+  tanggalSurat?: Date | string
+  berlakuHingga?: Date | string | null
+  namaPenandatangan: string
+  jabatanPenandatangan: string
+  kotaSurat?: string
+  kodeVerifikasi?: string
+  status?: string
+  dibuatOleh?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SuratPengantarCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.SuratPengantarWhereUniqueInput
+  create: Prisma.XOR<Prisma.SuratPengantarCreateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput>
+}
+
+export type SuratPengantarCreateManyKomunitasInputEnvelope = {
+  data: Prisma.SuratPengantarCreateManyKomunitasInput | Prisma.SuratPengantarCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type SuratPengantarUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.SuratPengantarWhereUniqueInput
+  update: Prisma.XOR<Prisma.SuratPengantarUpdateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.SuratPengantarCreateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedCreateWithoutKomunitasInput>
+}
+
+export type SuratPengantarUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.SuratPengantarWhereUniqueInput
+  data: Prisma.XOR<Prisma.SuratPengantarUpdateWithoutKomunitasInput, Prisma.SuratPengantarUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type SuratPengantarUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.SuratPengantarScalarWhereInput
+  data: Prisma.XOR<Prisma.SuratPengantarUpdateManyMutationInput, Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type SuratPengantarScalarWhereInput = {
+  AND?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
+  OR?: Prisma.SuratPengantarScalarWhereInput[]
+  NOT?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
+  id?: Prisma.StringFilter<"SuratPengantar"> | string
+  nomorSurat?: Prisma.StringFilter<"SuratPengantar"> | string
+  nomorUrut?: Prisma.IntFilter<"SuratPengantar"> | number
+  jenisSurat?: Prisma.StringFilter<"SuratPengantar"> | string
+  judulSurat?: Prisma.StringFilter<"SuratPengantar"> | string
+  anggotaId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  namaWarga?: Prisma.StringFilter<"SuratPengantar"> | string
+  nik?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  tempatLahir?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  tanggalLahir?: Prisma.DateTimeNullableFilter<"SuratPengantar"> | Date | string | null
+  jenisKelamin?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  agama?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  pekerjaan?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  statusPerkawinan?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  alamat?: Prisma.StringFilter<"SuratPengantar"> | string
+  keperluan?: Prisma.StringFilter<"SuratPengantar"> | string
+  keteranganTambahan?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
+  tanggalSurat?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
+  berlakuHingga?: Prisma.DateTimeNullableFilter<"SuratPengantar"> | Date | string | null
+  namaPenandatangan?: Prisma.StringFilter<"SuratPengantar"> | string
+  jabatanPenandatangan?: Prisma.StringFilter<"SuratPengantar"> | string
+  kotaSurat?: Prisma.StringFilter<"SuratPengantar"> | string
+  kodeVerifikasi?: Prisma.StringFilter<"SuratPengantar"> | string
+  status?: Prisma.StringFilter<"SuratPengantar"> | string
+  dibuatOleh?: Prisma.StringFilter<"SuratPengantar"> | string
+  createdAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
+}
+
 export type SuratPengantarCreateWithoutAnggotaInput = {
   id?: string
   nomorSurat: string
@@ -914,6 +1100,7 @@ export type SuratPengantarCreateWithoutAnggotaInput = {
   dibuatOleh?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutSuratPengantarInput
 }
 
 export type SuratPengantarUncheckedCreateWithoutAnggotaInput = {
@@ -922,6 +1109,7 @@ export type SuratPengantarUncheckedCreateWithoutAnggotaInput = {
   nomorUrut: number
   jenisSurat: string
   judulSurat: string
+  komunitasId?: string | null
   namaWarga: string
   nik?: string | null
   tempatLahir?: string | null
@@ -971,37 +1159,124 @@ export type SuratPengantarUpdateManyWithWhereWithoutAnggotaInput = {
   data: Prisma.XOR<Prisma.SuratPengantarUpdateManyMutationInput, Prisma.SuratPengantarUncheckedUpdateManyWithoutAnggotaInput>
 }
 
-export type SuratPengantarScalarWhereInput = {
-  AND?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
-  OR?: Prisma.SuratPengantarScalarWhereInput[]
-  NOT?: Prisma.SuratPengantarScalarWhereInput | Prisma.SuratPengantarScalarWhereInput[]
-  id?: Prisma.StringFilter<"SuratPengantar"> | string
-  nomorSurat?: Prisma.StringFilter<"SuratPengantar"> | string
-  nomorUrut?: Prisma.IntFilter<"SuratPengantar"> | number
-  jenisSurat?: Prisma.StringFilter<"SuratPengantar"> | string
-  judulSurat?: Prisma.StringFilter<"SuratPengantar"> | string
-  anggotaId?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  namaWarga?: Prisma.StringFilter<"SuratPengantar"> | string
-  nik?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  tempatLahir?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  tanggalLahir?: Prisma.DateTimeNullableFilter<"SuratPengantar"> | Date | string | null
-  jenisKelamin?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  agama?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  pekerjaan?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  statusPerkawinan?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  alamat?: Prisma.StringFilter<"SuratPengantar"> | string
-  keperluan?: Prisma.StringFilter<"SuratPengantar"> | string
-  keteranganTambahan?: Prisma.StringNullableFilter<"SuratPengantar"> | string | null
-  tanggalSurat?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
-  berlakuHingga?: Prisma.DateTimeNullableFilter<"SuratPengantar"> | Date | string | null
-  namaPenandatangan?: Prisma.StringFilter<"SuratPengantar"> | string
-  jabatanPenandatangan?: Prisma.StringFilter<"SuratPengantar"> | string
-  kotaSurat?: Prisma.StringFilter<"SuratPengantar"> | string
-  kodeVerifikasi?: Prisma.StringFilter<"SuratPengantar"> | string
-  status?: Prisma.StringFilter<"SuratPengantar"> | string
-  dibuatOleh?: Prisma.StringFilter<"SuratPengantar"> | string
-  createdAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"SuratPengantar"> | Date | string
+export type SuratPengantarCreateManyKomunitasInput = {
+  id?: string
+  nomorSurat: string
+  nomorUrut: number
+  jenisSurat: string
+  judulSurat: string
+  anggotaId?: string | null
+  namaWarga: string
+  nik?: string | null
+  tempatLahir?: string | null
+  tanggalLahir?: Date | string | null
+  jenisKelamin?: string | null
+  agama?: string | null
+  pekerjaan?: string | null
+  statusPerkawinan?: string | null
+  alamat: string
+  keperluan: string
+  keteranganTambahan?: string | null
+  tanggalSurat?: Date | string
+  berlakuHingga?: Date | string | null
+  namaPenandatangan: string
+  jabatanPenandatangan: string
+  kotaSurat?: string
+  kodeVerifikasi?: string
+  status?: string
+  dibuatOleh?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SuratPengantarUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorUrut?: Prisma.IntFieldUpdateOperationsInput | number
+  jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alamat?: Prisma.StringFieldUpdateOperationsInput | string
+  keperluan?: Prisma.StringFieldUpdateOperationsInput | string
+  keteranganTambahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalSurat?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  berlakuHingga?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  namaPenandatangan?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatanPenandatangan?: Prisma.StringFieldUpdateOperationsInput | string
+  kotaSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  kodeVerifikasi?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  dibuatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggota?: Prisma.AnggotaUpdateOneWithoutSuratPengantarNestedInput
+}
+
+export type SuratPengantarUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorUrut?: Prisma.IntFieldUpdateOperationsInput | number
+  jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alamat?: Prisma.StringFieldUpdateOperationsInput | string
+  keperluan?: Prisma.StringFieldUpdateOperationsInput | string
+  keteranganTambahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalSurat?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  berlakuHingga?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  namaPenandatangan?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatanPenandatangan?: Prisma.StringFieldUpdateOperationsInput | string
+  kotaSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  kodeVerifikasi?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  dibuatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SuratPengantarUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  nomorUrut?: Prisma.IntFieldUpdateOperationsInput | number
+  jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  anggotaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
+  nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalLahir?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jenisKelamin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  agama?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pekerjaan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusPerkawinan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alamat?: Prisma.StringFieldUpdateOperationsInput | string
+  keperluan?: Prisma.StringFieldUpdateOperationsInput | string
+  keteranganTambahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tanggalSurat?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  berlakuHingga?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  namaPenandatangan?: Prisma.StringFieldUpdateOperationsInput | string
+  jabatanPenandatangan?: Prisma.StringFieldUpdateOperationsInput | string
+  kotaSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  kodeVerifikasi?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  dibuatOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SuratPengantarCreateManyAnggotaInput = {
@@ -1010,6 +1285,7 @@ export type SuratPengantarCreateManyAnggotaInput = {
   nomorUrut: number
   jenisSurat: string
   judulSurat: string
+  komunitasId?: string | null
   namaWarga: string
   nik?: string | null
   tempatLahir?: string | null
@@ -1060,6 +1336,7 @@ export type SuratPengantarUpdateWithoutAnggotaInput = {
   dibuatOleh?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutSuratPengantarNestedInput
 }
 
 export type SuratPengantarUncheckedUpdateWithoutAnggotaInput = {
@@ -1068,6 +1345,7 @@ export type SuratPengantarUncheckedUpdateWithoutAnggotaInput = {
   nomorUrut?: Prisma.IntFieldUpdateOperationsInput | number
   jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
   judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1097,6 +1375,7 @@ export type SuratPengantarUncheckedUpdateManyWithoutAnggotaInput = {
   nomorUrut?: Prisma.IntFieldUpdateOperationsInput | number
   jenisSurat?: Prisma.StringFieldUpdateOperationsInput | string
   judulSurat?: Prisma.StringFieldUpdateOperationsInput | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   namaWarga?: Prisma.StringFieldUpdateOperationsInput | string
   nik?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tempatLahir?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1129,6 +1408,7 @@ export type SuratPengantarSelect<ExtArgs extends runtime.Types.Extensions.Intern
   jenisSurat?: boolean
   judulSurat?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   namaWarga?: boolean
   nik?: boolean
   tempatLahir?: boolean
@@ -1151,6 +1431,7 @@ export type SuratPengantarSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.SuratPengantar$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.SuratPengantar$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["suratPengantar"]>
 
 export type SuratPengantarSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1160,6 +1441,7 @@ export type SuratPengantarSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   jenisSurat?: boolean
   judulSurat?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   namaWarga?: boolean
   nik?: boolean
   tempatLahir?: boolean
@@ -1182,6 +1464,7 @@ export type SuratPengantarSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.SuratPengantar$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.SuratPengantar$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["suratPengantar"]>
 
 export type SuratPengantarSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1191,6 +1474,7 @@ export type SuratPengantarSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   jenisSurat?: boolean
   judulSurat?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   namaWarga?: boolean
   nik?: boolean
   tempatLahir?: boolean
@@ -1213,6 +1497,7 @@ export type SuratPengantarSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   createdAt?: boolean
   updatedAt?: boolean
   anggota?: boolean | Prisma.SuratPengantar$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.SuratPengantar$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["suratPengantar"]>
 
 export type SuratPengantarSelectScalar = {
@@ -1222,6 +1507,7 @@ export type SuratPengantarSelectScalar = {
   jenisSurat?: boolean
   judulSurat?: boolean
   anggotaId?: boolean
+  komunitasId?: boolean
   namaWarga?: boolean
   nik?: boolean
   tempatLahir?: boolean
@@ -1245,21 +1531,25 @@ export type SuratPengantarSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SuratPengantarOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nomorSurat" | "nomorUrut" | "jenisSurat" | "judulSurat" | "anggotaId" | "namaWarga" | "nik" | "tempatLahir" | "tanggalLahir" | "jenisKelamin" | "agama" | "pekerjaan" | "statusPerkawinan" | "alamat" | "keperluan" | "keteranganTambahan" | "tanggalSurat" | "berlakuHingga" | "namaPenandatangan" | "jabatanPenandatangan" | "kotaSurat" | "kodeVerifikasi" | "status" | "dibuatOleh" | "createdAt" | "updatedAt", ExtArgs["result"]["suratPengantar"]>
+export type SuratPengantarOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nomorSurat" | "nomorUrut" | "jenisSurat" | "judulSurat" | "anggotaId" | "komunitasId" | "namaWarga" | "nik" | "tempatLahir" | "tanggalLahir" | "jenisKelamin" | "agama" | "pekerjaan" | "statusPerkawinan" | "alamat" | "keperluan" | "keteranganTambahan" | "tanggalSurat" | "berlakuHingga" | "namaPenandatangan" | "jabatanPenandatangan" | "kotaSurat" | "kodeVerifikasi" | "status" | "dibuatOleh" | "createdAt" | "updatedAt", ExtArgs["result"]["suratPengantar"]>
 export type SuratPengantarInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.SuratPengantar$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.SuratPengantar$komunitasArgs<ExtArgs>
 }
 export type SuratPengantarIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.SuratPengantar$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.SuratPengantar$komunitasArgs<ExtArgs>
 }
 export type SuratPengantarIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   anggota?: boolean | Prisma.SuratPengantar$anggotaArgs<ExtArgs>
+  komunitas?: boolean | Prisma.SuratPengantar$komunitasArgs<ExtArgs>
 }
 
 export type $SuratPengantarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SuratPengantar"
   objects: {
     anggota: Prisma.$AnggotaPayload<ExtArgs> | null
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1268,6 +1558,7 @@ export type $SuratPengantarPayload<ExtArgs extends runtime.Types.Extensions.Inte
     jenisSurat: string
     judulSurat: string
     anggotaId: string | null
+    komunitasId: string | null
     namaWarga: string
     nik: string | null
     tempatLahir: string | null
@@ -1684,6 +1975,7 @@ readonly fields: SuratPengantarFieldRefs;
 export interface Prisma__SuratPengantarClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   anggota<T extends Prisma.SuratPengantar$anggotaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SuratPengantar$anggotaArgs<ExtArgs>>): Prisma.Prisma__AnggotaClient<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  komunitas<T extends Prisma.SuratPengantar$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SuratPengantar$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1719,6 +2011,7 @@ export interface SuratPengantarFieldRefs {
   readonly jenisSurat: Prisma.FieldRef<"SuratPengantar", 'String'>
   readonly judulSurat: Prisma.FieldRef<"SuratPengantar", 'String'>
   readonly anggotaId: Prisma.FieldRef<"SuratPengantar", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"SuratPengantar", 'String'>
   readonly namaWarga: Prisma.FieldRef<"SuratPengantar", 'String'>
   readonly nik: Prisma.FieldRef<"SuratPengantar", 'String'>
   readonly tempatLahir: Prisma.FieldRef<"SuratPengantar", 'String'>
@@ -2157,6 +2450,25 @@ export type SuratPengantar$anggotaArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.AnggotaInclude<ExtArgs> | null
   where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * SuratPengantar.komunitas
+ */
+export type SuratPengantar$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

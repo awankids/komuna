@@ -42,6 +42,7 @@ export type JimpitanMinAggregateOutputType = {
   diisiOleh: string | null
   diisiPada: Date | null
   catatan: string | null
+  komunitasId: string | null
   localId: string | null
   syncStatus: string | null
   createdAtLocal: Date | null
@@ -56,6 +57,7 @@ export type JimpitanMaxAggregateOutputType = {
   diisiOleh: string | null
   diisiPada: Date | null
   catatan: string | null
+  komunitasId: string | null
   localId: string | null
   syncStatus: string | null
   createdAtLocal: Date | null
@@ -70,6 +72,7 @@ export type JimpitanCountAggregateOutputType = {
   diisiOleh: number
   diisiPada: number
   catatan: number
+  komunitasId: number
   localId: number
   syncStatus: number
   createdAtLocal: number
@@ -94,6 +97,7 @@ export type JimpitanMinAggregateInputType = {
   diisiOleh?: true
   diisiPada?: true
   catatan?: true
+  komunitasId?: true
   localId?: true
   syncStatus?: true
   createdAtLocal?: true
@@ -108,6 +112,7 @@ export type JimpitanMaxAggregateInputType = {
   diisiOleh?: true
   diisiPada?: true
   catatan?: true
+  komunitasId?: true
   localId?: true
   syncStatus?: true
   createdAtLocal?: true
@@ -122,6 +127,7 @@ export type JimpitanCountAggregateInputType = {
   diisiOleh?: true
   diisiPada?: true
   catatan?: true
+  komunitasId?: true
   localId?: true
   syncStatus?: true
   createdAtLocal?: true
@@ -223,6 +229,7 @@ export type JimpitanGroupByOutputType = {
   diisiOleh: string
   diisiPada: Date
   catatan: string | null
+  komunitasId: string | null
   localId: string | null
   syncStatus: string | null
   createdAtLocal: Date | null
@@ -260,11 +267,13 @@ export type JimpitanWhereInput = {
   diisiOleh?: Prisma.StringFilter<"Jimpitan"> | string
   diisiPada?: Prisma.DateTimeFilter<"Jimpitan"> | Date | string
   catatan?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
   localId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
   syncStatus?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
   syncedAt?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
   jadwal?: Prisma.XOR<Prisma.JadwalPetugasNullableScalarRelationFilter, Prisma.JadwalPetugasWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }
 
 export type JimpitanOrderByWithRelationInput = {
@@ -275,11 +284,13 @@ export type JimpitanOrderByWithRelationInput = {
   diisiOleh?: Prisma.SortOrder
   diisiPada?: Prisma.SortOrder
   catatan?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   localId?: Prisma.SortOrderInput | Prisma.SortOrder
   syncStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrderInput | Prisma.SortOrder
   syncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   jadwal?: Prisma.JadwalPetugasOrderByWithRelationInput
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
 }
 
 export type JimpitanWhereUniqueInput = Prisma.AtLeast<{
@@ -294,10 +305,12 @@ export type JimpitanWhereUniqueInput = Prisma.AtLeast<{
   diisiOleh?: Prisma.StringFilter<"Jimpitan"> | string
   diisiPada?: Prisma.DateTimeFilter<"Jimpitan"> | Date | string
   catatan?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
   syncStatus?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
   syncedAt?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
   jadwal?: Prisma.XOR<Prisma.JadwalPetugasNullableScalarRelationFilter, Prisma.JadwalPetugasWhereInput> | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
 }, "id" | "localId">
 
 export type JimpitanOrderByWithAggregationInput = {
@@ -308,6 +321,7 @@ export type JimpitanOrderByWithAggregationInput = {
   diisiOleh?: Prisma.SortOrder
   diisiPada?: Prisma.SortOrder
   catatan?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   localId?: Prisma.SortOrderInput | Prisma.SortOrder
   syncStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -330,6 +344,7 @@ export type JimpitanScalarWhereWithAggregatesInput = {
   diisiOleh?: Prisma.StringWithAggregatesFilter<"Jimpitan"> | string
   diisiPada?: Prisma.DateTimeWithAggregatesFilter<"Jimpitan"> | Date | string
   catatan?: Prisma.StringNullableWithAggregatesFilter<"Jimpitan"> | string | null
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"Jimpitan"> | string | null
   localId?: Prisma.StringNullableWithAggregatesFilter<"Jimpitan"> | string | null
   syncStatus?: Prisma.StringNullableWithAggregatesFilter<"Jimpitan"> | string | null
   createdAtLocal?: Prisma.DateTimeNullableWithAggregatesFilter<"Jimpitan"> | Date | string | null
@@ -348,6 +363,7 @@ export type JimpitanCreateInput = {
   createdAtLocal?: Date | string | null
   syncedAt?: Date | string | null
   jadwal?: Prisma.JadwalPetugasCreateNestedOneWithoutJimpitanInput
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutJimpitanInput
 }
 
 export type JimpitanUncheckedCreateInput = {
@@ -358,6 +374,7 @@ export type JimpitanUncheckedCreateInput = {
   diisiOleh: string
   diisiPada?: Date | string
   catatan?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -376,6 +393,7 @@ export type JimpitanUpdateInput = {
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   jadwal?: Prisma.JadwalPetugasUpdateOneWithoutJimpitanNestedInput
+  komunitas?: Prisma.KomunitasUpdateOneWithoutJimpitanNestedInput
 }
 
 export type JimpitanUncheckedUpdateInput = {
@@ -386,6 +404,7 @@ export type JimpitanUncheckedUpdateInput = {
   diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
   diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -400,6 +419,7 @@ export type JimpitanCreateManyInput = {
   diisiOleh: string
   diisiPada?: Date | string
   catatan?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -427,6 +447,7 @@ export type JimpitanUncheckedUpdateManyInput = {
   diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
   diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -451,6 +472,7 @@ export type JimpitanCountOrderByAggregateInput = {
   diisiOleh?: Prisma.SortOrder
   diisiPada?: Prisma.SortOrder
   catatan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   localId?: Prisma.SortOrder
   syncStatus?: Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrder
@@ -469,6 +491,7 @@ export type JimpitanMaxOrderByAggregateInput = {
   diisiOleh?: Prisma.SortOrder
   diisiPada?: Prisma.SortOrder
   catatan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   localId?: Prisma.SortOrder
   syncStatus?: Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrder
@@ -483,6 +506,7 @@ export type JimpitanMinOrderByAggregateInput = {
   diisiOleh?: Prisma.SortOrder
   diisiPada?: Prisma.SortOrder
   catatan?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
   localId?: Prisma.SortOrder
   syncStatus?: Prisma.SortOrder
   createdAtLocal?: Prisma.SortOrder
@@ -491,6 +515,48 @@ export type JimpitanMinOrderByAggregateInput = {
 
 export type JimpitanSumOrderByAggregateInput = {
   nominal?: Prisma.SortOrder
+}
+
+export type JimpitanCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.JimpitanCreateWithoutKomunitasInput, Prisma.JimpitanUncheckedCreateWithoutKomunitasInput> | Prisma.JimpitanCreateWithoutKomunitasInput[] | Prisma.JimpitanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.JimpitanCreateOrConnectWithoutKomunitasInput | Prisma.JimpitanCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.JimpitanCreateManyKomunitasInputEnvelope
+  connect?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+}
+
+export type JimpitanUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.JimpitanCreateWithoutKomunitasInput, Prisma.JimpitanUncheckedCreateWithoutKomunitasInput> | Prisma.JimpitanCreateWithoutKomunitasInput[] | Prisma.JimpitanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.JimpitanCreateOrConnectWithoutKomunitasInput | Prisma.JimpitanCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.JimpitanCreateManyKomunitasInputEnvelope
+  connect?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+}
+
+export type JimpitanUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.JimpitanCreateWithoutKomunitasInput, Prisma.JimpitanUncheckedCreateWithoutKomunitasInput> | Prisma.JimpitanCreateWithoutKomunitasInput[] | Prisma.JimpitanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.JimpitanCreateOrConnectWithoutKomunitasInput | Prisma.JimpitanCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.JimpitanUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.JimpitanUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.JimpitanCreateManyKomunitasInputEnvelope
+  set?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  disconnect?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  delete?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  connect?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  update?: Prisma.JimpitanUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.JimpitanUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.JimpitanUpdateManyWithWhereWithoutKomunitasInput | Prisma.JimpitanUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
+}
+
+export type JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.JimpitanCreateWithoutKomunitasInput, Prisma.JimpitanUncheckedCreateWithoutKomunitasInput> | Prisma.JimpitanCreateWithoutKomunitasInput[] | Prisma.JimpitanUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.JimpitanCreateOrConnectWithoutKomunitasInput | Prisma.JimpitanCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.JimpitanUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.JimpitanUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.JimpitanCreateManyKomunitasInputEnvelope
+  set?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  disconnect?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  delete?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  connect?: Prisma.JimpitanWhereUniqueInput | Prisma.JimpitanWhereUniqueInput[]
+  update?: Prisma.JimpitanUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.JimpitanUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.JimpitanUpdateManyWithWhereWithoutKomunitasInput | Prisma.JimpitanUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
 }
 
 export type JimpitanCreateNestedManyWithoutJadwalInput = {
@@ -535,6 +601,78 @@ export type JimpitanUncheckedUpdateManyWithoutJadwalNestedInput = {
   deleteMany?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
 }
 
+export type JimpitanCreateWithoutKomunitasInput = {
+  id?: string
+  tanggal: Date | string
+  nominal: number
+  diisiOleh: string
+  diisiPada?: Date | string
+  catatan?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+  jadwal?: Prisma.JadwalPetugasCreateNestedOneWithoutJimpitanInput
+}
+
+export type JimpitanUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  tanggal: Date | string
+  jadwalId?: string | null
+  nominal: number
+  diisiOleh: string
+  diisiPada?: Date | string
+  catatan?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+}
+
+export type JimpitanCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.JimpitanWhereUniqueInput
+  create: Prisma.XOR<Prisma.JimpitanCreateWithoutKomunitasInput, Prisma.JimpitanUncheckedCreateWithoutKomunitasInput>
+}
+
+export type JimpitanCreateManyKomunitasInputEnvelope = {
+  data: Prisma.JimpitanCreateManyKomunitasInput | Prisma.JimpitanCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type JimpitanUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.JimpitanWhereUniqueInput
+  update: Prisma.XOR<Prisma.JimpitanUpdateWithoutKomunitasInput, Prisma.JimpitanUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.JimpitanCreateWithoutKomunitasInput, Prisma.JimpitanUncheckedCreateWithoutKomunitasInput>
+}
+
+export type JimpitanUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.JimpitanWhereUniqueInput
+  data: Prisma.XOR<Prisma.JimpitanUpdateWithoutKomunitasInput, Prisma.JimpitanUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type JimpitanUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.JimpitanScalarWhereInput
+  data: Prisma.XOR<Prisma.JimpitanUpdateManyMutationInput, Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type JimpitanScalarWhereInput = {
+  AND?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
+  OR?: Prisma.JimpitanScalarWhereInput[]
+  NOT?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
+  id?: Prisma.StringFilter<"Jimpitan"> | string
+  tanggal?: Prisma.DateTimeFilter<"Jimpitan"> | Date | string
+  jadwalId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  nominal?: Prisma.IntFilter<"Jimpitan"> | number
+  diisiOleh?: Prisma.StringFilter<"Jimpitan"> | string
+  diisiPada?: Prisma.DateTimeFilter<"Jimpitan"> | Date | string
+  catatan?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  komunitasId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  localId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  syncStatus?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
+  createdAtLocal?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
+  syncedAt?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
+}
+
 export type JimpitanCreateWithoutJadwalInput = {
   id?: string
   tanggal: Date | string
@@ -546,6 +684,7 @@ export type JimpitanCreateWithoutJadwalInput = {
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
   syncedAt?: Date | string | null
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutJimpitanInput
 }
 
 export type JimpitanUncheckedCreateWithoutJadwalInput = {
@@ -555,6 +694,7 @@ export type JimpitanUncheckedCreateWithoutJadwalInput = {
   diisiOleh: string
   diisiPada?: Date | string
   catatan?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -587,21 +727,60 @@ export type JimpitanUpdateManyWithWhereWithoutJadwalInput = {
   data: Prisma.XOR<Prisma.JimpitanUpdateManyMutationInput, Prisma.JimpitanUncheckedUpdateManyWithoutJadwalInput>
 }
 
-export type JimpitanScalarWhereInput = {
-  AND?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
-  OR?: Prisma.JimpitanScalarWhereInput[]
-  NOT?: Prisma.JimpitanScalarWhereInput | Prisma.JimpitanScalarWhereInput[]
-  id?: Prisma.StringFilter<"Jimpitan"> | string
-  tanggal?: Prisma.DateTimeFilter<"Jimpitan"> | Date | string
-  jadwalId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
-  nominal?: Prisma.IntFilter<"Jimpitan"> | number
-  diisiOleh?: Prisma.StringFilter<"Jimpitan"> | string
-  diisiPada?: Prisma.DateTimeFilter<"Jimpitan"> | Date | string
-  catatan?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
-  localId?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
-  syncStatus?: Prisma.StringNullableFilter<"Jimpitan"> | string | null
-  createdAtLocal?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
-  syncedAt?: Prisma.DateTimeNullableFilter<"Jimpitan"> | Date | string | null
+export type JimpitanCreateManyKomunitasInput = {
+  id?: string
+  tanggal: Date | string
+  jadwalId?: string | null
+  nominal: number
+  diisiOleh: string
+  diisiPada?: Date | string
+  catatan?: string | null
+  localId?: string | null
+  syncStatus?: string | null
+  createdAtLocal?: Date | string | null
+  syncedAt?: Date | string | null
+}
+
+export type JimpitanUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  jadwal?: Prisma.JadwalPetugasUpdateOneWithoutJimpitanNestedInput
+}
+
+export type JimpitanUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jadwalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type JimpitanUncheckedUpdateManyWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  jadwalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nominal?: Prisma.IntFieldUpdateOperationsInput | number
+  diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
+  diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type JimpitanCreateManyJadwalInput = {
@@ -611,6 +790,7 @@ export type JimpitanCreateManyJadwalInput = {
   diisiOleh: string
   diisiPada?: Date | string
   catatan?: string | null
+  komunitasId?: string | null
   localId?: string | null
   syncStatus?: string | null
   createdAtLocal?: Date | string | null
@@ -628,6 +808,7 @@ export type JimpitanUpdateWithoutJadwalInput = {
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   syncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  komunitas?: Prisma.KomunitasUpdateOneWithoutJimpitanNestedInput
 }
 
 export type JimpitanUncheckedUpdateWithoutJadwalInput = {
@@ -637,6 +818,7 @@ export type JimpitanUncheckedUpdateWithoutJadwalInput = {
   diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
   diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -650,6 +832,7 @@ export type JimpitanUncheckedUpdateManyWithoutJadwalInput = {
   diisiOleh?: Prisma.StringFieldUpdateOperationsInput | string
   diisiPada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   catatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   localId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   syncStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAtLocal?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -666,11 +849,13 @@ export type JimpitanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   diisiOleh?: boolean
   diisiPada?: boolean
   catatan?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
   jadwal?: boolean | Prisma.Jimpitan$jadwalArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Jimpitan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["jimpitan"]>
 
 export type JimpitanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -681,11 +866,13 @@ export type JimpitanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   diisiOleh?: boolean
   diisiPada?: boolean
   catatan?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
   jadwal?: boolean | Prisma.Jimpitan$jadwalArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Jimpitan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["jimpitan"]>
 
 export type JimpitanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -696,11 +883,13 @@ export type JimpitanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   diisiOleh?: boolean
   diisiPada?: boolean
   catatan?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
   jadwal?: boolean | Prisma.Jimpitan$jadwalArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Jimpitan$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["jimpitan"]>
 
 export type JimpitanSelectScalar = {
@@ -711,27 +900,32 @@ export type JimpitanSelectScalar = {
   diisiOleh?: boolean
   diisiPada?: boolean
   catatan?: boolean
+  komunitasId?: boolean
   localId?: boolean
   syncStatus?: boolean
   createdAtLocal?: boolean
   syncedAt?: boolean
 }
 
-export type JimpitanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tanggal" | "jadwalId" | "nominal" | "diisiOleh" | "diisiPada" | "catatan" | "localId" | "syncStatus" | "createdAtLocal" | "syncedAt", ExtArgs["result"]["jimpitan"]>
+export type JimpitanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tanggal" | "jadwalId" | "nominal" | "diisiOleh" | "diisiPada" | "catatan" | "komunitasId" | "localId" | "syncStatus" | "createdAtLocal" | "syncedAt", ExtArgs["result"]["jimpitan"]>
 export type JimpitanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   jadwal?: boolean | Prisma.Jimpitan$jadwalArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Jimpitan$komunitasArgs<ExtArgs>
 }
 export type JimpitanIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   jadwal?: boolean | Prisma.Jimpitan$jadwalArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Jimpitan$komunitasArgs<ExtArgs>
 }
 export type JimpitanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   jadwal?: boolean | Prisma.Jimpitan$jadwalArgs<ExtArgs>
+  komunitas?: boolean | Prisma.Jimpitan$komunitasArgs<ExtArgs>
 }
 
 export type $JimpitanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Jimpitan"
   objects: {
     jadwal: Prisma.$JadwalPetugasPayload<ExtArgs> | null
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -741,6 +935,7 @@ export type $JimpitanPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     diisiOleh: string
     diisiPada: Date
     catatan: string | null
+    komunitasId: string | null
     localId: string | null
     syncStatus: string | null
     createdAtLocal: Date | null
@@ -1140,6 +1335,7 @@ readonly fields: JimpitanFieldRefs;
 export interface Prisma__JimpitanClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   jadwal<T extends Prisma.Jimpitan$jadwalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Jimpitan$jadwalArgs<ExtArgs>>): Prisma.Prisma__JadwalPetugasClient<runtime.Types.Result.GetResult<Prisma.$JadwalPetugasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  komunitas<T extends Prisma.Jimpitan$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Jimpitan$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1176,6 +1372,7 @@ export interface JimpitanFieldRefs {
   readonly diisiOleh: Prisma.FieldRef<"Jimpitan", 'String'>
   readonly diisiPada: Prisma.FieldRef<"Jimpitan", 'DateTime'>
   readonly catatan: Prisma.FieldRef<"Jimpitan", 'String'>
+  readonly komunitasId: Prisma.FieldRef<"Jimpitan", 'String'>
   readonly localId: Prisma.FieldRef<"Jimpitan", 'String'>
   readonly syncStatus: Prisma.FieldRef<"Jimpitan", 'String'>
   readonly createdAtLocal: Prisma.FieldRef<"Jimpitan", 'DateTime'>
@@ -1597,6 +1794,25 @@ export type Jimpitan$jadwalArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.JadwalPetugasInclude<ExtArgs> | null
   where?: Prisma.JadwalPetugasWhereInput
+}
+
+/**
+ * Jimpitan.komunitas
+ */
+export type Jimpitan$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

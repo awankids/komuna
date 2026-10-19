@@ -1,9 +1,18 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 export async function GET() {
   try {
-    let list = await db.pengurusRT.findMany({
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
+    const list = await db.pengurusRT.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       orderBy: [
         { urutan: 'asc' },
         { createdAt: 'asc' }
@@ -19,88 +28,6 @@ export async function GET() {
         }
       }
     });
-
-    // Auto-seed default pengurus if table is empty
-    if (list.length === 0) {
-      const defaultOfficers = [
-        {
-          jabatan: 'Ketua RT',
-          kategori: 'inti',
-          nama: 'Bpk. Bambang Sutrisno',
-          noHp: '081234567890',
-          alamatRumah: 'Blok A No. 04',
-          urutan: 1,
-          periode: '2024 - 2029',
-          statusAktif: true,
-          keterangan: 'Penandatangan Dokumen Resmi & Legalitas RT'
-        },
-        {
-          jabatan: 'Sekretaris',
-          kategori: 'inti',
-          nama: 'Bpk. Ahmad Dahlan',
-          noHp: '081234567891',
-          alamatRumah: 'Blok B No. 12',
-          urutan: 2,
-          periode: '2024 - 2029',
-          statusAktif: true,
-          keterangan: 'Administrasi, Agenda & Arsip Warga'
-        },
-        {
-          jabatan: 'Bendahara',
-          kategori: 'inti',
-          nama: 'Ibu Siti Rahmawati',
-          noHp: '081234567892',
-          alamatRumah: 'Blok A No. 07',
-          urutan: 3,
-          periode: '2024 - 2029',
-          statusAktif: true,
-          keterangan: 'Penandatangan Laporan Kas & Pengelola Jimpitan'
-        },
-        {
-          jabatan: 'Seksi Keamanan & Ketertiban',
-          kategori: 'seksi',
-          nama: 'Bpk. Agus Santoso',
-          noHp: '081234567893',
-          alamatRumah: 'Blok C No. 01',
-          urutan: 4,
-          periode: '2024 - 2029',
-          statusAktif: true,
-          keterangan: 'Koordinator Ronda & Keamanan Lingkungan'
-        },
-        {
-          jabatan: 'Seksi Pembangunan & Kebersihan',
-          kategori: 'seksi',
-          nama: 'Bpk. Heru Triyono',
-          noHp: '081234567894',
-          alamatRumah: 'Blok D No. 05',
-          urutan: 5,
-          periode: '2024 - 2029',
-          statusAktif: true,
-          keterangan: 'Perawatan Fasilitas & Kerja Bakti'
-        }
-      ];
-
-      for (const item of defaultOfficers) {
-        await db.pengurusRT.create({ data: item });
-      }
-
-      list = await db.pengurusRT.findMany({
-        orderBy: [
-          { urutan: 'asc' },
-          { createdAt: 'asc' }
-        ],
-        include: {
-          anggota: {
-            select: {
-              id: true,
-              nama: true,
-              noRumah: true,
-              noHp: true
-            }
-          }
-        }
-      });
-    }
 
     // Helper signatures extraction
     const ketua = list.find(p => p.statusAktif && p.jabatan.toLowerCase().includes('ketua'))?.nama || '';
@@ -124,6 +51,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { 
       jabatan, 
@@ -155,7 +83,8 @@ export async function POST(request: Request) {
         urutan: Number(urutan) || 1,
         periode: periode || '2024 - 2029',
         statusAktif: Boolean(statusAktif),
-        keterangan: keterangan || null
+        keterangan: keterangan || null,
+        komunitasId: tenant.komunitasId,
       }
     });
 
@@ -168,6 +97,7 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { 
       id, 
@@ -186,6 +116,13 @@ export async function PUT(request: Request) {
 
     if (!id || !nama || !jabatan) {
       return NextResponse.json({ error: 'ID, Nama, dan Jabatan wajib diisi' }, { status: 400 });
+    }
+
+    const existing = await db.pengurusRT.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Pengurus tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     const updated = await db.pengurusRT.update({
@@ -214,11 +151,19 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (!id) {
       return NextResponse.json({ error: 'ID pengurus wajib disertakan' }, { status: 400 });
+    }
+
+    const existing = await db.pengurusRT.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Pengurus tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     await db.pengurusRT.delete({

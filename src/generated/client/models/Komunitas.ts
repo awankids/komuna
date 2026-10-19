@@ -329,6 +329,20 @@ export type KomunitasWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Komunitas"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Komunitas"> | Date | string
   users?: Prisma.UserListRelationFilter
+  anggota?: Prisma.AnggotaListRelationFilter
+  jimpitan?: Prisma.JimpitanListRelationFilter
+  transaksi?: Prisma.TransaksiKeuanganListRelationFilter
+  agenda?: Prisma.AgendaListRelationFilter
+  pengurus?: Prisma.PengurusRTListRelationFilter
+  suratPengantar?: Prisma.SuratPengantarListRelationFilter
+  mutasi?: Prisma.MutasiWargaListRelationFilter
+  programKerja?: Prisma.ProgramKerjaListRelationFilter
+  inventaris?: Prisma.InventarisAsetListRelationFilter
+  evaluasi?: Prisma.EvaluasiTahunanListRelationFilter
+  arisan?: Prisma.KelompokArisanListRelationFilter
+  hutangPiutang?: Prisma.HutangPiutangListRelationFilter
+  pengaturan?: Prisma.XOR<Prisma.PengaturanAplikasiNullableScalarRelationFilter, Prisma.PengaturanAplikasiWhereInput> | null
+  rombongan?: Prisma.RombonganListRelationFilter
 }
 
 export type KomunitasOrderByWithRelationInput = {
@@ -352,6 +366,20 @@ export type KomunitasOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
+  anggota?: Prisma.AnggotaOrderByRelationAggregateInput
+  jimpitan?: Prisma.JimpitanOrderByRelationAggregateInput
+  transaksi?: Prisma.TransaksiKeuanganOrderByRelationAggregateInput
+  agenda?: Prisma.AgendaOrderByRelationAggregateInput
+  pengurus?: Prisma.PengurusRTOrderByRelationAggregateInput
+  suratPengantar?: Prisma.SuratPengantarOrderByRelationAggregateInput
+  mutasi?: Prisma.MutasiWargaOrderByRelationAggregateInput
+  programKerja?: Prisma.ProgramKerjaOrderByRelationAggregateInput
+  inventaris?: Prisma.InventarisAsetOrderByRelationAggregateInput
+  evaluasi?: Prisma.EvaluasiTahunanOrderByRelationAggregateInput
+  arisan?: Prisma.KelompokArisanOrderByRelationAggregateInput
+  hutangPiutang?: Prisma.HutangPiutangOrderByRelationAggregateInput
+  pengaturan?: Prisma.PengaturanAplikasiOrderByWithRelationInput
+  rombongan?: Prisma.RombonganOrderByRelationAggregateInput
 }
 
 export type KomunitasWhereUniqueInput = Prisma.AtLeast<{
@@ -378,6 +406,20 @@ export type KomunitasWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Komunitas"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Komunitas"> | Date | string
   users?: Prisma.UserListRelationFilter
+  anggota?: Prisma.AnggotaListRelationFilter
+  jimpitan?: Prisma.JimpitanListRelationFilter
+  transaksi?: Prisma.TransaksiKeuanganListRelationFilter
+  agenda?: Prisma.AgendaListRelationFilter
+  pengurus?: Prisma.PengurusRTListRelationFilter
+  suratPengantar?: Prisma.SuratPengantarListRelationFilter
+  mutasi?: Prisma.MutasiWargaListRelationFilter
+  programKerja?: Prisma.ProgramKerjaListRelationFilter
+  inventaris?: Prisma.InventarisAsetListRelationFilter
+  evaluasi?: Prisma.EvaluasiTahunanListRelationFilter
+  arisan?: Prisma.KelompokArisanListRelationFilter
+  hutangPiutang?: Prisma.HutangPiutangListRelationFilter
+  pengaturan?: Prisma.XOR<Prisma.PengaturanAplikasiNullableScalarRelationFilter, Prisma.PengaturanAplikasiWhereInput> | null
+  rombongan?: Prisma.RombonganListRelationFilter
 }, "id" | "slug">
 
 export type KomunitasOrderByWithAggregationInput = {
@@ -453,6 +495,20 @@ export type KomunitasCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateInput = {
@@ -476,6 +532,20 @@ export type KomunitasUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUpdateInput = {
@@ -499,6 +569,20 @@ export type KomunitasUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateInput = {
@@ -522,6 +606,20 @@ export type KomunitasUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasCreateManyInput = {
@@ -709,6 +807,230 @@ export type KomunitasUpdateOneWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutUsersInput, Prisma.KomunitasUpdateWithoutUsersInput>, Prisma.KomunitasUncheckedUpdateWithoutUsersInput>
 }
 
+export type KomunitasCreateNestedOneWithoutAnggotaInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutAnggotaInput, Prisma.KomunitasUncheckedCreateWithoutAnggotaInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutAnggotaInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutAnggotaNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutAnggotaInput, Prisma.KomunitasUncheckedCreateWithoutAnggotaInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutAnggotaInput
+  upsert?: Prisma.KomunitasUpsertWithoutAnggotaInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutAnggotaInput, Prisma.KomunitasUpdateWithoutAnggotaInput>, Prisma.KomunitasUncheckedUpdateWithoutAnggotaInput>
+}
+
+export type KomunitasCreateNestedOneWithoutRombonganInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutRombonganInput, Prisma.KomunitasUncheckedCreateWithoutRombonganInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutRombonganInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutRombonganNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutRombonganInput, Prisma.KomunitasUncheckedCreateWithoutRombonganInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutRombonganInput
+  upsert?: Prisma.KomunitasUpsertWithoutRombonganInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutRombonganInput, Prisma.KomunitasUpdateWithoutRombonganInput>, Prisma.KomunitasUncheckedUpdateWithoutRombonganInput>
+}
+
+export type KomunitasCreateNestedOneWithoutJimpitanInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutJimpitanInput, Prisma.KomunitasUncheckedCreateWithoutJimpitanInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutJimpitanInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutJimpitanNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutJimpitanInput, Prisma.KomunitasUncheckedCreateWithoutJimpitanInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutJimpitanInput
+  upsert?: Prisma.KomunitasUpsertWithoutJimpitanInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutJimpitanInput, Prisma.KomunitasUpdateWithoutJimpitanInput>, Prisma.KomunitasUncheckedUpdateWithoutJimpitanInput>
+}
+
+export type KomunitasCreateNestedOneWithoutTransaksiInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutTransaksiInput, Prisma.KomunitasUncheckedCreateWithoutTransaksiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutTransaksiInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutTransaksiNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutTransaksiInput, Prisma.KomunitasUncheckedCreateWithoutTransaksiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutTransaksiInput
+  upsert?: Prisma.KomunitasUpsertWithoutTransaksiInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutTransaksiInput, Prisma.KomunitasUpdateWithoutTransaksiInput>, Prisma.KomunitasUncheckedUpdateWithoutTransaksiInput>
+}
+
+export type KomunitasCreateNestedOneWithoutAgendaInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutAgendaInput, Prisma.KomunitasUncheckedCreateWithoutAgendaInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutAgendaInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutAgendaNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutAgendaInput, Prisma.KomunitasUncheckedCreateWithoutAgendaInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutAgendaInput
+  upsert?: Prisma.KomunitasUpsertWithoutAgendaInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutAgendaInput, Prisma.KomunitasUpdateWithoutAgendaInput>, Prisma.KomunitasUncheckedUpdateWithoutAgendaInput>
+}
+
+export type KomunitasCreateNestedOneWithoutPengaturanInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutPengaturanInput, Prisma.KomunitasUncheckedCreateWithoutPengaturanInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutPengaturanInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutPengaturanNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutPengaturanInput, Prisma.KomunitasUncheckedCreateWithoutPengaturanInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutPengaturanInput
+  upsert?: Prisma.KomunitasUpsertWithoutPengaturanInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutPengaturanInput, Prisma.KomunitasUpdateWithoutPengaturanInput>, Prisma.KomunitasUncheckedUpdateWithoutPengaturanInput>
+}
+
+export type KomunitasCreateNestedOneWithoutHutangPiutangInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutHutangPiutangInput, Prisma.KomunitasUncheckedCreateWithoutHutangPiutangInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutHutangPiutangInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutHutangPiutangNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutHutangPiutangInput, Prisma.KomunitasUncheckedCreateWithoutHutangPiutangInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutHutangPiutangInput
+  upsert?: Prisma.KomunitasUpsertWithoutHutangPiutangInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutHutangPiutangInput, Prisma.KomunitasUpdateWithoutHutangPiutangInput>, Prisma.KomunitasUncheckedUpdateWithoutHutangPiutangInput>
+}
+
+export type KomunitasCreateNestedOneWithoutPengurusInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutPengurusInput, Prisma.KomunitasUncheckedCreateWithoutPengurusInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutPengurusInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutPengurusNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutPengurusInput, Prisma.KomunitasUncheckedCreateWithoutPengurusInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutPengurusInput
+  upsert?: Prisma.KomunitasUpsertWithoutPengurusInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutPengurusInput, Prisma.KomunitasUpdateWithoutPengurusInput>, Prisma.KomunitasUncheckedUpdateWithoutPengurusInput>
+}
+
+export type KomunitasCreateNestedOneWithoutSuratPengantarInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutSuratPengantarInput, Prisma.KomunitasUncheckedCreateWithoutSuratPengantarInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutSuratPengantarInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutSuratPengantarNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutSuratPengantarInput, Prisma.KomunitasUncheckedCreateWithoutSuratPengantarInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutSuratPengantarInput
+  upsert?: Prisma.KomunitasUpsertWithoutSuratPengantarInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutSuratPengantarInput, Prisma.KomunitasUpdateWithoutSuratPengantarInput>, Prisma.KomunitasUncheckedUpdateWithoutSuratPengantarInput>
+}
+
+export type KomunitasCreateNestedOneWithoutMutasiInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutMutasiInput, Prisma.KomunitasUncheckedCreateWithoutMutasiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutMutasiInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutMutasiNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutMutasiInput, Prisma.KomunitasUncheckedCreateWithoutMutasiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutMutasiInput
+  upsert?: Prisma.KomunitasUpsertWithoutMutasiInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutMutasiInput, Prisma.KomunitasUpdateWithoutMutasiInput>, Prisma.KomunitasUncheckedUpdateWithoutMutasiInput>
+}
+
+export type KomunitasCreateNestedOneWithoutProgramKerjaInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutProgramKerjaInput, Prisma.KomunitasUncheckedCreateWithoutProgramKerjaInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutProgramKerjaInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutProgramKerjaNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutProgramKerjaInput, Prisma.KomunitasUncheckedCreateWithoutProgramKerjaInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutProgramKerjaInput
+  upsert?: Prisma.KomunitasUpsertWithoutProgramKerjaInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutProgramKerjaInput, Prisma.KomunitasUpdateWithoutProgramKerjaInput>, Prisma.KomunitasUncheckedUpdateWithoutProgramKerjaInput>
+}
+
+export type KomunitasCreateNestedOneWithoutInventarisInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutInventarisInput, Prisma.KomunitasUncheckedCreateWithoutInventarisInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutInventarisInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutInventarisNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutInventarisInput, Prisma.KomunitasUncheckedCreateWithoutInventarisInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutInventarisInput
+  upsert?: Prisma.KomunitasUpsertWithoutInventarisInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutInventarisInput, Prisma.KomunitasUpdateWithoutInventarisInput>, Prisma.KomunitasUncheckedUpdateWithoutInventarisInput>
+}
+
+export type KomunitasCreateNestedOneWithoutEvaluasiInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutEvaluasiInput, Prisma.KomunitasUncheckedCreateWithoutEvaluasiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutEvaluasiInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutEvaluasiNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutEvaluasiInput, Prisma.KomunitasUncheckedCreateWithoutEvaluasiInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutEvaluasiInput
+  upsert?: Prisma.KomunitasUpsertWithoutEvaluasiInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutEvaluasiInput, Prisma.KomunitasUpdateWithoutEvaluasiInput>, Prisma.KomunitasUncheckedUpdateWithoutEvaluasiInput>
+}
+
+export type KomunitasCreateNestedOneWithoutArisanInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutArisanInput, Prisma.KomunitasUncheckedCreateWithoutArisanInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutArisanInput
+  connect?: Prisma.KomunitasWhereUniqueInput
+}
+
+export type KomunitasUpdateOneWithoutArisanNestedInput = {
+  create?: Prisma.XOR<Prisma.KomunitasCreateWithoutArisanInput, Prisma.KomunitasUncheckedCreateWithoutArisanInput>
+  connectOrCreate?: Prisma.KomunitasCreateOrConnectWithoutArisanInput
+  upsert?: Prisma.KomunitasUpsertWithoutArisanInput
+  disconnect?: Prisma.KomunitasWhereInput | boolean
+  delete?: Prisma.KomunitasWhereInput | boolean
+  connect?: Prisma.KomunitasWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KomunitasUpdateToOneWithWhereWithoutArisanInput, Prisma.KomunitasUpdateWithoutArisanInput>, Prisma.KomunitasUncheckedUpdateWithoutArisanInput>
+}
+
 export type KomunitasCreateWithoutUsersInput = {
   id?: string
   nama: string
@@ -729,6 +1051,20 @@ export type KomunitasCreateWithoutUsersInput = {
   statusAktif?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasUncheckedCreateWithoutUsersInput = {
@@ -751,6 +1087,20 @@ export type KomunitasUncheckedCreateWithoutUsersInput = {
   statusAktif?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
 }
 
 export type KomunitasCreateOrConnectWithoutUsersInput = {
@@ -789,6 +1139,20 @@ export type KomunitasUpdateWithoutUsersInput = {
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
 }
 
 export type KomunitasUncheckedUpdateWithoutUsersInput = {
@@ -811,6 +1175,2260 @@ export type KomunitasUncheckedUpdateWithoutUsersInput = {
   statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutAnggotaInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutAnggotaInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutAnggotaInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutAnggotaInput, Prisma.KomunitasUncheckedCreateWithoutAnggotaInput>
+}
+
+export type KomunitasUpsertWithoutAnggotaInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutAnggotaInput, Prisma.KomunitasUncheckedUpdateWithoutAnggotaInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutAnggotaInput, Prisma.KomunitasUncheckedCreateWithoutAnggotaInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutAnggotaInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutAnggotaInput, Prisma.KomunitasUncheckedUpdateWithoutAnggotaInput>
+}
+
+export type KomunitasUpdateWithoutAnggotaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutAnggotaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutRombonganInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutRombonganInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutRombonganInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutRombonganInput, Prisma.KomunitasUncheckedCreateWithoutRombonganInput>
+}
+
+export type KomunitasUpsertWithoutRombonganInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutRombonganInput, Prisma.KomunitasUncheckedUpdateWithoutRombonganInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutRombonganInput, Prisma.KomunitasUncheckedCreateWithoutRombonganInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutRombonganInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutRombonganInput, Prisma.KomunitasUncheckedUpdateWithoutRombonganInput>
+}
+
+export type KomunitasUpdateWithoutRombonganInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutRombonganInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutJimpitanInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutJimpitanInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutJimpitanInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutJimpitanInput, Prisma.KomunitasUncheckedCreateWithoutJimpitanInput>
+}
+
+export type KomunitasUpsertWithoutJimpitanInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutJimpitanInput, Prisma.KomunitasUncheckedUpdateWithoutJimpitanInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutJimpitanInput, Prisma.KomunitasUncheckedCreateWithoutJimpitanInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutJimpitanInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutJimpitanInput, Prisma.KomunitasUncheckedUpdateWithoutJimpitanInput>
+}
+
+export type KomunitasUpdateWithoutJimpitanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutJimpitanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutTransaksiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutTransaksiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutTransaksiInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutTransaksiInput, Prisma.KomunitasUncheckedCreateWithoutTransaksiInput>
+}
+
+export type KomunitasUpsertWithoutTransaksiInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutTransaksiInput, Prisma.KomunitasUncheckedUpdateWithoutTransaksiInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutTransaksiInput, Prisma.KomunitasUncheckedCreateWithoutTransaksiInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutTransaksiInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutTransaksiInput, Prisma.KomunitasUncheckedUpdateWithoutTransaksiInput>
+}
+
+export type KomunitasUpdateWithoutTransaksiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutTransaksiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutAgendaInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutAgendaInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutAgendaInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutAgendaInput, Prisma.KomunitasUncheckedCreateWithoutAgendaInput>
+}
+
+export type KomunitasUpsertWithoutAgendaInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutAgendaInput, Prisma.KomunitasUncheckedUpdateWithoutAgendaInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutAgendaInput, Prisma.KomunitasUncheckedCreateWithoutAgendaInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutAgendaInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutAgendaInput, Prisma.KomunitasUncheckedUpdateWithoutAgendaInput>
+}
+
+export type KomunitasUpdateWithoutAgendaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutAgendaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutPengaturanInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutPengaturanInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutPengaturanInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutPengaturanInput, Prisma.KomunitasUncheckedCreateWithoutPengaturanInput>
+}
+
+export type KomunitasUpsertWithoutPengaturanInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutPengaturanInput, Prisma.KomunitasUncheckedUpdateWithoutPengaturanInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutPengaturanInput, Prisma.KomunitasUncheckedCreateWithoutPengaturanInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutPengaturanInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutPengaturanInput, Prisma.KomunitasUncheckedUpdateWithoutPengaturanInput>
+}
+
+export type KomunitasUpdateWithoutPengaturanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutPengaturanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutHutangPiutangInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutHutangPiutangInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutHutangPiutangInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutHutangPiutangInput, Prisma.KomunitasUncheckedCreateWithoutHutangPiutangInput>
+}
+
+export type KomunitasUpsertWithoutHutangPiutangInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutHutangPiutangInput, Prisma.KomunitasUncheckedUpdateWithoutHutangPiutangInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutHutangPiutangInput, Prisma.KomunitasUncheckedCreateWithoutHutangPiutangInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutHutangPiutangInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutHutangPiutangInput, Prisma.KomunitasUncheckedUpdateWithoutHutangPiutangInput>
+}
+
+export type KomunitasUpdateWithoutHutangPiutangInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutHutangPiutangInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutPengurusInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutPengurusInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutPengurusInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutPengurusInput, Prisma.KomunitasUncheckedCreateWithoutPengurusInput>
+}
+
+export type KomunitasUpsertWithoutPengurusInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutPengurusInput, Prisma.KomunitasUncheckedUpdateWithoutPengurusInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutPengurusInput, Prisma.KomunitasUncheckedCreateWithoutPengurusInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutPengurusInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutPengurusInput, Prisma.KomunitasUncheckedUpdateWithoutPengurusInput>
+}
+
+export type KomunitasUpdateWithoutPengurusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutPengurusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutSuratPengantarInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutSuratPengantarInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutSuratPengantarInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutSuratPengantarInput, Prisma.KomunitasUncheckedCreateWithoutSuratPengantarInput>
+}
+
+export type KomunitasUpsertWithoutSuratPengantarInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutSuratPengantarInput, Prisma.KomunitasUncheckedUpdateWithoutSuratPengantarInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutSuratPengantarInput, Prisma.KomunitasUncheckedCreateWithoutSuratPengantarInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutSuratPengantarInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutSuratPengantarInput, Prisma.KomunitasUncheckedUpdateWithoutSuratPengantarInput>
+}
+
+export type KomunitasUpdateWithoutSuratPengantarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutSuratPengantarInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutMutasiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutMutasiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutMutasiInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutMutasiInput, Prisma.KomunitasUncheckedCreateWithoutMutasiInput>
+}
+
+export type KomunitasUpsertWithoutMutasiInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutMutasiInput, Prisma.KomunitasUncheckedUpdateWithoutMutasiInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutMutasiInput, Prisma.KomunitasUncheckedCreateWithoutMutasiInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutMutasiInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutMutasiInput, Prisma.KomunitasUncheckedUpdateWithoutMutasiInput>
+}
+
+export type KomunitasUpdateWithoutMutasiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutMutasiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutProgramKerjaInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutProgramKerjaInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutProgramKerjaInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutProgramKerjaInput, Prisma.KomunitasUncheckedCreateWithoutProgramKerjaInput>
+}
+
+export type KomunitasUpsertWithoutProgramKerjaInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutProgramKerjaInput, Prisma.KomunitasUncheckedUpdateWithoutProgramKerjaInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutProgramKerjaInput, Prisma.KomunitasUncheckedCreateWithoutProgramKerjaInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutProgramKerjaInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutProgramKerjaInput, Prisma.KomunitasUncheckedUpdateWithoutProgramKerjaInput>
+}
+
+export type KomunitasUpdateWithoutProgramKerjaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutProgramKerjaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutInventarisInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutInventarisInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutInventarisInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutInventarisInput, Prisma.KomunitasUncheckedCreateWithoutInventarisInput>
+}
+
+export type KomunitasUpsertWithoutInventarisInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutInventarisInput, Prisma.KomunitasUncheckedUpdateWithoutInventarisInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutInventarisInput, Prisma.KomunitasUncheckedCreateWithoutInventarisInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutInventarisInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutInventarisInput, Prisma.KomunitasUncheckedUpdateWithoutInventarisInput>
+}
+
+export type KomunitasUpdateWithoutInventarisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutInventarisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutEvaluasiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutEvaluasiInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  arisan?: Prisma.KelompokArisanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutEvaluasiInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutEvaluasiInput, Prisma.KomunitasUncheckedCreateWithoutEvaluasiInput>
+}
+
+export type KomunitasUpsertWithoutEvaluasiInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutEvaluasiInput, Prisma.KomunitasUncheckedUpdateWithoutEvaluasiInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutEvaluasiInput, Prisma.KomunitasUncheckedCreateWithoutEvaluasiInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutEvaluasiInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutEvaluasiInput, Prisma.KomunitasUncheckedUpdateWithoutEvaluasiInput>
+}
+
+export type KomunitasUpdateWithoutEvaluasiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutEvaluasiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  arisan?: Prisma.KelompokArisanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasCreateWithoutArisanInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasUncheckedCreateWithoutArisanInput = {
+  id?: string
+  nama: string
+  slug: string
+  tingkatWilayah?: string
+  noRt?: string | null
+  noRw?: string | null
+  dusunPerumahan?: string | null
+  desaKelurahan?: string | null
+  kecamatan?: string | null
+  kotaKabupaten?: string | null
+  provinsi?: string | null
+  kodePos?: string | null
+  targetJimpitan?: number
+  temaWarna?: string
+  modulAktif?: string | null
+  estimasiKk?: string | null
+  statusAktif?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutKomunitasInput
+  anggota?: Prisma.AnggotaUncheckedCreateNestedManyWithoutKomunitasInput
+  jimpitan?: Prisma.JimpitanUncheckedCreateNestedManyWithoutKomunitasInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedCreateNestedManyWithoutKomunitasInput
+  agenda?: Prisma.AgendaUncheckedCreateNestedManyWithoutKomunitasInput
+  pengurus?: Prisma.PengurusRTUncheckedCreateNestedManyWithoutKomunitasInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedCreateNestedManyWithoutKomunitasInput
+  mutasi?: Prisma.MutasiWargaUncheckedCreateNestedManyWithoutKomunitasInput
+  programKerja?: Prisma.ProgramKerjaUncheckedCreateNestedManyWithoutKomunitasInput
+  inventaris?: Prisma.InventarisAsetUncheckedCreateNestedManyWithoutKomunitasInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedCreateNestedManyWithoutKomunitasInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedCreateNestedManyWithoutKomunitasInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedCreateNestedOneWithoutKomunitasInput
+  rombongan?: Prisma.RombonganUncheckedCreateNestedManyWithoutKomunitasInput
+}
+
+export type KomunitasCreateOrConnectWithoutArisanInput = {
+  where: Prisma.KomunitasWhereUniqueInput
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutArisanInput, Prisma.KomunitasUncheckedCreateWithoutArisanInput>
+}
+
+export type KomunitasUpsertWithoutArisanInput = {
+  update: Prisma.XOR<Prisma.KomunitasUpdateWithoutArisanInput, Prisma.KomunitasUncheckedUpdateWithoutArisanInput>
+  create: Prisma.XOR<Prisma.KomunitasCreateWithoutArisanInput, Prisma.KomunitasUncheckedCreateWithoutArisanInput>
+  where?: Prisma.KomunitasWhereInput
+}
+
+export type KomunitasUpdateToOneWithWhereWithoutArisanInput = {
+  where?: Prisma.KomunitasWhereInput
+  data: Prisma.XOR<Prisma.KomunitasUpdateWithoutArisanInput, Prisma.KomunitasUncheckedUpdateWithoutArisanInput>
+}
+
+export type KomunitasUpdateWithoutArisanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUpdateManyWithoutKomunitasNestedInput
+}
+
+export type KomunitasUncheckedUpdateWithoutArisanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nama?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  tingkatWilayah?: Prisma.StringFieldUpdateOperationsInput | string
+  noRt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  noRw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dusunPerumahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  desaKelurahan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kecamatan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kotaKabupaten?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinsi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kodePos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetJimpitan?: Prisma.IntFieldUpdateOperationsInput | number
+  temaWarna?: Prisma.StringFieldUpdateOperationsInput | string
+  modulAktif?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estimasiKk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  statusAktif?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutKomunitasNestedInput
+  anggota?: Prisma.AnggotaUncheckedUpdateManyWithoutKomunitasNestedInput
+  jimpitan?: Prisma.JimpitanUncheckedUpdateManyWithoutKomunitasNestedInput
+  transaksi?: Prisma.TransaksiKeuanganUncheckedUpdateManyWithoutKomunitasNestedInput
+  agenda?: Prisma.AgendaUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengurus?: Prisma.PengurusRTUncheckedUpdateManyWithoutKomunitasNestedInput
+  suratPengantar?: Prisma.SuratPengantarUncheckedUpdateManyWithoutKomunitasNestedInput
+  mutasi?: Prisma.MutasiWargaUncheckedUpdateManyWithoutKomunitasNestedInput
+  programKerja?: Prisma.ProgramKerjaUncheckedUpdateManyWithoutKomunitasNestedInput
+  inventaris?: Prisma.InventarisAsetUncheckedUpdateManyWithoutKomunitasNestedInput
+  evaluasi?: Prisma.EvaluasiTahunanUncheckedUpdateManyWithoutKomunitasNestedInput
+  hutangPiutang?: Prisma.HutangPiutangUncheckedUpdateManyWithoutKomunitasNestedInput
+  pengaturan?: Prisma.PengaturanAplikasiUncheckedUpdateOneWithoutKomunitasNestedInput
+  rombongan?: Prisma.RombonganUncheckedUpdateManyWithoutKomunitasNestedInput
 }
 
 
@@ -820,10 +3438,36 @@ export type KomunitasUncheckedUpdateWithoutUsersInput = {
 
 export type KomunitasCountOutputType = {
   users: number
+  anggota: number
+  jimpitan: number
+  transaksi: number
+  agenda: number
+  pengurus: number
+  suratPengantar: number
+  mutasi: number
+  programKerja: number
+  inventaris: number
+  evaluasi: number
+  arisan: number
+  hutangPiutang: number
+  rombongan: number
 }
 
 export type KomunitasCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | KomunitasCountOutputTypeCountUsersArgs
+  anggota?: boolean | KomunitasCountOutputTypeCountAnggotaArgs
+  jimpitan?: boolean | KomunitasCountOutputTypeCountJimpitanArgs
+  transaksi?: boolean | KomunitasCountOutputTypeCountTransaksiArgs
+  agenda?: boolean | KomunitasCountOutputTypeCountAgendaArgs
+  pengurus?: boolean | KomunitasCountOutputTypeCountPengurusArgs
+  suratPengantar?: boolean | KomunitasCountOutputTypeCountSuratPengantarArgs
+  mutasi?: boolean | KomunitasCountOutputTypeCountMutasiArgs
+  programKerja?: boolean | KomunitasCountOutputTypeCountProgramKerjaArgs
+  inventaris?: boolean | KomunitasCountOutputTypeCountInventarisArgs
+  evaluasi?: boolean | KomunitasCountOutputTypeCountEvaluasiArgs
+  arisan?: boolean | KomunitasCountOutputTypeCountArisanArgs
+  hutangPiutang?: boolean | KomunitasCountOutputTypeCountHutangPiutangArgs
+  rombongan?: boolean | KomunitasCountOutputTypeCountRombonganArgs
 }
 
 /**
@@ -841,6 +3485,97 @@ export type KomunitasCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
  */
 export type KomunitasCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountAnggotaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnggotaWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountJimpitanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JimpitanWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountTransaksiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransaksiKeuanganWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountAgendaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AgendaWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountPengurusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PengurusRTWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountSuratPengantarArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SuratPengantarWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountMutasiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MutasiWargaWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountProgramKerjaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProgramKerjaWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountInventarisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventarisAsetWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountEvaluasiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EvaluasiTahunanWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountArisanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.KelompokArisanWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountHutangPiutangArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HutangPiutangWhereInput
+}
+
+/**
+ * KomunitasCountOutputType without action
+ */
+export type KomunitasCountOutputTypeCountRombonganArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RombonganWhereInput
 }
 
 
@@ -865,6 +3600,20 @@ export type KomunitasSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   updatedAt?: boolean
   users?: boolean | Prisma.Komunitas$usersArgs<ExtArgs>
+  anggota?: boolean | Prisma.Komunitas$anggotaArgs<ExtArgs>
+  jimpitan?: boolean | Prisma.Komunitas$jimpitanArgs<ExtArgs>
+  transaksi?: boolean | Prisma.Komunitas$transaksiArgs<ExtArgs>
+  agenda?: boolean | Prisma.Komunitas$agendaArgs<ExtArgs>
+  pengurus?: boolean | Prisma.Komunitas$pengurusArgs<ExtArgs>
+  suratPengantar?: boolean | Prisma.Komunitas$suratPengantarArgs<ExtArgs>
+  mutasi?: boolean | Prisma.Komunitas$mutasiArgs<ExtArgs>
+  programKerja?: boolean | Prisma.Komunitas$programKerjaArgs<ExtArgs>
+  inventaris?: boolean | Prisma.Komunitas$inventarisArgs<ExtArgs>
+  evaluasi?: boolean | Prisma.Komunitas$evaluasiArgs<ExtArgs>
+  arisan?: boolean | Prisma.Komunitas$arisanArgs<ExtArgs>
+  hutangPiutang?: boolean | Prisma.Komunitas$hutangPiutangArgs<ExtArgs>
+  pengaturan?: boolean | Prisma.Komunitas$pengaturanArgs<ExtArgs>
+  rombongan?: boolean | Prisma.Komunitas$rombonganArgs<ExtArgs>
   _count?: boolean | Prisma.KomunitasCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["komunitas"]>
 
@@ -937,6 +3686,20 @@ export type KomunitasSelectScalar = {
 export type KomunitasOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nama" | "slug" | "tingkatWilayah" | "noRt" | "noRw" | "dusunPerumahan" | "desaKelurahan" | "kecamatan" | "kotaKabupaten" | "provinsi" | "kodePos" | "targetJimpitan" | "temaWarna" | "modulAktif" | "estimasiKk" | "statusAktif" | "createdAt" | "updatedAt", ExtArgs["result"]["komunitas"]>
 export type KomunitasInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Komunitas$usersArgs<ExtArgs>
+  anggota?: boolean | Prisma.Komunitas$anggotaArgs<ExtArgs>
+  jimpitan?: boolean | Prisma.Komunitas$jimpitanArgs<ExtArgs>
+  transaksi?: boolean | Prisma.Komunitas$transaksiArgs<ExtArgs>
+  agenda?: boolean | Prisma.Komunitas$agendaArgs<ExtArgs>
+  pengurus?: boolean | Prisma.Komunitas$pengurusArgs<ExtArgs>
+  suratPengantar?: boolean | Prisma.Komunitas$suratPengantarArgs<ExtArgs>
+  mutasi?: boolean | Prisma.Komunitas$mutasiArgs<ExtArgs>
+  programKerja?: boolean | Prisma.Komunitas$programKerjaArgs<ExtArgs>
+  inventaris?: boolean | Prisma.Komunitas$inventarisArgs<ExtArgs>
+  evaluasi?: boolean | Prisma.Komunitas$evaluasiArgs<ExtArgs>
+  arisan?: boolean | Prisma.Komunitas$arisanArgs<ExtArgs>
+  hutangPiutang?: boolean | Prisma.Komunitas$hutangPiutangArgs<ExtArgs>
+  pengaturan?: boolean | Prisma.Komunitas$pengaturanArgs<ExtArgs>
+  rombongan?: boolean | Prisma.Komunitas$rombonganArgs<ExtArgs>
   _count?: boolean | Prisma.KomunitasCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type KomunitasIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -946,6 +3709,20 @@ export type $KomunitasPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Komunitas"
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
+    anggota: Prisma.$AnggotaPayload<ExtArgs>[]
+    jimpitan: Prisma.$JimpitanPayload<ExtArgs>[]
+    transaksi: Prisma.$TransaksiKeuanganPayload<ExtArgs>[]
+    agenda: Prisma.$AgendaPayload<ExtArgs>[]
+    pengurus: Prisma.$PengurusRTPayload<ExtArgs>[]
+    suratPengantar: Prisma.$SuratPengantarPayload<ExtArgs>[]
+    mutasi: Prisma.$MutasiWargaPayload<ExtArgs>[]
+    programKerja: Prisma.$ProgramKerjaPayload<ExtArgs>[]
+    inventaris: Prisma.$InventarisAsetPayload<ExtArgs>[]
+    evaluasi: Prisma.$EvaluasiTahunanPayload<ExtArgs>[]
+    arisan: Prisma.$KelompokArisanPayload<ExtArgs>[]
+    hutangPiutang: Prisma.$HutangPiutangPayload<ExtArgs>[]
+    pengaturan: Prisma.$PengaturanAplikasiPayload<ExtArgs> | null
+    rombongan: Prisma.$RombonganPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1362,6 +4139,20 @@ readonly fields: KomunitasFieldRefs;
 export interface Prisma__KomunitasClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.Komunitas$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  anggota<T extends Prisma.Komunitas$anggotaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$anggotaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnggotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  jimpitan<T extends Prisma.Komunitas$jimpitanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$jimpitanArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JimpitanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transaksi<T extends Prisma.Komunitas$transaksiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$transaksiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransaksiKeuanganPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  agenda<T extends Prisma.Komunitas$agendaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$agendaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AgendaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pengurus<T extends Prisma.Komunitas$pengurusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$pengurusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PengurusRTPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  suratPengantar<T extends Prisma.Komunitas$suratPengantarArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$suratPengantarArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SuratPengantarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  mutasi<T extends Prisma.Komunitas$mutasiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$mutasiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MutasiWargaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  programKerja<T extends Prisma.Komunitas$programKerjaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$programKerjaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProgramKerjaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inventaris<T extends Prisma.Komunitas$inventarisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$inventarisArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventarisAsetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  evaluasi<T extends Prisma.Komunitas$evaluasiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$evaluasiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvaluasiTahunanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  arisan<T extends Prisma.Komunitas$arisanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$arisanArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KelompokArisanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  hutangPiutang<T extends Prisma.Komunitas$hutangPiutangArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$hutangPiutangArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HutangPiutangPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pengaturan<T extends Prisma.Komunitas$pengaturanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$pengaturanArgs<ExtArgs>>): Prisma.Prisma__PengaturanAplikasiClient<runtime.Types.Result.GetResult<Prisma.$PengaturanAplikasiPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  rombongan<T extends Prisma.Komunitas$rombonganArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Komunitas$rombonganArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RombonganPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1824,6 +4615,337 @@ export type Komunitas$usersArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.anggota
+ */
+export type Komunitas$anggotaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Anggota
+   */
+  select?: Prisma.AnggotaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Anggota
+   */
+  omit?: Prisma.AnggotaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnggotaInclude<ExtArgs> | null
+  where?: Prisma.AnggotaWhereInput
+  orderBy?: Prisma.AnggotaOrderByWithRelationInput | Prisma.AnggotaOrderByWithRelationInput[]
+  cursor?: Prisma.AnggotaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnggotaScalarFieldEnum | Prisma.AnggotaScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.jimpitan
+ */
+export type Komunitas$jimpitanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Jimpitan
+   */
+  select?: Prisma.JimpitanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Jimpitan
+   */
+  omit?: Prisma.JimpitanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.JimpitanInclude<ExtArgs> | null
+  where?: Prisma.JimpitanWhereInput
+  orderBy?: Prisma.JimpitanOrderByWithRelationInput | Prisma.JimpitanOrderByWithRelationInput[]
+  cursor?: Prisma.JimpitanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.JimpitanScalarFieldEnum | Prisma.JimpitanScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.transaksi
+ */
+export type Komunitas$transaksiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransaksiKeuangan
+   */
+  select?: Prisma.TransaksiKeuanganSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransaksiKeuangan
+   */
+  omit?: Prisma.TransaksiKeuanganOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransaksiKeuanganInclude<ExtArgs> | null
+  where?: Prisma.TransaksiKeuanganWhereInput
+  orderBy?: Prisma.TransaksiKeuanganOrderByWithRelationInput | Prisma.TransaksiKeuanganOrderByWithRelationInput[]
+  cursor?: Prisma.TransaksiKeuanganWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransaksiKeuanganScalarFieldEnum | Prisma.TransaksiKeuanganScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.agenda
+ */
+export type Komunitas$agendaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Agenda
+   */
+  select?: Prisma.AgendaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Agenda
+   */
+  omit?: Prisma.AgendaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AgendaInclude<ExtArgs> | null
+  where?: Prisma.AgendaWhereInput
+  orderBy?: Prisma.AgendaOrderByWithRelationInput | Prisma.AgendaOrderByWithRelationInput[]
+  cursor?: Prisma.AgendaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AgendaScalarFieldEnum | Prisma.AgendaScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.pengurus
+ */
+export type Komunitas$pengurusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PengurusRT
+   */
+  select?: Prisma.PengurusRTSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PengurusRT
+   */
+  omit?: Prisma.PengurusRTOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengurusRTInclude<ExtArgs> | null
+  where?: Prisma.PengurusRTWhereInput
+  orderBy?: Prisma.PengurusRTOrderByWithRelationInput | Prisma.PengurusRTOrderByWithRelationInput[]
+  cursor?: Prisma.PengurusRTWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PengurusRTScalarFieldEnum | Prisma.PengurusRTScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.suratPengantar
+ */
+export type Komunitas$suratPengantarArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SuratPengantar
+   */
+  select?: Prisma.SuratPengantarSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SuratPengantar
+   */
+  omit?: Prisma.SuratPengantarOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SuratPengantarInclude<ExtArgs> | null
+  where?: Prisma.SuratPengantarWhereInput
+  orderBy?: Prisma.SuratPengantarOrderByWithRelationInput | Prisma.SuratPengantarOrderByWithRelationInput[]
+  cursor?: Prisma.SuratPengantarWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SuratPengantarScalarFieldEnum | Prisma.SuratPengantarScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.mutasi
+ */
+export type Komunitas$mutasiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MutasiWarga
+   */
+  select?: Prisma.MutasiWargaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MutasiWarga
+   */
+  omit?: Prisma.MutasiWargaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MutasiWargaInclude<ExtArgs> | null
+  where?: Prisma.MutasiWargaWhereInput
+  orderBy?: Prisma.MutasiWargaOrderByWithRelationInput | Prisma.MutasiWargaOrderByWithRelationInput[]
+  cursor?: Prisma.MutasiWargaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MutasiWargaScalarFieldEnum | Prisma.MutasiWargaScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.programKerja
+ */
+export type Komunitas$programKerjaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProgramKerja
+   */
+  select?: Prisma.ProgramKerjaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProgramKerja
+   */
+  omit?: Prisma.ProgramKerjaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProgramKerjaInclude<ExtArgs> | null
+  where?: Prisma.ProgramKerjaWhereInput
+  orderBy?: Prisma.ProgramKerjaOrderByWithRelationInput | Prisma.ProgramKerjaOrderByWithRelationInput[]
+  cursor?: Prisma.ProgramKerjaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProgramKerjaScalarFieldEnum | Prisma.ProgramKerjaScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.inventaris
+ */
+export type Komunitas$inventarisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventarisAset
+   */
+  select?: Prisma.InventarisAsetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventarisAset
+   */
+  omit?: Prisma.InventarisAsetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventarisAsetInclude<ExtArgs> | null
+  where?: Prisma.InventarisAsetWhereInput
+  orderBy?: Prisma.InventarisAsetOrderByWithRelationInput | Prisma.InventarisAsetOrderByWithRelationInput[]
+  cursor?: Prisma.InventarisAsetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventarisAsetScalarFieldEnum | Prisma.InventarisAsetScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.evaluasi
+ */
+export type Komunitas$evaluasiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EvaluasiTahunan
+   */
+  select?: Prisma.EvaluasiTahunanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EvaluasiTahunan
+   */
+  omit?: Prisma.EvaluasiTahunanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluasiTahunanInclude<ExtArgs> | null
+  where?: Prisma.EvaluasiTahunanWhereInput
+  orderBy?: Prisma.EvaluasiTahunanOrderByWithRelationInput | Prisma.EvaluasiTahunanOrderByWithRelationInput[]
+  cursor?: Prisma.EvaluasiTahunanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EvaluasiTahunanScalarFieldEnum | Prisma.EvaluasiTahunanScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.arisan
+ */
+export type Komunitas$arisanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the KelompokArisan
+   */
+  select?: Prisma.KelompokArisanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the KelompokArisan
+   */
+  omit?: Prisma.KelompokArisanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KelompokArisanInclude<ExtArgs> | null
+  where?: Prisma.KelompokArisanWhereInput
+  orderBy?: Prisma.KelompokArisanOrderByWithRelationInput | Prisma.KelompokArisanOrderByWithRelationInput[]
+  cursor?: Prisma.KelompokArisanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.KelompokArisanScalarFieldEnum | Prisma.KelompokArisanScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.hutangPiutang
+ */
+export type Komunitas$hutangPiutangArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HutangPiutang
+   */
+  select?: Prisma.HutangPiutangSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HutangPiutang
+   */
+  omit?: Prisma.HutangPiutangOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HutangPiutangInclude<ExtArgs> | null
+  where?: Prisma.HutangPiutangWhereInput
+  orderBy?: Prisma.HutangPiutangOrderByWithRelationInput | Prisma.HutangPiutangOrderByWithRelationInput[]
+  cursor?: Prisma.HutangPiutangWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HutangPiutangScalarFieldEnum | Prisma.HutangPiutangScalarFieldEnum[]
+}
+
+/**
+ * Komunitas.pengaturan
+ */
+export type Komunitas$pengaturanArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PengaturanAplikasi
+   */
+  select?: Prisma.PengaturanAplikasiSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PengaturanAplikasi
+   */
+  omit?: Prisma.PengaturanAplikasiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PengaturanAplikasiInclude<ExtArgs> | null
+  where?: Prisma.PengaturanAplikasiWhereInput
+}
+
+/**
+ * Komunitas.rombongan
+ */
+export type Komunitas$rombonganArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Rombongan
+   */
+  select?: Prisma.RombonganSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Rombongan
+   */
+  omit?: Prisma.RombonganOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RombonganInclude<ExtArgs> | null
+  where?: Prisma.RombonganWhereInput
+  orderBy?: Prisma.RombonganOrderByWithRelationInput | Prisma.RombonganOrderByWithRelationInput[]
+  cursor?: Prisma.RombonganWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RombonganScalarFieldEnum | Prisma.RombonganScalarFieldEnum[]
 }
 
 /**

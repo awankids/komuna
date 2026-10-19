@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 // Helper to parse "YYYY-MM-DD" or ISO string into a safe UTC Date
 const parseUtcDate = (dateStr: string) => {
@@ -15,6 +16,11 @@ const parseUtcDate = (dateStr: string) => {
 // GET all agenda for a month & year (or all if omitted)
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const month = searchParams.get('month');
     const year = searchParams.get('year');
@@ -29,6 +35,7 @@ export async function GET(request: Request) {
 
       const agendaList = await db.agenda.findMany({
         where: {
+          komunitasId: tenant.komunitasId,
           tanggal: {
             gte: startOfMonth,
             lte: endOfMonth,
@@ -43,8 +50,11 @@ export async function GET(request: Request) {
       return NextResponse.json(agendaList);
     }
 
-    // Default: return all
+    // Default: return all for this tenant
     const allAgenda = await db.agenda.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       orderBy: [
         { tanggal: 'asc' },
         { waktuMulai: 'asc' },
@@ -61,6 +71,7 @@ export async function GET(request: Request) {
 // POST create new agenda
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { judul, kategori, tanggal, waktuMulai, waktuSelesai, lokasi, keterangan, status } = body;
 
@@ -80,6 +91,7 @@ export async function POST(request: Request) {
         lokasi: lokasi || null,
         keterangan: keterangan || null,
         status: status || 'terjadwal',
+        komunitasId: tenant.komunitasId,
       },
     });
 
@@ -107,11 +119,19 @@ export async function POST(request: Request) {
 // PUT update existing agenda
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { id, judul, kategori, tanggal, waktuMulai, waktuSelesai, lokasi, keterangan, status } = body;
 
     if (!id) {
       return NextResponse.json({ error: 'ID agenda wajib dicantumkan' }, { status: 400 });
+    }
+
+    const existing = await db.agenda.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Agenda tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     const updateData: any = {};
@@ -139,11 +159,19 @@ export async function PUT(request: Request) {
 // DELETE an agenda
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
     if (!id) {
       return NextResponse.json({ error: 'ID agenda wajib dicantumkan' }, { status: 400 });
+    }
+
+    const existing = await db.agenda.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Agenda tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     await db.agenda.delete({

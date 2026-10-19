@@ -6,57 +6,68 @@ export async function GET(request: Request) {
   try {
     const demoEmail = 'demo@komuna.id';
     
-    // 1. Get or create demo user
+    // 1. Get demo-sandbox Komunitas
+    let demoKomunitas = await db.komunitas.findFirst({
+      where: { slug: 'demo-sandbox' },
+    });
+
+    if (!demoKomunitas) {
+      demoKomunitas = await db.komunitas.create({
+        data: {
+          nama: 'RT 04 Sukamaju (Simulasi Demo)',
+          slug: 'demo-sandbox',
+          tingkatWilayah: 'RT',
+          noRt: '04',
+          noRw: '02',
+          dusunPerumahan: 'Kampung Sukamaju',
+          desaKelurahan: 'Sukamaju',
+          kecamatan: 'Cilodong',
+          kotaKabupaten: 'Kota Depok',
+          provinsi: 'Jawa Barat',
+          targetJimpitan: 3000000,
+          temaWarna: 'orange',
+          modulAktif: 'jimpitan,kas,anggota,arisan,surat,inventaris',
+        },
+      });
+    }
+
+    // 2. Get or create demo user under demo-sandbox
     let user = await db.user.findUnique({
       where: { email: demoEmail },
       include: { komunitas: true },
     });
 
     if (!user) {
-      // Find default komunitas or create one
-      let defaultKomunitas = await db.komunitas.findFirst();
-      if (!defaultKomunitas) {
-        defaultKomunitas = await db.komunitas.create({
-          data: {
-            nama: 'RT 04 Dayu (Demo)',
-            slug: 'demo-rt04',
-            tingkatWilayah: 'RT',
-            noRt: '04',
-            dusunPerumahan: 'Dayu DK1',
-            desaKelurahan: 'Sinduharjo',
-            kecamatan: 'Ngaglik',
-            kotaKabupaten: 'Kabupaten Sleman',
-            provinsi: 'D.I. Yogyakarta',
-            targetJimpitan: 3000000,
-            temaWarna: 'orange',
-            modulAktif: 'jimpitan,kas,anggota,arisan,surat,inventaris',
-          },
-        });
-      }
-
       user = await db.user.create({
         data: {
-          nama: 'Pengurus Demo (Simulasi RT)',
+          nama: 'Pengurus Demo (Simulasi Sukamaju)',
           email: demoEmail,
           noHp: '081200000000',
           passwordHash: hashPassword('demokomuna123'),
           role: 'ADMIN',
           jabatan: 'Ketua RT (Demo)',
           statusAktif: true,
-          komunitasId: defaultKomunitas.id,
+          komunitasId: demoKomunitas.id,
         },
+        include: { komunitas: true },
+      });
+    } else if (user.komunitasId !== demoKomunitas.id) {
+      // Re-bind to demo sandbox if it was pointing to any other komunitas
+      user = await db.user.update({
+        where: { id: user.id },
+        data: { komunitasId: demoKomunitas.id },
         include: { komunitas: true },
       });
     }
 
-    // 2. Set active session cookies
+    // 3. Set active session cookies
     await setSessionCookies({
       id: user.id,
       nama: user.nama,
       email: user.email,
       role: user.role,
-      komunitasId: user.komunitasId,
-      komunitasNama: user.komunitas?.nama || 'RT Dayu 02',
+      komunitasId: demoKomunitas.id,
+      komunitasNama: demoKomunitas.nama,
       jabatan: user.jabatan || 'Ketua RT (Demo)',
     });
 
@@ -75,43 +86,54 @@ export async function POST(request: Request) {
   try {
     const demoEmail = 'demo@komuna.id';
     
+    // 1. Get demo-sandbox Komunitas
+    let demoKomunitas = await db.komunitas.findFirst({
+      where: { slug: 'demo-sandbox' },
+    });
+
+    if (!demoKomunitas) {
+      demoKomunitas = await db.komunitas.create({
+        data: {
+          nama: 'RT 04 Sukamaju (Simulasi Demo)',
+          slug: 'demo-sandbox',
+          tingkatWilayah: 'RT',
+          noRt: '04',
+          noRw: '02',
+          dusunPerumahan: 'Kampung Sukamaju',
+          desaKelurahan: 'Sukamaju',
+          kecamatan: 'Cilodong',
+          kotaKabupaten: 'Kota Depok',
+          provinsi: 'Jawa Barat',
+          targetJimpitan: 3000000,
+          temaWarna: 'orange',
+          modulAktif: 'jimpitan,kas,anggota,arisan,surat,inventaris',
+        },
+      });
+    }
+
     let user = await db.user.findUnique({
       where: { email: demoEmail },
       include: { komunitas: true },
     });
 
     if (!user) {
-      let defaultKomunitas = await db.komunitas.findFirst();
-      if (!defaultKomunitas) {
-        defaultKomunitas = await db.komunitas.create({
-          data: {
-            nama: 'RT 04 Dayu (Demo)',
-            slug: 'demo-rt04',
-            tingkatWilayah: 'RT',
-            noRt: '04',
-            dusunPerumahan: 'Dayu DK1',
-            desaKelurahan: 'Sinduharjo',
-            kecamatan: 'Ngaglik',
-            kotaKabupaten: 'Kabupaten Sleman',
-            provinsi: 'D.I. Yogyakarta',
-            targetJimpitan: 3000000,
-            temaWarna: 'orange',
-            modulAktif: 'jimpitan,kas,anggota,arisan,surat,inventaris',
-          },
-        });
-      }
-
       user = await db.user.create({
         data: {
-          nama: 'Pengurus Demo (Simulasi RT)',
+          nama: 'Pengurus Demo (Simulasi Sukamaju)',
           email: demoEmail,
           noHp: '081200000000',
           passwordHash: hashPassword('demokomuna123'),
           role: 'ADMIN',
           jabatan: 'Ketua RT (Demo)',
           statusAktif: true,
-          komunitasId: defaultKomunitas.id,
+          komunitasId: demoKomunitas.id,
         },
+        include: { komunitas: true },
+      });
+    } else if (user.komunitasId !== demoKomunitas.id) {
+      user = await db.user.update({
+        where: { id: user.id },
+        data: { komunitasId: demoKomunitas.id },
         include: { komunitas: true },
       });
     }
@@ -121,8 +143,8 @@ export async function POST(request: Request) {
       nama: user.nama,
       email: user.email,
       role: user.role,
-      komunitasId: user.komunitasId,
-      komunitasNama: user.komunitas?.nama || 'RT Dayu 02',
+      komunitasId: demoKomunitas.id,
+      komunitasNama: demoKomunitas.nama,
       jabatan: user.jabatan || 'Ketua RT (Demo)',
     });
 

@@ -35,6 +35,7 @@ export type AgendaMinAggregateOutputType = {
   keterangan: string | null
   status: string | null
   createdAt: Date | null
+  komunitasId: string | null
 }
 
 export type AgendaMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type AgendaMaxAggregateOutputType = {
   keterangan: string | null
   status: string | null
   createdAt: Date | null
+  komunitasId: string | null
 }
 
 export type AgendaCountAggregateOutputType = {
@@ -61,6 +63,7 @@ export type AgendaCountAggregateOutputType = {
   keterangan: number
   status: number
   createdAt: number
+  komunitasId: number
   _all: number
 }
 
@@ -76,6 +79,7 @@ export type AgendaMinAggregateInputType = {
   keterangan?: true
   status?: true
   createdAt?: true
+  komunitasId?: true
 }
 
 export type AgendaMaxAggregateInputType = {
@@ -89,6 +93,7 @@ export type AgendaMaxAggregateInputType = {
   keterangan?: true
   status?: true
   createdAt?: true
+  komunitasId?: true
 }
 
 export type AgendaCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type AgendaCountAggregateInputType = {
   keterangan?: true
   status?: true
   createdAt?: true
+  komunitasId?: true
   _all?: true
 }
 
@@ -188,6 +194,7 @@ export type AgendaGroupByOutputType = {
   keterangan: string | null
   status: string
   createdAt: Date
+  komunitasId: string | null
   _count: AgendaCountAggregateOutputType | null
   _min: AgendaMinAggregateOutputType | null
   _max: AgendaMaxAggregateOutputType | null
@@ -222,6 +229,8 @@ export type AgendaWhereInput = {
   keterangan?: Prisma.StringNullableFilter<"Agenda"> | string | null
   status?: Prisma.StringFilter<"Agenda"> | string
   createdAt?: Prisma.DateTimeFilter<"Agenda"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"Agenda"> | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   putaranArisan?: Prisma.PutaranArisanListRelationFilter
 }
 
@@ -236,6 +245,8 @@ export type AgendaOrderByWithRelationInput = {
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
+  komunitas?: Prisma.KomunitasOrderByWithRelationInput
   putaranArisan?: Prisma.PutaranArisanOrderByRelationAggregateInput
 }
 
@@ -253,6 +264,8 @@ export type AgendaWhereUniqueInput = Prisma.AtLeast<{
   keterangan?: Prisma.StringNullableFilter<"Agenda"> | string | null
   status?: Prisma.StringFilter<"Agenda"> | string
   createdAt?: Prisma.DateTimeFilter<"Agenda"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"Agenda"> | string | null
+  komunitas?: Prisma.XOR<Prisma.KomunitasNullableScalarRelationFilter, Prisma.KomunitasWhereInput> | null
   putaranArisan?: Prisma.PutaranArisanListRelationFilter
 }, "id">
 
@@ -267,6 +280,7 @@ export type AgendaOrderByWithAggregationInput = {
   keterangan?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AgendaCountOrderByAggregateInput
   _max?: Prisma.AgendaMaxOrderByAggregateInput
   _min?: Prisma.AgendaMinOrderByAggregateInput
@@ -286,6 +300,7 @@ export type AgendaScalarWhereWithAggregatesInput = {
   keterangan?: Prisma.StringNullableWithAggregatesFilter<"Agenda"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Agenda"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Agenda"> | Date | string
+  komunitasId?: Prisma.StringNullableWithAggregatesFilter<"Agenda"> | string | null
 }
 
 export type AgendaCreateInput = {
@@ -299,6 +314,7 @@ export type AgendaCreateInput = {
   keterangan?: string | null
   status?: string
   createdAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutAgendaInput
   putaranArisan?: Prisma.PutaranArisanCreateNestedManyWithoutAgendaInput
 }
 
@@ -313,6 +329,7 @@ export type AgendaUncheckedCreateInput = {
   keterangan?: string | null
   status?: string
   createdAt?: Date | string
+  komunitasId?: string | null
   putaranArisan?: Prisma.PutaranArisanUncheckedCreateNestedManyWithoutAgendaInput
 }
 
@@ -327,6 +344,7 @@ export type AgendaUpdateInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutAgendaNestedInput
   putaranArisan?: Prisma.PutaranArisanUpdateManyWithoutAgendaNestedInput
 }
 
@@ -341,6 +359,7 @@ export type AgendaUncheckedUpdateInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   putaranArisan?: Prisma.PutaranArisanUncheckedUpdateManyWithoutAgendaNestedInput
 }
 
@@ -355,6 +374,7 @@ export type AgendaCreateManyInput = {
   keterangan?: string | null
   status?: string
   createdAt?: Date | string
+  komunitasId?: string | null
 }
 
 export type AgendaUpdateManyMutationInput = {
@@ -381,6 +401,17 @@ export type AgendaUncheckedUpdateManyInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AgendaListRelationFilter = {
+  every?: Prisma.AgendaWhereInput
+  some?: Prisma.AgendaWhereInput
+  none?: Prisma.AgendaWhereInput
+}
+
+export type AgendaOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type AgendaCountOrderByAggregateInput = {
@@ -394,6 +425,7 @@ export type AgendaCountOrderByAggregateInput = {
   keterangan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type AgendaMaxOrderByAggregateInput = {
@@ -407,6 +439,7 @@ export type AgendaMaxOrderByAggregateInput = {
   keterangan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type AgendaMinOrderByAggregateInput = {
@@ -420,11 +453,54 @@ export type AgendaMinOrderByAggregateInput = {
   keterangan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  komunitasId?: Prisma.SortOrder
 }
 
 export type AgendaNullableScalarRelationFilter = {
   is?: Prisma.AgendaWhereInput | null
   isNot?: Prisma.AgendaWhereInput | null
+}
+
+export type AgendaCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.AgendaCreateWithoutKomunitasInput, Prisma.AgendaUncheckedCreateWithoutKomunitasInput> | Prisma.AgendaCreateWithoutKomunitasInput[] | Prisma.AgendaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.AgendaCreateOrConnectWithoutKomunitasInput | Prisma.AgendaCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.AgendaCreateManyKomunitasInputEnvelope
+  connect?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+}
+
+export type AgendaUncheckedCreateNestedManyWithoutKomunitasInput = {
+  create?: Prisma.XOR<Prisma.AgendaCreateWithoutKomunitasInput, Prisma.AgendaUncheckedCreateWithoutKomunitasInput> | Prisma.AgendaCreateWithoutKomunitasInput[] | Prisma.AgendaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.AgendaCreateOrConnectWithoutKomunitasInput | Prisma.AgendaCreateOrConnectWithoutKomunitasInput[]
+  createMany?: Prisma.AgendaCreateManyKomunitasInputEnvelope
+  connect?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+}
+
+export type AgendaUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.AgendaCreateWithoutKomunitasInput, Prisma.AgendaUncheckedCreateWithoutKomunitasInput> | Prisma.AgendaCreateWithoutKomunitasInput[] | Prisma.AgendaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.AgendaCreateOrConnectWithoutKomunitasInput | Prisma.AgendaCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.AgendaUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.AgendaUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.AgendaCreateManyKomunitasInputEnvelope
+  set?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  disconnect?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  delete?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  connect?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  update?: Prisma.AgendaUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.AgendaUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.AgendaUpdateManyWithWhereWithoutKomunitasInput | Prisma.AgendaUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.AgendaScalarWhereInput | Prisma.AgendaScalarWhereInput[]
+}
+
+export type AgendaUncheckedUpdateManyWithoutKomunitasNestedInput = {
+  create?: Prisma.XOR<Prisma.AgendaCreateWithoutKomunitasInput, Prisma.AgendaUncheckedCreateWithoutKomunitasInput> | Prisma.AgendaCreateWithoutKomunitasInput[] | Prisma.AgendaUncheckedCreateWithoutKomunitasInput[]
+  connectOrCreate?: Prisma.AgendaCreateOrConnectWithoutKomunitasInput | Prisma.AgendaCreateOrConnectWithoutKomunitasInput[]
+  upsert?: Prisma.AgendaUpsertWithWhereUniqueWithoutKomunitasInput | Prisma.AgendaUpsertWithWhereUniqueWithoutKomunitasInput[]
+  createMany?: Prisma.AgendaCreateManyKomunitasInputEnvelope
+  set?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  disconnect?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  delete?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  connect?: Prisma.AgendaWhereUniqueInput | Prisma.AgendaWhereUniqueInput[]
+  update?: Prisma.AgendaUpdateWithWhereUniqueWithoutKomunitasInput | Prisma.AgendaUpdateWithWhereUniqueWithoutKomunitasInput[]
+  updateMany?: Prisma.AgendaUpdateManyWithWhereWithoutKomunitasInput | Prisma.AgendaUpdateManyWithWhereWithoutKomunitasInput[]
+  deleteMany?: Prisma.AgendaScalarWhereInput | Prisma.AgendaScalarWhereInput[]
 }
 
 export type AgendaCreateNestedOneWithoutPutaranArisanInput = {
@@ -443,6 +519,77 @@ export type AgendaUpdateOneWithoutPutaranArisanNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AgendaUpdateToOneWithWhereWithoutPutaranArisanInput, Prisma.AgendaUpdateWithoutPutaranArisanInput>, Prisma.AgendaUncheckedUpdateWithoutPutaranArisanInput>
 }
 
+export type AgendaCreateWithoutKomunitasInput = {
+  id?: string
+  judul: string
+  kategori?: string
+  tanggal: Date | string
+  waktuMulai?: string | null
+  waktuSelesai?: string | null
+  lokasi?: string | null
+  keterangan?: string | null
+  status?: string
+  createdAt?: Date | string
+  putaranArisan?: Prisma.PutaranArisanCreateNestedManyWithoutAgendaInput
+}
+
+export type AgendaUncheckedCreateWithoutKomunitasInput = {
+  id?: string
+  judul: string
+  kategori?: string
+  tanggal: Date | string
+  waktuMulai?: string | null
+  waktuSelesai?: string | null
+  lokasi?: string | null
+  keterangan?: string | null
+  status?: string
+  createdAt?: Date | string
+  putaranArisan?: Prisma.PutaranArisanUncheckedCreateNestedManyWithoutAgendaInput
+}
+
+export type AgendaCreateOrConnectWithoutKomunitasInput = {
+  where: Prisma.AgendaWhereUniqueInput
+  create: Prisma.XOR<Prisma.AgendaCreateWithoutKomunitasInput, Prisma.AgendaUncheckedCreateWithoutKomunitasInput>
+}
+
+export type AgendaCreateManyKomunitasInputEnvelope = {
+  data: Prisma.AgendaCreateManyKomunitasInput | Prisma.AgendaCreateManyKomunitasInput[]
+  skipDuplicates?: boolean
+}
+
+export type AgendaUpsertWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.AgendaWhereUniqueInput
+  update: Prisma.XOR<Prisma.AgendaUpdateWithoutKomunitasInput, Prisma.AgendaUncheckedUpdateWithoutKomunitasInput>
+  create: Prisma.XOR<Prisma.AgendaCreateWithoutKomunitasInput, Prisma.AgendaUncheckedCreateWithoutKomunitasInput>
+}
+
+export type AgendaUpdateWithWhereUniqueWithoutKomunitasInput = {
+  where: Prisma.AgendaWhereUniqueInput
+  data: Prisma.XOR<Prisma.AgendaUpdateWithoutKomunitasInput, Prisma.AgendaUncheckedUpdateWithoutKomunitasInput>
+}
+
+export type AgendaUpdateManyWithWhereWithoutKomunitasInput = {
+  where: Prisma.AgendaScalarWhereInput
+  data: Prisma.XOR<Prisma.AgendaUpdateManyMutationInput, Prisma.AgendaUncheckedUpdateManyWithoutKomunitasInput>
+}
+
+export type AgendaScalarWhereInput = {
+  AND?: Prisma.AgendaScalarWhereInput | Prisma.AgendaScalarWhereInput[]
+  OR?: Prisma.AgendaScalarWhereInput[]
+  NOT?: Prisma.AgendaScalarWhereInput | Prisma.AgendaScalarWhereInput[]
+  id?: Prisma.StringFilter<"Agenda"> | string
+  judul?: Prisma.StringFilter<"Agenda"> | string
+  kategori?: Prisma.StringFilter<"Agenda"> | string
+  tanggal?: Prisma.DateTimeFilter<"Agenda"> | Date | string
+  waktuMulai?: Prisma.StringNullableFilter<"Agenda"> | string | null
+  waktuSelesai?: Prisma.StringNullableFilter<"Agenda"> | string | null
+  lokasi?: Prisma.StringNullableFilter<"Agenda"> | string | null
+  keterangan?: Prisma.StringNullableFilter<"Agenda"> | string | null
+  status?: Prisma.StringFilter<"Agenda"> | string
+  createdAt?: Prisma.DateTimeFilter<"Agenda"> | Date | string
+  komunitasId?: Prisma.StringNullableFilter<"Agenda"> | string | null
+}
+
 export type AgendaCreateWithoutPutaranArisanInput = {
   id?: string
   judul: string
@@ -454,6 +601,7 @@ export type AgendaCreateWithoutPutaranArisanInput = {
   keterangan?: string | null
   status?: string
   createdAt?: Date | string
+  komunitas?: Prisma.KomunitasCreateNestedOneWithoutAgendaInput
 }
 
 export type AgendaUncheckedCreateWithoutPutaranArisanInput = {
@@ -467,6 +615,7 @@ export type AgendaUncheckedCreateWithoutPutaranArisanInput = {
   keterangan?: string | null
   status?: string
   createdAt?: Date | string
+  komunitasId?: string | null
 }
 
 export type AgendaCreateOrConnectWithoutPutaranArisanInput = {
@@ -496,9 +645,65 @@ export type AgendaUpdateWithoutPutaranArisanInput = {
   keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitas?: Prisma.KomunitasUpdateOneWithoutAgendaNestedInput
 }
 
 export type AgendaUncheckedUpdateWithoutPutaranArisanInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  judul?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  waktuMulai?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuSelesai?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  komunitasId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AgendaCreateManyKomunitasInput = {
+  id?: string
+  judul: string
+  kategori?: string
+  tanggal: Date | string
+  waktuMulai?: string | null
+  waktuSelesai?: string | null
+  lokasi?: string | null
+  keterangan?: string | null
+  status?: string
+  createdAt?: Date | string
+}
+
+export type AgendaUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  judul?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  waktuMulai?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuSelesai?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  putaranArisan?: Prisma.PutaranArisanUpdateManyWithoutAgendaNestedInput
+}
+
+export type AgendaUncheckedUpdateWithoutKomunitasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  judul?: Prisma.StringFieldUpdateOperationsInput | string
+  kategori?: Prisma.StringFieldUpdateOperationsInput | string
+  tanggal?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  waktuMulai?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  waktuSelesai?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lokasi?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keterangan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  putaranArisan?: Prisma.PutaranArisanUncheckedUpdateManyWithoutAgendaNestedInput
+}
+
+export type AgendaUncheckedUpdateManyWithoutKomunitasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   judul?: Prisma.StringFieldUpdateOperationsInput | string
   kategori?: Prisma.StringFieldUpdateOperationsInput | string
@@ -553,6 +758,8 @@ export type AgendaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   keterangan?: boolean
   status?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.Agenda$komunitasArgs<ExtArgs>
   putaranArisan?: boolean | Prisma.Agenda$putaranArisanArgs<ExtArgs>
   _count?: boolean | Prisma.AgendaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["agenda"]>
@@ -568,6 +775,8 @@ export type AgendaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   keterangan?: boolean
   status?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.Agenda$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["agenda"]>
 
 export type AgendaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -581,6 +790,8 @@ export type AgendaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   keterangan?: boolean
   status?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
+  komunitas?: boolean | Prisma.Agenda$komunitasArgs<ExtArgs>
 }, ExtArgs["result"]["agenda"]>
 
 export type AgendaSelectScalar = {
@@ -594,19 +805,26 @@ export type AgendaSelectScalar = {
   keterangan?: boolean
   status?: boolean
   createdAt?: boolean
+  komunitasId?: boolean
 }
 
-export type AgendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "judul" | "kategori" | "tanggal" | "waktuMulai" | "waktuSelesai" | "lokasi" | "keterangan" | "status" | "createdAt", ExtArgs["result"]["agenda"]>
+export type AgendaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "judul" | "kategori" | "tanggal" | "waktuMulai" | "waktuSelesai" | "lokasi" | "keterangan" | "status" | "createdAt" | "komunitasId", ExtArgs["result"]["agenda"]>
 export type AgendaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.Agenda$komunitasArgs<ExtArgs>
   putaranArisan?: boolean | Prisma.Agenda$putaranArisanArgs<ExtArgs>
   _count?: boolean | Prisma.AgendaCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type AgendaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type AgendaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AgendaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.Agenda$komunitasArgs<ExtArgs>
+}
+export type AgendaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  komunitas?: boolean | Prisma.Agenda$komunitasArgs<ExtArgs>
+}
 
 export type $AgendaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Agenda"
   objects: {
+    komunitas: Prisma.$KomunitasPayload<ExtArgs> | null
     putaranArisan: Prisma.$PutaranArisanPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -620,6 +838,7 @@ export type $AgendaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     keterangan: string | null
     status: string
     createdAt: Date
+    komunitasId: string | null
   }, ExtArgs["result"]["agenda"]>
   composites: {}
 }
@@ -1014,6 +1233,7 @@ readonly fields: AgendaFieldRefs;
  */
 export interface Prisma__AgendaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  komunitas<T extends Prisma.Agenda$komunitasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Agenda$komunitasArgs<ExtArgs>>): Prisma.Prisma__KomunitasClient<runtime.Types.Result.GetResult<Prisma.$KomunitasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   putaranArisan<T extends Prisma.Agenda$putaranArisanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Agenda$putaranArisanArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PutaranArisanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1054,6 +1274,7 @@ export interface AgendaFieldRefs {
   readonly keterangan: Prisma.FieldRef<"Agenda", 'String'>
   readonly status: Prisma.FieldRef<"Agenda", 'String'>
   readonly createdAt: Prisma.FieldRef<"Agenda", 'DateTime'>
+  readonly komunitasId: Prisma.FieldRef<"Agenda", 'String'>
 }
     
 
@@ -1308,6 +1529,10 @@ export type AgendaCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    */
   data: Prisma.AgendaCreateManyInput | Prisma.AgendaCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AgendaIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1378,6 +1603,10 @@ export type AgendaUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many Agenda to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AgendaIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1444,6 +1673,25 @@ export type AgendaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Agenda to delete.
    */
   limit?: number
+}
+
+/**
+ * Agenda.komunitas
+ */
+export type Agenda$komunitasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Komunitas
+   */
+  select?: Prisma.KomunitasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Komunitas
+   */
+  omit?: Prisma.KomunitasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KomunitasInclude<ExtArgs> | null
+  where?: Prisma.KomunitasWhereInput
 }
 
 /**

@@ -1,12 +1,26 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { requireTenantContext } from '@/lib/auth';
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const tenant = await requireTenantContext();
     const { id: kelompokId } = await params;
+
+    const kelompok = await db.kelompokArisan.findFirst({
+      where: { id: kelompokId, komunitasId: tenant.komunitasId },
+    });
+
+    if (!kelompok) {
+      return NextResponse.json(
+        { success: false, error: 'Kelompok arisan tidak ditemukan atau Anda tidak memiliki akses' },
+        { status: 404 }
+      );
+    }
+
     const body = await request.json();
     const {
       putaranId,

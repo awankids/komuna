@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext, requireTenantContext } from '@/lib/auth';
 
 function calculateAge(birthDate: Date | string | null): number | null {
   if (!birthDate) return null;
@@ -14,214 +15,13 @@ function calculateAge(birthDate: Date | string | null): number | null {
   return age;
 }
 
-// Auto-seed sample family members if only household heads exist
-async function autoSeedFamilyMembers() {
-  try {
-    const familyMemberCount = await db.anggota.count({
-      where: { statusKeluarga: { in: ['istri', 'anak', 'orang_tua', 'famili_lain'] } }
-    });
-
-    if (familyMemberCount === 0) {
-      // Find top 3 Kepala Keluarga to attach realistic family members
-      const agus = await db.anggota.findFirst({ where: { nama: { contains: 'Agus Nur Setyawan' } } });
-      const anto = await db.anggota.findFirst({ where: { nama: { contains: 'Anto (Klitik)' } } });
-      const aris = await db.anggota.findFirst({ where: { nama: { contains: 'Aris Putranto' } } });
-
-      if (agus) {
-        await db.anggota.update({
-          where: { id: agus.id },
-          data: {
-            noKk: '3302101201080001',
-            statusKeluarga: 'kepala_keluarga',
-            jenisKelamin: 'Laki-laki',
-            tempatLahir: 'Banyumas',
-            tanggalLahir: new Date('1982-05-14'),
-            pekerjaan: 'Wiraswasta',
-            statusPerkawinan: 'Kawin',
-            isWajibJimpitan: true,
-            isWajibRonda: true
-          }
-        });
-
-        // Add Istri & 2 Anak
-        await db.anggota.createMany({
-          data: [
-            {
-              nama: 'Ny. Ratna Sari Dewi',
-              noRumah: agus.noRumah,
-              noKk: '3302101201080001',
-              nik: '3302105204850001',
-              statusKeluarga: 'istri',
-              kepalaKeluargaId: agus.id,
-              jenisKelamin: 'Perempuan',
-              tempatLahir: 'Banyumas',
-              tanggalLahir: new Date('1985-04-12'),
-              agama: 'Islam',
-              pekerjaan: 'Guru',
-              statusPerkawinan: 'Kawin',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            },
-            {
-              nama: 'Muhammad Dwi Setyawan',
-              noRumah: agus.noRumah,
-              noKk: '3302101201080001',
-              nik: '3302101708080002',
-              statusKeluarga: 'anak',
-              kepalaKeluargaId: agus.id,
-              jenisKelamin: 'Laki-laki',
-              tempatLahir: 'Banyumas',
-              tanggalLahir: new Date('2008-08-17'), // 18 thn
-              agama: 'Islam',
-              pekerjaan: 'Pelajar / Mahasiswa',
-              statusPerkawinan: 'Belum Kawin',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            },
-            {
-              nama: 'Aisyah Putri Setyawan',
-              noRumah: agus.noRumah,
-              noKk: '3302101201080001',
-              nik: '3302106503220003',
-              statusKeluarga: 'anak',
-              kepalaKeluargaId: agus.id,
-              jenisKelamin: 'Perempuan',
-              tempatLahir: 'Banyumas',
-              tanggalLahir: new Date('2022-03-25'), // Balita 4 thn
-              agama: 'Islam',
-              pekerjaan: 'Belum Bekerja',
-              statusPerkawinan: 'Belum Kawin',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            }
-          ]
-        });
-      }
-
-      if (anto) {
-        await db.anggota.update({
-          where: { id: anto.id },
-          data: {
-            noKk: '3302101509090002',
-            statusKeluarga: 'kepala_keluarga',
-            jenisKelamin: 'Laki-laki',
-            tempatLahir: 'Cilacap',
-            tanggalLahir: new Date('1984-03-21'),
-            pekerjaan: 'Karyawan Swasta',
-            statusPerkawinan: 'Kawin',
-            isWajibJimpitan: true,
-            isWajibRonda: true
-          }
-        });
-
-        await db.anggota.createMany({
-          data: [
-            {
-              nama: 'Ny. Endang Purwanti',
-              noRumah: anto.noRumah,
-              noKk: '3302101509090002',
-              nik: '3302106011870001',
-              statusKeluarga: 'istri',
-              kepalaKeluargaId: anto.id,
-              jenisKelamin: 'Perempuan',
-              tempatLahir: 'Cilacap',
-              tanggalLahir: new Date('1987-11-20'),
-              agama: 'Islam',
-              pekerjaan: 'Ibu Rumah Tangga',
-              statusPerkawinan: 'Kawin',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            },
-            {
-              nama: 'Bagas Pratama',
-              noRumah: anto.noRumah,
-              noKk: '3302101509090002',
-              nik: '3302101006140001',
-              statusKeluarga: 'anak',
-              kepalaKeluargaId: anto.id,
-              jenisKelamin: 'Laki-laki',
-              tempatLahir: 'Banyumas',
-              tanggalLahir: new Date('2014-06-10'), // Anak 12 thn
-              agama: 'Islam',
-              pekerjaan: 'Pelajar',
-              statusPerkawinan: 'Belum Kawin',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            }
-          ]
-        });
-      }
-
-      if (aris) {
-        await db.anggota.update({
-          where: { id: aris.id },
-          data: {
-            noKk: '3302102004110003',
-            statusKeluarga: 'kepala_keluarga',
-            jenisKelamin: 'Laki-laki',
-            tempatLahir: 'Purwokerto',
-            tanggalLahir: new Date('1980-07-19'),
-            pekerjaan: 'PNS',
-            statusPerkawinan: 'Kawin',
-            isWajibJimpitan: true,
-            isWajibRonda: true
-          }
-        });
-
-        await db.anggota.createMany({
-          data: [
-            {
-              nama: 'Ny. Tri Wahyuni',
-              noRumah: aris.noRumah,
-              noKk: '3302102004110003',
-              nik: '3302104509830002',
-              statusKeluarga: 'istri',
-              kepalaKeluargaId: aris.id,
-              jenisKelamin: 'Perempuan',
-              tempatLahir: 'Purwokerto',
-              tanggalLahir: new Date('1983-09-05'),
-              agama: 'Islam',
-              pekerjaan: 'Bidan',
-              statusPerkawinan: 'Kawin',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            },
-            {
-              nama: 'Mbah Sumardi',
-              noRumah: aris.noRumah,
-              noKk: '3302102004110003',
-              nik: '3302101402520001',
-              statusKeluarga: 'orang_tua',
-              kepalaKeluargaId: aris.id,
-              jenisKelamin: 'Laki-laki',
-              tempatLahir: 'Kebumen',
-              tanggalLahir: new Date('1952-02-14'), // Lansia 74 thn
-              agama: 'Islam',
-              pekerjaan: 'Pensiunan',
-              statusPerkawinan: 'Cerai Mati',
-              isWajibJimpitan: false,
-              isWajibRonda: false,
-              statusAktif: true
-            }
-          ]
-        });
-      }
-    }
-  } catch (err) {
-    console.error('Error auto-seeding family members:', err);
-  }
-}
-
 // GET all anggota (with support for hierarchy, stats, and filters)
 export async function GET(request: Request) {
   try {
-    await autoSeedFamilyMembers();
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
 
     const { searchParams } = new URL(request.url);
     const view = searchParams.get('view') || 'all'; // 'all', 'kk', 'jiwa'
@@ -232,8 +32,11 @@ export async function GET(request: Request) {
     const rombonganId = searchParams.get('rombonganId') || 'all';
     const format = searchParams.get('format') || 'array'; // 'array' (backward compatible) or 'object'
 
-    // Fetch all members with their relations
+    // Fetch members scoped strictly to tenant.komunitasId
     const allMembers = await db.anggota.findMany({
+      where: {
+        komunitasId: tenant.komunitasId,
+      },
       include: {
         rombongan: true,
         kepalaKeluarga: {
@@ -354,6 +157,7 @@ export async function GET(request: Request) {
 // POST new anggota (Support both Kepala Keluarga and Family Member)
 export async function POST(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const {
       nama,
@@ -383,7 +187,9 @@ export async function POST(request: Request) {
     let finalNoKk = noKk;
 
     if (kepalaKeluargaId && statusKeluarga !== 'kepala_keluarga') {
-      const kk = await db.anggota.findUnique({ where: { id: kepalaKeluargaId } });
+      const kk = await db.anggota.findFirst({
+        where: { id: kepalaKeluargaId, komunitasId: tenant.komunitasId }
+      });
       if (kk) {
         if (!finalNoRumah) finalNoRumah = kk.noRumah;
         if (!finalNoKk) finalNoKk = kk.noKk;
@@ -417,6 +223,7 @@ export async function POST(request: Request) {
         isWajibJimpitan: finalWajibJimpitan,
         isWajibRonda: finalWajibRonda,
         rombonganId: isKK && rombonganId && rombonganId !== 'none' ? rombonganId : null, 
+        komunitasId: tenant.komunitasId,
         statusAktif: true 
       },
       include: {
@@ -436,6 +243,7 @@ export async function POST(request: Request) {
 // PUT / UPDATE anggota
 export async function PUT(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const body = await request.json();
     const { 
       id, 
@@ -460,6 +268,14 @@ export async function PUT(request: Request) {
     
     if (!id || !nama || !noRumah) {
       return NextResponse.json({ error: 'ID, Nama, dan Nomor Rumah wajib diisi' }, { status: 400 });
+    }
+
+    // Verify tenant ownership
+    const existing = await db.anggota.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Data anggota tidak ditemukan di komunitas Anda' }, { status: 404 });
     }
 
     const isKK = statusKeluarga === 'kepala_keluarga';
@@ -502,6 +318,7 @@ export async function PUT(request: Request) {
 // DELETE anggota
 export async function DELETE(request: Request) {
   try {
+    const tenant = await requireTenantContext();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     
@@ -509,15 +326,23 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID anggota wajib dicantumkan' }, { status: 400 });
     }
 
+    // Verify tenant ownership
+    const existing = await db.anggota.findFirst({
+      where: { id, komunitasId: tenant.komunitasId }
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Data anggota tidak ditemukan di komunitas Anda' }, { status: 404 });
+    }
+
     // Check if this member is a Kepala Keluarga with active family members
     const familyCount = await db.anggota.count({
-      where: { kepalaKeluargaId: id }
+      where: { kepalaKeluargaId: id, komunitasId: tenant.komunitasId }
     });
 
     if (familyCount > 0) {
       // Detach family members so they don't break foreign key constraints
       await db.anggota.updateMany({
-        where: { kepalaKeluargaId: id },
+        where: { kepalaKeluargaId: id, komunitasId: tenant.komunitasId },
         data: { kepalaKeluargaId: null }
       });
     }

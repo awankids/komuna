@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getTenantContext } from '@/lib/auth';
 
 export async function GET(request: Request) {
   try {
+    const tenant = await getTenantContext();
+    if (!tenant) {
+      return NextResponse.json({ error: 'Tidak memiliki otorisasi komunitas' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const month = searchParams.get('month');
     const year = searchParams.get('year');
@@ -19,13 +25,16 @@ export async function GET(request: Request) {
     const lastDay = new Date(yearNum, monthNum + 1, 0).getDate();
     const endOfMonth = new Date(Date.UTC(yearNum, monthNum, lastDay, 23, 59, 59, 999));
 
-    // Fetch schedules in the month range
+    // Fetch schedules in the month range for this tenant
     const schedules = await db.jadwalPetugas.findMany({
       where: {
         tanggal: {
           gte: startOfMonth,
           lte: endOfMonth,
         },
+        anggota: {
+          komunitasId: tenant.komunitasId,
+        }
       },
       include: {
         anggota: true,
@@ -33,9 +42,10 @@ export async function GET(request: Request) {
       orderBy: { tanggal: 'asc' },
     });
 
-    // Fetch jimpitan inputs in the month range
+    // Fetch jimpitan inputs in the month range for this tenant
     const jimpitan = await db.jimpitan.findMany({
       where: {
+        komunitasId: tenant.komunitasId,
         tanggal: {
           gte: startOfMonth,
           lte: endOfMonth,
@@ -47,6 +57,7 @@ export async function GET(request: Request) {
     // Check if jimpitan of this month has already been sent to Kas RT
     const monthlyKasSent = await db.transaksiKeuangan.findFirst({
       where: {
+        komunitasId: tenant.komunitasId,
         sumber: 'jimpitan',
         tanggal: {
           gte: startOfMonth,
