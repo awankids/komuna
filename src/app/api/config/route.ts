@@ -21,7 +21,7 @@ export async function GET() {
             namaApp: 'komuna.id',
             namaRt: kom.nama || 'RT',
             tagline: 'Kebersamaan, Terpadu, Transparan',
-            targetJimpitan: kom.targetJimpitan || 3000000,
+            targetJimpitan: kom.targetJimpitan || null,
             kotaWilayah: kom.kotaKabupaten || 'Indonesia',
             nomorSk: '',
             periodeAktif: '2024 - 2029',
@@ -40,7 +40,7 @@ export async function GET() {
         namaApp: 'komuna.id',
         namaRt: 'RT',
         tagline: 'Kebersamaan, Terpadu, Transparan',
-        targetJimpitan: 3000000,
+        targetJimpitan: null,
         kotaWilayah: 'Semarang',
         nomorSk: '',
         periodeAktif: '2024 - 2029',
@@ -54,7 +54,7 @@ export async function GET() {
       namaApp: 'komuna.id',
       namaRt: 'RT',
       tagline: 'Kebersamaan, Terpadu, Transparan',
-      targetJimpitan: 3000000,
+      targetJimpitan: null,
       kotaWilayah: 'Semarang',
       nomorSk: '',
       periodeAktif: '2024 - 2029',
@@ -122,5 +122,53 @@ export async function PUT(request: Request) {
   } catch (error) {
     console.error('Failed to update AppConfig:', error);
     return NextResponse.json({ error: 'Gagal memperbarui pengaturan aplikasi' }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const tenant = await requireTenantContext();
+    const body = await request.json();
+    const { targetJimpitan } = body;
+
+    if (targetJimpitan !== undefined) {
+      const val = typeof targetJimpitan === 'number' ? targetJimpitan : parseInt(targetJimpitan, 10);
+      if (isNaN(val) || val < 0) {
+        return NextResponse.json({ error: 'Target nominal tidak valid' }, { status: 400 });
+      }
+
+      const existing = await db.pengaturanAplikasi.findFirst({
+        where: { komunitasId: tenant.komunitasId }
+      });
+
+      if (existing) {
+        await db.pengaturanAplikasi.update({
+          where: { id: existing.id },
+          data: { targetJimpitan: val }
+        });
+      } else {
+        await db.pengaturanAplikasi.create({
+          data: {
+            namaApp: 'komuna.id',
+            namaRt: tenant.komunitasNama || 'RT',
+            tagline: 'Kebersamaan, Terpadu, Transparan',
+            targetJimpitan: val,
+            komunitasId: tenant.komunitasId,
+          }
+        });
+      }
+
+      await db.komunitas.update({
+        where: { id: tenant.komunitasId },
+        data: { targetJimpitan: val }
+      }).catch(() => {});
+
+      return NextResponse.json({ success: true, targetJimpitan: val });
+    }
+
+    return NextResponse.json({ error: 'Tidak ada data untuk diperbarui' }, { status: 400 });
+  } catch (error) {
+    console.error('Failed to patch AppConfig:', error);
+    return NextResponse.json({ error: 'Gagal memperbarui pengaturan' }, { status: 500 });
   }
 }

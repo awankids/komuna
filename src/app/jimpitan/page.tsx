@@ -5,19 +5,9 @@ import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import MobileNavBar from '@/components/MobileNavBar';
 import JimpitanInputRow from '@/components/JimpitanInputRow';
-import { 
-  Calendar, 
-  CheckCircle2, 
-  AlertCircle, 
-  FileSpreadsheet, 
-  Info, 
-  ChevronLeft, 
-  ChevronRight, 
-  Pencil, 
-  Check,
-  Coins
-} from 'lucide-react';
-import Link from 'next/link';
+import { JimpitanFilterBar } from '@/components/jimpitan/JimpitanFilterBar';
+import { JimpitanSummaryCard } from '@/components/jimpitan/JimpitanSummaryCard';
+import { CheckCircle2, AlertCircle, Info, ChevronRight } from 'lucide-react';
 
 // --- MODULE-LEVEL STATIC CONSTANTS (Zero Re-allocation) ---
 const IDR_FORMATTER = new Intl.NumberFormat('id-ID', {
@@ -37,7 +27,10 @@ const MONTH_NAMES: Record<string, string> = {
   '09': 'September', '10': 'Oktober', '11': 'November', '12': 'Desember'
 };
 
-const getMonthName = (monthStr: string): string => MONTH_NAMES[monthStr] || 'Juli';
+const getMonthName = (monthStr: string): string => {
+  const currentMonthKey = String(new Date().getMonth() + 1).padStart(2, '0');
+  return MONTH_NAMES[monthStr] || MONTH_NAMES[currentMonthKey] || 'Bulan';
+};
 
 const DAY_LABELS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'] as const;
 const DAY_NAMES = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as const;
@@ -67,13 +60,14 @@ const getRombonganColor = (rombonganId: string | null, indexMap: Map<string, num
   return ROMBONGAN_COLOR_STYLES[idx % ROMBONGAN_COLOR_STYLES.length];
 };
 
-const sanitizeCSV = (str: string): string => {
+const sanitizeCSV = (val: string | number): string => {
+  const str = String(val ?? '');
   if (!str) return '""';
-  let val = str;
-  if (val.startsWith('=') || val.startsWith('+') || val.startsWith('-') || val.startsWith('@')) {
-    val = `'${val}`;
+  let cleaned = str;
+  if (cleaned.startsWith('=') || cleaned.startsWith('+') || cleaned.startsWith('-') || cleaned.startsWith('@')) {
+    cleaned = `'${cleaned}`;
   }
-  return `"${val.replace(/"/g, '""')}"`;
+  return `"${cleaned.replace(/"/g, '""')}"`;
 };
 
 // --- DATA TYPES ---
@@ -99,6 +93,8 @@ interface DayRecord {
   jadwalId: string | null;
   jimpitanId: string | null;
   nominal: number;
+  diisiOleh: string | null;
+  diisiPada: string | null;
   status: 'sudah_isi' | 'belum_isi' | 'belum_lewat';
   isFuture: boolean;
   isToday: boolean;
@@ -113,9 +109,11 @@ interface JimpitanAPI {
   id: string;
   tanggal: string;
   nominal: number;
+  diisiOleh?: string;
+  diisiPada?: string;
 }
 
-// --- MEMOIZED ROW COMPONENT (Prevents 30 Unnecessary Row Re-renders) ---
+// --- MEMOIZED ROW COMPONENT ---
 const JimpitanRowItem = React.memo(function JimpitanRowItem({
   item,
   isSaving,
@@ -161,7 +159,7 @@ const JimpitanRowItem = React.memo(function JimpitanRowItem({
         </span>
       </div>
 
-      {/* Middle: Officer Info */}
+      {/* Middle: Officer Info & Audit info */}
       <div className="flex-1 flex flex-col justify-center min-w-0 pr-2">
         {item.petugasName !== 'Tanpa Petugas' ? (
           <>
@@ -171,10 +169,15 @@ const JimpitanRowItem = React.memo(function JimpitanRowItem({
               <span className="text-[10px] md:text-[11px] text-slate-400 font-medium mt-0.5">{item.petugasNoRumah}</span>
             )}
             {item.rombonganNama && (
-              <div className="mt-2">
+              <div className="mt-2 flex items-center gap-2 flex-wrap">
                 <span className={`text-[8px] md:text-[9px] font-bold uppercase px-2 py-0.5 rounded-full border whitespace-nowrap ${item.rombonganColorClass}`}>
                   {item.rombonganNama}
                 </span>
+                {item.diisiOleh && item.nominal > 0 && (
+                  <span className="text-[9px] text-slate-400 font-medium">
+                    Diinput: <strong className="text-slate-600 font-semibold">{item.diisiOleh}</strong>
+                  </span>
+                )}
               </div>
             )}
           </>
@@ -194,13 +197,16 @@ const JimpitanRowItem = React.memo(function JimpitanRowItem({
           onSave={onSave}
         />
         <div className="mt-2 flex items-center justify-end w-full pr-5 md:pr-6 relative">
-          <span className={`text-[8px] md:text-[9px] font-bold uppercase px-2 py-0.5 rounded-full tracking-wide ${
-            item.status === 'sudah_isi' 
-              ? 'bg-emerald-50 text-emerald-600' 
-              : item.status === 'belum_isi' 
-                ? 'bg-red-50 text-red-500' 
-                : 'bg-slate-50 text-slate-400'
-          }`}>
+          <span 
+            title={item.diisiOleh ? `Diinput oleh: ${item.diisiOleh}${item.diisiPada ? ` (${item.diisiPada})` : ''}` : undefined}
+            className={`text-[8px] md:text-[9px] font-bold uppercase px-2 py-0.5 rounded-full tracking-wide ${
+              item.status === 'sudah_isi' 
+                ? 'bg-emerald-50 text-emerald-600' 
+                : item.status === 'belum_isi' 
+                  ? 'bg-red-50 text-red-500' 
+                  : 'bg-slate-50 text-slate-400'
+            }`}
+          >
             {item.status === 'sudah_isi' ? 'Diisi' : item.status === 'belum_isi' ? 'Kosong' : 'Belum'}
           </span>
           <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-300 absolute right-0" />
@@ -233,13 +239,13 @@ export default function JimpitanBulananPage() {
   const [selectedRombonganFilter, setSelectedRombonganFilter] = useState('all');
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('all');
 
-  // Per-date saving state (lock only the row being saved, not the whole screen)
+  // Per-date saving state
   const [savingDateKeys, setSavingDateKeys] = useState<Record<string, boolean>>({});
 
   // Ref untuk scroll-to-today otomatis setelah data dimuat
   const todayRowRef = useRef<HTMLDivElement>(null);
 
-  // Target State — null berarti belum dimuat dari server (bukan Rp 3jt hardcoded)
+  // Target State: null jika belum diatur di database
   const [targetBulanIni, setTargetBulanIni] = useState<number | null>(null);
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [isSavingTarget, setIsSavingTarget] = useState(false);
@@ -281,14 +287,13 @@ export default function JimpitanBulananPage() {
     }
   };
 
-  // 1. Load global target ONCE on initial mount (no re-fetching on month changes)
+  // 1. Load global target ONCE on initial mount
   useEffect(() => {
     let isMounted = true;
     fetch('/api/config')
       .then(res => res.json())
       .then(data => {
         if (isMounted) {
-          // Hanya set jika ada nilai positif - jangan pakai fallback hardcoded
           const val = typeof data?.targetJimpitan === 'number' && data.targetJimpitan > 0
             ? data.targetJimpitan
             : null;
@@ -304,7 +309,7 @@ export default function JimpitanBulananPage() {
     };
   }, []);
 
-  // 2. Fetch monthly data & rombongan in parallel with AbortController (prevents race condition)
+  // 2. Fetch monthly data & rombongan in parallel with AbortController
   useEffect(() => {
     const controller = new AbortController();
 
@@ -383,7 +388,7 @@ export default function JimpitanBulananPage() {
             status = 'belum_isi';
           }
 
-          const dayOfWeek = loopDate.getUTCDay(); // 0 = Sun, 1 = Mon ...
+          const dayOfWeek = loopDate.getUTCDay();
           const weekdayNum = dayOfWeek === 0 ? 7 : dayOfWeek;
           const assignedGroup = rombonganPiketMap.get(weekdayNum);
 
@@ -412,6 +417,8 @@ export default function JimpitanBulananPage() {
             jadwalId: sched?.id || null,
             jimpitanId: jimp?.id || null,
             nominal: jimp?.nominal || 0,
+            diisiOleh: jimp?.diisiOleh || null,
+            diisiPada: jimp?.diisiPada ? new Date(jimp.diisiPada).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : null,
             status,
             isFuture,
             isToday
@@ -419,9 +426,9 @@ export default function JimpitanBulananPage() {
         }
 
         setDayRecords(records);
-      } catch (e: any) {
+      } catch (err: unknown) {
         if (!controller.signal.aborted) {
-          console.error(e);
+          console.error(err);
           triggerToast('Gagal memuat rincian jimpitan', 'error');
         }
       } finally {
@@ -436,10 +443,10 @@ export default function JimpitanBulananPage() {
     return () => {
       controller.abort();
     };
-  }, [selectedMonth, selectedYear, triggerToast]);
+  }, [selectedMonth, selectedYear, triggerToast, rombonganList]);
 
-  // Handle month prev/next arrows
-  const handlePrevMonth = () => {
+  // Handle month prev/next navigation
+  const handlePrevMonth = useCallback(() => {
     let m = parseInt(selectedMonth, 10) - 1;
     let y = parseInt(selectedYear, 10);
     if (m === 0) {
@@ -448,9 +455,9 @@ export default function JimpitanBulananPage() {
     }
     setSelectedMonth(String(m).padStart(2, '0'));
     setSelectedYear(String(y));
-  };
+  }, [selectedMonth, selectedYear]);
 
-  const handleNextMonth = () => {
+  const handleNextMonth = useCallback(() => {
     let m = parseInt(selectedMonth, 10) + 1;
     let y = parseInt(selectedYear, 10);
     if (m === 13) {
@@ -459,7 +466,7 @@ export default function JimpitanBulananPage() {
     }
     setSelectedMonth(String(m).padStart(2, '0'));
     setSelectedYear(String(y));
-  };
+  }, [selectedMonth, selectedYear]);
 
   // Save handler per day
   const executeSave = useCallback(async (dateKey: string, nominal: number) => {
@@ -475,7 +482,6 @@ export default function JimpitanBulananPage() {
           tanggal: `${dateKey}T00:00:00Z`,
           nominal,
           jadwalId: record.jadwalId,
-          // diisiOleh tidak dikirim dari client - server baca dari session JWT
         })
       });
       const data = await res.json();
@@ -486,7 +492,12 @@ export default function JimpitanBulananPage() {
         setDayRecords(prev => prev.map(r => {
           if (r.dateKey === dateKey) {
             const newStatus = nominal > 0 ? 'sudah_isi' : (r.isFuture ? 'belum_lewat' : 'belum_isi');
-            return { ...r, nominal, status: newStatus };
+            return { 
+              ...r, 
+              nominal, 
+              status: newStatus,
+              diisiOleh: data.jimpitan?.diisiOleh || r.diisiOleh || 'Admin'
+            };
           }
           return r;
         }));
@@ -512,40 +523,7 @@ export default function JimpitanBulananPage() {
     }
   }, [isMonthSent, executeSave]);
 
-  // Real Excel (CSV) Exporter with full injection protection & URL revoke
-  const handleExportExcel = () => {
-    let csvContent = '\uFEFFsep=;\r\n';
-    
-    // Title & Metadata
-    csvContent += `LAPORAN JIMPITAN BULANAN - ${getMonthName(selectedMonth).toUpperCase()} ${selectedYear}\r\n`;
-    csvContent += `Total Terkumpul;${totalTerkumpul}\r\n`;
-    csvContent += `Target Bulanan;${targetBulanIni}\r\n`;
-    csvContent += `Sisa Target;${sisaTarget}\r\n`;
-    csvContent += `Hari Terisi;${filledCount} dari ${totalDays} hari (${rasioPengisian}%)\r\n\r\n`;
-
-    // Headers
-    csvContent += 'Tanggal;Hari;Pasaran;Petugas Piket;Rombongan;Nominal (Rp);Status\r\n';
-    
-    // Rows
-    dayRecords.forEach(r => {
-      const statusText = r.nominal > 0 ? 'Sudah Diisi' : (r.isFuture ? 'Belum Tiba' : 'Belum Diisi');
-      csvContent += `${r.dayNum};${sanitizeCSV(r.dayLabel)};${sanitizeCSV(r.pasaran)};${sanitizeCSV(r.petugasName)};${sanitizeCSV(r.rombonganNama || '-')};${r.nominal};${sanitizeCSV(statusText)}\r\n`;
-    });
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `laporan-jimpitan-${selectedMonth}-${selectedYear}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    
-    triggerToast('Laporan Jimpitan CSV berhasil diunduh!', 'success');
-  };
-
-  // Dynamic summary stats - semua dibungkus useMemo agar tidak recalculate setiap render
+  // Dynamic summary stats (useMemo)
   const totalDays = useMemo(() => dayRecords.length, [dayRecords]);
 
   const totalTerkumpul = useMemo(() => {
@@ -581,7 +559,6 @@ export default function JimpitanBulananPage() {
   }, [totalTerkumpul, filledCount]);
 
   const remainingDays = useMemo(() => {
-    // Gunakan getTodayStr() yang timezone-aware (konsisten dengan data baris)
     const todayStr = getTodayStr();
     const y = parseInt(selectedYear, 10);
     const m = parseInt(selectedMonth, 10) - 1;
@@ -593,7 +570,7 @@ export default function JimpitanBulananPage() {
     return Math.max(0, numDays - td);
   }, [selectedMonth, selectedYear]);
 
-  // Frontend filters (fast-path returns dayRecords if filters are default 'all')
+  // Frontend filters
   const filteredRecords = useMemo(() => {
     if (selectedRombonganFilter === 'all' && selectedStatusFilter === 'all') {
       return dayRecords;
@@ -608,7 +585,8 @@ export default function JimpitanBulananPage() {
     });
   }, [dayRecords, selectedRombonganFilter, selectedStatusFilter]);
 
-  const handleSaveTarget = async (val: number) => {
+  // Atomic PATCH target save
+  const handleSaveTarget = useCallback(async (val: number) => {
     if (isNaN(val) || val <= 0) {
       setTargetError('Target harus berupa angka lebih dari 0');
       return;
@@ -622,23 +600,59 @@ export default function JimpitanBulananPage() {
     setTargetBulanIni(val);
     setIsEditingTarget(false);
     try {
-      const res = await fetch('/api/config');
-      const data = await res.json();
-      await fetch('/api/config', {
-        method: 'PUT',
+      const res = await fetch('/api/config', {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, targetJimpitan: val })
+        body: JSON.stringify({ targetJimpitan: val })
       });
-      triggerToast('Target bulanan berhasil diperbarui', 'success');
+      const data = await res.json();
+      if (data.error) {
+        triggerToast(data.error, 'error');
+      } else {
+        triggerToast('Target bulanan berhasil diperbarui', 'success');
+      }
     } catch (e) {
       console.error('Gagal menyimpan target jimpitan', e);
       triggerToast('Gagal menyimpan target bulanan', 'error');
     } finally {
       setIsSavingTarget(false);
     }
-  };
+  }, [triggerToast]);
 
-  // Scroll-to-today: setelah data bulan ini dimuat, geser ke baris hari ini secara smooth
+  // Real Excel (CSV) Exporter with full injection protection
+  const handleExportExcel = useCallback(() => {
+    let csvContent = '\uFEFFsep=;\r\n';
+    
+    // Title & Metadata
+    csvContent += `LAPORAN JIMPITAN BULANAN - ${getMonthName(selectedMonth).toUpperCase()} ${selectedYear}\r\n`;
+    csvContent += `Total Terkumpul;${totalTerkumpul}\r\n`;
+    csvContent += `Target Bulanan;${targetBulanIni ?? '-'}\r\n`;
+    csvContent += `Sisa Target;${sisaTarget ?? '-'}\r\n`;
+    csvContent += `Hari Terisi;${filledCount} dari ${totalDays} hari (${rasioPengisian}%)\r\n\r\n`;
+
+    // Headers
+    csvContent += 'Tanggal;Hari;Pasaran;Petugas Piket;Rombongan;Nominal (Rp);Status;Diinput Oleh\r\n';
+    
+    // Rows
+    dayRecords.forEach(r => {
+      const statusText = r.nominal > 0 ? 'Sudah Diisi' : (r.isFuture ? 'Belum Tiba' : 'Belum Diisi');
+      csvContent += `${sanitizeCSV(r.dayNum)};${sanitizeCSV(r.dayLabel)};${sanitizeCSV(r.pasaran)};${sanitizeCSV(r.petugasName)};${sanitizeCSV(r.rombonganNama || '-')};${r.nominal};${sanitizeCSV(statusText)};${sanitizeCSV(r.diisiOleh || '-')}\r\n`;
+    });
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `laporan-jimpitan-${selectedMonth}-${selectedYear}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    triggerToast('Laporan Jimpitan CSV berhasil diunduh!', 'success');
+  }, [dayRecords, selectedMonth, selectedYear, totalTerkumpul, targetBulanIni, sisaTarget, filledCount, totalDays, rasioPengisian, triggerToast]);
+
+  // Scroll-to-today
   useEffect(() => {
     if (!isLoading && dayRecords.length > 0) {
       const timer = setTimeout(() => {
@@ -673,303 +687,54 @@ export default function JimpitanBulananPage() {
             <p className="text-xs md:text-sm text-slate-400 font-medium">Catat nominal jimpitan harian sesuai jadwal petugas.</p>
           </div>
 
-          {/* Filters and Navigation Bar */}
-          <div className="bg-white rounded-3xl p-4 md:p-5 border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-4 justify-between">
-            
-            {/* Period Selector */}
-            <div className="flex items-center gap-2 justify-between sm:justify-start">
-              <button
-                onClick={handlePrevMonth}
-                aria-label="Bulan sebelumnya"
-                className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-500 cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              
-              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700">
-                <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                <select
-                  value={selectedMonth}
-                  onChange={(e) => setSelectedMonth(e.target.value)}
-                  aria-label="Pilih Bulan"
-                  className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer hover:text-[var(--brand-primary)] transition-colors"
-                >
-                  <option value="01">Januari</option>
-                  <option value="02">Februari</option>
-                  <option value="03">Maret</option>
-                  <option value="04">April</option>
-                  <option value="05">Mei</option>
-                  <option value="06">Juni</option>
-                  <option value="07">Juli</option>
-                  <option value="08">Agustus</option>
-                  <option value="09">September</option>
-                  <option value="10">Oktober</option>
-                  <option value="11">November</option>
-                  <option value="12">Desember</option>
-                </select>
-                <select
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(e.target.value)}
-                  aria-label="Pilih Tahun"
-                  className="bg-transparent text-xs font-bold text-slate-700 outline-none cursor-pointer hover:text-[var(--brand-primary)] transition-colors"
-                >
-                  {Array.from({ length: 6 }, (_, i) => String(new Date().getFullYear() - 2 + i)).map(yr => (
-                    <option key={yr} value={yr}>{yr}</option>
-                  ))}
-                </select>
-              </div>
+          {/* Filters and Navigation Bar (Modular Component) */}
+          <JimpitanFilterBar
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            onPrevMonth={handlePrevMonth}
+            onNextMonth={handleNextMonth}
+            onSelectMonth={setSelectedMonth}
+            onSelectYear={setSelectedYear}
+            selectedRombonganFilter={selectedRombonganFilter}
+            onSelectRombonganFilter={setSelectedRombonganFilter}
+            selectedStatusFilter={selectedStatusFilter}
+            onSelectStatusFilter={setSelectedStatusFilter}
+            rombonganList={rombonganList}
+          />
 
-              <button
-                onClick={handleNextMonth}
-                aria-label="Bulan berikutnya"
-                className="p-2 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-slate-500 cursor-pointer"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Dropdown Filters */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              
-              {/* Rombongan Filter */}
-              <select
-                value={selectedRombonganFilter}
-                onChange={(e) => setSelectedRombonganFilter(e.target.value)}
-                aria-label="Filter Rombongan"
-                className="bg-[#f8fafc] border border-slate-200 text-xs font-semibold text-slate-700 px-3 py-2.5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/25 cursor-pointer"
-              >
-                <option value="all">Semua Rombongan</option>
-                {rombonganList.map((rom) => (
-                  <option key={rom.id} value={rom.id}>{rom.nama}</option>
-                ))}
-              </select>
-
-              {/* Status Filter */}
-              <select
-                value={selectedStatusFilter}
-                onChange={(e) => setSelectedStatusFilter(e.target.value)}
-                aria-label="Filter Status"
-                className="bg-[#f8fafc] border border-slate-200 text-xs font-semibold text-slate-700 px-3 py-2.5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/25 cursor-pointer"
-              >
-                <option value="all">Semua Status</option>
-                <option value="sudah_isi">Sudah Diisi</option>
-                <option value="belum_isi">Belum Diisi</option>
-              </select>
-
-              {/* Link button to Jadwal */}
-              <Link 
-                href="/jadwal"
-                className="px-5 py-2.5 border border-[var(--brand-primary)] text-[var(--brand-primary)] hover:bg-[var(--brand-light)] font-bold rounded-2xl transition-all text-xs flex items-center justify-center gap-1.5"
-              >
-                <Calendar className="w-4 h-4" />
-                <span>Jadwal</span>
-              </Link>
-
-            </div>
-          </div>
-
-          {/* Sticky Gojek-Style Jimpitan Summary Card */}
-          <div className="sticky top-16 md:top-20 z-20 -mx-4 sm:-mx-6 md:-mx-8 xl:-mx-10 2xl:-mx-12 px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12 py-3 bg-[#f8fafc] border-b border-slate-200/80 shadow-xs transition-all">
-            <div className="bg-white rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-sm p-4 sm:p-5">
-            
-            {/* Top Bar: Title, Sync Badge & Quick Action */}
-            <div className="flex items-center justify-between gap-3 pb-2.5 mb-2.5 border-b border-slate-100">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-7 h-7 rounded-lg bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shrink-0 shadow-xs">
-                  <Coins className="w-4 h-4" />
-                </div>
-                <div className="flex items-center gap-2 truncate">
-                  <span className="text-xs md:text-sm font-bold text-slate-800 truncate">
-                    Ringkasan {getMonthName(selectedMonth)} {selectedYear}
-                  </span>
-                  <span 
-                    title="Nominal otomatis tersinkronisasi ke menu Kas RT sebagai pemasukan Jimpitan"
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-600 border border-blue-100 shrink-0"
-                  >
-                    <Check className="w-2.5 h-2.5" />
-                    Auto-sync Kas RT
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <button
-                  onClick={handleExportExcel}
-                  aria-label="Export Excel"
-                  className="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all text-[11px] flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
-                >
-                  <FileSpreadsheet className="w-3.5 h-3.5 text-slate-500" />
-                  <span className="hidden sm:inline">Export Excel</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Middle Grid: Gojek Wallet Pods (Left: Total Balance, Right: Progress & Metrics) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
-              
-              {/* Left Pod: Total Jimpitan Terkumpul */}
-              <div className="lg:col-span-5 flex flex-col justify-center text-left">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                    Total Jimpitan Terkumpul
-                  </span>
-                  {/* Subtle live indicator */}
-                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Live Update
-                  </span>
-                </div>
-
-                <div className="flex items-baseline gap-2 mt-0.5">
-                  <h3 className="text-2xl sm:text-3xl font-black text-[var(--brand-primary)] tracking-tight">
-                    {formatRp(totalTerkumpul)}
-                  </h3>
-                </div>
-
-                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                  <span 
-                    title={filledCount > 0 ? `Rata-rata dari ${filledCount} hari terisi` : 'Belum ada hari terisi'}
-                    className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100/90 px-2 py-0.5 rounded-lg border border-slate-200/50"
-                  >
-                    <span className="text-slate-400 font-normal">Realisasi:</span>
-                    {formatRp(avgTerkumpul)}/hari
-                  </span>
-                  <span className="text-[11px] font-medium text-slate-400">
-                    &bull; {filledCount} dari {totalDays} hari terisi ({rasioPengisian}%)
-                  </span>
-                </div>
-              </div>
-
-              {/* Vertical Divider (Desktop Only) */}
-              <div className="hidden lg:block w-px h-16 bg-slate-100" />
-
-              {/* Right Pod: Target & Visual Progress Bar */}
-              <div className="lg:col-span-6 flex flex-col justify-center space-y-2 text-left">
-                
-                {/* Target Header Row */}
-                <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target:</span>
-                    {!isEditingTarget ? (
-                      <div className="flex items-center gap-1">
-                        {targetBulanIni !== null ? (
-                          <span className="font-extrabold text-slate-800 text-xs md:text-sm">
-                            {formatRp(targetBulanIni)}
-                          </span>
-                        ) : (
-                          <span className="text-xs font-semibold text-slate-400 italic">Belum diatur</span>
-                        )}
-                        <button
-                          onClick={() => {
-                            setTargetError('');
-                            setIsEditingTarget(true);
-                          }}
-                          aria-label="Edit target bulan ini"
-                          title="Ubah Target"
-                          className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
-                        >
-                          <Pencil className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col gap-0.5">
-                        <div className="flex items-center gap-1">
-                          <input
-                            ref={targetInputRef}
-                            autoFocus
-                            type="text"
-                            inputMode="numeric"
-                            defaultValue={targetBulanIni !== null ? targetBulanIni.toLocaleString('id-ID') : ''}
-                            placeholder="cth: 3.000.000"
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter') {
-                                const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
-                                handleSaveTarget(val);
-                              }
-                              if (e.key === 'Escape') {
-                                setIsEditingTarget(false);
-                                setTargetError('');
-                              }
-                            }}
-                            className="w-28 text-xs font-bold border-b-2 border-[var(--brand-primary)] outline-none bg-transparent py-0.5 text-slate-800 placeholder:text-slate-300 placeholder:font-normal"
-                          />
-                          <button
-                            disabled={isSavingTarget}
-                            onClick={() => {
-                              const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
-                              handleSaveTarget(val);
-                            }}
-                            className="p-1 text-emerald-600 hover:bg-emerald-50 rounded cursor-pointer disabled:opacity-50"
-                            title="Simpan Target"
-                          >
-                            <Check className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                        {targetError && (
-                          <span className="text-[10px] text-red-500 font-semibold">{targetError}</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Percentage Status */}
-                  <div className="flex items-center gap-1 font-extrabold text-[11px]">
-                    {targetBulanIni === null ? (
-                      <span className="text-slate-400 font-semibold text-[10px]">-</span>
-                    ) : persentaseTarget >= 100 ? (
-                      <span className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
-                        <Check className="w-3 h-3 text-emerald-600" />
-                        Target Tercapai!
-                      </span>
-                    ) : (
-                      <span className="text-[var(--brand-primary)]">
-                        {persentaseTarget}% Tercapai
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Visual Progress Bar - tampilkan skeleton jika target belum diatur */}
-                <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200/50">
-                  {targetBulanIni !== null ? (
-                    <div 
-                      className="h-full rounded-full bg-gradient-to-r from-[var(--brand-primary)] to-amber-500 transition-all duration-500 ease-out"
-                      style={{ width: `${Math.min(100, persentaseTarget)}%` }}
-                    />
-                  ) : (
-                    <div className="h-full rounded-full bg-slate-200/60 animate-pulse w-1/3" />
-                  )}
-                </div>
-
-                {/* Target Sub-info Row: Sisa Target & Kebutuhan Harian */}
-                <div className="flex items-center justify-between text-[10px] md:text-[11px] text-slate-400 font-semibold pt-0.5">
-                  <span>
-                    {sisaTarget !== null ? (
-                      <>
-                        Sisa: <strong className={sisaTarget === 0 ? 'text-emerald-600' : 'text-slate-700'}>{formatRp(sisaTarget)}</strong>
-                        {remainingDays > 0 ? ` (${remainingDays} hari lagi)` : ' (Bulan Selesai)'}
-                      </>
-                    ) : (
-                      <span className="italic">Set target untuk lihat sisa</span>
-                    )}
-                  </span>
-                  <span>
-                    {targetHarian !== null ? (
-                      <>Kebutuhan: <strong className="text-slate-700">{formatRp(targetHarian)}/hari</strong></>
-                    ) : null}
-                  </span>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-          </div>
+          {/* Sticky Gojek-Style Jimpitan Summary Card (Modular Component) */}
+          <JimpitanSummaryCard
+            monthName={getMonthName(selectedMonth)}
+            selectedYear={selectedYear}
+            totalTerkumpul={totalTerkumpul}
+            avgTerkumpul={avgTerkumpul}
+            filledCount={filledCount}
+            totalDays={totalDays}
+            rasioPengisian={rasioPengisian}
+            targetBulanIni={targetBulanIni}
+            sisaTarget={sisaTarget}
+            targetHarian={targetHarian}
+            persentaseTarget={persentaseTarget}
+            remainingDays={remainingDays}
+            isEditingTarget={isEditingTarget}
+            isSavingTarget={isSavingTarget}
+            targetError={targetError}
+            targetInputRef={targetInputRef}
+            onStartEditTarget={() => {
+              setTargetError('');
+              setIsEditingTarget(true);
+            }}
+            onCancelEditTarget={() => {
+              setIsEditingTarget(false);
+              setTargetError('');
+            }}
+            onSaveTarget={handleSaveTarget}
+            onExportExcel={handleExportExcel}
+            formatRp={formatRp}
+          />
 
           {/* Main Jimpitan List Card */}
           <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden text-left">
-            
             {/* Header of List Card: Title & Color Indicators Legend */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
               <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -997,7 +762,7 @@ export default function JimpitanBulananPage() {
 
             <div className="p-4 md:p-6">
               {isLoading ? (
-                /* Skeleton Loading - lebih profesional dari teks "Memuat..." */
+                /* Skeleton Loading */
                 <div className="flex flex-col divide-y divide-slate-100">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div key={i} className="flex items-stretch py-4 pl-4 pr-1 gap-3 animate-pulse">
@@ -1018,7 +783,7 @@ export default function JimpitanBulananPage() {
                 </div>
               ) : filteredRecords.length === 0 ? (
                 <div className="py-20 text-center space-y-2">
-                  <div className="text-3xl">ðŸ“‹</div>
+                  <div className="text-3xl">📋</div>
                   <p className="text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</p>
                   <p className="text-slate-300 text-xs">Coba ubah filter atau pilih bulan lain.</p>
                 </div>
@@ -1091,4 +856,3 @@ export default function JimpitanBulananPage() {
     </div>
   );
 }
-
