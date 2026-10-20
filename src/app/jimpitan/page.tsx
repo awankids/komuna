@@ -607,7 +607,7 @@ export default function JimpitanBulananPage() {
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
       <Sidebar activeMenu="Jimpitan" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+      <div className="flex-1 flex flex-col min-h-screen overflow-x-clip">
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
 
         <main className="flex-1 w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12 py-6 md:py-8 space-y-6 md:space-y-7 pb-24 md:pb-16 font-sans">
@@ -724,13 +724,14 @@ export default function JimpitanBulananPage() {
           </div>
 
           {/* Sticky Gojek-Style Jimpitan Summary Card */}
-          <div className="sticky top-16 md:top-20 z-20 bg-white/95 backdrop-blur-md rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-md shadow-slate-200/50 p-4 sm:p-5 transition-all">
+          <div className="sticky top-16 md:top-20 z-20 -mx-4 sm:-mx-6 md:-mx-8 xl:-mx-10 2xl:-mx-12 px-4 sm:px-6 md:px-8 xl:px-10 2xl:px-12 py-3 bg-[#f8fafc] border-b border-slate-200/80 shadow-xs transition-all">
+            <div className="bg-white rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-sm p-4 sm:p-5">
             
             {/* Top Bar: Title, Sync Badge & Quick Action */}
-            <div className="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-100">
+            <div className="flex items-center justify-between gap-3 pb-2.5 mb-2.5 border-b border-slate-100">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-xl bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shrink-0 shadow-xs">
-                  <Coins className="w-4.5 h-4.5" />
+                <div className="w-7 h-7 rounded-lg bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shrink-0 shadow-xs">
+                  <Coins className="w-4 h-4" />
                 </div>
                 <div className="flex items-center gap-2 truncate">
                   <span className="text-xs md:text-sm font-bold text-slate-800 truncate">
@@ -890,47 +891,56 @@ export default function JimpitanBulananPage() {
             </div>
 
           </div>
-
-          {/* Color Indicators Legend */}
-          <div className="flex flex-wrap items-center gap-4 md:gap-5 px-1 justify-start">
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-              <span className="text-[10px] font-semibold text-slate-500">Sudah Diisi</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand-primary)]" />
-              <span className="text-[10px] font-semibold text-slate-500">Hari Ini</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-              <span className="text-[10px] font-semibold text-slate-500">Belum Diisi</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
-              <span className="text-[10px] font-semibold text-slate-500">Belum Tiba</span>
-            </div>
           </div>
 
           {/* Main Jimpitan List Card */}
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-4 md:p-6">
-            {isLoading ? (
-              <div className="py-24 text-center text-slate-400 font-semibold text-sm">Memuat data jimpitan...</div>
-            ) : filteredRecords.length === 0 ? (
-              <div className="py-24 text-center text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</div>
-            ) : (
-              <div className="w-full">
-                <div className="flex flex-col divide-y divide-slate-100 relative ml-2 md:ml-0 border-l border-slate-100 md:border-none">
-                  {filteredRecords.map((item) => (
-                    <JimpitanRowItem
-                      key={item.dateKey}
-                      item={item}
-                      isSaving={!!savingDateKeys[item.dateKey]}
-                      onSave={handleAutoSave}
-                    />
-                  ))}
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden text-left">
+            
+            {/* Header of List Card: Title & Color Indicators Legend */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Daftar Penarikan Harian
+              </span>
+              <div className="flex flex-wrap items-center gap-3.5 sm:gap-4">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  <span className="text-[10px] font-semibold text-slate-500">Sudah Diisi</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--brand-primary)]" />
+                  <span className="text-[10px] font-semibold text-slate-500">Hari Ini</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+                  <span className="text-[10px] font-semibold text-slate-500">Belum Diisi</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                  <span className="text-[10px] font-semibold text-slate-500">Belum Tiba</span>
                 </div>
               </div>
-            )}
+            </div>
+
+            <div className="p-4 md:p-6">
+              {isLoading ? (
+                <div className="py-24 text-center text-slate-400 font-semibold text-sm">Memuat data jimpitan...</div>
+              ) : filteredRecords.length === 0 ? (
+                <div className="py-24 text-center text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</div>
+              ) : (
+                <div className="w-full">
+                  <div className="flex flex-col divide-y divide-slate-100 relative ml-2 md:ml-0 border-l border-slate-100 md:border-none">
+                    {filteredRecords.map((item) => (
+                      <JimpitanRowItem
+                        key={item.dateKey}
+                        item={item}
+                        isSaving={!!savingDateKeys[item.dateKey]}
+                        onSave={handleAutoSave}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Footer note */}
