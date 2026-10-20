@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface JimpitanInputRowProps {
   dateKey: string;
@@ -15,6 +15,8 @@ interface JimpitanInputRowProps {
  * Komponen baris input jimpitan yang TERISOLASI.
  * State lokal di sini tidak menyebabkan parent (JimpitanBulananPage) re-render,
  * sehingga Gboard Android tidak kehilangan komposisi teks.
+ *
+ * Format ribuan (titik pemisah) ditampilkan REAL-TIME saat mengetik.
  */
 export default function JimpitanInputRow({
   dateKey,
@@ -26,9 +28,38 @@ export default function JimpitanInputRow({
 }: JimpitanInputRowProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDirty, setIsDirty] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  // Sync displayed value when initialValue changes from parent (after successful save)
+  useEffect(() => {
+    if (inputRef.current && !isFocused) {
+      inputRef.current.value = initialValue > 0 ? initialValue.toLocaleString('id-ID') : '';
+    }
+  }, [initialValue, isFocused]);
+
+  const handleChange = () => {
+    const raw = inputRef.current?.value ?? '';
+    // Strip semua non-digit
+    const digits = raw.replace(/\D/g, '');
+    // Format dengan pemisah ribuan
+    const formatted = digits ? parseInt(digits, 10).toLocaleString('id-ID') : '';
+    if (inputRef.current) {
+      inputRef.current.value = formatted;
+      // Posisikan kursor di akhir
+      const len = formatted.length;
+      inputRef.current.setSelectionRange(len, len);
+    }
+    const numVal = digits ? parseInt(digits, 10) : 0;
+    setIsDirty(numVal !== initialValue);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
 
   const handleBlur = () => {
-    const rawText = inputRef.current?.value || '';
+    setIsFocused(false);
+    const rawText = inputRef.current?.value ?? '';
     const numVal = parseInt(rawText.replace(/\D/g, ''), 10) || 0;
     if (numVal !== initialValue) {
       setIsDirty(false);
@@ -42,10 +73,15 @@ export default function JimpitanInputRow({
     if (e.key === 'Enter') {
       (e.target as HTMLInputElement).blur();
     }
-  };
-
-  const handleChange = () => {
-    setIsDirty(true);
+    // Allow: backspace, delete, tab, escape, arrows, home, end
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    if (allowedKeys.includes(e.key)) return;
+    // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+    if (e.ctrlKey || e.metaKey) return;
+    // Block non-digit keys (but allow digits 0-9)
+    if (!/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
   };
 
   if (isFuture) {
@@ -63,6 +99,7 @@ export default function JimpitanInputRow({
         aria-label={`Nominal jimpitan tanggal ${dateStr}`}
         defaultValue={initialValue > 0 ? initialValue.toLocaleString('id-ID') : ''}
         onChange={handleChange}
+        onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         placeholder="0"

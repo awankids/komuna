@@ -5,7 +5,10 @@ import { getTenantContext, requireTenantContext } from '@/lib/auth';
 export async function POST(request: Request) {
   try {
     const tenant = await requireTenantContext();
-    const { tanggal, nominal, jadwalId, diisiOleh } = await request.json();
+    const { tanggal, nominal, jadwalId } = await request.json();
+    
+    // Identitas pengisi diambil dari session server — tidak dipercaya dari client
+    const diisiOleh = tenant.nama || 'Admin RT';
     
     if (!tanggal || nominal === undefined || nominal < 0) {
       return NextResponse.json({ error: 'Tanggal dan nominal valid wajib diisi' }, { status: 400 });
@@ -89,7 +92,7 @@ export async function POST(request: Request) {
         data: {
           nominal,
           jadwalId: finalJadwalId || null,
-          diisiOleh: diisiOleh || 'Admin RT',
+          diisiOleh: diisiOleh,
           diisiPada: new Date(),
         }
       });
@@ -100,7 +103,7 @@ export async function POST(request: Request) {
           tanggal: startOfDay,
           jadwalId: finalJadwalId || null,
           nominal,
-          diisiOleh: diisiOleh || 'Admin RT',
+          diisiOleh: diisiOleh,
           komunitasId: tenant.komunitasId,
         }
       });

@@ -236,9 +236,14 @@ export default function JimpitanBulananPage() {
   // Per-date saving state (lock only the row being saved, not the whole screen)
   const [savingDateKeys, setSavingDateKeys] = useState<Record<string, boolean>>({});
 
-  // Target State
-  const [targetBulanIni, setTargetBulanIni] = useState(3000000);
+  // Ref untuk scroll-to-today otomatis setelah data dimuat
+  const todayRowRef = useRef<HTMLDivElement>(null);
+
+  // Target State â€” null berarti belum dimuat dari server (bukan Rp 3jt hardcoded)
+  const [targetBulanIni, setTargetBulanIni] = useState<number | null>(null);
   const [isEditingTarget, setIsEditingTarget] = useState(false);
+  const [isSavingTarget, setIsSavingTarget] = useState(false);
+  const [targetError, setTargetError] = useState('');
   const targetInputRef = useRef<HTMLInputElement>(null);
 
   // Toast Notification State
@@ -282,8 +287,12 @@ export default function JimpitanBulananPage() {
     fetch('/api/config')
       .then(res => res.json())
       .then(data => {
-        if (isMounted && data?.targetJimpitan) {
-          setTargetBulanIni(data.targetJimpitan);
+        if (isMounted) {
+          // Hanya set jika ada nilai positif â€” jangan pakai fallback hardcoded
+          const val = typeof data?.targetJimpitan === 'number' && data.targetJimpitan > 0
+            ? data.targetJimpitan
+            : null;
+          setTargetBulanIni(val);
         }
       })
       .catch(err => {
@@ -466,7 +475,7 @@ export default function JimpitanBulananPage() {
           tanggal: `${dateKey}T00:00:00Z`,
           nominal,
           jadwalId: record.jadwalId,
-          diisiOleh: 'Admin RT'
+          // diisiOleh tidak dikirim dari client â€” server baca dari session JWT
         })
       });
       const data = await res.json();
@@ -536,9 +545,9 @@ export default function JimpitanBulananPage() {
     triggerToast('Laporan Jimpitan CSV berhasil diunduh!', 'success');
   };
 
-  // Dynamic summary stats (useMemo)
-  const totalDays = dayRecords.length;
-  
+  // Dynamic summary stats â€” semua dibungkus useMemo agar tidak recalculate setiap render
+  const totalDays = useMemo(() => dayRecords.length, [dayRecords]);
+
   const totalTerkumpul = useMemo(() => {
     return dayRecords.reduce((sum, r) => sum + r.nominal, 0);
   }, [dayRecords]);
@@ -547,27 +556,41 @@ export default function JimpitanBulananPage() {
     return dayRecords.filter(r => r.nominal > 0).length;
   }, [dayRecords]);
 
-  const rasioPengisian = totalDays > 0 ? Math.round((filledCount / totalDays) * 100) : 0;
-  const sisaTarget = Math.max(0, targetBulanIni - totalTerkumpul);
-  const persentaseTarget = targetBulanIni > 0 ? Math.round((totalTerkumpul / targetBulanIni) * 100) : 0;
-  const targetHarian = totalDays > 0 ? Math.round(targetBulanIni / totalDays) : 0;
+  const rasioPengisian = useMemo(
+    () => (totalDays > 0 ? Math.round((filledCount / totalDays) * 100) : 0),
+    [filledCount, totalDays]
+  );
+
+  const sisaTarget = useMemo(
+    () => (targetBulanIni !== null ? Math.max(0, targetBulanIni - totalTerkumpul) : null),
+    [targetBulanIni, totalTerkumpul]
+  );
+
+  const persentaseTarget = useMemo(
+    () => (targetBulanIni && targetBulanIni > 0 ? Math.round((totalTerkumpul / targetBulanIni) * 100) : 0),
+    [targetBulanIni, totalTerkumpul]
+  );
+
+  const targetHarian = useMemo(
+    () => (targetBulanIni && totalDays > 0 ? Math.round(targetBulanIni / totalDays) : null),
+    [targetBulanIni, totalDays]
+  );
 
   const avgTerkumpul = useMemo(() => {
     return filledCount > 0 ? Math.round(totalTerkumpul / filledCount) : 0;
   }, [totalTerkumpul, filledCount]);
 
   const remainingDays = useMemo(() => {
-    const today = new Date();
+    // Gunakan getTodayStr() yang timezone-aware (konsisten dengan data baris)
+    const todayStr = getTodayStr();
     const y = parseInt(selectedYear, 10);
     const m = parseInt(selectedMonth, 10) - 1;
+    if (isNaN(y) || isNaN(m)) return 0;
     const numDays = new Date(y, m + 1, 0).getDate();
-    if (y < today.getFullYear() || (y === today.getFullYear() && m < today.getMonth())) {
-      return 0;
-    }
-    if (y > today.getFullYear() || (y === today.getFullYear() && m > today.getMonth())) {
-      return numDays;
-    }
-    return Math.max(0, numDays - today.getDate());
+    const [ty, tm, td] = todayStr.split('-').map(Number);
+    if (y < ty || (y === ty && m < tm - 1)) return 0;
+    if (y > ty || (y === ty && m > tm - 1)) return numDays;
+    return Math.max(0, numDays - td);
   }, [selectedMonth, selectedYear]);
 
   // Frontend filters (fast-path returns dayRecords if filters are default 'all')
@@ -586,6 +609,16 @@ export default function JimpitanBulananPage() {
   }, [dayRecords, selectedRombonganFilter, selectedStatusFilter]);
 
   const handleSaveTarget = async (val: number) => {
+    if (isNaN(val) || val <= 0) {
+      setTargetError('Target harus berupa angka lebih dari 0');
+      return;
+    }
+    if (val > 1_000_000_000) {
+      setTargetError('Target terlalu besar (maks Rp 1 Miliar)');
+      return;
+    }
+    setTargetError('');
+    setIsSavingTarget(true);
     setTargetBulanIni(val);
     setIsEditingTarget(false);
     try {
@@ -600,8 +633,20 @@ export default function JimpitanBulananPage() {
     } catch (e) {
       console.error('Gagal menyimpan target jimpitan', e);
       triggerToast('Gagal menyimpan target bulanan', 'error');
+    } finally {
+      setIsSavingTarget(false);
     }
   };
+
+  // Scroll-to-today: setelah data bulan ini dimuat, geser ke baris hari ini secara smooth
+  useEffect(() => {
+    if (!isLoading && dayRecords.length > 0) {
+      const timer = setTimeout(() => {
+        todayRowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, dayRecords]);
 
   return (
     <div className="flex w-full min-h-screen bg-[#f8fafc]">
@@ -790,7 +835,7 @@ export default function JimpitanBulananPage() {
                     {formatRp(avgTerkumpul)}/hari
                   </span>
                   <span className="text-[11px] font-medium text-slate-400">
-                    • {filledCount} dari {totalDays} hari terisi ({rasioPengisian}%)
+                    â€¢ {filledCount} dari {totalDays} hari terisi ({rasioPengisian}%)
                   </span>
                 </div>
               </div>
@@ -807,11 +852,18 @@ export default function JimpitanBulananPage() {
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target:</span>
                     {!isEditingTarget ? (
                       <div className="flex items-center gap-1">
-                        <span className="font-extrabold text-slate-800 text-xs md:text-sm">
-                          {formatRp(targetBulanIni)}
-                        </span>
+                        {targetBulanIni !== null ? (
+                          <span className="font-extrabold text-slate-800 text-xs md:text-sm">
+                            {formatRp(targetBulanIni)}
+                          </span>
+                        ) : (
+                          <span className="text-xs font-semibold text-slate-400 italic">Belum diatur</span>
+                        )}
                         <button
-                          onClick={() => setIsEditingTarget(true)}
+                          onClick={() => {
+                            setTargetError('');
+                            setIsEditingTarget(true);
+                          }}
                           aria-label="Edit target bulan ini"
                           title="Ubah Target"
                           className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
@@ -820,41 +872,51 @@ export default function JimpitanBulananPage() {
                         </button>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1">
-                        <input
-                          ref={targetInputRef}
-                          autoFocus
-                          type="text"
-                          inputMode="numeric"
-                          defaultValue={String(targetBulanIni)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center gap-1">
+                          <input
+                            ref={targetInputRef}
+                            autoFocus
+                            type="text"
+                            inputMode="numeric"
+                            defaultValue={targetBulanIni !== null ? targetBulanIni.toLocaleString('id-ID') : ''}
+                            placeholder="cth: 3.000.000"
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
+                                handleSaveTarget(val);
+                              }
+                              if (e.key === 'Escape') {
+                                setIsEditingTarget(false);
+                                setTargetError('');
+                              }
+                            }}
+                            className="w-28 text-xs font-bold border-b-2 border-[var(--brand-primary)] outline-none bg-transparent py-0.5 text-slate-800 placeholder:text-slate-300 placeholder:font-normal"
+                          />
+                          <button
+                            disabled={isSavingTarget}
+                            onClick={() => {
                               const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
-                              if (!isNaN(val) && val > 0) handleSaveTarget(val);
-                              else setIsEditingTarget(false);
-                            }
-                            if (e.key === 'Escape') setIsEditingTarget(false);
-                          }}
-                          className="w-24 text-xs font-bold border-b-2 border-[var(--brand-primary)] outline-none bg-transparent py-0.5 text-slate-800"
-                        />
-                        <button
-                          onClick={() => {
-                            const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
-                            if (!isNaN(val) && val > 0) handleSaveTarget(val);
-                            else setIsEditingTarget(false);
-                          }}
-                          className="p-1 text-emerald-600 hover:bg-emerald-50 rounded cursor-pointer"
-                          title="Simpan Target"
-                        >
-                          <Check className="w-3.5 h-3.5" />
-                        </button>
+                              handleSaveTarget(val);
+                            }}
+                            className="p-1 text-emerald-600 hover:bg-emerald-50 rounded cursor-pointer disabled:opacity-50"
+                            title="Simpan Target"
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        {targetError && (
+                          <span className="text-[10px] text-red-500 font-semibold">{targetError}</span>
+                        )}
                       </div>
                     )}
                   </div>
 
                   {/* Percentage Status */}
                   <div className="flex items-center gap-1 font-extrabold text-[11px]">
-                    {persentaseTarget >= 100 ? (
+                    {targetBulanIni === null ? (
+                      <span className="text-slate-400 font-semibold text-[10px]">â€”</span>
+                    ) : persentaseTarget >= 100 ? (
                       <span className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
                         <Check className="w-3 h-3 text-emerald-600" />
                         Target Tercapai!
@@ -867,22 +929,34 @@ export default function JimpitanBulananPage() {
                   </div>
                 </div>
 
-                {/* Visual Progress Bar (Gojek / Wallet Bar) */}
+                {/* Visual Progress Bar â€” tampilkan skeleton jika target belum diatur */}
                 <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200/50">
-                  <div 
-                    className="h-full rounded-full bg-gradient-to-r from-[var(--brand-primary)] to-amber-500 transition-all duration-500 ease-out"
-                    style={{ width: `${Math.min(100, persentaseTarget)}%` }}
-                  />
+                  {targetBulanIni !== null ? (
+                    <div 
+                      className="h-full rounded-full bg-gradient-to-r from-[var(--brand-primary)] to-amber-500 transition-all duration-500 ease-out"
+                      style={{ width: `${Math.min(100, persentaseTarget)}%` }}
+                    />
+                  ) : (
+                    <div className="h-full rounded-full bg-slate-200/60 animate-pulse w-1/3" />
+                  )}
                 </div>
 
                 {/* Target Sub-info Row: Sisa Target & Kebutuhan Harian */}
                 <div className="flex items-center justify-between text-[10px] md:text-[11px] text-slate-400 font-semibold pt-0.5">
                   <span>
-                    Sisa: <strong className={sisaTarget === 0 ? "text-emerald-600" : "text-slate-700"}>{formatRp(sisaTarget)}</strong>
-                    {remainingDays > 0 ? ` (${remainingDays} hari lagi)` : ' (Bulan Selesai)'}
+                    {sisaTarget !== null ? (
+                      <>
+                        Sisa: <strong className={sisaTarget === 0 ? 'text-emerald-600' : 'text-slate-700'}>{formatRp(sisaTarget)}</strong>
+                        {remainingDays > 0 ? ` (${remainingDays} hari lagi)` : ' (Bulan Selesai)'}
+                      </>
+                    ) : (
+                      <span className="italic">Set target untuk lihat sisa</span>
+                    )}
                   </span>
                   <span>
-                    Kebutuhan: <strong className="text-slate-700">{formatRp(targetHarian)}/hari</strong>
+                    {targetHarian !== null ? (
+                      <>Kebutuhan: <strong className="text-slate-700">{formatRp(targetHarian)}/hari</strong></>
+                    ) : null}
                   </span>
                 </div>
 
@@ -923,19 +997,42 @@ export default function JimpitanBulananPage() {
 
             <div className="p-4 md:p-6">
               {isLoading ? (
-                <div className="py-24 text-center text-slate-400 font-semibold text-sm">Memuat data jimpitan...</div>
+                /* Skeleton Loading â€” lebih profesional dari teks "Memuat..." */
+                <div className="flex flex-col divide-y divide-slate-100">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div key={i} className="flex items-stretch py-4 pl-4 pr-1 gap-3 animate-pulse">
+                      <div className="flex flex-col items-center justify-center w-[60px] shrink-0 border-r border-slate-100 pr-3 mr-3 gap-1.5">
+                        <div className="h-6 w-8 rounded bg-slate-200" />
+                        <div className="h-3 w-6 rounded bg-slate-100" />
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center gap-2">
+                        <div className="h-3 w-16 rounded bg-slate-100" />
+                        <div className="h-4 w-32 rounded bg-slate-200" />
+                      </div>
+                      <div className="flex flex-col items-end justify-center gap-2 w-[100px]">
+                        <div className="h-7 w-20 rounded-full bg-slate-200" />
+                        <div className="h-4 w-12 rounded-full bg-slate-100" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : filteredRecords.length === 0 ? (
-                <div className="py-24 text-center text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</div>
+                <div className="py-20 text-center space-y-2">
+                  <div className="text-3xl">ðŸ“‹</div>
+                  <p className="text-slate-400 font-semibold text-sm">Tidak ada data setoran jimpitan.</p>
+                  <p className="text-slate-300 text-xs">Coba ubah filter atau pilih bulan lain.</p>
+                </div>
               ) : (
                 <div className="w-full">
                   <div className="flex flex-col divide-y divide-slate-100 relative ml-2 md:ml-0 border-l border-slate-100 md:border-none">
                     {filteredRecords.map((item) => (
-                      <JimpitanRowItem
-                        key={item.dateKey}
-                        item={item}
-                        isSaving={!!savingDateKeys[item.dateKey]}
-                        onSave={handleAutoSave}
-                      />
+                      <div key={item.dateKey} ref={item.isToday ? todayRowRef : undefined}>
+                        <JimpitanRowItem
+                          item={item}
+                          isSaving={!!savingDateKeys[item.dateKey]}
+                          onSave={handleAutoSave}
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -982,9 +1079,10 @@ export default function JimpitanBulananPage() {
                   setShowConfirmModal(false);
                   setConfirmData(null);
                 }}
-                className="flex-1 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-xl transition-all text-xs cursor-pointer shadow-sm"
+                disabled={!!savingDateKeys[confirmData.dateKey]}
+                className="flex-1 py-2.5 bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold rounded-xl transition-all text-xs cursor-pointer shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Ya, Simpan
+                {savingDateKeys[confirmData.dateKey] ? 'Menyimpan...' : 'Ya, Simpan'}
               </button>
             </div>
           </div>
@@ -993,3 +1091,4 @@ export default function JimpitanBulananPage() {
     </div>
   );
 }
+
