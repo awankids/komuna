@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 import { FaqItem } from '@/lib/landing-defaults';
 
 interface LandingFaqProps {
@@ -16,19 +16,19 @@ export default function LandingFaq({ faqs }: LandingFaqProps) {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-20 bg-white font-sans border-t border-slate-100">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-20 bg-white font-sans border-t border-slate-100">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center space-y-2 mb-10">
-          <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold tracking-tight">
-            FAQ
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <div className="text-center space-y-3 mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-[#00880F] text-xs font-black tracking-tight">
+            <span>❓ Tanya Jawab Santai</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             Pertanyaan yang Sering Diajukan
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 font-normal">
-            Jawaban seputar penggunaan, kelebihan, dan keamanan aplikasi Komuna.id
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+            Segala hal yang ingin Anda ketahui seputar pendaftaran, fitur, dan keamanan data Komuna.
           </p>
         </div>
 
@@ -40,22 +40,29 @@ export default function LandingFaq({ faqs }: LandingFaqProps) {
               <div
                 key={faq.id}
                 className={`border rounded-2xl transition-all duration-200 overflow-hidden ${
-                  isOpen ? 'border-emerald-300 bg-emerald-50/20 shadow-xs' : 'border-slate-200/80 bg-white hover:border-slate-300'
+                  isOpen
+                    ? 'border-[#00AA13] bg-emerald-50/20 shadow-xs'
+                    : 'border-slate-200 bg-white hover:border-slate-300'
                 }`}
               >
                 <button
                   onClick={() => toggle(faq.id)}
-                  className="w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left font-bold text-sm sm:text-base text-slate-800 cursor-pointer"
+                  className="w-full p-5 sm:p-6 flex items-center justify-between gap-4 text-left font-black text-sm sm:text-base text-slate-900 cursor-pointer"
                 >
-                  <span>{faq.question}</span>
+                  <span className="flex items-center gap-3">
+                    <span className="w-6 h-6 rounded-lg bg-emerald-100 text-[#00880F] flex items-center justify-center text-xs shrink-0 font-black">
+                      Q
+                    </span>
+                    <span>{faq.question}</span>
+                  </span>
                   <ChevronDown
                     className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-emerald-700' : ''
+                      isOpen ? 'rotate-180 text-[#00880F]' : ''
                     }`}
                   />
                 </button>
                 {isOpen && (
-                  <div className="px-4 pb-5 sm:px-5 sm:pb-6 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-emerald-100/60 pt-3">
+                  <div className="px-5 pb-6 sm:px-6 sm:pb-6 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-emerald-100/80 pt-4 pl-14">
                     {faq.answer}
                   </div>
                 )}

@@ -14,9 +14,9 @@ import LandingCtaBanner from '@/components/landing/LandingCtaBanner';
 import LandingFooter from '@/components/landing/LandingFooter';
 
 export const metadata: Metadata = {
-  title: 'Komuna - Kelola Kegiatan RT Jadi Lebih Mudah',
+  title: 'Komuna - Super-App Gotong Royong Warga RT/RW | Sat-Set & Transparan',
   description:
-    'Aplikasi modern gotong-royong warga RT untuk mengelola kas, iuran, jimpitan ronda, dan administrasi kependudukan yang transparan dan akuntabel.',
+    'Aplikasi super-app modern gotong-royong warga RT untuk mengelola kas transparan, jimpitan ronda, surat pengantar digital ber-QR, dan arisan tanpa ribet.',
 };
 
 export default async function LandingPage() {
