@@ -22,7 +22,8 @@ export default function LandingFaq({ faqs }: LandingFaqProps) {
         {/* Section Header */}
         <div className="text-center space-y-3 mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-[#00880F] text-xs font-black tracking-tight">
-            <span>❓ Tanya Jawab Santai</span>
+            <HelpCircle className="w-3.5 h-3.5 text-[#00880F]" />
+            <span>Tanya Jawab Santai</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             Pertanyaan yang Sering Diajukan

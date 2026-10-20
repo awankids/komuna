@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Smartphone, Users, Rocket, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Smartphone, Users, Rocket, ArrowRight, CheckCircle2, Zap } from 'lucide-react';
 import { StepsSectionData } from '@/lib/landing-defaults';
 
 interface LandingStepsProps {
@@ -29,7 +29,8 @@ export default function LandingSteps({ data }: LandingStepsProps) {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-[#00880F] text-xs font-black tracking-tight">
-            <span>⚡ {data.badge}</span>
+            <Zap className="w-3.5 h-3.5 text-[#00880F]" />
+            <span>{data.badge}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             {data.title}

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Star, Quote, CheckCircle2 } from 'lucide-react';
+import { Star, Quote, CheckCircle2, MessageSquare } from 'lucide-react';
 import { TestimonialItem } from '@/lib/landing-defaults';
 
 interface LandingTestimonialsProps {
@@ -16,7 +16,8 @@ export default function LandingTestimonials({ testimonials }: LandingTestimonial
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-[#00880F] text-xs font-black tracking-tight">
-            <span>💬 Cerita Nyata Warga</span>
+            <MessageSquare className="w-3.5 h-3.5 text-[#00880F]" />
+            <span>Cerita Nyata Warga</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             Dipercaya Pengurus & Warga{' '}

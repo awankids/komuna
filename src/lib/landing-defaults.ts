@@ -94,18 +94,18 @@ export interface LandingPageData {
 
 export const DEFAULT_LANDING_DATA: LandingPageData = {
   hero: {
-    badge: '⚡ Urusan RT Sat-Set Gak Pake Ribet',
+    badge: 'Urusan RT Sat-Set Tanpa Ribet',
     headlineMain: 'Kelola Kegiatan Warga,',
     headlineHighlight: 'Tinggal Tap Beres!',
     subheadline:
-      'Dari catat kas transparan, jimpitan ronda, surat pengantar kilat ber-QR, sampai kocokan arisan digital — semua ada di satu genggaman HP seperti super-app favorit Anda.',
+      'Dari catat kas transparan, jimpitan ronda, surat pengantar kilat ber-QR, sampai kocokan arisan digital — semua ada di satu genggaman HP seperti super-app modern.',
     ctaPrimaryText: 'Mulai Sekarang — Gratis',
     ctaPrimaryLink: '/daftar',
-    ctaSecondaryText: '🎮 Coba Mode Demo',
+    ctaSecondaryText: 'Coba Mode Demo',
     ctaSecondaryLink: '/demo',
     socialProofText: 'Dipercaya oleh 1.200+ RT di seluruh Indonesia',
-    floatingBadge1: '💰 Kas Real-Time & Transparan',
-    floatingBadge2: '📄 Surat Ber-QR Jadi dlm 2 Menit',
+    floatingBadge1: 'Kas Real-Time & Transparan',
+    floatingBadge2: 'Surat Ber-QR Jadi dlm 2 Menit',
   },
   features: [
     {

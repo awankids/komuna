@@ -20,7 +20,8 @@ import {
   ArrowDownRight,
   Star,
   ChevronRight,
-  Bell
+  Bell,
+  Zap
 } from 'lucide-react';
 import { HeroData } from '@/lib/landing-defaults';
 
@@ -44,7 +45,7 @@ export default function LandingHero({ data }: LandingHeroProps) {
             
             {/* Pill Badge - Gojek Signature Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/90 border border-emerald-200 text-[#00880F] text-xs font-black tracking-tight shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-[#00AA13] animate-pulse" />
+              <Zap className="w-3.5 h-3.5 fill-[#00AA13] text-[#00AA13]" />
               <span>{data.badge}</span>
             </div>
 
@@ -75,6 +76,7 @@ export default function LandingHero({ data }: LandingHeroProps) {
                 href={data.ctaSecondaryLink || '/demo'}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-800 font-bold text-sm shadow-2xs transition-all active:scale-95"
               >
+                <Play className="w-3.5 h-3.5 fill-current text-slate-600" />
                 <span>{data.ctaSecondaryText}</span>
               </Link>
             </div>
@@ -187,8 +189,9 @@ export default function LandingHero({ data }: LandingHeroProps) {
                     <div className="bg-white/15 hover:bg-white/25 rounded-xl py-1 px-1 text-center cursor-pointer transition-colors">
                       <span className="block text-[10px] font-black">- Keluar</span>
                     </div>
-                    <div className="bg-white/15 hover:bg-white/25 rounded-xl py-1 px-1 text-center cursor-pointer transition-colors">
-                      <span className="block text-[10px] font-black">📤 Share WA</span>
+                    <div className="bg-white/15 hover:bg-white/25 rounded-xl py-1 px-1 text-center cursor-pointer transition-colors flex items-center justify-center gap-1">
+                      <Send className="w-2.5 h-2.5 text-white" />
+                      <span className="block text-[10px] font-black">Share WA</span>
                     </div>
                   </div>
                 </div>

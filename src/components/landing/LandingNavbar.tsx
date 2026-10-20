@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowRight, ShieldCheck, Sparkles, Play } from 'lucide-react';
 
 interface LandingNavbarProps {
   appName?: string;
@@ -107,9 +107,10 @@ export default function LandingNavbar({
               </Link>
               <Link
                 href="/demo"
-                className="px-4 py-2 rounded-full bg-emerald-50 text-[#00880F] hover:bg-emerald-100/80 font-bold text-xs transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-50 text-[#00880F] hover:bg-emerald-100/80 font-bold text-xs transition-colors"
               >
-                🎮 Coba Demo
+                <Play className="w-3 h-3 fill-current" />
+                <span>Coba Demo</span>
               </Link>
               <Link
                 href="/daftar"
@@ -170,9 +171,10 @@ export default function LandingNavbar({
                   <Link
                     href="/demo"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex-1 text-center py-2.5 rounded-full bg-emerald-50 text-[#00880F] font-bold text-xs"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-emerald-50 text-[#00880F] font-bold text-xs"
                   >
-                    🎮 Coba Demo
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>Coba Demo</span>
                   </Link>
                 </div>
                 <Link

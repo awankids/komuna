@@ -92,7 +92,8 @@ export default function LandingFeatures({ features }: LandingFeaturesProps) {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-[#00880F] text-xs font-black tracking-tight">
-            <span>✨ Ekosistem Layanan Lengkap</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#00880F]" />
+            <span>Ekosistem Layanan Lengkap</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             Semua Kebutuhan Warga,{' '}
