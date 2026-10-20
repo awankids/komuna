@@ -22,6 +22,10 @@ export const metadata: Metadata = {
 // Server Component fetching CMS data directly from DB with safe fallback
 async function getLandingContent(): Promise<LandingPageData> {
   try {
+    if (!db || !(db as any).landingPageCms) {
+      return DEFAULT_LANDING_DATA;
+    }
+
     const cmsRow = await db.landingPageCms.findUnique({
       where: { id: 'global' },
     });

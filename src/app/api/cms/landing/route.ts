@@ -5,6 +5,10 @@ import { DEFAULT_LANDING_DATA, LandingPageData } from '@/lib/landing-defaults';
 
 export async function GET() {
   try {
+    if (!db || !(db as any).landingPageCms) {
+      return NextResponse.json(DEFAULT_LANDING_DATA);
+    }
+
     const cmsRow = await db.landingPageCms.findUnique({
       where: { id: 'global' },
     });

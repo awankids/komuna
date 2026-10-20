@@ -6,7 +6,7 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 let prisma: PrismaClient;
 
-if (globalForPrisma.prisma) {
+if (globalForPrisma.prisma && (globalForPrisma.prisma as any).landingPageCms) {
   prisma = globalForPrisma.prisma;
 } else {
   const connectionString = process.env.DATABASE_URL || 'postgresql://dummy:dummy@localhost:5432/dummy';
