@@ -13,6 +13,9 @@ import LandingFaq from '@/components/landing/LandingFaq';
 import LandingCtaBanner from '@/components/landing/LandingCtaBanner';
 import LandingFooter from '@/components/landing/LandingFooter';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Komuna - Super-App Gotong Royong Warga RT/RW | Sat-Set & Transparan',
   description:

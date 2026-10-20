@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 import { CMS_AUTH_COOKIE_NAME, verifyCmsSessionToken } from '@/lib/cms-auth';
 import { getCmsData, saveCmsData, resetCmsData } from '@/lib/cms-db';
 import { LandingPageData } from '@/lib/landing-defaults';
@@ -16,7 +17,11 @@ async function getAuthorizedCmsUser() {
 export async function GET() {
   try {
     const data = await getCmsData();
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    });
   } catch (error) {
     console.error('Failed to get landing CMS data:', error);
     return NextResponse.json({ error: 'Gagal memuat konten CMS' }, { status: 500 });
@@ -39,6 +44,14 @@ export async function PUT(request: Request) {
 
     if (!result.success) {
       return NextResponse.json({ error: result.error || 'Gagal menyimpan perubahan CMS' }, { status: 500 });
+    }
+
+    // On-Demand Revalidation: pastikan halaman landing page langsung menampilkan konten terbaru secara instan
+    try {
+      revalidatePath('/');
+      revalidatePath('/admin');
+    } catch (e) {
+      console.warn('Revalidate warning:', e);
     }
 
     return NextResponse.json({ 
@@ -66,6 +79,14 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}));
     if (body.action === 'reset') {
       const defaultData = await resetCmsData();
+
+      try {
+        revalidatePath('/');
+        revalidatePath('/admin');
+      } catch (e) {
+        console.warn('Revalidate warning:', e);
+      }
+
       return NextResponse.json({
         success: true,
         message: 'Konten berhasil di-reset ke nilai default mockup',
