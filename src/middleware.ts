@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { AUTH_COOKIE_NAME, verifySessionToken, type SessionUser } from '@/lib/auth-token';
+import { CMS_AUTH_COOKIE_NAME, verifyCmsSessionToken } from '@/lib/cms-auth';
 
 async function getSessionUser(request: NextRequest): Promise<SessionUser | null> {
   const sessionCookie = request.cookies.get(AUTH_COOKIE_NAME);
@@ -45,7 +46,6 @@ async function getSessionUser(request: NextRequest): Promise<SessionUser | null>
 }
 
 const RBAC_PAGE_RESTRICTIONS: { prefix: string; roles: string[] }[] = [
-  { prefix: '/admin', roles: ['SUPER_ADMIN'] },
   { prefix: '/pengaturan', roles: ['SUPER_ADMIN', 'ADMIN'] },
   { prefix: '/kas', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
   { prefix: '/hutang-piutang', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
@@ -56,9 +56,7 @@ const RBAC_PAGE_RESTRICTIONS: { prefix: string; roles: string[] }[] = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Paths that do not require authentication check
-  const isLoginPage = pathname === '/login';
-  const isPublicPage = pathname === '/' || isLoginPage || pathname === '/demo' || pathname === '/daftar';
+  // Static files & public assets
   const isPublicVerification = pathname.startsWith('/verifikasi-surat');
   const isPublicFile = 
     pathname.includes('.') || 
@@ -70,11 +68,40 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Public API endpoints whitelist
+  // =========================================================================
+  // 1. ISOLASI TOTAL: CMS LANDING PAGE ADMIN ROUTING (/admin & /admin/login)
+  // =========================================================================
+  const isCmsRoute = pathname === '/admin' || pathname.startsWith('/admin/');
+  if (isCmsRoute) {
+    const isCmsLoginPage = pathname === '/admin/login';
+    const cmsCookie = request.cookies.get(CMS_AUTH_COOKIE_NAME)?.value;
+    const cmsUser = cmsCookie ? await verifyCmsSessionToken(cmsCookie) : null;
+    const isCmsAuthenticated = Boolean(cmsUser);
+
+    if (isCmsLoginPage) {
+      // Jika sudah login CMS, langsung arahkan ke dashboard panel CMS /admin
+      if (isCmsAuthenticated) {
+        return NextResponse.redirect(new URL('/admin', request.url));
+      }
+      return NextResponse.next();
+    }
+
+    // Jika mengakses halaman CMS tapi belum login CMS, arahkan ke /admin/login (BUKAN /login warga RT)
+    if (!isCmsAuthenticated) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  // =========================================================================
+  // 2. PUBLIC APIS (RT & CMS)
+  // =========================================================================
   const isPublicApi = 
     pathname === '/api/auth/login' ||
     pathname === '/api/auth/demo' ||
     pathname === '/api/auth/register-rt' ||
+    pathname.startsWith('/api/cms/auth') ||
     (pathname === '/api/config' && request.method === 'GET') ||
     (pathname === '/api/cms/landing' && request.method === 'GET') ||
     pathname.startsWith('/api/surat/verifikasi') ||
@@ -85,10 +112,24 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // =========================================================================
+  // 3. APIS CMS MUTASI (PUT / POST /api/cms/landing)
+  // =========================================================================
+  if (pathname.startsWith('/api/cms/')) {
+    // Verifikasi sesi CMS langsung di route handler menggunakan cookie komuna_cms_session
+    return NextResponse.next();
+  }
+
+  // =========================================================================
+  // 4. AUTENTIKASI WARGA & PENGURUS RT (/dashboard, /kas, /jimpitan, dll)
+  // =========================================================================
+  const isLoginPage = pathname === '/login';
+  const isPublicPage = pathname === '/' || isLoginPage || pathname === '/demo' || pathname === '/daftar';
+
   const sessionUser = await getSessionUser(request);
   const isAuthenticated = Boolean(sessionUser);
 
-  // If this is an API route and not authenticated, return 401 JSON
+  // If this is an RT API route and not authenticated, return 401 JSON
   if (pathname.startsWith('/api/')) {
     if (!isAuthenticated) {
       return NextResponse.json(
@@ -97,14 +138,13 @@ export async function middleware(request: NextRequest) {
       );
     }
 
-    // Role-based authorization for API endpoints
+    // Role-based authorization for RT API endpoints
     const userRole = (sessionUser?.role || 'WARGA').toUpperCase();
     if (userRole !== 'SUPER_ADMIN') {
       const isRestrictedAdminApi = 
         pathname.startsWith('/api/users') || 
         pathname.startsWith('/api/backup') || 
-        (pathname === '/api/config' && request.method !== 'GET') ||
-        (pathname.startsWith('/api/cms') && request.method !== 'GET');
+        (pathname === '/api/config' && request.method !== 'GET');
 
       if (isRestrictedAdminApi && userRole !== 'ADMIN') {
         return NextResponse.json(
@@ -117,7 +157,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If web page not logged in and not on a public page, redirect to login
+  // If web page not logged in and not on a public page, redirect to RT login
   if (!isAuthenticated && !isPublicPage) {
     const loginUrl = new URL('/login', request.url);
     if (pathname && pathname !== '/' && pathname !== '/dashboard') {
@@ -133,7 +173,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(targetUrl);
   }
 
-  // Role-based authorization for Page routes
+  // Role-based authorization for RT Page routes
   if (isAuthenticated && sessionUser) {
     const userRole = (sessionUser.role || 'WARGA').toUpperCase();
     if (userRole !== 'SUPER_ADMIN') {

@@ -16,7 +16,8 @@ import {
   CheckCircle2, 
   AlertCircle,
   Plus,
-  Trash2
+  Trash2,
+  LogOut
 } from 'lucide-react';
 import { DEFAULT_LANDING_DATA, LandingPageData, FaqItem } from '@/lib/landing-defaults';
 
@@ -95,6 +96,14 @@ export default function AdminCmsPage() {
       triggerToast('Gagal mereset konten.', 'error');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/cms/auth/logout', { method: 'POST' });
+    } finally {
+      window.location.href = '/admin/login';
     }
   };
 
@@ -205,9 +214,9 @@ export default function AdminCmsPage() {
       <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-2xs">
         <div className="flex items-center gap-3">
           <Link
-            href="/dashboard"
+            href="/"
             className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-            title="Kembali ke Dashboard RT"
+            title="Kembali ke Beranda"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
@@ -253,6 +262,15 @@ export default function AdminCmsPage() {
           >
             <Save className="w-4 h-4" />
             <span>{isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}</span>
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-rose-200 text-rose-700 hover:bg-rose-50 font-bold text-xs transition-colors shadow-2xs ml-1"
+            title="Keluar dari sesi CMS"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Keluar</span>
           </button>
         </div>
       </header>
