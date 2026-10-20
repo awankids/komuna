@@ -26,7 +26,7 @@ export default function DemoPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        window.location.href = '/?demo=1';
+        window.location.href = '/dashboard?demo=1';
       } else {
         // Fallback direct navigate to GET route
         window.location.href = '/api/auth/demo';

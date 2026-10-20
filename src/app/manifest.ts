@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Komuna',
     short_name: 'Komuna',
     description: 'Portal jimpitan dan kas gotong-royong warga RT',
-    start_url: '/',
+    start_url: '/dashboard',
     display: 'standalone',
     background_color: '#f8fafc',
     theme_color: '#f95713',

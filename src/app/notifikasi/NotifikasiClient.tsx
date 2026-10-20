@@ -114,7 +114,7 @@ export default function NotifikasiClient({ initialData }: { initialData: Notific
             
             <div className="flex items-center gap-3">
               <Link 
-                href="/"
+                href="/dashboard"
                 className="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-bold shadow-sm hover:bg-slate-50 transition-colors"
               >
                 Kembali ke Beranda

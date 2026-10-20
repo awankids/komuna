@@ -234,7 +234,7 @@ export default function VerifikasiSuratPage() {
         {/* Back Link */}
         <div className="text-center pt-2">
           <Link
-            href="/"
+            href="/dashboard"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[var(--brand-primary)] transition"
           >
             <span>Buka Beranda Komuna</span>

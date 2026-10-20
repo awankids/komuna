@@ -172,7 +172,7 @@ export default function LoginPage() {
 
         const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
         const redirectTo = searchParams?.get('redirect');
-        router.push(redirectTo && redirectTo.startsWith('/') ? redirectTo : '/');
+        router.push(redirectTo && redirectTo.startsWith('/') ? redirectTo : '/dashboard');
       }
     } catch (err) {
       console.error('Login connection error:', err);

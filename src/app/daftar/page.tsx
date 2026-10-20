@@ -193,7 +193,7 @@ export default function RegisterWizardPage() {
         setIsLoading(false);
       } else {
         // Berhasil mendaftar, reload segar via window.location agar layout & cookies termuat penuh
-        window.location.href = '/?welcome=new_rt';
+        window.location.href = '/dashboard?welcome=new_rt';
       }
     } catch (err) {
       console.error('Registration failed:', err);

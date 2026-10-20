@@ -77,7 +77,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
     {
       title: 'Ringkasan',
       items: [
-        { name: 'Dashboard', icon: LayoutDashboard, href: '/' },
+        { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
       ],
     },
     {
@@ -131,7 +131,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       if ((activeMenu === 'Pengurus' || activeMenu === 'Susunan Pengurus') && name === 'Susunan Pengurus') return true;
       if ((activeMenu === 'Surat' || activeMenu === 'Surat Pengantar') && name === 'Surat Pengantar') return true;
     }
-    if (href === '/') return pathname === '/';
+    if (href === '/dashboard') return pathname === '/dashboard';
     if (href === '#') return false;
     return pathname.startsWith(href);
   };
@@ -155,8 +155,8 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
           
           {/* Logo Header */}
           <div className="p-5 flex items-center justify-between gap-2 border-b border-slate-100/80">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-[var(--brand-primary)] text-white shadow-sm shrink-0">
+            <Link href="/dashboard" className="flex items-center gap-3 group">
+              <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-[var(--brand-primary)] text-white shadow-sm shrink-0 group-hover:opacity-90 transition-opacity">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <path d="M9 22V12h6v10" />
@@ -164,7 +164,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
               </div>
               <div className="text-left space-y-0.5 max-w-[140px]">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-none truncate">{appConfig.namaApp}</h1>
+                  <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-none truncate group-hover:text-[var(--brand-primary)] transition-colors">{appConfig.namaApp}</h1>
                   {appConfig.namaRt && (
                     <span className="text-[9px] font-bold bg-[var(--brand-light)] text-[var(--brand-primary)] px-1.5 py-0.5 rounded-md border border-[var(--brand-primary)]/20 whitespace-nowrap">
                       {appConfig.namaRt}
@@ -175,7 +175,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
                   {appConfig.tagline}
                 </p>
               </div>
-            </div>
+            </Link>
 
             {/* Close Button on Mobile Drawer */}
             {isOpen && (

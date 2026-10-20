@@ -96,7 +96,7 @@ async function bootstrapDemoSession() {
 export async function GET(request: Request) {
   try {
     await bootstrapDemoSession();
-    const url = new URL('/', request.url);
+    const url = new URL('/dashboard', request.url);
     url.searchParams.set('demo', '1');
     return NextResponse.redirect(url);
   } catch (error) {
@@ -112,7 +112,7 @@ export async function POST() {
     return NextResponse.json({
       success: true,
       message: 'Masuk mode demo berhasil',
-      redirect: '/?demo=1',
+      redirect: '/dashboard?demo=1',
     });
   } catch (error) {
     console.error('Demo POST login error:', error);

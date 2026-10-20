@@ -26,7 +26,7 @@ export default function MobileNavBar({ onQuickActionClick }: MobileNavBarProps) 
 
   const navItems = React.useMemo(() => {
     const baseFirst = [
-      { name: 'Dashboard', icon: LayoutDashboard, href: '/' },
+      { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
       { name: 'Jimpitan', icon: Coins, href: '/jimpitan' },
       { name: 'Input', icon: Plus, href: '#', isCenter: true },
     ];
@@ -100,8 +100,8 @@ export default function MobileNavBar({ onQuickActionClick }: MobileNavBarProps) 
         // Active logic
         const isActive = item.isCenter 
           ? false 
-          : item.href === '/' 
-            ? pathname === '/' 
+          : item.href === '/dashboard' 
+            ? pathname === '/dashboard' 
             : pathname.startsWith(item.href);
 
         if (item.isCenter) {

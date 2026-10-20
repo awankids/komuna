@@ -117,16 +117,21 @@ export async function middleware(request: NextRequest) {
   // If web page not logged in and not on a public page, redirect to login
   if (!isAuthenticated && !isPublicPage) {
     const loginUrl = new URL('/login', request.url);
-    if (pathname && pathname !== '/') {
+    if (pathname && pathname !== '/' && pathname !== '/dashboard') {
       loginUrl.searchParams.set('redirect', pathname);
     }
     return NextResponse.redirect(loginUrl);
   }
 
+  // If logged in and accessing root '/', smoothly redirect to '/dashboard'
+  if (isAuthenticated && pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
   // If logged in and on login page, redirect to dashboard or original target
   if (isAuthenticated && isLoginPage) {
     const redirectParam = request.nextUrl.searchParams.get('redirect');
-    const targetUrl = new URL(redirectParam && redirectParam.startsWith('/') ? redirectParam : '/', request.url);
+    const targetUrl = new URL(redirectParam && redirectParam.startsWith('/') ? redirectParam : '/dashboard', request.url);
     return NextResponse.redirect(targetUrl);
   }
 
@@ -139,7 +144,7 @@ export async function middleware(request: NextRequest) {
       );
 
       if (restrictedMatch && !restrictedMatch.roles.includes(userRole)) {
-        const redirectUrl = new URL('/', request.url);
+        const redirectUrl = new URL('/dashboard', request.url);
         redirectUrl.searchParams.set('unauthorized', '1');
         return NextResponse.redirect(redirectUrl);
       }

@@ -239,18 +239,18 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </button>
 
           {/* Mobile Header Title */}
-          <div className="flex items-center gap-2 md:hidden">
-            <div className="w-7 h-7 rounded-lg bg-[var(--brand-primary)] text-white flex items-center justify-center shrink-0">
+          <Link href="/dashboard" className="flex items-center gap-2 md:hidden group">
+            <div className="w-7 h-7 rounded-lg bg-[var(--brand-primary)] text-white flex items-center justify-center shrink-0 group-hover:opacity-90 transition-opacity">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                 <path d="M9 22V12h6v10" />
               </svg>
             </div>
             <div className="flex flex-col">
-              <h1 className="text-sm font-extrabold text-slate-800 tracking-tight leading-none">{appConfig.namaApp}</h1>
+              <h1 className="text-sm font-extrabold text-slate-800 tracking-tight leading-none group-hover:text-[var(--brand-primary)] transition-colors">{appConfig.namaApp}</h1>
               <p className="text-[9px] text-slate-400 font-medium truncate max-w-[120px]">{appConfig.tagline}</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Context / Breadcrumb */}
           <div className="hidden md:flex items-center gap-2.5">

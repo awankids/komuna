@@ -243,7 +243,7 @@ export async function POST(request: Request) {
         role: user.role,
         jabatan: user.jabatan,
       },
-      redirect: '/?welcome=new_rt',
+      redirect: '/dashboard?welcome=new_rt',
     });
   } catch (error: any) {
     console.error('Registration error:', error);
