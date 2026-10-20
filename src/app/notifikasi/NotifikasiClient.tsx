@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
-import { CheckCircle2, Info, AlertTriangle, AlertCircle, Trash2, CalendarDays, Check, RefreshCw } from 'lucide-react';
+import { CheckCircle2, Info, AlertTriangle, AlertCircle, Trash2, CalendarDays, Check, RefreshCw, Bell } from 'lucide-react';
 import Link from 'next/link';
 import WhatsAppShareButton from '@/components/WhatsAppShareButton';
 import { useRouter } from 'next/navigation';
@@ -23,7 +23,16 @@ export default function NotifikasiClient({ initialData }: { initialData: Notific
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission | 'unsupported'>('default');
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      setNotificationPermission(Notification.permission);
+    } else {
+      setNotificationPermission('unsupported');
+    }
+  }, []);
 
   const formatTime = (date: Date) => {
     const now = new Date();
@@ -112,6 +121,40 @@ export default function NotifikasiClient({ initialData }: { initialData: Notific
               </Link>
             </div>
           </div>
+
+          {/* Phone Notification Activation Banner */}
+          {notificationPermission === 'default' && (
+            <div className="mb-6 p-4 bg-amber-50/90 border border-amber-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                  <Bell className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-bold text-amber-950">Aktifkan Notifikasi HP</h4>
+                  <p className="text-[11px] sm:text-xs text-amber-800">
+                    Dapatkan pemberitahuan langsung di layar HP jika jimpitan belum tercatat selama 3 hari berturut-turut.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={async () => {
+                  if ('Notification' in window) {
+                    const perm = await Notification.requestPermission();
+                    setNotificationPermission(perm);
+                    if (perm === 'granted') {
+                      new Notification('Komuna RT 🔔', {
+                        body: 'Notifikasi HP aktif! Anda akan menerima peringatan jimpitan langsung di HP.',
+                        icon: '/icon-192.png'
+                      });
+                    }
+                  }
+                }}
+                className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs shrink-0 cursor-pointer transition-colors shadow-xs"
+              >
+                Aktifkan Notifikasi
+              </button>
+            </div>
+          )}
 
           <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
             {initialData.length === 0 ? (

@@ -1,10 +1,18 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getTenantContext } from '@/lib/auth';
+import { checkAndTriggerJimpitanStreakAlert } from '@/lib/jimpitan-streak';
 
 export async function GET() {
   try {
     const tenant = await getTenantContext();
+
+    // Check 3-day jimpitan streak in the background for logged-in tenant
+    if (tenant?.komunitasId) {
+      await checkAndTriggerJimpitanStreakAlert(tenant.komunitasId).catch(err => {
+        console.error('Streak check error:', err);
+      });
+    }
 
     const whereClause = tenant?.komunitasId
       ? {

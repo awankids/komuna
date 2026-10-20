@@ -117,6 +117,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [canRequestNotification, setCanRequestNotification] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'default') {
+      setCanRequestNotification(true);
+    }
+  }, []);
 
   // Fetch notifications from API
   const fetchNotifications = async () => {
@@ -124,8 +131,41 @@ export default function Header({ onMenuClick }: HeaderProps) {
       const res = await fetch('/api/notifikasi');
       if (res.ok) {
         const data = await res.json();
-        setNotifications(data.notifikasi || []);
-        setUnreadCount(data.notifikasi?.filter((n: any) => !n.isRead).length || 0);
+        const list = data.notifikasi || [];
+        setNotifications(list);
+        setUnreadCount(list.filter((n: any) => !n.isRead).length);
+
+        // Emit native phone notification for unread warning notifications (e.g. Jimpitan Bolong 3 Hari)
+        if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+          const unreadWarnings = list.filter((n: any) => !n.isRead && n.type === 'warning');
+          for (const notif of unreadWarnings) {
+            const pushedKey = `komuna-pushed-notif-${notif.id}`;
+            if (!sessionStorage.getItem(pushedKey)) {
+              sessionStorage.setItem(pushedKey, 'yes');
+              try {
+                if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                  navigator.serviceWorker.ready.then((reg) => {
+                    reg.showNotification(notif.title, {
+                      body: notif.message,
+                      icon: '/icon-192.png',
+                      badge: '/icon-192.png',
+                      tag: notif.id,
+                      data: { url: '/jimpitan' }
+                    });
+                  });
+                } else {
+                  new Notification(notif.title, {
+                    body: notif.message,
+                    icon: '/icon-192.png',
+                    tag: notif.id
+                  });
+                }
+              } catch (err) {
+                console.warn('Native notification failed:', err);
+              }
+            }
+          }
+        }
       }
     } catch (e) {
       console.error('Failed to fetch notifications', e);
@@ -239,6 +279,46 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <button onClick={handleMarkAllRead} className="text-[10px] text-[var(--brand-primary)] font-semibold hover:underline">Tandai dibaca</button>
                 )}
               </div>
+              {canRequestNotification && (
+                <div className="p-2.5 bg-amber-50/90 border-b border-amber-100/80 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <Bell className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span className="text-[10px] font-semibold text-amber-900 leading-tight">
+                      Aktifkan notifikasi HP untuk peringatan jimpitan
+                    </span>
+                  </div>
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      if ('Notification' in window) {
+                        const perm = await Notification.requestPermission();
+                        if (perm === 'granted') {
+                          setCanRequestNotification(false);
+                          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                            navigator.serviceWorker.ready.then((reg) => {
+                              reg.showNotification('Komuna RT 🔔', {
+                                body: 'Notifikasi HP aktif! Peringatan jimpitan akan otomatis muncul di HP Anda.',
+                                icon: '/icon-192.png',
+                                badge: '/icon-192.png'
+                              });
+                            });
+                          } else {
+                            new Notification('Komuna RT 🔔', {
+                              body: 'Notifikasi HP aktif! Peringatan jimpitan akan otomatis muncul di HP Anda.',
+                              icon: '/icon-192.png'
+                            });
+                          }
+                        } else if (perm === 'denied') {
+                          setCanRequestNotification(false);
+                        }
+                      }
+                    }}
+                    className="px-2 py-0.5 bg-amber-600 hover:bg-amber-700 text-white text-[10px] font-bold rounded-lg shrink-0 cursor-pointer shadow-xs transition-colors"
+                  >
+                    Aktifkan
+                  </button>
+                </div>
+              )}
               <div className="max-h-80 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="px-4 py-6 text-center text-slate-400 text-xs font-medium italic">

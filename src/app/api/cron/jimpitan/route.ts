@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db as prisma } from '@/lib/db';
+import { checkAndTriggerJimpitanStreakAlert } from '@/lib/jimpitan-streak';
 
 export async function GET(request: Request) {
   try {
@@ -13,6 +14,14 @@ export async function GET(request: Request) {
     
     if (authHeader !== `Bearer ${secret}` && token !== secret) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // 1.5 Run Jimpitan 3-Day Missing Streak Check for all active communities
+    const allKomunitas = await prisma.komunitas.findMany({ select: { id: true } });
+    for (const kom of allKomunitas) {
+      await checkAndTriggerJimpitanStreakAlert(kom.id).catch(err => {
+        console.error('Streak check error for komunitas', kom.id, err);
+      });
     }
 
     // 2. Get current day of the week (1 = Monday, 7 = Sunday)
