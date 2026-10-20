@@ -1,44 +1,48 @@
-import fs from 'fs';
-import path from 'path';
+import { db } from './db';
 import { DEFAULT_LANDING_DATA, LandingPageData } from './landing-defaults';
 
-const CMS_STORAGE_FILE = path.join(process.cwd(), 'data', 'cms-content.json');
-
 /**
- * Membaca data CMS Landing Page secara terisolasi.
- * Sama sekali TIDAK menyentuh database operasional warga RT.
+ * Membaca konten CMS Landing Page secara terisolasi.
+ * Mengambil dari tabel terisolasi PlatformCms dengan fallback aman ke DEFAULT_LANDING_DATA.
+ * SAMA SEKALI tidak menyentuh tabel operasional warga RT (User, Transaksi, Jimpitan, dll).
  */
 export async function getCmsData(): Promise<LandingPageData> {
   try {
-    if (fs.existsSync(CMS_STORAGE_FILE)) {
-      const raw = fs.readFileSync(CMS_STORAGE_FILE, 'utf-8');
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object') {
-        return {
-          hero: { ...DEFAULT_LANDING_DATA.hero, ...parsed.hero },
-          features: Array.isArray(parsed.features) && parsed.features.length > 0 ? parsed.features : DEFAULT_LANDING_DATA.features,
-          stepsSection: { ...DEFAULT_LANDING_DATA.stepsSection, ...parsed.stepsSection },
-          statsTrust: { ...DEFAULT_LANDING_DATA.statsTrust, ...parsed.statsTrust },
-          testimonials: Array.isArray(parsed.testimonials) && parsed.testimonials.length > 0 ? parsed.testimonials : DEFAULT_LANDING_DATA.testimonials,
-          faqs: Array.isArray(parsed.faqs) && parsed.faqs.length > 0 ? parsed.faqs : DEFAULT_LANDING_DATA.faqs,
-          bottomCta: { ...DEFAULT_LANDING_DATA.bottomCta, ...parsed.bottomCta },
-          footer: { ...DEFAULT_LANDING_DATA.footer, ...parsed.footer },
-        };
+    if (db && (db as any).platformCms) {
+      const row = await (db as any).platformCms.findUnique({
+        where: { id: 'global' },
+      });
+
+      if (row?.content) {
+        const parsed = JSON.parse(row.content);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            hero: { ...DEFAULT_LANDING_DATA.hero, ...parsed.hero },
+            features: Array.isArray(parsed.features) && parsed.features.length > 0 ? parsed.features : DEFAULT_LANDING_DATA.features,
+            stepsSection: { ...DEFAULT_LANDING_DATA.stepsSection, ...parsed.stepsSection },
+            statsTrust: { ...DEFAULT_LANDING_DATA.statsTrust, ...parsed.statsTrust },
+            testimonials: Array.isArray(parsed.testimonials) && parsed.testimonials.length > 0 ? parsed.testimonials : DEFAULT_LANDING_DATA.testimonials,
+            faqs: Array.isArray(parsed.faqs) && parsed.faqs.length > 0 ? parsed.faqs : DEFAULT_LANDING_DATA.faqs,
+            bottomCta: { ...DEFAULT_LANDING_DATA.bottomCta, ...parsed.bottomCta },
+            footer: { ...DEFAULT_LANDING_DATA.footer, ...parsed.footer },
+          };
+        }
       }
     }
   } catch (error) {
-    console.warn('Failed to read isolated CMS file, using safe defaults:', error);
+    console.warn('CMS read error, falling back to safe defaults:', error);
   }
 
   return DEFAULT_LANDING_DATA;
 }
 
 /**
- * Menyimpan data perubahan CMS Landing Page secara terisolasi.
+ * Menyimpan data perubahan CMS Landing Page secara persisten ke database (kompatibel Vercel Serverless).
+ * Menggunakan upsert database sehingga TIDAK AKAN PERNAH memicu error ENOENT / EROFS pada filesystem serverless.
  */
 export async function saveCmsData(
   payload: Partial<LandingPageData>,
-  updatedBy: string = 'Super Admin'
+  updatedBy: string = 'Platform Super Admin'
 ): Promise<{ success: boolean; data?: LandingPageData; error?: string }> {
   try {
     const current = await getCmsData();
@@ -54,28 +58,26 @@ export async function saveCmsData(
       footer: payload.footer ? { ...current.footer, ...payload.footer } : current.footer,
     };
 
-    const dir = path.dirname(CMS_STORAGE_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-
-    const fileContent = JSON.stringify(
-      {
-        ...merged,
-        _metadata: {
-          updatedAt: new Date().toISOString(),
+    if (db && (db as any).platformCms) {
+      await (db as any).platformCms.upsert({
+        where: { id: 'global' },
+        create: {
+          id: 'global',
+          content: JSON.stringify(merged),
           updatedBy,
         },
-      },
-      null,
-      2
-    );
+        update: {
+          content: JSON.stringify(merged),
+          updatedBy,
+        },
+      });
 
-    fs.writeFileSync(CMS_STORAGE_FILE, fileContent, 'utf-8');
+      return { success: true, data: merged };
+    }
 
-    return { success: true, data: merged };
+    return { success: false, error: 'Database CMS belum siap' };
   } catch (error: any) {
-    console.error('Failed to save isolated CMS data:', error);
+    console.error('Failed to save CMS data to database:', error);
     return { success: false, error: error?.message || 'Gagal menyimpan data CMS' };
   }
 }
@@ -85,11 +87,13 @@ export async function saveCmsData(
  */
 export async function resetCmsData(): Promise<LandingPageData> {
   try {
-    if (fs.existsSync(CMS_STORAGE_FILE)) {
-      fs.unlinkSync(CMS_STORAGE_FILE);
+    if (db && (db as any).platformCms) {
+      await (db as any).platformCms.deleteMany({
+        where: { id: 'global' },
+      });
     }
   } catch (error) {
-    console.error('Failed to reset CMS file:', error);
+    console.error('Failed to reset CMS data:', error);
   }
   return DEFAULT_LANDING_DATA;
 }

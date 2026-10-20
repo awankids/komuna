@@ -73,7 +73,8 @@ export const ModelName = {
   KelompokArisan: 'KelompokArisan',
   PesertaArisan: 'PesertaArisan',
   PutaranArisan: 'PutaranArisan',
-  PembayaranIuranArisan: 'PembayaranIuranArisan'
+  PembayaranIuranArisan: 'PembayaranIuranArisan',
+  PlatformCms: 'PlatformCms'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -526,6 +527,16 @@ export const PembayaranIuranArisanScalarFieldEnum = {
 } as const
 
 export type PembayaranIuranArisanScalarFieldEnum = (typeof PembayaranIuranArisanScalarFieldEnum)[keyof typeof PembayaranIuranArisanScalarFieldEnum]
+
+
+export const PlatformCmsScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  updatedAt: 'updatedAt',
+  updatedBy: 'updatedBy'
+} as const
+
+export type PlatformCmsScalarFieldEnum = (typeof PlatformCmsScalarFieldEnum)[keyof typeof PlatformCmsScalarFieldEnum]
 
 
 export const SortOrder = {

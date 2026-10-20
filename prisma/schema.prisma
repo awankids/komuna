@@ -527,6 +527,17 @@ model PembayaranIuranArisan {
   catatan          String?
 }
 
+// ==========================================
+// Platform CMS Content Store (Terisolasi dari RT)
+// ==========================================
+model PlatformCms {
+  id        String   @id @default("global")
+  content   String   @db.Text
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+}
+
+
 
 
 

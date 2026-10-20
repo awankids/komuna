@@ -406,7 +406,8 @@ export const ModelName = {
   KelompokArisan: 'KelompokArisan',
   PesertaArisan: 'PesertaArisan',
   PutaranArisan: 'PutaranArisan',
-  PembayaranIuranArisan: 'PembayaranIuranArisan'
+  PembayaranIuranArisan: 'PembayaranIuranArisan',
+  PlatformCms: 'PlatformCms'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan"
+    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan" | "platformCms"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2128,6 +2129,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PlatformCms: {
+      payload: Prisma.$PlatformCmsPayload<ExtArgs>
+      fields: Prisma.PlatformCmsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PlatformCmsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PlatformCmsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>
+        }
+        findFirst: {
+          args: Prisma.PlatformCmsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PlatformCmsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>
+        }
+        findMany: {
+          args: Prisma.PlatformCmsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>[]
+        }
+        create: {
+          args: Prisma.PlatformCmsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>
+        }
+        createMany: {
+          args: Prisma.PlatformCmsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PlatformCmsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>[]
+        }
+        delete: {
+          args: Prisma.PlatformCmsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>
+        }
+        update: {
+          args: Prisma.PlatformCmsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>
+        }
+        deleteMany: {
+          args: Prisma.PlatformCmsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PlatformCmsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PlatformCmsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>[]
+        }
+        upsert: {
+          args: Prisma.PlatformCmsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlatformCmsPayload>
+        }
+        aggregate: {
+          args: Prisma.PlatformCmsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePlatformCms>
+        }
+        groupBy: {
+          args: Prisma.PlatformCmsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlatformCmsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PlatformCmsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlatformCmsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2603,6 +2678,16 @@ export const PembayaranIuranArisanScalarFieldEnum = {
 export type PembayaranIuranArisanScalarFieldEnum = (typeof PembayaranIuranArisanScalarFieldEnum)[keyof typeof PembayaranIuranArisanScalarFieldEnum]
 
 
+export const PlatformCmsScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  updatedAt: 'updatedAt',
+  updatedBy: 'updatedBy'
+} as const
+
+export type PlatformCmsScalarFieldEnum = (typeof PlatformCmsScalarFieldEnum)[keyof typeof PlatformCmsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2828,6 +2913,7 @@ export type GlobalOmitConfig = {
   pesertaArisan?: Prisma.PesertaArisanOmit
   putaranArisan?: Prisma.PutaranArisanOmit
   pembayaranIuranArisan?: Prisma.PembayaranIuranArisanOmit
+  platformCms?: Prisma.PlatformCmsOmit
 }
 
 /* Types for Logging */

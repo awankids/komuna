@@ -132,3 +132,8 @@ export type PutaranArisan = Prisma.PutaranArisanModel
  * 
  */
 export type PembayaranIuranArisan = Prisma.PembayaranIuranArisanModel
+/**
+ * Model PlatformCms
+ * 
+ */
+export type PlatformCms = Prisma.PlatformCmsModel
