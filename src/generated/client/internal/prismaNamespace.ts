@@ -406,8 +406,7 @@ export const ModelName = {
   KelompokArisan: 'KelompokArisan',
   PesertaArisan: 'PesertaArisan',
   PutaranArisan: 'PutaranArisan',
-  PembayaranIuranArisan: 'PembayaranIuranArisan',
-  LandingPageCms: 'LandingPageCms'
+  PembayaranIuranArisan: 'PembayaranIuranArisan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -423,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan" | "landingPageCms"
+    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2129,80 +2128,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    LandingPageCms: {
-      payload: Prisma.$LandingPageCmsPayload<ExtArgs>
-      fields: Prisma.LandingPageCmsFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.LandingPageCmsFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.LandingPageCmsFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>
-        }
-        findFirst: {
-          args: Prisma.LandingPageCmsFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.LandingPageCmsFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>
-        }
-        findMany: {
-          args: Prisma.LandingPageCmsFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>[]
-        }
-        create: {
-          args: Prisma.LandingPageCmsCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>
-        }
-        createMany: {
-          args: Prisma.LandingPageCmsCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.LandingPageCmsCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>[]
-        }
-        delete: {
-          args: Prisma.LandingPageCmsDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>
-        }
-        update: {
-          args: Prisma.LandingPageCmsUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>
-        }
-        deleteMany: {
-          args: Prisma.LandingPageCmsDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.LandingPageCmsUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.LandingPageCmsUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>[]
-        }
-        upsert: {
-          args: Prisma.LandingPageCmsUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingPageCmsPayload>
-        }
-        aggregate: {
-          args: Prisma.LandingPageCmsAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateLandingPageCms>
-        }
-        groupBy: {
-          args: Prisma.LandingPageCmsGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.LandingPageCmsGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.LandingPageCmsCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.LandingPageCmsCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -2678,22 +2603,6 @@ export const PembayaranIuranArisanScalarFieldEnum = {
 export type PembayaranIuranArisanScalarFieldEnum = (typeof PembayaranIuranArisanScalarFieldEnum)[keyof typeof PembayaranIuranArisanScalarFieldEnum]
 
 
-export const LandingPageCmsScalarFieldEnum = {
-  id: 'id',
-  heroData: 'heroData',
-  statsData: 'statsData',
-  featuresData: 'featuresData',
-  stepsData: 'stepsData',
-  testimonialsData: 'testimonialsData',
-  faqData: 'faqData',
-  footerData: 'footerData',
-  updatedAt: 'updatedAt',
-  updatedBy: 'updatedBy'
-} as const
-
-export type LandingPageCmsScalarFieldEnum = (typeof LandingPageCmsScalarFieldEnum)[keyof typeof LandingPageCmsScalarFieldEnum]
-
-
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2919,7 +2828,6 @@ export type GlobalOmitConfig = {
   pesertaArisan?: Prisma.PesertaArisanOmit
   putaranArisan?: Prisma.PutaranArisanOmit
   pembayaranIuranArisan?: Prisma.PembayaranIuranArisanOmit
-  landingPageCms?: Prisma.LandingPageCmsOmit
 }
 
 /* Types for Logging */

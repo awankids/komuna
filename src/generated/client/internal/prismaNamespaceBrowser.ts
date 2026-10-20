@@ -73,8 +73,7 @@ export const ModelName = {
   KelompokArisan: 'KelompokArisan',
   PesertaArisan: 'PesertaArisan',
   PutaranArisan: 'PutaranArisan',
-  PembayaranIuranArisan: 'PembayaranIuranArisan',
-  LandingPageCms: 'LandingPageCms'
+  PembayaranIuranArisan: 'PembayaranIuranArisan'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -527,22 +526,6 @@ export const PembayaranIuranArisanScalarFieldEnum = {
 } as const
 
 export type PembayaranIuranArisanScalarFieldEnum = (typeof PembayaranIuranArisanScalarFieldEnum)[keyof typeof PembayaranIuranArisanScalarFieldEnum]
-
-
-export const LandingPageCmsScalarFieldEnum = {
-  id: 'id',
-  heroData: 'heroData',
-  statsData: 'statsData',
-  featuresData: 'featuresData',
-  stepsData: 'stepsData',
-  testimonialsData: 'testimonialsData',
-  faqData: 'faqData',
-  footerData: 'footerData',
-  updatedAt: 'updatedAt',
-  updatedBy: 'updatedBy'
-} as const
-
-export type LandingPageCmsScalarFieldEnum = (typeof LandingPageCmsScalarFieldEnum)[keyof typeof LandingPageCmsScalarFieldEnum]
 
 
 export const SortOrder = {

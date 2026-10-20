@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { db } from '@/lib/db';
-import { DEFAULT_LANDING_DATA, LandingPageData } from '@/lib/landing-defaults';
+import { getCmsData } from '@/lib/cms-db';
+import { LandingPageData } from '@/lib/landing-defaults';
 
 import LandingNavbar from '@/components/landing/LandingNavbar';
 import LandingHero from '@/components/landing/LandingHero';
@@ -19,47 +19,9 @@ export const metadata: Metadata = {
     'Aplikasi modern gotong-royong warga RT untuk mengelola kas, iuran, jimpitan ronda, dan administrasi kependudukan yang transparan dan akuntabel.',
 };
 
-// Server Component fetching CMS data directly from DB with safe fallback
-async function getLandingContent(): Promise<LandingPageData> {
-  try {
-    if (!db || !(db as any).landingPageCms) {
-      return DEFAULT_LANDING_DATA;
-    }
-
-    const cmsRow = await db.landingPageCms.findUnique({
-      where: { id: 'global' },
-    });
-
-    if (!cmsRow) {
-      return DEFAULT_LANDING_DATA;
-    }
-
-    const hero = cmsRow.heroData ? JSON.parse(cmsRow.heroData) : DEFAULT_LANDING_DATA.hero;
-    const statsTrust = cmsRow.statsData ? JSON.parse(cmsRow.statsData) : DEFAULT_LANDING_DATA.statsTrust;
-    const features = cmsRow.featuresData ? JSON.parse(cmsRow.featuresData) : DEFAULT_LANDING_DATA.features;
-    const stepsSection = cmsRow.stepsData ? JSON.parse(cmsRow.stepsData) : DEFAULT_LANDING_DATA.stepsSection;
-    const testimonials = cmsRow.testimonialsData ? JSON.parse(cmsRow.testimonialsData) : DEFAULT_LANDING_DATA.testimonials;
-    const faqs = cmsRow.faqData ? JSON.parse(cmsRow.faqData) : DEFAULT_LANDING_DATA.faqs;
-    const footer = cmsRow.footerData ? JSON.parse(cmsRow.footerData) : DEFAULT_LANDING_DATA.footer;
-
-    return {
-      hero: { ...DEFAULT_LANDING_DATA.hero, ...hero },
-      features: Array.isArray(features) && features.length > 0 ? features : DEFAULT_LANDING_DATA.features,
-      stepsSection: { ...DEFAULT_LANDING_DATA.stepsSection, ...stepsSection },
-      statsTrust: { ...DEFAULT_LANDING_DATA.statsTrust, ...statsTrust },
-      testimonials: Array.isArray(testimonials) && testimonials.length > 0 ? testimonials : DEFAULT_LANDING_DATA.testimonials,
-      faqs: Array.isArray(faqs) && faqs.length > 0 ? faqs : DEFAULT_LANDING_DATA.faqs,
-      bottomCta: DEFAULT_LANDING_DATA.bottomCta,
-      footer: { ...DEFAULT_LANDING_DATA.footer, ...footer },
-    };
-  } catch (error) {
-    console.error('Failed to load landing content on server:', error);
-    return DEFAULT_LANDING_DATA;
-  }
-}
-
 export default async function LandingPage() {
-  const content = await getLandingContent();
+  // Mengambil konten dari engine CMS terisolasi (100% terpisah dari database operasional RT)
+  const content: LandingPageData = await getCmsData();
 
   return (
     <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900 w-full">
