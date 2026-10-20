@@ -425,6 +425,9 @@ export default function JimpitanBulananPage() {
 
   const rasioPengisian = totalDays > 0 ? Math.round((filledCount / totalDays) * 100) : 0;
   const sisaTarget = Math.max(0, targetBulanIni - totalTerkumpul);
+  const avgTerkumpul = useMemo(() => {
+    return filledCount > 0 ? Math.round(totalTerkumpul / filledCount) : 0;
+  }, [totalTerkumpul, filledCount]);
 
   // Compute remaining days dynamically based on selected month/year vs today
   const remainingDays = useMemo(() => {
@@ -728,8 +731,11 @@ export default function JimpitanBulananPage() {
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Jimpitan {getMonthName(selectedMonth)} {selectedYear}</span>
                 <div>
                   <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(totalTerkumpul)}</h3>
-                  <span className="text-[9px] text-slate-400 font-semibold block mt-0.5">
-                    Dana terkumpul {getMonthName(selectedMonth)} {selectedYear}
+                  <span 
+                    title={filledCount > 0 ? `Rata-rata dari ${filledCount} hari terisi` : 'Belum ada hari terisi'}
+                    className="text-[9px] text-slate-450 font-semibold block mt-0.5"
+                  >
+                    Rata-rata/hari: {formatRp(avgTerkumpul)}
                   </span>
                 </div>
               </div>
