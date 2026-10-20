@@ -239,7 +239,7 @@ export default function JimpitanBulananPage() {
   // Ref untuk scroll-to-today otomatis setelah data dimuat
   const todayRowRef = useRef<HTMLDivElement>(null);
 
-  // Target State â€” null berarti belum dimuat dari server (bukan Rp 3jt hardcoded)
+  // Target State — null berarti belum dimuat dari server (bukan Rp 3jt hardcoded)
   const [targetBulanIni, setTargetBulanIni] = useState<number | null>(null);
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [isSavingTarget, setIsSavingTarget] = useState(false);
@@ -288,7 +288,7 @@ export default function JimpitanBulananPage() {
       .then(res => res.json())
       .then(data => {
         if (isMounted) {
-          // Hanya set jika ada nilai positif â€” jangan pakai fallback hardcoded
+          // Hanya set jika ada nilai positif - jangan pakai fallback hardcoded
           const val = typeof data?.targetJimpitan === 'number' && data.targetJimpitan > 0
             ? data.targetJimpitan
             : null;
@@ -475,7 +475,7 @@ export default function JimpitanBulananPage() {
           tanggal: `${dateKey}T00:00:00Z`,
           nominal,
           jadwalId: record.jadwalId,
-          // diisiOleh tidak dikirim dari client â€” server baca dari session JWT
+          // diisiOleh tidak dikirim dari client - server baca dari session JWT
         })
       });
       const data = await res.json();
@@ -545,7 +545,7 @@ export default function JimpitanBulananPage() {
     triggerToast('Laporan Jimpitan CSV berhasil diunduh!', 'success');
   };
 
-  // Dynamic summary stats â€” semua dibungkus useMemo agar tidak recalculate setiap render
+  // Dynamic summary stats - semua dibungkus useMemo agar tidak recalculate setiap render
   const totalDays = useMemo(() => dayRecords.length, [dayRecords]);
 
   const totalTerkumpul = useMemo(() => {
@@ -835,7 +835,7 @@ export default function JimpitanBulananPage() {
                     {formatRp(avgTerkumpul)}/hari
                   </span>
                   <span className="text-[11px] font-medium text-slate-400">
-                    â€¢ {filledCount} dari {totalDays} hari terisi ({rasioPengisian}%)
+                    &bull; {filledCount} dari {totalDays} hari terisi ({rasioPengisian}%)
                   </span>
                 </div>
               </div>
@@ -915,7 +915,7 @@ export default function JimpitanBulananPage() {
                   {/* Percentage Status */}
                   <div className="flex items-center gap-1 font-extrabold text-[11px]">
                     {targetBulanIni === null ? (
-                      <span className="text-slate-400 font-semibold text-[10px]">â€”</span>
+                      <span className="text-slate-400 font-semibold text-[10px]">-</span>
                     ) : persentaseTarget >= 100 ? (
                       <span className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
                         <Check className="w-3 h-3 text-emerald-600" />
@@ -929,7 +929,7 @@ export default function JimpitanBulananPage() {
                   </div>
                 </div>
 
-                {/* Visual Progress Bar â€” tampilkan skeleton jika target belum diatur */}
+                {/* Visual Progress Bar - tampilkan skeleton jika target belum diatur */}
                 <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200/50">
                   {targetBulanIni !== null ? (
                     <div 
@@ -997,7 +997,7 @@ export default function JimpitanBulananPage() {
 
             <div className="p-4 md:p-6">
               {isLoading ? (
-                /* Skeleton Loading â€” lebih profesional dari teks "Memuat..." */
+                /* Skeleton Loading - lebih profesional dari teks "Memuat..." */
                 <div className="flex flex-col divide-y divide-slate-100">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div key={i} className="flex items-stretch py-4 pl-4 pr-1 gap-3 animate-pulse">
