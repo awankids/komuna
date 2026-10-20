@@ -14,7 +14,8 @@ import {
   ChevronLeft, 
   ChevronRight, 
   Pencil, 
-  Check 
+  Check,
+  Coins
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -548,6 +549,8 @@ export default function JimpitanBulananPage() {
 
   const rasioPengisian = totalDays > 0 ? Math.round((filledCount / totalDays) * 100) : 0;
   const sisaTarget = Math.max(0, targetBulanIni - totalTerkumpul);
+  const persentaseTarget = targetBulanIni > 0 ? Math.round((totalTerkumpul / targetBulanIni) * 100) : 0;
+  const targetHarian = totalDays > 0 ? Math.round(targetBulanIni / totalDays) : 0;
 
   const avgTerkumpul = useMemo(() => {
     return filledCount > 0 ? Math.round(totalTerkumpul / filledCount) : 0;
@@ -720,6 +723,174 @@ export default function JimpitanBulananPage() {
             </div>
           </div>
 
+          {/* Sticky Gojek-Style Jimpitan Summary Card */}
+          <div className="sticky top-16 md:top-20 z-20 bg-white/95 backdrop-blur-md rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-md shadow-slate-200/50 p-4 sm:p-5 transition-all">
+            
+            {/* Top Bar: Title, Sync Badge & Quick Action */}
+            <div className="flex items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-[var(--brand-light)] text-[var(--brand-primary)] flex items-center justify-center shrink-0 shadow-xs">
+                  <Coins className="w-4.5 h-4.5" />
+                </div>
+                <div className="flex items-center gap-2 truncate">
+                  <span className="text-xs md:text-sm font-bold text-slate-800 truncate">
+                    Ringkasan {getMonthName(selectedMonth)} {selectedYear}
+                  </span>
+                  <span 
+                    title="Nominal otomatis tersinkronisasi ke menu Kas RT sebagai pemasukan Jimpitan"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-600 border border-blue-100 shrink-0"
+                  >
+                    <Check className="w-2.5 h-2.5" />
+                    Auto-sync Kas RT
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={handleExportExcel}
+                  aria-label="Export Excel"
+                  className="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all text-[11px] flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-slate-500" />
+                  <span className="hidden sm:inline">Export Excel</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Middle Grid: Gojek Wallet Pods (Left: Total Balance, Right: Progress & Metrics) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+              
+              {/* Left Pod: Total Jimpitan Terkumpul */}
+              <div className="lg:col-span-5 flex flex-col justify-center text-left">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Total Jimpitan Terkumpul
+                  </span>
+                  {/* Subtle live indicator */}
+                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live Update
+                  </span>
+                </div>
+
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <h3 className="text-2xl sm:text-3xl font-black text-[var(--brand-primary)] tracking-tight">
+                    {formatRp(totalTerkumpul)}
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                  <span 
+                    title={filledCount > 0 ? `Rata-rata dari ${filledCount} hari terisi` : 'Belum ada hari terisi'}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-100/90 px-2 py-0.5 rounded-lg border border-slate-200/50"
+                  >
+                    <span className="text-slate-400 font-normal">Realisasi:</span>
+                    {formatRp(avgTerkumpul)}/hari
+                  </span>
+                  <span className="text-[11px] font-medium text-slate-400">
+                    • {filledCount} dari {totalDays} hari terisi ({rasioPengisian}%)
+                  </span>
+                </div>
+              </div>
+
+              {/* Vertical Divider (Desktop Only) */}
+              <div className="hidden lg:block w-px h-16 bg-slate-100" />
+
+              {/* Right Pod: Target & Visual Progress Bar */}
+              <div className="lg:col-span-6 flex flex-col justify-center space-y-2 text-left">
+                
+                {/* Target Header Row */}
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target:</span>
+                    {!isEditingTarget ? (
+                      <div className="flex items-center gap-1">
+                        <span className="font-extrabold text-slate-800 text-xs md:text-sm">
+                          {formatRp(targetBulanIni)}
+                        </span>
+                        <button
+                          onClick={() => setIsEditingTarget(true)}
+                          aria-label="Edit target bulan ini"
+                          title="Ubah Target"
+                          className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
+                        >
+                          <Pencil className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1">
+                        <input
+                          ref={targetInputRef}
+                          autoFocus
+                          type="text"
+                          inputMode="numeric"
+                          defaultValue={String(targetBulanIni)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
+                              if (!isNaN(val) && val > 0) handleSaveTarget(val);
+                              else setIsEditingTarget(false);
+                            }
+                            if (e.key === 'Escape') setIsEditingTarget(false);
+                          }}
+                          className="w-24 text-xs font-bold border-b-2 border-[var(--brand-primary)] outline-none bg-transparent py-0.5 text-slate-800"
+                        />
+                        <button
+                          onClick={() => {
+                            const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
+                            if (!isNaN(val) && val > 0) handleSaveTarget(val);
+                            else setIsEditingTarget(false);
+                          }}
+                          className="p-1 text-emerald-600 hover:bg-emerald-50 rounded cursor-pointer"
+                          title="Simpan Target"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Percentage Status */}
+                  <div className="flex items-center gap-1 font-extrabold text-[11px]">
+                    {persentaseTarget >= 100 ? (
+                      <span className="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <Check className="w-3 h-3 text-emerald-600" />
+                        Target Tercapai!
+                      </span>
+                    ) : (
+                      <span className="text-[var(--brand-primary)]">
+                        {persentaseTarget}% Tercapai
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Visual Progress Bar (Gojek / Wallet Bar) */}
+                <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200/50">
+                  <div 
+                    className="h-full rounded-full bg-gradient-to-r from-[var(--brand-primary)] to-amber-500 transition-all duration-500 ease-out"
+                    style={{ width: `${Math.min(100, persentaseTarget)}%` }}
+                  />
+                </div>
+
+                {/* Target Sub-info Row: Sisa Target & Kebutuhan Harian */}
+                <div className="flex items-center justify-between text-[10px] md:text-[11px] text-slate-400 font-semibold pt-0.5">
+                  <span>
+                    Sisa: <strong className={sisaTarget === 0 ? "text-emerald-600" : "text-slate-700"}>{formatRp(sisaTarget)}</strong>
+                    {remainingDays > 0 ? ` (${remainingDays} hari lagi)` : ' (Bulan Selesai)'}
+                  </span>
+                  <span>
+                    Kebutuhan: <strong className="text-slate-700">{formatRp(targetHarian)}/hari</strong>
+                  </span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
           {/* Color Indicators Legend */}
           <div className="flex flex-wrap items-center gap-4 md:gap-5 px-1 justify-start">
             <div className="flex items-center gap-1.5">
@@ -760,130 +931,6 @@ export default function JimpitanBulananPage() {
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Rangkuman Footer Bulanan Cards */}
-          <div className="bg-[#f8fafc] border border-slate-200/50 rounded-3xl p-4 md:p-6 space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              
-              {/* Total Jimpitan */}
-              <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Total Jimpitan {getMonthName(selectedMonth)} {selectedYear}
-                </span>
-                <div>
-                  <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(totalTerkumpul)}</h3>
-                  <span 
-                    title={filledCount > 0 ? `Rata-rata dari ${filledCount} hari terisi` : 'Belum ada hari terisi'}
-                    className="text-[9px] text-slate-450 font-semibold block mt-0.5"
-                  >
-                    Rata-rata/hari: {formatRp(avgTerkumpul)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Target Bulan Ini - Editable */}
-              <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target Bulan Ini</span>
-                  {!isEditingTarget ? (
-                    <button
-                      onClick={() => setIsEditingTarget(true)}
-                      aria-label="Edit target bulan ini"
-                      className="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600 cursor-pointer"
-                    >
-                      <Pencil className="w-3 h-3" />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
-                        if (!isNaN(val) && val > 0) {
-                          handleSaveTarget(val);
-                        } else {
-                          setIsEditingTarget(false);
-                        }
-                      }}
-                      aria-label="Simpan target bulan ini"
-                      className="p-1 rounded-lg hover:bg-emerald-50 transition-colors text-emerald-500 cursor-pointer"
-                    >
-                      <Check className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
-                <div>
-                  {isEditingTarget ? (
-                    <input
-                      ref={targetInputRef}
-                      autoFocus
-                      type="text"
-                      inputMode="numeric"
-                      defaultValue={String(targetBulanIni)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          const val = parseInt(targetInputRef.current?.value?.replace(/\D/g, '') || '0', 10);
-                          if (!isNaN(val) && val > 0) {
-                            handleSaveTarget(val);
-                          } else {
-                            setIsEditingTarget(false);
-                          }
-                        }
-                        if (e.key === 'Escape') setIsEditingTarget(false);
-                      }}
-                      className="w-full text-base font-semibold text-slate-800 tracking-tight border-b-2 border-orange-400 outline-none bg-transparent py-0.5"
-                    />
-                  ) : (
-                    <h3 className="text-xl font-bold text-slate-800 tracking-tight">{formatRp(targetBulanIni)}</h3>
-                  )}
-                  <span className="text-[9px] text-slate-450 font-semibold block mt-0.5">
-                    Rata-rata/hari: {formatRp(totalDays > 0 ? Math.round(targetBulanIni / totalDays) : 0)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Hari Terisi */}
-              <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Hari Terisi</span>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-800 tracking-tight">
-                    {filledCount} <span className="text-xs text-slate-400 font-semibold">/ {totalDays} hari</span>
-                  </h3>
-                  <span className="text-[9px] text-slate-455 font-semibold block mt-0.5">{rasioPengisian}%</span>
-                </div>
-              </div>
-
-              {/* Sisa Target */}
-              <div className="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex flex-col justify-between text-left h-28">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Sisa Target</span>
-                <div>
-                  <h3 className="text-xl font-bold text-[var(--brand-primary)] tracking-tight">{formatRp(sisaTarget)}</h3>
-                  <span className="text-[9px] text-slate-455 font-semibold block mt-0.5">
-                    {remainingDays > 0 ? `${remainingDays} hari lagi di ${getMonthName(selectedMonth)} ${selectedYear}` : `Bulan ${getMonthName(selectedMonth)} ${selectedYear} sudah selesai`}
-                  </span>
-                </div>
-              </div>
-
-            </div>
-
-            {/* Bottom Buttons Block */}
-            <div className="flex items-center justify-start pt-4 border-t border-slate-200/50">
-              <button
-                onClick={handleExportExcel}
-                className="px-5 py-3 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-2xl transition-all text-xs flex items-center gap-1.5 cursor-pointer"
-              >
-                <FileSpreadsheet className="w-4 h-4 text-slate-400" />
-                <span>Export Excel</span>
-              </button>
-            </div>
-
-          </div>
-
-          {/* Callout Info Block */}
-          <div className="bg-[#eff6ff] border border-[#dbeafe] rounded-2xl p-4 flex items-center gap-3 text-left">
-            <Info className="w-5 h-5 text-blue-500 shrink-0" />
-            <span className="text-xs font-semibold text-[#1e40af]">
-              Nominal akan otomatis masuk ke menu Kas RT sebagai pemasukan (Jimpitan).
-            </span>
           </div>
 
           {/* Footer note */}
