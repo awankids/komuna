@@ -156,3 +156,8 @@ export type PutaranArisan = Prisma.PutaranArisanModel
  * 
  */
 export type PembayaranIuranArisan = Prisma.PembayaranIuranArisanModel
+/**
+ * Model LandingPageCms
+ * 
+ */
+export type LandingPageCms = Prisma.LandingPageCmsModel

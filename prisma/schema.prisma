@@ -527,5 +527,19 @@ model PembayaranIuranArisan {
   catatan          String?
 }
 
+model LandingPageCms {
+  id               String   @id @default("global")
+  heroData         String   @default("{}")
+  statsData        String   @default("{}")
+  featuresData     String   @default("[]")
+  stepsData        String   @default("[]")
+  testimonialsData String   @default("[]")
+  faqData          String   @default("[]")
+  footerData       String   @default("{}")
+  updatedAt        DateTime @default(now()) @updatedAt
+  updatedBy        String?
+}
+
+
 
 

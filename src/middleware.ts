@@ -45,6 +45,7 @@ async function getSessionUser(request: NextRequest): Promise<SessionUser | null>
 }
 
 const RBAC_PAGE_RESTRICTIONS: { prefix: string; roles: string[] }[] = [
+  { prefix: '/admin', roles: ['SUPER_ADMIN'] },
   { prefix: '/pengaturan', roles: ['SUPER_ADMIN', 'ADMIN'] },
   { prefix: '/kas', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
   { prefix: '/hutang-piutang', roles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA'] },
@@ -57,7 +58,7 @@ export async function middleware(request: NextRequest) {
 
   // Paths that do not require authentication check
   const isLoginPage = pathname === '/login';
-  const isPublicPage = isLoginPage || pathname === '/demo' || pathname === '/daftar';
+  const isPublicPage = pathname === '/' || isLoginPage || pathname === '/demo' || pathname === '/daftar';
   const isPublicVerification = pathname.startsWith('/verifikasi-surat');
   const isPublicFile = 
     pathname.includes('.') || 
@@ -75,6 +76,7 @@ export async function middleware(request: NextRequest) {
     pathname === '/api/auth/demo' ||
     pathname === '/api/auth/register-rt' ||
     (pathname === '/api/config' && request.method === 'GET') ||
+    (pathname === '/api/cms/landing' && request.method === 'GET') ||
     pathname.startsWith('/api/surat/verifikasi') ||
     pathname.startsWith('/api/cron') ||
     pathname.startsWith('/api/webhooks');
@@ -101,7 +103,8 @@ export async function middleware(request: NextRequest) {
       const isRestrictedAdminApi = 
         pathname.startsWith('/api/users') || 
         pathname.startsWith('/api/backup') || 
-        (pathname === '/api/config' && request.method !== 'GET');
+        (pathname === '/api/config' && request.method !== 'GET') ||
+        (pathname.startsWith('/api/cms') && request.method !== 'GET');
 
       if (isRestrictedAdminApi && userRole !== 'ADMIN') {
         return NextResponse.json(
@@ -123,11 +126,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // If logged in and accessing root '/', smoothly redirect to '/dashboard'
-  if (isAuthenticated && pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
-
   // If logged in and on login page, redirect to dashboard or original target
   if (isAuthenticated && isLoginPage) {
     const redirectParam = request.nextUrl.searchParams.get('redirect');
@@ -138,7 +136,7 @@ export async function middleware(request: NextRequest) {
   // Role-based authorization for Page routes
   if (isAuthenticated && sessionUser) {
     const userRole = (sessionUser.role || 'WARGA').toUpperCase();
-    if (userRole !== 'SUPER_ADMIN' && userRole !== 'ADMIN') {
+    if (userRole !== 'SUPER_ADMIN') {
       const restrictedMatch = RBAC_PAGE_RESTRICTIONS.find(
         rule => pathname === rule.prefix || pathname.startsWith(rule.prefix + '/')
       );

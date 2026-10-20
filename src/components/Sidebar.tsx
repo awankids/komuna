@@ -105,6 +105,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
         { name: 'Data Warga', icon: Users, href: '/anggota', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'SEKRETARIS'] },
         { name: 'Susunan Pengurus', icon: ShieldCheck, href: '/pengurus' },
         { name: 'Pengaturan', icon: Settings, href: '/pengaturan', allowedRoles: ['SUPER_ADMIN', 'ADMIN'] },
+        { name: 'CMS Landing Page', icon: Sparkles, href: '/admin', allowedRoles: ['SUPER_ADMIN'] },
       ],
     },
   ];
