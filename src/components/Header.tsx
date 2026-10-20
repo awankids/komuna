@@ -108,6 +108,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   const handleLogout = async () => {
     try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('komuna_dashboard_summary_cache');
+        localStorage.removeItem('komuna_app_config');
+      }
       await fetch('/api/auth/logout', { method: 'POST' });
       router.push('/login');
     } catch (error) {
@@ -173,10 +177,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
   };
 
   useEffect(() => {
-    fetchNotifications();
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
+    // Delay initial notification fetch slightly so critical dashboard data paints first
+    let interval: NodeJS.Timeout | null = null;
+    const initialTimer = setTimeout(() => {
+      fetchNotifications();
+      interval = setInterval(fetchNotifications, 30000);
+    }, 350);
+
+    return () => {
+      clearTimeout(initialTimer);
+      if (interval) clearInterval(interval);
+    };
   }, []);
 
   const handleMarkAllRead = async () => {

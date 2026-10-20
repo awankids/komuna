@@ -1,9 +1,12 @@
-const CACHE_NAME = 'komuna-cache-v3';
+const CACHE_NAME = 'komuna-cache-v4';
 const ASSETS_TO_CACHE = [
   '/icon.svg',
   '/icon-192.png',
   '/icon-512.png',
-  '/landing_illustration.jpg'
+  '/icon-maskable-192.png',
+  '/icon-maskable-512.png',
+  '/landing_illustration.jpg',
+  '/manifest.webmanifest'
 ];
 
 self.addEventListener('message', (event) => {
@@ -15,7 +18,7 @@ self.addEventListener('message', (event) => {
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // Pre-cache only truly static public images and icons
+      // Pre-cache essential static assets
       return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
         console.warn('Pre-caching warning:', err);
       });
@@ -26,16 +29,22 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          // Invalidate legacy komuna-cache-v1 and any other outdated caches
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
-          }
-        })
-      );
-    })
+    Promise.all([
+      // Clean up legacy caches
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cache) => {
+            if (cache !== CACHE_NAME) {
+              return caches.delete(cache);
+            }
+          })
+        );
+      }),
+      // Enable navigation preload if supported to cut cold-start TTFB
+      self.registration.navigationPreload
+        ? self.registration.navigationPreload.enable()
+        : Promise.resolve()
+    ])
   );
   self.clients.claim();
 });
@@ -53,13 +62,31 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. CRITICAL: Never intercept or cache HTML document navigations.
-  // Next.js App Router and Middleware manage authenticated route transitions.
-  // Intercepting HTML or caching '/' causes stale redirects to /login.
-  if (
-    event.request.mode === 'navigate' ||
-    event.request.headers.get('accept')?.includes('text/html')
-  ) {
+  // 2. Handle HTML document navigations using Navigation Preload (Online First, 0ms SW latency)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      (async () => {
+        try {
+          // Fast-track: use preloaded response if available (parallel network trip during SW boot)
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            return preloadResponse;
+          }
+          return await fetch(event.request);
+        } catch (error) {
+          // Offline fallback
+          const cached = await caches.match(event.request);
+          if (cached) return cached;
+          return new Response(
+            '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Komuna - Mode Offline</title><style>body{font-family:system-ui,-apple-system,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f8fafc;color:#334155;text-align:center;padding:24px}h1{font-size:20px;font-weight:700;margin-bottom:8px;color:#0f172a}p{font-size:14px;color:#64748b;max-width:320px;line-height:1.5;margin-bottom:20px}button{padding:10px 24px;background:#f95713;color:#fff;border:none;border-radius:9999px;font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(249,87,19,0.25)}</style></head><body><h1>Tidak Ada Koneksi Internet</h1><p>Komuna membutuhkan koneksi internet untuk memuat data terbaru. Silakan periksa jaringan HP Anda.</p><button onclick="window.location.reload()">Coba Lagi</button></body></html>',
+            {
+              status: 503,
+              headers: { 'Content-Type': 'text/html; charset=utf-8' },
+            }
+          );
+        }
+      })()
+    );
     return;
   }
 
@@ -112,7 +139,6 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
-
 
 // Handle notification click on phone/browser: focus or open the target URL
 self.addEventListener('notificationclick', (event) => {

@@ -12,25 +12,15 @@ declare global {
 export default function PWARegister() {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      // Track controller change to reload cleanly once when new SW activates
-      let refreshing = false;
-      const handleControllerChange = () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
-        }
-      };
-      navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
-
-      // Register and proactively check for SW updates
+      // Register Service Worker smoothly without disruptive auto-reloading
       const registerSW = () => {
         navigator.serviceWorker
           .register('/sw.js')
           .then((registration) => {
-            // Proactively check for new version on server
+            // Proactively check for new version on server in background
             registration.update().catch(() => {});
 
-            // If a worker is already waiting, tell it to skip waiting immediately
+            // If a worker is already waiting, tell it to skip waiting
             if (registration.waiting) {
               registration.waiting.postMessage({ type: 'SKIP_WAITING' });
             }
@@ -70,7 +60,6 @@ export default function PWARegister() {
       return () => {
         window.removeEventListener('load', registerSW);
         window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-        navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
       };
     }
   }, []);

@@ -36,6 +36,27 @@ interface Transaction {
   category: string;
 }
 
+const DASHBOARD_CACHE_KEY = 'komuna_dashboard_summary_cache';
+
+interface DashboardCacheSnapshot {
+  monthYearKey: string;
+  saldoKas: number;
+  jimpitanBulanIni: number;
+  pemasukanBulanIni: number;
+  pengeluaranBulanIni: number;
+  saldoAwal: number;
+  todayInput: string;
+  todaySavedNominal: number | null;
+  todayPetugasName: string;
+  todayJadwalId: string | null;
+  yesterdayInput: string;
+  yesterdaySavedNominal: number | null;
+  yesterdayPetugasName: string;
+  yesterdayJadwalId: string | null;
+  transactions: Transaction[];
+  cachedAt: number;
+}
+
 export default function DashboardPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -235,6 +256,35 @@ export default function DashboardPage() {
       });
 
       setTransactions(mapped);
+
+      // Save fresh snapshot to cache for instant loading on subsequent PWA launches
+      try {
+        const snapshot: DashboardCacheSnapshot = {
+          monthYearKey: `${yearStr}-${monthStr}`,
+          saldoKas: data.saldoKas || 0,
+          jimpitanBulanIni: data.totalJimpitan || 0,
+          pemasukanBulanIni: data.totalPemasukan || 0,
+          pengeluaranBulanIni: data.totalPengeluaran || 0,
+          saldoAwal: data.saldoAwal || 0,
+          todayInput: data.todayJimpitan !== null && data.todayJimpitan > 0 ? String(data.todayJimpitan) : '',
+          todaySavedNominal: data.todayJimpitan,
+          todayPetugasName: data.todaySchedule?.anggota
+            ? `${data.todaySchedule.anggota.nama} (${data.todaySchedule.anggota.noRumah || '-'})`
+            : 'Tidak ada petugas ronda terjadwal hari ini',
+          todayJadwalId: data.todaySchedule?.id || null,
+          yesterdayInput: data.yesterdayJimpitan !== null && data.yesterdayJimpitan > 0 ? String(data.yesterdayJimpitan) : '',
+          yesterdaySavedNominal: data.yesterdayJimpitan,
+          yesterdayPetugasName: data.yesterdaySchedule?.anggota
+            ? `${data.yesterdaySchedule.anggota.nama} (${data.yesterdaySchedule.anggota.noRumah || '-'})`
+            : 'Tidak ada petugas ronda terjadwal kemarin',
+          yesterdayJadwalId: data.yesterdaySchedule?.id || null,
+          transactions: mapped,
+          cachedAt: Date.now(),
+        };
+        localStorage.setItem(DASHBOARD_CACHE_KEY, JSON.stringify(snapshot));
+      } catch (err) {
+        // Silent catch for quota limits
+      }
     } catch (e) {
       console.error('Error fetching dashboard data:', e);
     }
@@ -242,6 +292,39 @@ export default function DashboardPage() {
 
   useEffect(() => {
     isMountedRef.current = true;
+
+    // 1. Instant Cache Hydration: Render local dashboard snapshot immediately (0ms first paint)
+    try {
+      const cachedStr = localStorage.getItem(DASHBOARD_CACHE_KEY);
+      if (cachedStr) {
+        const cached: DashboardCacheSnapshot = JSON.parse(cachedStr);
+        const now = new Date();
+        const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        // Only hydrate if cached snapshot matches current month/year
+        if (cached && cached.monthYearKey === currentKey) {
+          setSaldoKas(cached.saldoKas || 0);
+          setJimpitanBulanIni(cached.jimpitanBulanIni || 0);
+          setPemasukanBulanIni(cached.pemasukanBulanIni || 0);
+          setPengeluaranBulanIni(cached.pengeluaranBulanIni || 0);
+          setSaldoAwal(cached.saldoAwal || 0);
+          if (cached.todayPetugasName) setTodayPetugasName(cached.todayPetugasName);
+          if (cached.todayJadwalId !== undefined) setTodayJadwalId(cached.todayJadwalId);
+          if (cached.todayInput !== undefined) setTodayInput(cached.todayInput);
+          if (cached.todaySavedNominal !== undefined) setTodaySavedNominal(cached.todaySavedNominal);
+          if (cached.yesterdayPetugasName) setYesterdayPetugasName(cached.yesterdayPetugasName);
+          if (cached.yesterdayJadwalId !== undefined) setYesterdayJadwalId(cached.yesterdayJadwalId);
+          if (cached.yesterdayInput !== undefined) setYesterdayInput(cached.yesterdayInput);
+          if (cached.yesterdaySavedNominal !== undefined) setYesterdaySavedNominal(cached.yesterdaySavedNominal);
+          if (Array.isArray(cached.transactions) && cached.transactions.length > 0) {
+            setTransactions(cached.transactions);
+          }
+        }
+      }
+    } catch (e) {
+      // Graceful fallback
+    }
+
+    // 2. Background Revalidation: Fetch fresh data and sync in background
     fetchData();
     fetchAppConfig();
 
