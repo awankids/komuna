@@ -1,4 +1,4 @@
-const CACHE_NAME = 'komuna-cache-v4';
+const CACHE_NAME = 'komuna-cache-v5';
 const ASSETS_TO_CACHE = [
   '/icon.svg',
   '/icon-192.png',
@@ -52,10 +52,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // 1. Never intercept non-GET requests, Next.js dev server, API endpoints, or extension requests
+  // 1. Never intercept local dev server, Turbopack HMR, non-GET, API, or extensions
   if (
     event.request.method !== 'GET' ||
+    url.hostname === 'localhost' ||
+    url.hostname === '127.0.0.1' ||
+    url.pathname.includes('[turbopack]') ||
+    url.pathname.includes('%5Bturbopack%5D') ||
+    url.pathname.includes('hmr') ||
     url.pathname.includes('/_next/webpack-hmr') ||
+    url.pathname.includes('/_next/development/') ||
     url.pathname.startsWith('/api/') ||
     url.protocol.startsWith('chrome-extension:')
   ) {

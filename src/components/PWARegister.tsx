@@ -12,7 +12,18 @@ declare global {
 export default function PWARegister() {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      // Register Service Worker smoothly without disruptive auto-reloading
+      // 1. In local dev mode (localhost / 127.0.0.1), unregister stale SW to prevent Turbopack HMR chunk collisions
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (isLocalhost) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const reg of registrations) {
+            reg.unregister().catch(() => {});
+          }
+        });
+        return;
+      }
+
+      // 2. In production, register Service Worker smoothly without disruptive auto-reloading
       const registerSW = () => {
         navigator.serviceWorker
           .register('/sw.js')
