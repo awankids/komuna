@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import PWARegister from "@/components/PWARegister";
-import Script from "next/script";
+import ThemeInitializer from "@/components/ThemeInitializer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,10 +32,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
-      <head>
-        <Script src="/theme-init.js" strategy="beforeInteractive" />
-      </head>
       <body className="min-h-full flex bg-[#f8fafc] text-slate-800">
+        <ThemeInitializer />
         <PWARegister />
         {children}
       </body>
