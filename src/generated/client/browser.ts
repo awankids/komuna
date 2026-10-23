@@ -137,3 +137,23 @@ export type PembayaranIuranArisan = Prisma.PembayaranIuranArisanModel
  * 
  */
 export type PlatformCms = Prisma.PlatformCmsModel
+/**
+ * Model Voting
+ * 
+ */
+export type Voting = Prisma.VotingModel
+/**
+ * Model VotingOpsi
+ * 
+ */
+export type VotingOpsi = Prisma.VotingOpsiModel
+/**
+ * Model VotingSuara
+ * 
+ */
+export type VotingSuara = Prisma.VotingSuaraModel
+/**
+ * Model VotingKomentar
+ * 
+ */
+export type VotingKomentar = Prisma.VotingKomentarModel

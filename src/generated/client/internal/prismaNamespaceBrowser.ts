@@ -74,7 +74,11 @@ export const ModelName = {
   PesertaArisan: 'PesertaArisan',
   PutaranArisan: 'PutaranArisan',
   PembayaranIuranArisan: 'PembayaranIuranArisan',
-  PlatformCms: 'PlatformCms'
+  PlatformCms: 'PlatformCms',
+  Voting: 'Voting',
+  VotingOpsi: 'VotingOpsi',
+  VotingSuara: 'VotingSuara',
+  VotingKomentar: 'VotingKomentar'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -537,6 +541,69 @@ export const PlatformCmsScalarFieldEnum = {
 } as const
 
 export type PlatformCmsScalarFieldEnum = (typeof PlatformCmsScalarFieldEnum)[keyof typeof PlatformCmsScalarFieldEnum]
+
+
+export const VotingScalarFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  deskripsi: 'deskripsi',
+  kategori: 'kategori',
+  tipeHakSuara: 'tipeHakSuara',
+  tipeKerahasiaan: 'tipeKerahasiaan',
+  status: 'status',
+  kuorumPersen: 'kuorumPersen',
+  tanggalMulai: 'tanggalMulai',
+  tanggalSelesai: 'tanggalSelesai',
+  estimasiBiaya: 'estimasiBiaya',
+  lampiranUrl: 'lampiranUrl',
+  dibuatOleh: 'dibuatOleh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  komunitasId: 'komunitasId'
+} as const
+
+export type VotingScalarFieldEnum = (typeof VotingScalarFieldEnum)[keyof typeof VotingScalarFieldEnum]
+
+
+export const VotingOpsiScalarFieldEnum = {
+  id: 'id',
+  votingId: 'votingId',
+  urutan: 'urutan',
+  judulOpsi: 'judulOpsi',
+  deskripsiOpsi: 'deskripsiOpsi',
+  gambarUrl: 'gambarUrl',
+  perkiraanBiaya: 'perkiraanBiaya'
+} as const
+
+export type VotingOpsiScalarFieldEnum = (typeof VotingOpsiScalarFieldEnum)[keyof typeof VotingOpsiScalarFieldEnum]
+
+
+export const VotingSuaraScalarFieldEnum = {
+  id: 'id',
+  votingId: 'votingId',
+  opsiId: 'opsiId',
+  anggotaId: 'anggotaId',
+  noRumah: 'noRumah',
+  namaPemilih: 'namaPemilih',
+  alasanMemilih: 'alasanMemilih',
+  dicatatOleh: 'dicatatOleh',
+  waktuVote: 'waktuVote',
+  komunitasId: 'komunitasId'
+} as const
+
+export type VotingSuaraScalarFieldEnum = (typeof VotingSuaraScalarFieldEnum)[keyof typeof VotingSuaraScalarFieldEnum]
+
+
+export const VotingKomentarScalarFieldEnum = {
+  id: 'id',
+  votingId: 'votingId',
+  namaPengirim: 'namaPengirim',
+  rolePengirim: 'rolePengirim',
+  pesan: 'pesan',
+  createdAt: 'createdAt'
+} as const
+
+export type VotingKomentarScalarFieldEnum = (typeof VotingKomentarScalarFieldEnum)[keyof typeof VotingKomentarScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -20,7 +20,8 @@ import {
   Loader2,
   TrendingUp,
   TrendingDown,
-  Sparkles
+  Sparkles,
+  Vote
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -103,6 +104,9 @@ export default function DashboardPage() {
     namaApp: 'komuna.id',
     namaRt: '',
   });
+
+  // Active Musyawarah / Voting
+  const [activeVoting, setActiveVoting] = useState<any>(null);
 
   const fetchAppConfig = async () => {
     if (typeof window === 'undefined') return;
@@ -338,6 +342,17 @@ export default function DashboardPage() {
     }
 
     window.addEventListener('komuna_config_updated', fetchAppConfig);
+
+    // Fetch active musyawarah / voting for alert banner
+    fetch('/api/voting?status=aktif')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (json?.data && json.data.length > 0) {
+          setActiveVoting(json.data[0]);
+        }
+      })
+      .catch(() => {});
+
     return () => { 
       isMountedRef.current = false; 
       if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
@@ -500,6 +515,42 @@ export default function DashboardPage() {
               <span>{todayDateFormatted || 'Memuat tanggal...'}</span>
             </div>
           </div>
+
+          {/* Active Musyawarah / Voting Alert Banner */}
+          {activeVoting && (
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-transparent border border-orange-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+              <div className="flex items-center gap-3">
+                <span className="p-2.5 rounded-xl bg-[var(--brand-primary)] text-white shadow-xs shrink-0">
+                  <Vote className="w-5 h-5" />
+                </span>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--brand-primary)]">
+                      Musyawarah Warga Aktif
+                    </span>
+                    <span className="text-[11px] font-medium text-slate-500">
+                      • Partisipasi {activeVoting.persentasePartisipasi}% ({activeVoting.totalSuaraMasuk}/{activeVoting.totalTargetPemilih} {activeVoting.tipeHakSuara === 'per_kk' ? 'KK' : 'Warga'})
+                    </span>
+                    {activeVoting.isKuorumTerpenuhi && (
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                        Kuorum Terpenuhi
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-900 line-clamp-1 mt-0.5">
+                    {activeVoting.judul}
+                  </h4>
+                </div>
+              </div>
+              <Link
+                href={`/voting/${activeVoting.id}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--brand-primary)] text-white text-xs font-semibold hover:opacity-95 active:scale-98 transition-all shrink-0"
+              >
+                <span>Masuk Bilik Suara</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          )}
 
           {/* 4-Column Statistics Grid: Balanced and Proportional on 24" Desktop */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 xl:gap-6">

@@ -407,7 +407,11 @@ export const ModelName = {
   PesertaArisan: 'PesertaArisan',
   PutaranArisan: 'PutaranArisan',
   PembayaranIuranArisan: 'PembayaranIuranArisan',
-  PlatformCms: 'PlatformCms'
+  PlatformCms: 'PlatformCms',
+  Voting: 'Voting',
+  VotingOpsi: 'VotingOpsi',
+  VotingSuara: 'VotingSuara',
+  VotingKomentar: 'VotingKomentar'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -423,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan" | "platformCms"
+    modelProps: "komunitas" | "user" | "anggota" | "rombongan" | "jadwalPetugas" | "jimpitan" | "transaksiKeuangan" | "agenda" | "notifikasi" | "pengaturanAplikasi" | "hutangPiutang" | "pembayaranHutangPiutang" | "pengurusRT" | "suratPengantar" | "mutasiWarga" | "programKerja" | "inventarisAset" | "peminjamanAset" | "evaluasiTahunan" | "kelompokArisan" | "pesertaArisan" | "putaranArisan" | "pembayaranIuranArisan" | "platformCms" | "voting" | "votingOpsi" | "votingSuara" | "votingKomentar"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2203,6 +2207,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Voting: {
+      payload: Prisma.$VotingPayload<ExtArgs>
+      fields: Prisma.VotingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VotingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VotingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>
+        }
+        findFirst: {
+          args: Prisma.VotingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VotingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>
+        }
+        findMany: {
+          args: Prisma.VotingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>[]
+        }
+        create: {
+          args: Prisma.VotingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>
+        }
+        createMany: {
+          args: Prisma.VotingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VotingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>[]
+        }
+        delete: {
+          args: Prisma.VotingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>
+        }
+        update: {
+          args: Prisma.VotingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>
+        }
+        deleteMany: {
+          args: Prisma.VotingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VotingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VotingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>[]
+        }
+        upsert: {
+          args: Prisma.VotingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingPayload>
+        }
+        aggregate: {
+          args: Prisma.VotingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVoting>
+        }
+        groupBy: {
+          args: Prisma.VotingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VotingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingCountAggregateOutputType> | number
+        }
+      }
+    }
+    VotingOpsi: {
+      payload: Prisma.$VotingOpsiPayload<ExtArgs>
+      fields: Prisma.VotingOpsiFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VotingOpsiFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VotingOpsiFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>
+        }
+        findFirst: {
+          args: Prisma.VotingOpsiFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VotingOpsiFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>
+        }
+        findMany: {
+          args: Prisma.VotingOpsiFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>[]
+        }
+        create: {
+          args: Prisma.VotingOpsiCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>
+        }
+        createMany: {
+          args: Prisma.VotingOpsiCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VotingOpsiCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>[]
+        }
+        delete: {
+          args: Prisma.VotingOpsiDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>
+        }
+        update: {
+          args: Prisma.VotingOpsiUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>
+        }
+        deleteMany: {
+          args: Prisma.VotingOpsiDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VotingOpsiUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VotingOpsiUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>[]
+        }
+        upsert: {
+          args: Prisma.VotingOpsiUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingOpsiPayload>
+        }
+        aggregate: {
+          args: Prisma.VotingOpsiAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVotingOpsi>
+        }
+        groupBy: {
+          args: Prisma.VotingOpsiGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingOpsiGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VotingOpsiCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingOpsiCountAggregateOutputType> | number
+        }
+      }
+    }
+    VotingSuara: {
+      payload: Prisma.$VotingSuaraPayload<ExtArgs>
+      fields: Prisma.VotingSuaraFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VotingSuaraFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VotingSuaraFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>
+        }
+        findFirst: {
+          args: Prisma.VotingSuaraFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VotingSuaraFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>
+        }
+        findMany: {
+          args: Prisma.VotingSuaraFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>[]
+        }
+        create: {
+          args: Prisma.VotingSuaraCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>
+        }
+        createMany: {
+          args: Prisma.VotingSuaraCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VotingSuaraCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>[]
+        }
+        delete: {
+          args: Prisma.VotingSuaraDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>
+        }
+        update: {
+          args: Prisma.VotingSuaraUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>
+        }
+        deleteMany: {
+          args: Prisma.VotingSuaraDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VotingSuaraUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VotingSuaraUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>[]
+        }
+        upsert: {
+          args: Prisma.VotingSuaraUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingSuaraPayload>
+        }
+        aggregate: {
+          args: Prisma.VotingSuaraAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVotingSuara>
+        }
+        groupBy: {
+          args: Prisma.VotingSuaraGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingSuaraGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VotingSuaraCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingSuaraCountAggregateOutputType> | number
+        }
+      }
+    }
+    VotingKomentar: {
+      payload: Prisma.$VotingKomentarPayload<ExtArgs>
+      fields: Prisma.VotingKomentarFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VotingKomentarFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VotingKomentarFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>
+        }
+        findFirst: {
+          args: Prisma.VotingKomentarFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VotingKomentarFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>
+        }
+        findMany: {
+          args: Prisma.VotingKomentarFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>[]
+        }
+        create: {
+          args: Prisma.VotingKomentarCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>
+        }
+        createMany: {
+          args: Prisma.VotingKomentarCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VotingKomentarCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>[]
+        }
+        delete: {
+          args: Prisma.VotingKomentarDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>
+        }
+        update: {
+          args: Prisma.VotingKomentarUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>
+        }
+        deleteMany: {
+          args: Prisma.VotingKomentarDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VotingKomentarUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VotingKomentarUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>[]
+        }
+        upsert: {
+          args: Prisma.VotingKomentarUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VotingKomentarPayload>
+        }
+        aggregate: {
+          args: Prisma.VotingKomentarAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVotingKomentar>
+        }
+        groupBy: {
+          args: Prisma.VotingKomentarGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingKomentarGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VotingKomentarCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VotingKomentarCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2688,6 +2988,69 @@ export const PlatformCmsScalarFieldEnum = {
 export type PlatformCmsScalarFieldEnum = (typeof PlatformCmsScalarFieldEnum)[keyof typeof PlatformCmsScalarFieldEnum]
 
 
+export const VotingScalarFieldEnum = {
+  id: 'id',
+  judul: 'judul',
+  deskripsi: 'deskripsi',
+  kategori: 'kategori',
+  tipeHakSuara: 'tipeHakSuara',
+  tipeKerahasiaan: 'tipeKerahasiaan',
+  status: 'status',
+  kuorumPersen: 'kuorumPersen',
+  tanggalMulai: 'tanggalMulai',
+  tanggalSelesai: 'tanggalSelesai',
+  estimasiBiaya: 'estimasiBiaya',
+  lampiranUrl: 'lampiranUrl',
+  dibuatOleh: 'dibuatOleh',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  komunitasId: 'komunitasId'
+} as const
+
+export type VotingScalarFieldEnum = (typeof VotingScalarFieldEnum)[keyof typeof VotingScalarFieldEnum]
+
+
+export const VotingOpsiScalarFieldEnum = {
+  id: 'id',
+  votingId: 'votingId',
+  urutan: 'urutan',
+  judulOpsi: 'judulOpsi',
+  deskripsiOpsi: 'deskripsiOpsi',
+  gambarUrl: 'gambarUrl',
+  perkiraanBiaya: 'perkiraanBiaya'
+} as const
+
+export type VotingOpsiScalarFieldEnum = (typeof VotingOpsiScalarFieldEnum)[keyof typeof VotingOpsiScalarFieldEnum]
+
+
+export const VotingSuaraScalarFieldEnum = {
+  id: 'id',
+  votingId: 'votingId',
+  opsiId: 'opsiId',
+  anggotaId: 'anggotaId',
+  noRumah: 'noRumah',
+  namaPemilih: 'namaPemilih',
+  alasanMemilih: 'alasanMemilih',
+  dicatatOleh: 'dicatatOleh',
+  waktuVote: 'waktuVote',
+  komunitasId: 'komunitasId'
+} as const
+
+export type VotingSuaraScalarFieldEnum = (typeof VotingSuaraScalarFieldEnum)[keyof typeof VotingSuaraScalarFieldEnum]
+
+
+export const VotingKomentarScalarFieldEnum = {
+  id: 'id',
+  votingId: 'votingId',
+  namaPengirim: 'namaPengirim',
+  rolePengirim: 'rolePengirim',
+  pesan: 'pesan',
+  createdAt: 'createdAt'
+} as const
+
+export type VotingKomentarScalarFieldEnum = (typeof VotingKomentarScalarFieldEnum)[keyof typeof VotingKomentarScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2914,6 +3277,10 @@ export type GlobalOmitConfig = {
   putaranArisan?: Prisma.PutaranArisanOmit
   pembayaranIuranArisan?: Prisma.PembayaranIuranArisanOmit
   platformCms?: Prisma.PlatformCmsOmit
+  voting?: Prisma.VotingOmit
+  votingOpsi?: Prisma.VotingOpsiOmit
+  votingSuara?: Prisma.VotingSuaraOmit
+  votingKomentar?: Prisma.VotingKomentarOmit
 }
 
 /* Types for Logging */

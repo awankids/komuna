@@ -18,7 +18,8 @@ import {
   ShieldCheck,
   FileCheck,
   Package,
-  Sparkles
+  Sparkles,
+  Vote
 } from 'lucide-react';
 
 import { useCurrentUser } from '@/hooks/useCurrentUser';
@@ -97,6 +98,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
         { name: 'Jadwal Ronda', icon: CalendarDays, href: '/jadwal' },
         { name: 'Agenda RT', icon: Calendar, href: '/agenda' },
         { name: 'Arisan Warga', icon: Sparkles, href: '/arisan', allowedRoles: ['SUPER_ADMIN', 'ADMIN', 'BENDAHARA', 'SEKRETARIS', 'WARGA'] },
+        { name: 'Musyawarah & Voting', icon: Vote, href: '/voting' },
       ],
     },
     {
@@ -131,6 +133,7 @@ export default function Sidebar({ activeMenu, isOpen = false, onClose }: Sidebar
       if (activeMenu === 'Laporan' && name === 'Laporan') return true;
       if ((activeMenu === 'Pengurus' || activeMenu === 'Susunan Pengurus') && name === 'Susunan Pengurus') return true;
       if ((activeMenu === 'Surat' || activeMenu === 'Surat Pengantar') && name === 'Surat Pengantar') return true;
+      if ((activeMenu === 'Voting' || activeMenu === 'Musyawarah & Voting') && name === 'Musyawarah & Voting') return true;
     }
     if (href === '/dashboard') return pathname === '/dashboard';
     if (href === '#') return false;

@@ -44,6 +44,7 @@ model Komunitas {
   pengaturan     PengaturanAplikasi?
   rombongan      Rombongan[]
   notifikasi     Notifikasi[]
+  voting         Voting[]
 }
 
 model User {
@@ -101,6 +102,7 @@ model Anggota {
   suratPengantar    SuratPengantar[]
   mutasi            MutasiWarga[]
   pesertaArisan     PesertaArisan[]
+  suaraVoting       VotingSuara[]
 }
 
 model Rombongan {
@@ -536,6 +538,100 @@ model PlatformCms {
   updatedAt DateTime @updatedAt
   updatedBy String?
 }
+
+// ==========================================
+// Modul Musyawarah & Voting Warga
+// ==========================================
+
+model Voting {
+  id                 String           @id @default(uuid())
+  judul              String           // Misal: "Pengadaan Palang Pintu Otomatis & CCTV RT"
+  deskripsi          String           @db.Text // Latar belakang & penjelasan
+  kategori           String           @default("umum") // "pembangunan", "keuangan", "kegiatan", "pemilihan_ketua", "kebijakan"
+  
+  // Konfigurasi Hak Suara & Kerahasiaan
+  tipeHakSuara       String           @default("per_kk") // "per_kk" (1 Suara/Rumah) | "per_warga" (1 Suara/Warga)
+  tipeKerahasiaan    String           @default("anonim") // "anonim" | "terbuka"
+  status             String           @default("aktif")  // "draft" | "aktif" | "selesai" | "dibatalkan"
+  
+  // Kuorum & Waktu
+  kuorumPersen       Int              @default(50) // Persentase minimal partisipasi agar sah (misal 50%)
+  tanggalMulai       DateTime         @default(now())
+  tanggalSelesai     DateTime         // Batas akhir pemungutan suara
+  
+  // Konteks Keuangan & Lampiran (Informatif)
+  estimasiBiaya      Int?             @default(0) // Estimasi beban biaya kas bila ada
+  lampiranUrl        String?          // Foto denah / dokumen proposal
+  
+  dibuatOleh         String           @default("Pengurus RT")
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  komunitasId        String?
+  komunitas          Komunitas?       @relation(fields: [komunitasId], references: [id], onDelete: Cascade)
+
+  opsi               VotingOpsi[]
+  suara              VotingSuara[]
+  komentar           VotingKomentar[]
+
+  @@index([komunitasId, status])
+}
+
+model VotingOpsi {
+  id                 String           @id @default(uuid())
+  votingId           String
+  voting             Voting           @relation(fields: [votingId], references: [id], onDelete: Cascade)
+  
+  urutan             Int              @default(1)
+  judulOpsi          String           // Misal: "Opsi 1: Palang Otomatis RFID (Rp 4.200.000)"
+  deskripsiOpsi      String?          @db.Text
+  gambarUrl          String?          // Foto kandidat / foto sampel
+  perkiraanBiaya     Int?             @default(0)
+  
+  suara              VotingSuara[]
+
+  @@index([votingId])
+}
+
+model VotingSuara {
+  id                 String           @id @default(uuid())
+  votingId           String
+  voting             Voting           @relation(fields: [votingId], references: [id], onDelete: Cascade)
+  
+  opsiId             String
+  opsi               VotingOpsi       @relation(fields: [opsiId], references: [id], onDelete: Cascade)
+  
+  // Identitas Pemilih untuk Validasi & Audit Kuorum
+  anggotaId          String?
+  anggota            Anggota?         @relation(fields: [anggotaId], references: [id], onDelete: SetNull)
+  noRumah            String?          // Kunci validasi 1 KK 1 Suara
+  namaPemilih        String           // Disimpan untuk verifikasi kuorum
+  alasanMemilih      String?          // Aspirasi opsional dari pemilih
+  
+  // Metadata Audit
+  dicatatOleh        String?          // "Mandiri" atau nama pengurus jika dibantu input
+  waktuVote          DateTime         @default(now())
+
+  komunitasId        String?
+
+  @@index([votingId, noRumah])
+  @@index([votingId, anggotaId])
+  @@index([votingId, opsiId])
+}
+
+model VotingKomentar {
+  id                 String           @id @default(uuid())
+  votingId           String
+  voting             Voting           @relation(fields: [votingId], references: [id], onDelete: Cascade)
+  
+  namaPengirim       String
+  rolePengirim       String?          @default("Warga")
+  pesan              String           @db.Text
+  createdAt          DateTime         @default(now())
+
+  @@index([votingId])
+}
+
 
 
 
