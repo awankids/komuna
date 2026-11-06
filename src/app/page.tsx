@@ -17,9 +17,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Komuna - Super-App Gotong Royong Warga RT/RW | Sat-Set & Transparan',
+  title: 'Komuna - Portal Operasional & Transparansi Warga RT/RW',
   description:
-    'Aplikasi super-app modern gotong-royong warga RT untuk mengelola kas transparan, jimpitan ronda, surat pengantar digital ber-QR, dan arisan tanpa ribet.',
+    'Aplikasi terpadu operasional warga RT untuk pengelolaan kas transparan, jimpitan ronda, surat pengantar digital ber-QR, dan inventaris warga secara akuntabel.',
 };
 
 export default async function LandingPage() {
@@ -27,7 +27,7 @@ export default async function LandingPage() {
   const content: LandingPageData = await getCmsData();
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900 w-full">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100 flex flex-col font-sans selection:bg-orange-100 selection:text-orange-900 dark:selection:bg-orange-950/60 dark:selection:text-orange-200 transition-colors duration-200 w-full">
       {/* 1. Header / Navbar */}
       <LandingNavbar
         appName={content.footer.appName}

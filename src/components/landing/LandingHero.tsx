@@ -3,25 +3,18 @@
 import React from 'react';
 import Link from 'next/link';
 import { 
-  Rocket, 
-  Play, 
-  CheckCircle2, 
-  Smartphone, 
-  Wallet, 
-  Users, 
-  ArrowUpRight, 
-  Calendar,
-  Sparkles,
-  Shield,
+  ArrowRight, 
+  Sparkles, 
+  Star, 
+  Calendar, 
+  TrendingUp, 
+  Heart, 
+  ShieldCheck, 
   FileText,
-  Coins,
-  Send,
-  Plus,
-  ArrowDownRight,
-  Star,
   ChevronRight,
-  Bell,
-  Zap
+  Wallet,
+  ArrowUpRight,
+  CheckCircle2
 } from 'lucide-react';
 import { HeroData } from '@/lib/landing-defaults';
 
@@ -30,70 +23,83 @@ interface LandingHeroProps {
 }
 
 export default function LandingHero({ data }: LandingHeroProps) {
+  // Format current date in Indonesian
+  const formattedToday = new Intl.DateTimeFormat('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date());
+
   return (
-    <section id="beranda" className="relative pt-24 pb-14 md:pt-32 md:pb-20 overflow-hidden bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30 font-sans">
+    <section id="beranda" className="relative pt-24 pb-14 md:pt-32 md:pb-20 overflow-hidden bg-[#f8fafc] dark:bg-[#0b0f19] font-sans transition-colors duration-200 border-b border-slate-200/80 dark:border-slate-800/80">
       
-      {/* Dynamic Gojek Ambient Blobs */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-[#00AA13]/10 blur-3xl rounded-full pointer-events-none -z-10" />
-      <div className="absolute top-40 right-10 w-[300px] h-[300px] bg-emerald-200/20 blur-2xl rounded-full pointer-events-none -z-10" />
+      {/* Subtle Warm Ambient Glow */}
+      <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-orange-500/5 dark:bg-orange-500/10 blur-3xl rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
-          {/* Left Column: Headline & Action */}
-          <div className="lg:col-span-7 text-left space-y-5">
+          {/* Left Column: Value Proposition & CTAs */}
+          <div className="lg:col-span-7 text-left space-y-6">
             
-            {/* Pill Badge - Gojek Signature Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/90 border border-emerald-200 text-[#00880F] text-xs font-black tracking-tight shadow-2xs">
-              <Zap className="w-3.5 h-3.5 fill-[#00AA13] text-[#00AA13]" />
-              <span>{data.badge}</span>
+            {/* Top Operational Status Badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-800/40">
+                <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>{formattedToday}</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 border border-orange-200/60 dark:border-orange-800/40">
+                <Sparkles className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
+                <span>{data.badge}</span>
+              </div>
             </div>
 
-            {/* Main Headline - Chunky & Confident */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black text-slate-900 tracking-tight leading-[1.12]">
+            {/* Main Headline */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.18]">
               {data.headlineMain}{' '}
-              <span className="text-[#00AA13] inline-block">
+              <span className="text-[var(--brand-primary)]">
                 {data.headlineHighlight}
               </span>
             </h1>
 
             {/* Subheadline Description */}
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal max-w-xl">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal max-w-xl">
               {data.subheadline}
             </p>
 
-            {/* Dual CTA Buttons */}
+            {/* Dual CTA Buttons (Matching /login Button Styling) */}
             <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href={data.ctaPrimaryLink || '/daftar'}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#00AA13] hover:bg-[#00880F] text-white font-black text-sm shadow-md shadow-[#00AA13]/30 hover:shadow-lg transition-all active:scale-95 group"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--brand-primary)] hover:bg-[var(--brand-hover)] text-white font-bold text-sm shadow-md shadow-[var(--brand-ring)] hover:shadow-lg transition-all active:scale-95 group cursor-pointer"
               >
                 <span>{data.ctaPrimaryText}</span>
-                <Rocket className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
 
               <Link
                 href={data.ctaSecondaryLink || '/demo'}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200/90 text-slate-800 font-bold text-sm shadow-2xs transition-all active:scale-95"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-orange-50/80 hover:bg-orange-100 text-[var(--brand-primary)] dark:bg-orange-950/30 dark:hover:bg-orange-950/50 dark:text-orange-300 border border-orange-200 dark:border-orange-800/60 font-bold text-sm transition-all active:scale-95 shadow-2xs cursor-pointer"
               >
-                <Play className="w-3.5 h-3.5 fill-current text-slate-600" />
+                <Sparkles className="w-4 h-4 text-[var(--brand-primary)] dark:text-orange-400" />
                 <span>{data.ctaSecondaryText}</span>
               </Link>
             </div>
 
-            {/* Social Proof Bar - Local Avatar Stack */}
-            <div className="pt-3 border-t border-slate-200/70 flex flex-wrap items-center gap-3.5 text-xs text-slate-500">
+            {/* Social Proof Bar */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
               <div className="flex -space-x-2 shrink-0">
-                <div className="w-8 h-8 rounded-full bg-emerald-600 border-2 border-white flex items-center justify-center text-white text-[10px] font-black shadow-2xs">
+                <div className="w-8 h-8 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center font-bold text-[11px] border-2 border-white dark:border-[#0b0f19] shadow-2xs">
                   RT
                 </div>
-                <div className="w-8 h-8 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center text-white text-[10px] font-black shadow-2xs">
+                <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-[11px] border-2 border-white dark:border-[#0b0f19] shadow-2xs">
                   RW
                 </div>
-                <div className="w-8 h-8 rounded-full bg-amber-600 border-2 border-white flex items-center justify-center text-white text-[10px] font-black shadow-2xs">
+                <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[11px] border-2 border-white dark:border-[#0b0f19] shadow-2xs">
                   BD
                 </div>
-                <div className="w-8 h-8 rounded-full bg-purple-600 border-2 border-white flex items-center justify-center text-white text-[10px] font-black shadow-2xs">
+                <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-[11px] border-2 border-white dark:border-[#0b0f19] shadow-2xs">
                   SK
                 </div>
               </div>
@@ -102,195 +108,132 @@ export default function LandingHero({ data }: LandingHeroProps) {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5 fill-current" />
                   ))}
-                  <span className="font-black text-slate-800 ml-1">4.9/5</span>
+                  <span className="font-extrabold text-slate-900 dark:text-white ml-1">4.9/5</span>
                 </div>
-                <span className="font-semibold text-slate-600">
+                <span className="font-medium text-slate-600 dark:text-slate-400 mt-0.5">
                   {data.socialProofText}
                 </span>
               </div>
             </div>
+
           </div>
 
-          {/* Right Column: Interactive Smartphone Mockup (Gojek App Style) */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end relative">
+          {/* Right Column: Live Operational Showcase Preview (Harmonized with /login Bento) */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
             
-            {/* Floating Live Badge Top Right */}
-            <div className="absolute -top-3 sm:-top-5 right-2 sm:-right-4 z-20 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-2.5 animate-bounce [animation-duration:3s]">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-[#00880F] flex items-center justify-center shrink-0">
-                <Coins className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="block text-[10px] font-bold text-slate-400 uppercase leading-none">
-                  Kas Masuk
-                </span>
-                <span className="text-xs font-black text-slate-900 leading-tight">
-                  {data.floatingBadge1}
-                </span>
-              </div>
-            </div>
-
-            {/* Floating Live Badge Bottom Left */}
-            <div className="absolute -bottom-3 sm:-bottom-5 -left-2 sm:-left-4 z-20 bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
-                <FileText className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="block text-[10px] font-bold text-slate-400 uppercase leading-none">
-                  Verifikasi Surat
-                </span>
-                <span className="text-xs font-black text-slate-900 leading-tight">
-                  {data.floatingBadge2}
-                </span>
-              </div>
-            </div>
-
-            {/* Smartphone Frame - Modern Squircle Chassis */}
-            <div className="w-full max-w-[340px] sm:max-w-[360px] bg-slate-900 p-3 sm:p-3.5 rounded-[42px] shadow-2xl shadow-slate-900/20 border-4 border-slate-800 relative">
+            <div className="w-full max-w-md bg-white dark:bg-[#111827] rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none p-5 sm:p-6 space-y-4 text-left transition-all">
               
-              {/* Dynamic Island / Notch */}
-              <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-4 bg-slate-950 rounded-full z-30" />
-
-              {/* Phone Screen Canvas */}
-              <div className="bg-slate-50 rounded-[32px] overflow-hidden pt-7 pb-4 px-3.5 space-y-3.5 text-left border border-slate-200/50">
-                
-                {/* App Topbar */}
-                <div className="flex items-center justify-between pt-1 px-1">
+              {/* Header Showcase: RT Identity & Status */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-[var(--brand-primary)] text-white flex items-center justify-center shadow-xs">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4.5 h-4.5" aria-hidden="true">
+                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                      <path d="M9 22V12h6v10" />
+                    </svg>
+                  </div>
                   <div>
-                    <span className="text-[10px] font-bold text-slate-400">
-                      Selamat datang,
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-extrabold text-slate-900 dark:text-white">
+                        RT 04 Sukamaju
+                      </span>
+                      <span className="px-1.5 py-0.2 rounded-md text-[9px] font-bold bg-orange-100 text-orange-700 dark:bg-orange-950/60 dark:text-orange-300">
+                        Demo
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium block">
+                      Portal Operasional Terpadu
                     </span>
-                    <h3 className="text-xs font-black text-slate-800 leading-none">
-                      Pak Bambang (Ketua RT 04)
-                    </h3>
-                  </div>
-                  <div className="w-7 h-7 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 shadow-2xs">
-                    <Bell className="w-3.5 h-3.5" />
                   </div>
                 </div>
 
-                {/* GoPay Style Kas Wallet Card */}
-                <div className="bg-gradient-to-br from-[#00AA13] to-[#00880F] rounded-2xl p-3.5 text-white shadow-md shadow-[#00AA13]/25 relative overflow-hidden">
-                  <div className="flex items-center justify-between text-[10px] font-bold text-emerald-100 mb-1">
-                    <span>Kas RT 04 Sukamaju</span>
-                    <span className="bg-white/20 px-2 py-0.5 rounded-full text-[9px]">Okt 2026</span>
+                <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-800/40 px-2 py-0.5 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Aktif</span>
+                </div>
+              </div>
+
+              {/* Kas Balance Card - Terracotta Primary Card */}
+              <div className="bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-hover)] text-white rounded-2xl p-4 shadow-md shadow-[var(--brand-ring-strong)] relative overflow-hidden">
+                <div className="flex items-center justify-between text-xs font-semibold text-orange-100/90 mb-1">
+                  <span>Kas Terbuka Warga RT</span>
+                  <span className="bg-white/20 px-2 py-0.5 rounded-md text-[10px]">Real-time</span>
+                </div>
+                <div className="text-2xl font-black tracking-tight leading-tight">
+                  Rp 18.450.000
+                </div>
+                <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-white/15 text-[11px] text-orange-50 font-medium">
+                  <div className="flex items-center gap-1">
+                    <span className="text-emerald-200">↑</span>
+                    <span>Jimpitan Hari Ini: <strong>+Rp 320.000</strong></span>
                   </div>
-                  <div className="text-xl sm:text-2xl font-black tracking-tight leading-none">
-                    Rp 18.450.000
+                  <span className="opacity-80">30 KK Terdaftar</span>
+                </div>
+              </div>
+
+              {/* 2x2 Bento Mini Grid (Mirroring /login Left Features) */}
+              <div className="grid grid-cols-2 gap-2.5 pt-1">
+                
+                {/* 1. Jimpitan */}
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1e293b] border border-slate-200/80 dark:border-[#334155] shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400 flex items-center justify-center mb-1.5">
+                    <TrendingUp className="w-4 h-4" />
                   </div>
-                  <p className="text-[10px] text-emerald-100/90 mt-1">
-                    + Rp 1.450.000 jimpitan bulan ini
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Jimpitan & Kas</h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">
+                    Rekap otomatis & siap cetak LPJ.
                   </p>
-
-                  {/* Quick Action Buttons */}
-                  <div className="grid grid-cols-3 gap-1.5 mt-3 pt-2.5 border-t border-white/20">
-                    <div className="bg-white/15 hover:bg-white/25 rounded-xl py-1 px-1 text-center cursor-pointer transition-colors">
-                      <span className="block text-[10px] font-black">+ Kas</span>
-                    </div>
-                    <div className="bg-white/15 hover:bg-white/25 rounded-xl py-1 px-1 text-center cursor-pointer transition-colors">
-                      <span className="block text-[10px] font-black">- Keluar</span>
-                    </div>
-                    <div className="bg-white/15 hover:bg-white/25 rounded-xl py-1 px-1 text-center cursor-pointer transition-colors flex items-center justify-center gap-1">
-                      <Send className="w-2.5 h-2.5 text-white" />
-                      <span className="block text-[10px] font-black">Share WA</span>
-                    </div>
-                  </div>
                 </div>
 
-                {/* Gojek Style 3x2 Service Grid */}
-                <div>
-                  <div className="flex items-center justify-between px-1 mb-2">
-                    <span className="text-[11px] font-black text-slate-800">
-                      Layanan Warga
-                    </span>
-                    <span className="text-[9px] font-bold text-[#00880F]">
-                      Semua Modul
-                    </span>
+                {/* 2. Ronda */}
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1e293b] border border-slate-200/80 dark:border-[#334155] shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-400 flex items-center justify-center mb-1.5">
+                    <Heart className="w-4 h-4" />
                   </div>
-
-                  <div className="grid grid-cols-3 gap-2">
-                    {/* Item 1 */}
-                    <div className="bg-white p-2 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-2xs">
-                      <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mb-1">
-                        <Coins className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-extrabold text-slate-800 leading-tight">
-                        Jimpitan
-                      </span>
-                    </div>
-
-                    {/* Item 2 */}
-                    <div className="bg-white p-2 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-2xs">
-                      <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-1">
-                        <FileText className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-extrabold text-slate-800 leading-tight">
-                        Surat RT
-                      </span>
-                    </div>
-
-                    {/* Item 3 */}
-                    <div className="bg-white p-2 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-2xs">
-                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-1">
-                        <Shield className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-extrabold text-slate-800 leading-tight">
-                        Ronda
-                      </span>
-                    </div>
-
-                    {/* Item 4 */}
-                    <div className="bg-white p-2 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-2xs">
-                      <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center mb-1">
-                        <Sparkles className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-extrabold text-slate-800 leading-tight">
-                        Arisan
-                      </span>
-                    </div>
-
-                    {/* Item 5 */}
-                    <div className="bg-white p-2 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-2xs">
-                      <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-1">
-                        <Wallet className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-extrabold text-slate-800 leading-tight">
-                        Buku Kas
-                      </span>
-                    </div>
-
-                    {/* Item 6 */}
-                    <div className="bg-white p-2 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-2xs">
-                      <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-1">
-                        <Smartphone className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-extrabold text-slate-800 leading-tight">
-                        Aset RT
-                      </span>
-                    </div>
-                  </div>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Gotong Royong</h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">
+                    Piket siskamling transparan.
+                  </p>
                 </div>
 
-                {/* Activity Card */}
-                <div className="bg-white p-2.5 rounded-2xl border border-slate-100 shadow-2xs flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-50 text-[#00880F] flex items-center justify-center">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black text-slate-800 block leading-tight">
-                        Ronda Malam Ini Siap
-                      </span>
-                      <span className="text-[9px] text-slate-400">
-                        Regu 2: Mas Joko & 4 Warga
-                      </span>
-                    </div>
+                {/* 3. Keamanan */}
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1e293b] border border-slate-200/80 dark:border-[#334155] shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 flex items-center justify-center mb-1.5">
+                    <ShieldCheck className="w-4 h-4" />
                   </div>
-                  <span className="text-[9px] font-bold text-[#00880F] bg-emerald-50 px-2 py-0.5 rounded-md">
-                    21.00 WIB
-                  </span>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Aman & Terkontrol</h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">
+                    Salted scrypt & hak akses bertingkat.
+                  </p>
+                </div>
+
+                {/* 4. Inventaris & Surat */}
+                <div className="p-3 rounded-xl bg-slate-50 dark:bg-[#1e293b] border border-slate-200/80 dark:border-[#334155] shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400 flex items-center justify-center mb-1.5">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">Inventaris & Surat</h3>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">
+                    Format QR resmi terverifikasi.
+                  </p>
                 </div>
 
               </div>
+
+              {/* Bottom Quick Action Link */}
+              <div className="pt-2">
+                <Link
+                  href="/demo"
+                  className="w-full py-2 px-3 bg-slate-50 hover:bg-slate-100 text-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700/80 font-semibold rounded-xl text-xs flex items-center justify-between transition-colors"
+                >
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>Jelajahi Demo Interaktif Tanpa Login</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                </Link>
+              </div>
+
             </div>
 
           </div>
