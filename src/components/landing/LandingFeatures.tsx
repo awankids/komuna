@@ -97,12 +97,12 @@ export default function LandingFeatures({ features }: LandingFeaturesProps) {
   };
 
   return (
-    <section id="layanan" className="py-16 sm:py-20 bg-white dark:bg-[#0f172a] font-sans border-t border-slate-200/80 dark:border-slate-800/80 transition-colors duration-200">
+    <section id="layanan" className="py-10 sm:py-14 bg-white dark:bg-[#0f172a] font-sans border-t border-slate-200/80 dark:border-slate-800/80 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 border border-orange-200/60 dark:border-orange-800/40 text-xs font-semibold">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-8 sm:mb-9">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 border border-orange-200/60 dark:border-orange-800/40 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-[var(--brand-primary)]" />
             <span>Ekosistem Layanan RT Lengkap</span>
           </div>
@@ -116,32 +116,32 @@ export default function LandingFeatures({ features }: LandingFeaturesProps) {
         </div>
 
         {/* 6 Services Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {features.map((feature, idx) => {
             const styling = getThemeClasses(feature.theme, idx);
 
             return (
               <div
                 key={feature.id || idx}
-                className="group relative bg-[#f8fafc] dark:bg-[#111827] hover:bg-white dark:hover:bg-[#1e293b] p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between text-left"
+                className="group relative bg-[#f8fafc] dark:bg-[#111827] hover:bg-white dark:hover:bg-[#1e293b] p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between text-left"
               >
                 <div>
                   {/* Top Bar with Icon & Feature Badge */}
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-3">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 shadow-2xs group-hover:scale-105 ${styling.icon}`}
+                      className={`w-9.5 h-9.5 rounded-xl flex items-center justify-center transition-transform duration-200 shadow-2xs group-hover:scale-105 ${styling.icon}`}
                     >
                       {getIcon(feature.icon)}
                     </div>
                     <span
-                      className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${styling.badge}`}
+                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${styling.badge}`}
                     >
                       {styling.badgeText}
                     </span>
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[var(--brand-primary)] transition-colors leading-snug mb-2">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-[var(--brand-primary)] transition-colors leading-snug mb-1.5">
                     {feature.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
@@ -150,7 +150,7 @@ export default function LandingFeatures({ features }: LandingFeaturesProps) {
                 </div>
 
                 {/* Bottom Action Hint */}
-                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-xs font-semibold text-[var(--brand-primary)] group-hover:translate-x-0.5 transition-transform">
+                <div className="pt-3 mt-3 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-xs font-semibold text-[var(--brand-primary)] group-hover:translate-x-0.5 transition-transform">
                   <span>Lihat kemudahan modul</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>

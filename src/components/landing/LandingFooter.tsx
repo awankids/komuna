@@ -11,10 +11,10 @@ interface LandingFooterProps {
 
 export default function LandingFooter({ data }: LandingFooterProps) {
   return (
-    <footer className="bg-white dark:bg-[#0b0f19] border-t border-slate-200/80 dark:border-slate-800/80 font-sans pt-12 pb-12 text-slate-600 dark:text-slate-400 transition-colors duration-200">
+    <footer className="bg-white dark:bg-[#0b0f19] border-t border-slate-200/80 dark:border-slate-800/80 font-sans pt-8 pb-8 text-slate-600 dark:text-slate-400 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-slate-100 dark:border-slate-800/80">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-100 dark:border-slate-800/80">
           
           {/* Brand Logo & Tagline */}
           <div className="flex items-center gap-3">
@@ -75,7 +75,7 @@ export default function LandingFooter({ data }: LandingFooterProps) {
         </div>
 
         {/* Bottom Sub-footer */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 dark:text-slate-500 font-medium">
+        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 dark:text-slate-500 font-medium">
           <div className="flex items-center gap-1.5">
             <span>Dibuat dengan</span>
             <Heart className="w-3.5 h-3.5 text-orange-500 fill-orange-500" />
